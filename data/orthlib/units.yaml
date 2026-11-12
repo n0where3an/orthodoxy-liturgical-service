@@ -1,0 +1,301 @@
+# Fixed text units cut out of orthlib.ru HIP files.
+#
+# Paths are relative to the extracted orthlib tree (see scripts/extract-orthlib.sh).
+# Anchors ("after", "from", "to") are written in civil script exactly as the
+# source abbreviates words under titla (бг, гдси, хрсте, ...): they are matched
+# against hip.Plain of the converted text. Word-final "ъ" is dropped.
+
+sources:
+  - id: orthlib.chasoslov
+    title: Часослов
+    edition: "Часослов. М.: Московская Патриархия, 1980"
+    url: http://orthlib.ru/worship/chasoslov/
+    license: unknown
+    note: "Electronic text by orthlib.ru (HIP). Edition of 1980; terms of use to be verified."
+  - id: orthlib.sluzhebnik
+    title: Служебник
+    edition: "Служебник. М.: Синодальная типография, 1896"
+    url: http://orthlib.ru/worship/sluzhebnik/
+    license: public-domain-edition
+    note: "Electronic text by orthlib.ru (HIP); pre-1917 Synodal edition."
+  - id: orthlib.mineya
+    title: Минея месячная
+    edition: "Минеи месячные, репринт синодальных изданий (М.: Сретенский монастырь, 1996–1997)"
+    url: http://orthlib.ru/worship/mineya/
+    license: public-domain-edition
+    note: "Electronic text by orthlib.ru (HIP); reprints of Synodal editions. June archive in the local copy is damaged."
+
+units:
+  # --- Usual beginning and common prayers (Часослов, час третий) ---
+  - key: common.amen
+    book: chasoslov
+    kind: response
+    source: orthlib.chasoslov
+    file: chasoslov/ch/04chas3.hip
+    after: "глаголем:"
+    from: "аминь."
+    to: "аминь."
+  - key: common.glory_to_thee_our_god
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/04chas3.hip
+    from: "слава тебе бже наш, слава тебе."
+    to: "слава тебе."
+  - key: common.heavenly_king
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/04chas3.hip
+    from: "црю нбсный, утешителю"
+    to: "душы нашя."
+  - key: common.trisagion
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/04chas3.hip
+    from: "стый бже, стый крепкий"
+    to: "помилуй нас."
+  - key: common.glory_now
+    book: chasoslov
+    kind: doxology
+    source: orthlib.chasoslov
+    file: chasoslov/ch/04chas3.hip
+    from: "слава оцу, и сну"
+    to: "аминь."
+  - key: common.glory_now_short
+    book: chasoslov
+    kind: doxology
+    source: orthlib.chasoslov
+    file: chasoslov/ch/04chas3.hip
+    from: "слава, и ныне:"
+    to: "слава, и ныне:"
+  - key: common.most_holy_trinity
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/04chas3.hip
+    from: "престая троце, помилуй нас:"
+    to: "имене твоего ради."
+  - key: common.lord_have_mercy
+    book: chasoslov
+    kind: response
+    source: orthlib.chasoslov
+    file: chasoslov/ch/04chas3.hip
+    from: "гдси помилуй, трижды"
+    to: "гдси помилуй"
+  - key: common.our_father
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/04chas3.hip
+    from: "оче наш, иже еси на нбсех"
+    to: "от лукаваго."
+  - key: common.come_let_us_worship.1
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/04chas3.hip
+    from: "приидите, поклонимся цреви нашему бгу."
+    to: "бгу."
+  - key: common.come_let_us_worship.2
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/04chas3.hip
+    from: "приидите, поклонимся и припадем хрсту, цреви нашему бгу."
+    to: "бгу."
+  - key: common.come_let_us_worship.3
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/04chas3.hip
+    from: "приидите, поклонимся и припадем самому хрсту"
+    to: "бгу нашему."
+  - key: common.alleluia_glory_to_thee
+    book: chasoslov
+    kind: doxology
+    source: orthlib.chasoslov
+    file: chasoslov/ch/04chas3.hip
+    from: "аллилуиа, аллилуиа, аллилуиа, слава тебе бже."
+    to: "слава тебе бже."
+  - key: common.more_honorable
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/07panag.hip
+    from: "чстнейшую херувим, и славнейшую"
+    to: "тя величаем."
+  - key: common.in_the_name_of_the_lord_bless
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/08chas9.hip
+    from: "именем гдсним блгослови, отче."
+    to: "отче."
+  - key: common.bless
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/08chas9.hip
+    after: "гдси помилуй, трижды. "
+    from: "блгослови."
+    to: "блгослови."
+  - key: common.prayers_of_holy_fathers
+    book: chasoslov
+    kind: exclamation
+    source: orthlib.chasoslov
+    file: chasoslov/ch/12mpovech.hip
+    from: "молитвами стых отец наших, гдси иисе хрсте бже наш"
+    to: "аминь."
+
+  # --- Priest's exclamations (Служебник, Часослов) ---
+  - key: sl.exclamation.blessed_is_our_god
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "блгословен бг наш, всегда"
+    to: "во веки веков."
+  - key: sl.exclamation.for_thine_is_the_kingdom
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "яко твое есть црство, и сила, и слава"
+    to: "во веки веков."
+  - key: sl.exclamation.god_be_merciful
+    book: chasoslov
+    kind: exclamation
+    source: orthlib.chasoslov
+    file: chasoslov/ch/01polunosch.hip
+    from: "бже ущедри ны, и блгослови ны"
+    to: "помилуй ны."
+  - key: sl.dismissal.glory_to_thee_christ_god
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "слава тебе, хрсте бже, упование наше, слава тебе."
+    to: "слава тебе."
+  - key: sl.dismissal.daily
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/08otp_dnevn.hip
+    from: "хрстос истинный бг наш, млтвами пречстыя своея мтре, и всех стых"
+    to: "человеколюбец."
+
+  # --- Ninth hour (Часослов) ---
+  - key: ch.none.title
+    book: chasoslov
+    kind: title
+    source: orthlib.chasoslov
+    file: chasoslov/ch/08chas9.hip
+    from: "час девятый"
+    to: "час девятый"
+  - key: ch.none.psalm.83
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/08chas9.hip
+    from: "коль возлюбленна селения"
+    to: "уповаяй на тя."
+    meta: {psalm: 83}
+  - key: ch.none.psalm.84
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/08chas9.hip
+    from: "блговолил еси гдси землю"
+    to: "стопы своя."
+    meta: {psalm: 84}
+  - key: ch.none.psalm.85
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/08chas9.hip
+    from: "приклони гдси ухо твое"
+    to: "утешил мя еси."
+    meta: {psalm: 85}
+  - key: ch.none.psalm.85.repeat
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/08chas9.hip
+    after: "и паки:"
+    from: "сотвори со мною знамение"
+    to: "утешил мя еси."
+    meta: {psalm: 85, verse: 17}
+  - key: ch.none.troparion.lenten
+    book: chasoslov
+    kind: troparion
+    tone: 8
+    source: orthlib.chasoslov
+    file: chasoslov/ch/08chas9.hip
+    from: "иже в девятый час нас ради"
+    to: "и спси нас."
+  - key: ch.none.verse.1
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/08chas9.hip
+    from: "да приближится млтва моя"
+    to: "вразуми мя."
+  - key: ch.none.verse.2
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/08chas9.hip
+    from: "да внидет прошение мое"
+    to: "избави мя."
+  - key: ch.none.theotokion
+    book: chasoslov
+    kind: theotokion
+    source: orthlib.chasoslov
+    file: chasoslov/ch/08chas9.hip
+    from: "иже нас ради рождейся"
+    to: "люди отчаянныя."
+  - key: ch.none.do_not_deliver_us
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/08chas9.hip
+    from: "не предаждь нас до конца"
+    to: "стаго твоего."
+  - key: ch.none.kontakion.lenten.1
+    book: chasoslov
+    kind: kontakion
+    tone: 8
+    source: orthlib.chasoslov
+    file: chasoslov/ch/08chas9.hip
+    from: "видя разбойник"
+    to: "во црствии твоем."
+  - key: ch.none.kontakion.lenten.2
+    book: chasoslov
+    kind: kontakion
+    source: orthlib.chasoslov
+    file: chasoslov/ch/08chas9.hip
+    from: "посреде двою разбойнику"
+    to: "слава тебе."
+  - key: ch.none.kontakion.lenten.3
+    book: chasoslov
+    kind: kontakion
+    source: orthlib.chasoslov
+    file: chasoslov/ch/08chas9.hip
+    from: "агнца, и пастыря"
+    to: "бже мой."
+  - key: ch.none.prayer_of_the_hours
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/08chas9.hip
+    from: "иже на всякое время, и на всякий час"
+    to: "аминь."
+  - key: ch.none.prayer_of_basil
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/08chas9.hip
+    from: "влдко гдси, иисе хрсте бже наш"
+    to: "аминь."

@@ -1,0 +1,15 @@
+sudo mkdir -p /opt/orthodoxy-liturgical-service
+
+podman run -d \
+  --name postgres18 \
+  --restart=unless-stopped \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_PASSWORD='waxoo6ezae4I' \
+  -e POSTGRES_DB=postgres \
+  -p 127.0.0.1:5432:5432 \
+  -v /opt/orthodoxy-liturgical-service:/var/lib/postgresql \
+  docker.io/library/postgres:18
+
+podman ps
+podman logs -f postgres18
+psql -h 127.0.0.1 -U postgres -d postgres

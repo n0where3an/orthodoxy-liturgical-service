@@ -1,0 +1,31 @@
+# Church Slavonic interface strings. hip: true — performers, repeat labels and
+# rubrics are written in HIP and converted to Unicode on load.
+lang: cu
+hip: true
+
+performers:
+  priest: "Сщ~е'нникъ:"
+  deacon: "Дiа'конъ:"
+  reader: "Чте'цъ:"
+  choir: "Ли'къ:"
+  people: "Лю'дiе:"
+
+repeat:
+  3: "три'жды."
+  12: "в~_i."
+  40: "м~."
+
+rubrics:
+  psalms: "Та'же _псалмы`:"
+  and_again: "И= па'ки:"
+  troparion_of_day: "Тропа'рь дне`:"
+  kontakion_of_day: "Конда'къ дне`:"
+  # Служебник, последование вечерни.
+  no_dismissal: "По не'мъ же w\\тпу'ста не быва'етъ, но глаго'летъ i=ере'й нача'ло вече'рни."
+  no_dismissal_laity: "Зд_е'сь начина'ется вече'рня."
+
+ui:
+  julian: "ст. ст."
+  tone: "глас"
+  mode: "режим"
+  rule: "правило"
