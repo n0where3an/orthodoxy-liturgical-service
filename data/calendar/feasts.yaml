@@ -1,0 +1,78 @@
+# Двунадесятые праздники: день праздника и отдание (Julian month-day for the
+# fixed ones, offset from Pascha for the movable ones). From the feast to its
+# apodosis the kontakion of the feast replaces «Взбранной Воеводе» after the
+# first hour.
+#
+# The afterfeast of the Meeting (Feb 2) is shortened when it runs into the
+# Triodion; those days are handled by Triodion rules, so the ordinary
+# apodosis (Feb 9) is given here.
+
+feasts:
+  - id: nativity_of_theotokos
+    title: Рождество Пресвятой Богородицы
+    date: "09-08"
+    apodosis: "09-12"
+    troparion: me.09.08.troparion.1
+    kontakion: me.09.08.kontakion.1
+  - id: exaltation
+    title: Воздвижение Креста Господня
+    date: "09-14"
+    apodosis: "09-21"
+    troparion: me.09.14.troparion.1
+    kontakion: me.09.14.kontakion.1
+  - id: entry_of_theotokos
+    title: Введение во храм Пресвятой Богородицы
+    date: "11-21"
+    apodosis: "11-25"
+    troparion: me.11.21.troparion.1
+    kontakion: me.11.21.kontakion.1
+  - id: nativity
+    title: Рождество Христово
+    date: "12-25"
+    apodosis: "12-31"
+    troparion: me.12.25.troparion.1
+    kontakion: me.12.25.kontakion.1
+  - id: theophany
+    title: Богоявление
+    date: "01-06"
+    apodosis: "01-14"
+    troparion: me.01.06.troparion.3
+    kontakion: me.01.06.kontakion.1
+  - id: meeting
+    title: Сретение Господне
+    date: "02-02"
+    apodosis: "02-09"
+    troparion: me.02.02.troparion.1
+    kontakion: me.02.02.kontakion.1
+  - id: annunciation
+    title: Благовещение Пресвятой Богородицы
+    date: "03-25"
+    apodosis: "03-26"
+    troparion: me.03.25.troparion.1
+    kontakion: me.03.25.kontakion.1
+  - id: transfiguration
+    title: Преображение Господне
+    date: "08-06"
+    apodosis: "08-13"
+    troparion: me.08.06.troparion.1
+    kontakion: me.08.06.kontakion.1
+  - id: dormition
+    title: Успение Пресвятой Богородицы
+    date: "08-15"
+    apodosis: "08-23"
+    troparion: me.08.15.troparion.1
+    kontakion: me.08.15.kontakion.1
+  # Вход Господень в Иерусалим (Pascha−7) has no afterfeast; its kontakion is
+  # not imported yet (Triodion days are not supported yet).
+  - id: ascension
+    title: Вознесение Господне
+    pascha_offset: 39
+    apodosis_offset: 47
+    troparion: tc.ascension.troparion
+    kontakion: tc.ascension.kontakion
+  - id: pentecost
+    title: День Святой Троицы
+    pascha_offset: 49
+    apodosis_offset: 55
+    troparion: tc.pentecost.troparion
+    kontakion: tc.pentecost.kontakion

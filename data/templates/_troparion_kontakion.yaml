@@ -1,0 +1,10 @@
+# Псалмы окончены: «Слава, и ныне», аллилуия, «Господи, помилуй» трижды;
+# «Слава» — тропарь дне. (Богородичен часа и стихи следуют в шаблоне часа.)
+nodes:
+  - {id: glory_now, ref: common.glory_now, performer: reader}
+  - {id: alleluia, ref: common.alleluia_glory_to_thee, performer: reader, repeat: 3}
+  - {id: lhm, ref: common.lord_have_mercy, performer: reader, repeat: 3}
+  - {id: troparion_rubric, rubric: troparion_of_day, audience: kliros}
+  - {id: glory, ref: common.glory, performer: reader}
+  - {id: troparion, slot: troparion, performer: reader}
+  - {id: and_now, ref: common.and_now, performer: reader}

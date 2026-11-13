@@ -1,0 +1,67 @@
+# Rules for the hours (1st, 3rd, 6th, 9th). Higher priority wins. Conditions
+# are CEL over the day context: weekday (0 = Sunday), period ("ordinary",
+# "lenten-triodion", "pentecostarion"), pascha_offset, bright_week, tone,
+# month, day, menaion_troparia, menaion_kontakia.
+#
+# Implemented so far: ordinary days (Menaion troparion and kontakion).
+# Recognised but not yet implemented cases are marked "unsupported".
+
+- id: hours.bright_week
+  services: [first_hour, third_hour, sixth_hour, ninth_hour]
+  priority: 300
+  when: bright_week
+  unsupported: "Светлая седмица: вместо часов — пасхальные часы (ещё не реализовано)"
+
+- id: hours.lenten_weekday
+  services: [first_hour, third_hour, sixth_hour, ninth_hour]
+  priority: 200
+  # Weekdays of Great Lent and Holy Week (Monday..Friday), when "Аллилуиа" is sung.
+  when: period == "lenten-triodion" && pascha_offset >= -48 && pascha_offset <= -3 && weekday >= 1 && weekday <= 5
+  unsupported: "Великопостные часы (кафизма, поклоны, молитва Ефрема Сирина) ещё не реализованы"
+
+- id: hours.triodion_day
+  services: [first_hour, third_hour, sixth_hour, ninth_hour]
+  priority: 150
+  # Other days of the Triodion periods use Triodion troparia/kontakia.
+  when: period != "ordinary"
+  unsupported: "Тропари и кондаки Триоди ещё не импортированы"
+
+- id: hours.feast_day
+  services: [first_hour, third_hour, sixth_hour, ninth_hour]
+  priority: 120
+  # A twelve feast: troparion and kontakion of the feast at every hour.
+  # (A feast of the Theotokos on a Sunday also takes the resurrection
+  # troparion — to be added with the Octoechos.)
+  when: feast_day
+  slots:
+    troparion: {from: feast, part: troparion}
+    kontakion: {from: feast, part: kontakion}
+
+- id: hours.afterfeast
+  services: [first_hour, third_hour, sixth_hour, ninth_hour]
+  priority: 110
+  # Afterfeast up to the apodosis: the feast's troparion and kontakion
+  # alternate at the hours with those of the saint of the day (feast first).
+  # Sundays of the afterfeast also need the resurrection troparion, so they
+  # stay with hours.sunday until the Octoechos is imported.
+  when: feast != "" && weekday != 0
+  slots:
+    troparion: {from: feast_and_menaion, part: troparion, kind: troparion, alternate_by_hour: true}
+    kontakion: {from: feast_and_menaion, part: kontakion, kind: kontakion, alternate_by_hour: true}
+
+- id: hours.sunday
+  services: [first_hour, third_hour, sixth_hour, ninth_hour]
+  priority: 100
+  when: weekday == 0
+  unsupported: "Воскресные часы (тропарь Октоиха по гласу, на 1-м часе — ипакои) ещё не реализованы"
+
+- id: hours.ordinary
+  services: [first_hour, third_hour, sixth_hour, ninth_hour]
+  priority: 10
+  # Weekday of the Menaion. Troparia and kontakia of the day are said at the
+  # hours alternately (1st, 3rd, 6th, 9th = positions 1..4). To be checked
+  # against the Typikon for days with three or more troparia.
+  when: "true"
+  slots:
+    troparion: {from: menaion, kind: troparion, alternate_by_hour: true}
+    kontakion: {from: menaion, kind: kontakion, alternate_by_hour: true}

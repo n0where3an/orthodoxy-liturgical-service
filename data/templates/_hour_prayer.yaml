@@ -1,0 +1,11 @@
+# Кондак дне, «Господи, помилуй» 40, молитва часов «Иже на всякое время»,
+# «Честнейшую», «Именем Господним благослови, отче».
+nodes:
+  - {id: kontakion_rubric, rubric: kontakion_of_day, audience: kliros}
+  - {id: kontakion, slot: kontakion, performer: reader}
+  - {id: lhm_40, ref: common.lord_have_mercy, performer: reader, repeat: 40}
+  - {id: prayer_of_hours, ref: common.prayer_of_the_hours, performer: reader}
+  - {id: lhm_3, ref: common.lord_have_mercy, performer: reader, repeat: 3}
+  - {id: glory_now, ref: common.glory_now, performer: reader}
+  - {id: more_honorable, ref: common.more_honorable, performer: reader}
+  - {id: in_the_name, ref: common.in_the_name_of_the_lord_bless, performer: reader, when: priest}

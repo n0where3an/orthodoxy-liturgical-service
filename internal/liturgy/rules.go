@@ -16,9 +16,18 @@ import (
 )
 
 // Rule fills slots of a service when its condition holds. Rules are data.
+//
+// A service rule (no Slot) is chosen once per service: the highest-priority
+// one whose condition holds. A slot rule (Slot set) fills one slot that the
+// service rule left open, independently of which service rule was chosen —
+// for texts that depend on the season rather than on the day's rank (e.g.
+// the kontakion after the first hour, «Христос воскресе» before the hours).
 type Rule struct {
 	ID          string                  `yaml:"id"`
-	Service     string                  `yaml:"service"`
+	Slot        string                  `yaml:"slot"`     // slot rule: the slot it fills
+	With        SlotSelector            `yaml:"fill"`     // slot rule: how to fill it
+	Service     string                  `yaml:"service"`  // one service, or
+	Services    []string                `yaml:"services"` // several (e.g. all the hours)
 	Priority    int                     `yaml:"priority"`
 	When        string                  `yaml:"when"`
 	Unsupported string                  `yaml:"unsupported"` // the case is recognised but not implemented yet
@@ -29,19 +38,21 @@ type Rule struct {
 
 // SlotSelector says where the texts of a slot come from.
 type SlotSelector struct {
-	From string `yaml:"from"` // menaion | unit
+	From string `yaml:"from"` // menaion | unit | feast | feast_and_menaion | none
 	Kind string `yaml:"kind"` // troparion, kontakion, ...
-	// Alternate: the position of this hour among 1, 3, 6, 9 (1..4). With n
-	// texts available, hour k takes text ((k-1) mod n) + 1 (Typikon: troparia
-	// and kontakia at the hours are said alternately).
-	Alternate int      `yaml:"alternate"`
-	Refs      []string `yaml:"refs"` // for from: unit
-	Repeat    int      `yaml:"repeat"`
+	// AlternateByHour: troparia and kontakia at the hours are said
+	// alternately (Typikon). With n texts available, hour k (1st, 3rd, 6th,
+	// 9th = 1..4) takes text ((k-1) mod n) + 1.
+	AlternateByHour bool     `yaml:"alternate_by_hour"`
+	Refs            []string `yaml:"refs"` // for from: unit
+	Part            string   `yaml:"part"` // for from: feast(_and_menaion) — troparion | kontakion
+	Repeat          int      `yaml:"repeat"`
 }
 
 // Rules is a loaded, compiled rule set.
 type Rules struct {
-	list []*Rule
+	list      []*Rule // service rules, by priority
+	slotRules []*Rule // slot rules, by priority
 }
 
 // dayEnv declares the variables rules may use.
@@ -56,6 +67,8 @@ func dayEnv() (*cel.Env, error) {
 		cel.Variable("day", cel.IntType),
 		cel.Variable("menaion_troparia", cel.IntType),
 		cel.Variable("menaion_kontakia", cel.IntType),
+		cel.Variable("feast", cel.StringType), // twelve-feast id from the feast to its apodosis, or ""
+		cel.Variable("feast_day", cel.BoolType),
 	)
 }
 
@@ -99,10 +112,18 @@ func LoadRules(dataDir string) (*Rules, error) {
 			if r.prg, err = env.Program(ast); err != nil {
 				return nil, err
 			}
-			rs.list = append(rs.list, r)
+			if r.Slot != "" {
+				rs.slotRules = append(rs.slotRules, r)
+			} else {
+				rs.list = append(rs.list, r)
+			}
 		}
 	}
-	sort.SliceStable(rs.list, func(i, j int) bool { return rs.list[i].Priority > rs.list[j].Priority })
+	byPriority := func(l []*Rule) func(i, j int) bool {
+		return func(i, j int) bool { return l[i].Priority > l[j].Priority }
+	}
+	sort.SliceStable(rs.list, byPriority(rs.list))
+	sort.SliceStable(rs.slotRules, byPriority(rs.slotRules))
 	return rs, nil
 }
 
@@ -110,10 +131,17 @@ func LoadRules(dataDir string) (*Rules, error) {
 type Facts struct {
 	Day     calendar.DayContext
 	Menaion map[string][]string // kind -> unit ids of the day, in order
+	Feast   *Feast              // twelve feast whose period (feast..apodosis) contains the day
 }
 
 func (f Facts) vars() map[string]any {
+	feast, feastDay := "", false
+	if f.Feast != nil {
+		feast, feastDay = f.Feast.ID, f.Feast.IsFeastDay(f.Day)
+	}
 	return map[string]any{
+		"feast":            feast,
+		"feast_day":        feastDay,
 		"weekday":          int64(f.Day.Weekday),
 		"period":           f.Day.Period.String(),
 		"pascha_offset":    int64(f.Day.PaschaOffset),
@@ -130,7 +158,7 @@ func (f Facts) vars() map[string]any {
 func (rs *Rules) Match(service string, f Facts) (*Rule, error) {
 	vars := f.vars()
 	for _, r := range rs.list {
-		if r.Service != service {
+		if !r.appliesTo(service) {
 			continue
 		}
 		out, _, err := r.prg.Eval(vars)
@@ -142,6 +170,24 @@ func (rs *Rules) Match(service string, f Facts) (*Rule, error) {
 		}
 	}
 	return nil, fmt.Errorf("no rule for %s on %v", service, f.Day.Date)
+}
+
+func (r *Rule) appliesTo(service string) bool {
+	if r.Service == service {
+		return true
+	}
+	for _, s := range r.Services {
+		if s == service {
+			return true
+		}
+	}
+	return false
+}
+
+// HourPosition is the place of an hour in the order of the hours (1st, 3rd,
+// 6th, 9th = 1..4); 0 for other services.
+func HourPosition(service string) int {
+	return map[string]int{"first_hour": 1, "third_hour": 2, "sixth_hour": 3, "ninth_hour": 4}[service]
 }
 
 // MenaionLister lists unit ids by prefix (implemented by corpus.Store).
@@ -188,10 +234,48 @@ func MenaionFacts(ctx context.Context, l MenaionLister, md calendar.MonthDay) (m
 	return out, nil
 }
 
-// Fill resolves the rule's slot selectors into slot items.
-func (r *Rule) Fill(f Facts) (map[string][]SlotItem, error) {
+// FillSlotRules fills the slots of service not set yet from slot rules.
+func (rs *Rules) FillSlotRules(service string, f Facts, slots map[string][]SlotItem) error {
+	vars := f.vars()
+	for _, r := range rs.slotRules {
+		if !r.appliesTo(service) {
+			continue
+		}
+		if _, done := slots[r.Slot]; done {
+			continue
+		}
+		out, _, err := r.prg.Eval(vars)
+		if err != nil {
+			return fmt.Errorf("rule %s: %w", r.ID, err)
+		}
+		if ok, _ := out.Value().(bool); !ok {
+			continue
+		}
+		items, err := r.With.resolve(r.Slot, f, service)
+		if err != nil {
+			return fmt.Errorf("rule %s: %w", r.ID, err)
+		}
+		slots[r.Slot] = items
+	}
+	return nil
+}
+
+// Fill resolves the rule's slot selectors into slot items for service.
+func (r *Rule) Fill(f Facts, service string) (map[string][]SlotItem, error) {
 	slots := map[string][]SlotItem{}
 	for name, sel := range r.Slots {
+		items, err := sel.resolve(name, f, service)
+		if err != nil {
+			return nil, err
+		}
+		slots[name] = items
+	}
+	return slots, nil
+}
+
+func (sel SlotSelector) resolve(name string, f Facts, service string) ([]SlotItem, error) {
+	items := []SlotItem{}
+	{
 		switch sel.From {
 		case "menaion":
 			avail := f.Menaion[sel.Kind]
@@ -199,20 +283,45 @@ func (r *Rule) Fill(f Facts) (map[string][]SlotItem, error) {
 				return nil, fmt.Errorf("slot %s: no Menaion %s for %02d.%02d in the corpus",
 					name, sel.Kind, int(f.Day.Menaion.Month), f.Day.Menaion.Day)
 			}
-			k := sel.Alternate
-			if k < 1 {
-				k = 1
+			k := 1
+			if sel.AlternateByHour && HourPosition(service) > 0 {
+				k = HourPosition(service)
 			}
-			slots[name] = []SlotItem{{Ref: avail[(k-1)%len(avail)], Repeat: sel.Repeat}}
+			items = append(items, SlotItem{Ref: avail[(k-1)%len(avail)], Repeat: sel.Repeat})
 		case "unit":
 			for _, ref := range sel.Refs {
-				slots[name] = append(slots[name], SlotItem{Ref: ref, Repeat: sel.Repeat})
+				items = append(items, SlotItem{Ref: ref, Repeat: sel.Repeat})
 			}
+		case "feast", "feast_and_menaion":
+			if f.Feast == nil {
+				return nil, fmt.Errorf("slot %s: no twelve feast on %v", name, f.Day.Date)
+			}
+			ref, err := f.Feast.Part(sel.Part)
+			if err != nil {
+				return nil, fmt.Errorf("slot %s: %w", name, err)
+			}
+			if sel.From == "feast" {
+				items = append(items, SlotItem{Ref: ref, Repeat: sel.Repeat})
+				break
+			}
+			// Afterfeast: the feast's hymn alternates with the saint's.
+			avail := []string{ref}
+			for _, id := range f.Menaion[sel.Kind] {
+				if id != ref {
+					avail = append(avail, id)
+				}
+			}
+			k := 1
+			if sel.AlternateByHour && HourPosition(service) > 0 {
+				k = HourPosition(service)
+			}
+			items = append(items, SlotItem{Ref: avail[(k-1)%len(avail)], Repeat: sel.Repeat})
+		case "none":
 		default:
 			return nil, fmt.Errorf("slot %s: unknown source %q", name, sel.From)
 		}
 	}
-	return slots, nil
+	return items, nil
 }
 
 // weekdayName is used in error messages.

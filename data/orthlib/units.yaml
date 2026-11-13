@@ -23,7 +23,19 @@ sources:
     edition: "Минеи месячные, репринт синодальных изданий (М.: Сретенский монастырь, 1996–1997)"
     url: http://orthlib.ru/worship/mineya/
     license: public-domain-edition
-    note: "Electronic text by orthlib.ru (HIP); reprints of Synodal editions. June archive in the local copy is damaged."
+    note: "Electronic text by orthlib.ru (HIP); reprints of Synodal editions."
+  - id: orthlib.triodion_tsvetnaya
+    title: Триодь цветная
+    edition: "Триодь цветная. М.: Издание Московской Патриархии, 1992"
+    url: http://orthlib.ru/worship/triodion/
+    license: unknown
+    note: "Electronic text by orthlib.ru (HIP); terms of use to be verified."
+  - id: orthlib.triodion_postnaya
+    title: Триодь постная
+    edition: "Триодь постная. В 2 частях. М.: Издание Московской Патриархии, 1992"
+    url: http://orthlib.ru/worship/triodion/
+    license: unknown
+    note: "Electronic text by orthlib.ru (HIP); terms of use to be verified."
 
 units:
   # --- Usual beginning and common prayers (Часослов, час третий) ---
@@ -285,7 +297,7 @@ units:
     file: chasoslov/ch/08chas9.hip
     from: "агнца, и пастыря"
     to: "бже мой."
-  - key: ch.none.prayer_of_the_hours
+  - key: common.prayer_of_the_hours
     book: chasoslov
     kind: prayer
     source: orthlib.chasoslov
@@ -299,3 +311,232 @@ units:
     file: chasoslov/ch/08chas9.hip
     from: "влдко гдси, иисе хрсте бже наш"
     to: "аминь."
+
+  # --- Split doxology (Слава… / И ныне…) ---
+  - key: common.glory
+    book: chasoslov
+    kind: doxology
+    source: orthlib.chasoslov
+    file: chasoslov/ch/06izobrazit.hip
+    from: "слава оцу, и сну, и стому дху."
+    to: "стому дху."
+  - key: common.and_now
+    book: chasoslov
+    kind: doxology
+    source: orthlib.chasoslov
+    file: chasoslov/ch/04chas3.hip
+    from: "и ныне и присно, и во веки веков, аминь."
+    to: "аминь."
+
+  # --- Kontakion of the Akathist (sung after the first hour in parish practice) ---
+  - key: tp.akathist.kontakion.1
+    book: triodion
+    kind: kontakion
+    tone: 8
+    source: orthlib.triodion_postnaya
+    file: triodion/pt/sub_akaf.hip
+    from: "взбранной воеводе победительная"
+    to: "невесто неневестная."
+
+  # --- First hour (Часослов) ---
+  - key: ch.prime.title
+    book: chasoslov
+    kind: title
+    source: orthlib.chasoslov
+    file: chasoslov/ch/03chas1.hip
+    from: "час первый"
+    to: "час первый"
+  - key: ch.prime.psalm.5
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/03chas1.hip
+    from: "глаголы моя внуши гдси"
+    to: "блговоления венчал еси нас."
+    meta: {psalm: 5}
+  - key: ch.prime.psalm.89
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/03chas1.hip
+    from: "гдси, прибежище был еси нам"
+    to: "дело рук наших исправи."
+    meta: {psalm: 89}
+  - key: ch.prime.psalm.100
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/03chas1.hip
+    from: "млсть и суд воспою тебе"
+    to: "делающыя беззаконие."
+    meta: {psalm: 100}
+  - key: ch.prime.theotokion
+    book: chasoslov
+    kind: theotokion
+    source: orthlib.chasoslov
+    file: chasoslov/ch/03chas1.hip
+    from: "что тя наречем, о блгодатная"
+    to: "спстися душам нашым."
+  - key: ch.prime.verse.order_my_steps
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/03chas1.hip
+    from: "стопы моя направи по словеси твоему"
+    to: "оправданием твоим."
+  - key: ch.prime.verse.let_my_mouth
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/03chas1.hip
+    from: "да исполнятся уста моя хваления"
+    to: "великолепие твое."
+  - key: ch.prime.prayer
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/03chas1.hip
+    from: "хрсте свете истинный"
+    to: "аминь."
+
+  # --- Third hour (Часослов) ---
+  - key: ch.terce.title
+    book: chasoslov
+    kind: title
+    source: orthlib.chasoslov
+    file: chasoslov/ch/04chas3.hip
+    from: "час третий"
+    to: "час третий"
+  - key: ch.terce.psalm.16
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/04chas3.hip
+    from: "услыши гдси, правду мою"
+    to: "ся славе твоей."
+    meta: {psalm: 16}
+  - key: ch.terce.psalm.24
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/04chas3.hip
+    from: "к тебе гдси, воздвигох душу мою"
+    to: "от всех скорбей его."
+    meta: {psalm: 24}
+  - key: ch.terce.psalm.50
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/04chas3.hip
+    from: "помилуй мя бже, по велицей милости"
+    to: "олтарь твой тельцы."
+    meta: {psalm: 50}
+  - key: ch.terce.theotokion
+    book: chasoslov
+    kind: theotokion
+    source: orthlib.chasoslov
+    file: chasoslov/ch/04chas3.hip
+    from: "бцде, ты еси лоза истинная, возрастившая"
+    to: "помиловати душы нашя."
+  - key: ch.terce.verse.blessed_is_the_lord
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/04chas3.hip
+    from: "гдсь бг блгословен, блгословен гдсь"
+    to: "бг наш, бг спсати."
+  - key: ch.terce.prayer_of_mardarius
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/04chas3.hip
+    from: "влдко бже оче вседержителю"
+    to: "во веки веков, аминь."
+
+  # --- Sixth hour (Часослов) ---
+  - key: ch.sext.title
+    book: chasoslov
+    kind: title
+    source: orthlib.chasoslov
+    file: chasoslov/ch/05chas6.hip
+    from: "час шестый"
+    to: "час шестый"
+  - key: ch.sext.psalm.53
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/05chas6.hip
+    from: "бже, во имя твое спси мя"
+    to: "воззре око мое."
+    meta: {psalm: 53}
+  - key: ch.sext.psalm.54
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/05chas6.hip
+    from: "внуши бже млтву мою, и не презри"
+    to: "уповаю на тя."
+    meta: {psalm: 54}
+  - key: ch.sext.psalm.90
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/05chas6.hip
+    from: "живый в помощи вышняго"
+    to: "явлю ему спсение мое."
+    meta: {psalm: 90}
+  - key: ch.sext.theotokion
+    book: chasoslov
+    kind: theotokion
+    source: orthlib.chasoslov
+    file: chasoslov/ch/05chas6.hip
+    from: "яко не имамы дерзновения"
+    to: "страдати о нас изволивый."
+  - key: ch.sext.verse.let_thy_mercies
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/05chas6.hip
+    from: "скоро да предварят ны щедроты твоя"
+    to: "имене ради твоего."
+  - key: ch.sext.prayer_of_basil
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/05chas6.hip
+    from: "бже и гдси сил, и всея твари"
+    to: "во веки веков, аминь."
+
+  # --- Pentecostarion (Триодь цветная) ---
+  - key: tc.pascha.troparion
+    book: triodion
+    kind: troparion
+    tone: 5
+    source: orthlib.triodion_tsvetnaya
+    file: triodion/tst/paskha.hip
+    from: "хрстос воскресе из мертвых, смертию смерть поправ, и сущым"
+    to: "живот даровав."
+  - key: tc.pascha.kontakion
+    book: triodion
+    kind: kontakion
+    tone: 8
+    source: orthlib.triodion_tsvetnaya
+    file: triodion/tst/chas_new.hip
+    from: "аще и во гроб снизшел еси, безсмертне"
+    to: "падшым подаяй воскрсние."
+  - key: tc.ascension.kontakion
+    book: triodion
+    kind: kontakion
+    tone: 6
+    source: orthlib.triodion_tsvetnaya
+    file: triodion/tst/voznes.hip
+    from: "еже о нас исполнив смотрение"
+    to: "никтоже на вы."
+  - key: tc.pentecost.kontakion
+    book: triodion
+    kind: kontakion
+    tone: 8
+    source: orthlib.triodion_tsvetnaya
+    file: triodion/tst/pentikost.hip
+    from: "егда снизшед языки слия"
+    to: "славим всестаго дха."

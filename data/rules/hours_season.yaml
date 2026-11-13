@@ -1,0 +1,61 @@
+# Slot rules for the hours: texts that depend on the season, whatever the
+# rank of the day. For each slot the highest-priority rule whose condition
+# holds fills it (unless the service rule already did).
+#
+# Paschal period here: from Thomas Sunday (Pascha+7) to the apodosis of
+# Pascha (Wednesday, Pascha+38). Bright Week has the Paschal hours instead.
+
+# --- Prayers after the opening exclamation of the usual beginning ---
+- id: hours.opening.paschal
+  slot: opening_prayers
+  services: [first_hour, third_hour, sixth_hour, ninth_hour]
+  priority: 100
+  when: pascha_offset >= 7 && pascha_offset <= 38
+  # «Христос воскресе» трижды вместо «Слава Тебе, Боже наш» и «Царю Небесный».
+  fill: {from: unit, refs: [tc.pascha.troparion], repeat: 3}
+- id: hours.opening.ascension_to_pentecost
+  slot: opening_prayers
+  services: [first_hour, third_hour, sixth_hour, ninth_hour]
+  priority: 90
+  # From the Ascension to Pentecost (inclusive: «Царю Небесный» returns at
+  # the vespers of Pentecost) the hours begin with the Trisagion.
+  when: pascha_offset >= 39 && pascha_offset <= 49
+  fill: {from: none}
+- id: hours.opening.ordinary
+  slot: opening_prayers
+  services: [first_hour, third_hour, sixth_hour, ninth_hour]
+  priority: 0
+  fill: {from: unit, refs: [common.glory_to_thee_our_god, common.heavenly_king]}
+
+# --- «Христос воскресе» before an hour joined to the previous service ---
+- id: hours.paschal_opening.paschal
+  slot: paschal_opening
+  services: [first_hour, sixth_hour]
+  priority: 100
+  when: pascha_offset >= 7 && pascha_offset <= 38
+  fill: {from: unit, refs: [tc.pascha.troparion], repeat: 3}
+- id: hours.paschal_opening.none
+  slot: paschal_opening
+  services: [first_hour, sixth_hour]
+  priority: 0
+  fill: {from: none}
+
+# --- Kontakion after the first hour (parish practice) ---
+- id: first_hour.closing_kontakion.paschal
+  slot: closing_kontakion
+  service: first_hour
+  priority: 100
+  when: pascha_offset >= 7 && pascha_offset <= 38
+  fill: {from: unit, refs: [tc.pascha.kontakion]}
+- id: first_hour.closing_kontakion.feast
+  slot: closing_kontakion
+  service: first_hour
+  priority: 50
+  # From a twelve feast to its apodosis — the kontakion of the feast.
+  when: feast != ""
+  fill: {from: feast, part: kontakion}
+- id: first_hour.closing_kontakion.ordinary
+  slot: closing_kontakion
+  service: first_hour
+  priority: 0
+  fill: {from: unit, refs: [tp.akathist.kontakion.1]}

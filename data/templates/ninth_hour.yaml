@@ -1,104 +1,39 @@
 # Час девятый — по Часослову (М., 1980) и Служебнику.
 #
-# Node fields: ref (text unit key) | slot (filled by the plan) | rubric (i18n
-# key) | children (group). performer: priest, deacon, reader, choir, people;
-# voice: aloud, quiet, secret; audience (rubrics): kliros, laity; when: CEL
-# over service params (priest, standalone).
-#
-# The ninth hour belongs to the liturgical day whose troparion and kontakion
-# it uses; in parish practice it is read before vespers of the next day and
-# ends without a dismissal (Служебник: «по нем же отпуста не бывает»).
+# Девятый час относится к литургическому дню, чьи тропарь и кондак он
+# использует; в приходской практике читается перед вечерней следующего дня
+# и оканчивается без отпуста (Служебник: «по нем же отпуста не бывает»).
 
 service: ninth_hour
 nodes:
   - {id: title, ref: ch.none.title, heading: true}
+  - {id: beginning, include: usual_beginning}
 
-  # --- Начало ---
-  - id: beginning
-    title: usual_beginning
-    children:
-      - {id: blessed, ref: sl.exclamation.blessed_is_our_god, performer: priest, voice: aloud, when: priest}
-      - {id: blessed_amen, ref: common.amen, performer: reader, when: priest}
-      - {id: beginning_reader, ref: common.prayers_of_holy_fathers, performer: reader, when: "!priest"}
-      - {id: beginning_reader_amen, ref: common.amen, performer: reader, when: "!priest"}
-      - {id: glory_to_thee, ref: common.glory_to_thee_our_god, performer: reader}
-      - {id: heavenly_king, ref: common.heavenly_king, performer: reader}
-      - {id: trisagion_1, ref: common.trisagion, performer: reader, repeat: 3}
-      - {id: glory_now_1, ref: common.glory_now, performer: reader}
-      - {id: trinity_1, ref: common.most_holy_trinity, performer: reader}
-      - {id: lhm_1, ref: common.lord_have_mercy, performer: reader, repeat: 3}
-      - {id: glory_now_2, ref: common.glory_now, performer: reader}
-      - {id: our_father_1, ref: common.our_father, performer: reader}
-      - {id: exclamation_1, ref: sl.exclamation.for_thine_is_the_kingdom, performer: priest, voice: aloud, when: priest}
-      - {id: exclamation_1_reader, ref: common.prayers_of_holy_fathers, performer: reader, when: "!priest"}
-      - {id: amen_1, ref: common.amen, performer: reader}
-      - {id: lhm_12, ref: common.lord_have_mercy, performer: reader, repeat: 12}
-      - {id: glory_now_3, ref: common.glory_now, performer: reader}
-      - {id: come_1, ref: common.come_let_us_worship.1, performer: reader}
-      - {id: come_2, ref: common.come_let_us_worship.2, performer: reader}
-      - {id: come_3, ref: common.come_let_us_worship.3, performer: reader}
-
-  # --- Псалмы 83, 84, 85 ---
   - {id: psalms_rubric, rubric: psalms}
   - {id: psalm_83, ref: ch.none.psalm.83, performer: reader}
   - {id: psalm_84, ref: ch.none.psalm.84, performer: reader}
   - {id: psalm_85, ref: ch.none.psalm.85, performer: reader}
   - {id: and_again, rubric: and_again}
   - {id: psalm_85_repeat, ref: ch.none.psalm.85.repeat, performer: reader}
-  - {id: glory_now_4, ref: common.glory_now, performer: reader}
-  - {id: alleluia, ref: common.alleluia_glory_to_thee, performer: reader, repeat: 3}
-  - {id: lhm_2, ref: common.lord_have_mercy, performer: reader, repeat: 3}
 
-  # --- Тропарь дне, богородичен ---
-  - {id: troparion_rubric, rubric: troparion_of_day, audience: kliros}
-  - {id: troparion, slot: troparion, performer: reader}
-  - {id: glory_now_5, ref: common.glory_now, performer: reader}
+  - {id: troparion, include: troparion_kontakion}
   - {id: theotokion, ref: ch.none.theotokion, performer: reader}
   - {id: do_not_deliver, ref: ch.none.do_not_deliver_us, performer: reader}
 
-  # --- Трисвятое по Отче наш ---
-  - {id: trisagion_2, ref: common.trisagion, performer: reader, repeat: 3}
-  - {id: glory_now_6, ref: common.glory_now, performer: reader}
-  - {id: trinity_2, ref: common.most_holy_trinity, performer: reader}
-  - {id: lhm_3, ref: common.lord_have_mercy, performer: reader, repeat: 3}
-  - {id: glory_now_7, ref: common.glory_now, performer: reader}
-  - {id: our_father_2, ref: common.our_father, performer: reader}
-  - {id: exclamation_2, ref: sl.exclamation.for_thine_is_the_kingdom, performer: priest, voice: aloud, when: priest}
-  - {id: exclamation_2_reader, ref: common.prayers_of_holy_fathers, performer: reader, when: "!priest"}
-  - {id: amen_2, ref: common.amen, performer: reader}
-
-  # --- Кондак дне ---
-  - {id: kontakion_rubric, rubric: kontakion_of_day, audience: kliros}
-  - {id: kontakion, slot: kontakion, performer: reader}
-
-  # --- Молитва часа ---
-  - {id: lhm_40, ref: common.lord_have_mercy, performer: reader, repeat: 40}
-  - {id: prayer_of_hours, ref: ch.none.prayer_of_the_hours, performer: reader}
-  - {id: lhm_4, ref: common.lord_have_mercy, performer: reader, repeat: 3}
-  - {id: glory_now_8, ref: common.glory_now, performer: reader}
-  - {id: more_honorable, ref: common.more_honorable, performer: reader}
-  - {id: in_the_name, ref: common.in_the_name_of_the_lord_bless, performer: reader, when: priest}
+  - {id: trisagion, include: trisagion_to_our_father}
+  - {id: prayer, include: hour_prayer}
   - {id: god_be_merciful, ref: sl.exclamation.god_be_merciful, performer: priest, voice: aloud, when: priest}
   - {id: god_be_merciful_reader, ref: common.prayers_of_holy_fathers, performer: reader, when: "!priest"}
-  - {id: amen_3, ref: common.amen, performer: reader}
+  - {id: amen, ref: common.amen, performer: reader}
   # Молитва свт. Василия Великого. Молитву по окончании часа читает чтец
   # (исключение в практике — молитва по 1-м часе «Христе, Свете истинный»,
   # её читает священник).
   - {id: prayer_of_basil, ref: ch.none.prayer_of_basil, performer: reader}
 
-  # --- Окончание ---
   - id: ending_standalone
     when: standalone
     children:
-      - {id: glory_now_9, ref: common.glory_now, performer: reader}
-      - {id: lhm_5, ref: common.lord_have_mercy, performer: reader, repeat: 3}
-      - {id: bless, ref: common.bless, performer: reader}
-      - {id: dismissal_1, ref: sl.dismissal.glory_to_thee_christ_god, performer: priest, voice: aloud, when: priest}
-      - {id: glory_now_10, ref: common.glory_now, performer: reader, when: priest}
-      - {id: lhm_6, ref: common.lord_have_mercy, performer: reader, repeat: 3, when: priest}
-      - {id: bless_2, ref: common.bless, performer: reader, when: priest}
-      - {id: dismissal_2, ref: sl.dismissal.daily, performer: priest, voice: aloud, when: priest}
-      - {id: dismissal_reader, ref: common.prayers_of_holy_fathers, performer: reader, when: "!priest"}
-      - {id: dismissal_amen, ref: common.amen, performer: reader}
+      - {id: before_dismissal, include: glory_lhm_bless}
+      - {id: dismissal, include: dismissal}
   - {id: no_dismissal, rubric: no_dismissal, audience: kliros, when: "!standalone"}
   - {id: no_dismissal_laity, rubric: no_dismissal_laity, audience: laity, when: "!standalone"}

@@ -86,7 +86,8 @@ func (l *Lang) RepeatLabel(n int) string {
 }
 
 func paramEnv() (*cel.Env, error) {
-	return cel.NewEnv(cel.Variable("priest", cel.BoolType), cel.Variable("standalone", cel.BoolType))
+	return cel.NewEnv(cel.Variable("priest", cel.BoolType), cel.Variable("standalone", cel.BoolType),
+		cel.Variable("typikon", cel.BoolType))
 }
 
 // Expand fills the template with the plan's slots and the loaded texts.
@@ -95,7 +96,7 @@ func Expand(t *Template, plan *Plan, texts map[string]corpus.Text, lang *Lang) (
 	if err != nil {
 		return nil, err
 	}
-	vars := map[string]any{"priest": plan.Params.Priest, "standalone": plan.Params.Standalone}
+	vars := map[string]any{"priest": plan.Params.Priest, "standalone": plan.Params.Standalone, "typikon": plan.Params.Typikon}
 	var out []RNode
 	missing := map[string]bool{}
 

@@ -12,9 +12,14 @@ type Params struct {
 	// Priest: served with a priest; otherwise the reader's order
 	// ("Молитвами святых отец наших…" instead of exclamations).
 	Priest bool `json:"priest"`
-	// Standalone: the hour is not followed by the next service, so it ends
-	// with a dismissal. In parish practice the ninth hour leads into vespers.
+	// Standalone: the hour is served on its own, with the usual beginning and
+	// a dismissal. By default each hour is joined to its neighbours as in
+	// parish practice: matins + 1st hour; 3rd + 6th hour before the liturgy;
+	// 9th hour before vespers.
 	Standalone bool `json:"standalone"`
+	// Typikon: follow the Typikon instead of parish practice (as in the
+	// «Богослужебные указания»), where the two differ.
+	Typikon bool `json:"typikon"`
 }
 
 // SlotItem references one text unit placed into a slot.
@@ -42,11 +47,13 @@ type DaySummary struct {
 	Period       string `json:"period"`
 	PaschaOffset int    `json:"pascha_offset"`
 	Tone         int    `json:"tone"`
+	Feast        string `json:"feast,omitempty"`
 }
 
 // Planner builds plans.
 type Planner struct {
 	Rules   *Rules
+	Feasts  *Feasts
 	Menaion MenaionLister
 }
 
@@ -63,6 +70,9 @@ func (p *Planner) Plan(ctx context.Context, d calendar.JDate, service string, pa
 		return nil, err
 	}
 	f := Facts{Day: day, Menaion: men}
+	if p.Feasts != nil {
+		f.Feast = p.Feasts.At(day)
+	}
 	r, err := p.Rules.Match(service, f)
 	if err != nil {
 		return nil, err
@@ -70,9 +80,12 @@ func (p *Planner) Plan(ctx context.Context, d calendar.JDate, service string, pa
 	if r.Unsupported != "" {
 		return nil, &UnsupportedError{Rule: r.ID, Reason: r.Unsupported}
 	}
-	slots, err := r.Fill(f)
+	slots, err := r.Fill(f, service)
 	if err != nil {
 		return nil, fmt.Errorf("rule %s: %w", r.ID, err)
+	}
+	if err := p.Rules.FillSlotRules(service, f, slots); err != nil {
+		return nil, err
 	}
 	y, m, dd := d.Date()
 	return &Plan{
@@ -83,7 +96,7 @@ func (p *Planner) Plan(ctx context.Context, d calendar.JDate, service string, pa
 		Params:  params,
 		Day: DaySummary{
 			Weekday: weekdayName(day.Weekday), Period: day.Period.String(),
-			PaschaOffset: day.PaschaOffset, Tone: day.Tone,
+			PaschaOffset: day.PaschaOffset, Tone: day.Tone, Feast: feastID(f.Feast),
 		},
 		Slots: slots,
 	}, nil

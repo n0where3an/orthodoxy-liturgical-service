@@ -1,0 +1,13 @@
+# Обычное начало часов: возглас священника (или «Молитвами святых отец» в чине
+# без священника) … «Приидите, поклонимся» трижды. Часослов, час третий.
+nodes:
+  - {id: blessed, ref: sl.exclamation.blessed_is_our_god, performer: priest, voice: aloud, when: priest}
+  - {id: blessed_reader, ref: common.prayers_of_holy_fathers, performer: reader, when: "!priest"}
+  - {id: amen_0, ref: common.amen, performer: reader}
+  # «Слава Тебе, Боже наш», «Царю Небесный» — или по времени года
+  # «Христос воскресе» трижды / ничего (см. data/rules/hours_season.yaml).
+  - {id: opening_prayers, slot: opening_prayers, performer: reader}
+  - {id: trisagion, include: trisagion_to_our_father}
+  - {id: lhm_12, ref: common.lord_have_mercy, performer: reader, repeat: 12}
+  - {id: glory_now, ref: common.glory_now, performer: reader}
+  - {id: come, include: come_let_us_worship}

@@ -1,0 +1,9 @@
+# Отпуст часа (дневной). Без священника — «Молитвами святых отец».
+nodes:
+  - {id: glory_to_thee, ref: sl.dismissal.glory_to_thee_christ_god, performer: priest, voice: aloud, when: priest}
+  - {id: glory_now, ref: common.glory_now, performer: reader, when: priest}
+  - {id: lhm_3, ref: common.lord_have_mercy, performer: reader, repeat: 3, when: priest}
+  - {id: bless, ref: common.bless, performer: reader, when: priest}
+  - {id: dismissal, ref: sl.dismissal.daily, performer: priest, voice: aloud, when: priest}
+  - {id: dismissal_reader, ref: common.prayers_of_holy_fathers, performer: reader, when: "!priest"}
+  - {id: amen, ref: common.amen, performer: reader}

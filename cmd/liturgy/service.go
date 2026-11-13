@@ -22,16 +22,21 @@ import (
 type commonFlags struct {
 	date, service, data string
 	julian, reader      bool
-	standalone          bool
+	standalone, typikon bool
 }
 
 func (c *commonFlags) register(fs *flag.FlagSet) {
 	fs.StringVar(&c.date, "date", time.Now().Format("2006-01-02"), "date YYYY-MM-DD (civil unless -julian)")
 	fs.BoolVar(&c.julian, "julian", false, "-date is a Julian (old style) date")
-	fs.StringVar(&c.service, "service", "ninth_hour", "service")
+	fs.StringVar(&c.service, "service", "ninth_hour", "service: first_hour, third_hour, sixth_hour, ninth_hour")
 	fs.StringVar(&c.data, "data", "data", "data directory (templates, rules, i18n)")
 	fs.BoolVar(&c.reader, "reader", false, "reader's order, without a priest")
-	fs.BoolVar(&c.standalone, "standalone", false, "end with a dismissal (not followed by the next service)")
+	fs.BoolVar(&c.standalone, "standalone", false, "serve the hour on its own: usual beginning and dismissal")
+	fs.BoolVar(&c.typikon, "typikon", false, "follow the Typikon where parish practice differs")
+}
+
+func (c *commonFlags) params() liturgy.Params {
+	return liturgy.Params{Priest: !c.reader, Standalone: c.standalone, Typikon: c.typikon}
 }
 
 func parseDate(s string, julian bool) (calendar.JDate, error) {
@@ -55,10 +60,15 @@ func newGenerator(ctx context.Context, dataDir string) (*liturgy.Generator, func
 		pool.Close()
 		return nil, nil, err
 	}
+	feasts, err := liturgy.LoadFeasts(dataDir)
+	if err != nil {
+		pool.Close()
+		return nil, nil, err
+	}
 	st := &corpus.Store{Pool: pool}
 	return &liturgy.Generator{
 		DataDir: dataDir,
-		Planner: &liturgy.Planner{Rules: rules, Menaion: st},
+		Planner: &liturgy.Planner{Rules: rules, Feasts: feasts, Menaion: st},
 		Texts:   st,
 	}, pool.Close, nil
 }
@@ -77,7 +87,7 @@ func cmdPlan(ctx context.Context, args []string) error {
 		return err
 	}
 	defer closeFn()
-	plan, err := g.Planner.Plan(ctx, d, c.service, liturgy.Params{Priest: !c.reader, Standalone: c.standalone})
+	plan, err := g.Planner.Plan(ctx, d, c.service, c.params())
 	if err != nil {
 		return err
 	}
@@ -106,7 +116,7 @@ func cmdRender(ctx context.Context, args []string) error {
 	var buf bytes.Buffer
 	_, err = g.Generate(ctx, liturgy.Request{
 		Date: d, Service: c.service, Lang: *lang, Mode: *mode,
-		Params: liturgy.Params{Priest: !c.reader, Standalone: c.standalone},
+		Params: c.params(),
 	}, &buf)
 	if err != nil {
 		return err
@@ -152,10 +162,11 @@ func cmdServe(ctx context.Context, args []string) error {
 		}
 		reader, _ := strconv.ParseBool(q.Get("reader"))
 		standalone, _ := strconv.ParseBool(q.Get("standalone"))
+		typikon, _ := strconv.ParseBool(q.Get("typikon"))
 		var buf bytes.Buffer
 		_, err = g.Generate(r.Context(), liturgy.Request{
 			Date: d, Service: service, Lang: lang, Mode: q.Get("mode"),
-			Params: liturgy.Params{Priest: !reader, Standalone: standalone},
+			Params: liturgy.Params{Priest: !reader, Standalone: standalone, Typikon: typikon},
 		}, &buf)
 		if err != nil {
 			status := http.StatusInternalServerError
@@ -176,7 +187,7 @@ func cmdServe(ctx context.Context, args []string) error {
 		<-ctx.Done()
 		srv.Shutdown(context.Background())
 	}()
-	fmt.Printf("listening on http://%s/?date=YYYY-MM-DD&mode=laity|kliros\n", *addr)
+	fmt.Printf("listening on http://%s/?date=YYYY-MM-DD&service=first_hour|third_hour|sixth_hour|ninth_hour&mode=laity|kliros\n", *addr)
 	if err := srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 		return err
 	}

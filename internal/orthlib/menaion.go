@@ -82,8 +82,8 @@ func hasKind(us []corpus.Unit, kind string) bool {
 }
 
 var (
-	reTroparion = regexp.MustCompile(`^(?:на [^.:]*[.:] )?(?:и )?(?:ин )?тропарь([^:]*?)глас`)
-	reKontakion = regexp.MustCompile(`^(?:на [^.:]*[.:] )?(?:и )?(?:ин )?кондак([^:]*?)глас`)
+	reTroparion = regexp.MustCompile(`^(?:на [^.:]*?[.:]? )?(?:и )?(?:ин )?тропарь([^:.]*?)глас`)
+	reKontakion = regexp.MustCompile(`^(?:на [^.:]*?[.:]? )?(?:и )?(?:ин )?кондак([^:.]*?)глас`)
 	reGlorySec  = regexp.MustCompile(`^слава,\s*([^,:]+?),\s*глас`)
 	reRubric    = regexp.MustCompile(`^(слава|и ныне|ныне|на |по |стих|канон|песнь|ирмос|икос|седален|светилен|прокимен|подобен|тропар|кондак|ин |богородичен|крестобогородичен|величание|блажен|таже|аще|в той же день|месяца|на литургии|аллилуиа|причастен|задостойник|стихира|самогласен|глас|конец)`)
 )
@@ -116,13 +116,23 @@ func ParseMenaionDay(path string, month int, service string) ([]corpus.Unit, err
 	counts := map[string]int{}
 	lastTone := 0
 	prevKind := ""
+	seen := map[string]bool{}
 
 	for i := 0; i < len(d.Paras); i++ {
 		p := d.Paras[i]
 		text := pageRef.ReplaceAllString(p.Text(), "")
 		plain := hip.PlainString(text)
 		kind, of := "", ""
+		// Long paragraphs are Typikon instructions that merely mention a
+		// troparion ("на утрени … тропарь воскресен гласа, дважды …").
+		const maxHeading = 160
+		long := len([]rune(plain)) > maxHeading && !hasInlineHymn(p, text, hasRed)
 		switch {
+		case long:
+			if isHeading(p) {
+				prevKind = ""
+			}
+			continue
 		case reTroparion.MatchString(plain):
 			kind, of = "troparion", strings.TrimSpace(reTroparion.FindStringSubmatch(plain)[1])
 		case reKontakion.MatchString(plain):
@@ -147,21 +157,29 @@ func ParseMenaionDay(path string, month int, service string) ([]corpus.Unit, err
 			body = append(body, inline)
 		}
 		j := i + 1
-		for ; j < len(d.Paras) && !isHeading(d.Paras[j]); j++ {
-			if hasRed || len(body) == 0 || inline == "" {
-				body = append(body, pageRef.ReplaceAllString(d.Paras[j].Text(), ""))
-			}
-			if !hasRed {
-				// Without colour, a troparion is one paragraph.
-				j++
-				break
-			}
+		// A troparion or kontakion is a single paragraph in these files; what
+		// follows is the next hymn or a Typikon instruction.
+		if inline == "" && j < len(d.Paras) && !isHeading(d.Paras[j]) {
+			body = append(body, pageRef.ReplaceAllString(d.Paras[j].Text(), ""))
+			j++
 		}
 		i = j - 1
 		b := CleanText(strings.Join(body, "\n"))
 		if b == "" {
 			continue
 		}
+		// The same hymn repeated later in the service (e.g. «на благословение
+		// хлебов тропарь») is stored once.
+		// A cue ("Днесь благоволения Божия предображение: трижды:") points to
+		// a hymn given elsewhere; it is not a text.
+		if strings.HasSuffix(b, ":") && len(strings.Fields(b)) <= 10 {
+			continue
+		}
+		key := kind + "\x00" + incipitKey(b)
+		if seen[key] {
+			continue
+		}
+		seen[key] = true
 		counts[kind]++
 		lastTone = tone
 		prevKind = kind
@@ -184,6 +202,22 @@ func ParseMenaionDay(path string, month int, service string) ([]corpus.Unit, err
 		units = append(units, u)
 	}
 	return units, nil
+}
+
+// incipitKey identifies a hymn by its first words (variant readings of the
+// same hymn differ further on).
+func incipitKey(body string) string {
+	w := strings.FieldsFunc(hip.PlainString(body), func(r rune) bool { return !unicode.IsLetter(r) })
+	if len(w) > 6 {
+		w = w[:6]
+	}
+	return strings.Join(w, " ")
+}
+
+// hasInlineHymn reports whether a heading paragraph also carries the hymn.
+func hasInlineHymn(p hip.Paragraph, text string, hasRed bool) bool {
+	_, inline := splitHeading(p, text, hasRed)
+	return inline != ""
 }
 
 // splitHeading separates the rubric of a heading paragraph from text that

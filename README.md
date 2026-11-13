@@ -11,13 +11,16 @@ scripts/extract-orthlib.sh      # RAR archives -> var/orthlib/*.hip
 go build -o var/liturgy ./cmd/liturgy
 var/liturgy migrate
 var/liturgy import -v           # Chasoslov/Sluzhebnik units + Menaion troparia/kontakia
-var/liturgy plan   -date 2026-11-12                 # JSON plan
-var/liturgy render -date 2026-11-12 -mode kliros -o ninth.html
-var/liturgy serve                                   # http://127.0.0.1:8080/?date=2026-11-12&mode=laity
+var/liturgy plan   -date 2026-11-12 -service first_hour      # JSON plan
+var/liturgy render -date 2026-11-12 -service third_hour -mode kliros -o terce.html
+var/liturgy serve                                   # http://127.0.0.1:8080/?date=2026-11-12&service=sixth_hour&mode=laity
 ```
 
+Services: `first_hour`, `third_hour`, `sixth_hour`, `ninth_hour`.
 Dates are civil (Gregorian); add `-julian` for old style. Options: `-reader`
-(reader's order, no priest), `-standalone` (end with a dismissal).
+(reader's order, no priest), `-standalone` (the hour on its own: usual
+beginning and dismissal; by default hours are joined as in parish practice),
+`-typikon` (Typikon instead of parish practice where they differ).
 Church Slavonic text is Unicode; install the Ponomar Unicode or Monomakh fonts.
 
 Layout: `calendar/` (Julian dates, paschalion, day context), `internal/hip`

@@ -60,10 +60,17 @@ func cmdImport(ctx context.Context, args []string) error {
 			return err
 		}
 	}
-	if _, err := st.DeleteBook(ctx, "menaion"); err != nil {
-		return err
-	}
 	all := append(fixed, men...)
+	// Re-import replaces whole books so that renamed or vanished keys go away.
+	books := map[string]bool{}
+	for _, u := range all {
+		books[u.Book] = true
+	}
+	for b := range books {
+		if _, err := st.DeleteBook(ctx, b); err != nil {
+			return err
+		}
+	}
 	const batch = 500
 	for i := 0; i < len(all); i += batch {
 		j := min(i+batch, len(all))

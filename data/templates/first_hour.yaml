@@ -1,0 +1,41 @@
+# Час первый — по Часослову (М., 1980).
+#
+# В приходской практике 1-й час присоединён к утрене и начинается с
+# «Приидите, поклонимся»; отдельно (standalone) — с обычного начала.
+# Окончание: молитва «Христе, Свете истинный» (по приходской практике её
+# читает священник, по Типикону — чтец), в приходской практике кондак
+# «Взбранной Воеводе» (или кондак праздника / Пасхи), отпуст.
+
+service: first_hour
+nodes:
+  - {id: title, ref: ch.prime.title, heading: true}
+
+  - {id: beginning, include: usual_beginning, when: standalone}
+  # От Фомина воскресенья до отдания Пасхи всякий час предваряется
+  # «Христос воскресе» трижды.
+  - {id: paschal_opening, slot: paschal_opening, performer: reader, when: "!standalone"}
+  - {id: come, include: come_let_us_worship, when: "!standalone"}
+
+  - {id: psalms_rubric, rubric: psalms}
+  - {id: psalm_5, ref: ch.prime.psalm.5, performer: reader}
+  - {id: psalm_89, ref: ch.prime.psalm.89, performer: reader}
+  - {id: psalm_100, ref: ch.prime.psalm.100, performer: reader}
+
+  - {id: troparion, include: troparion_kontakion}
+  - {id: theotokion, ref: ch.prime.theotokion, performer: reader}
+  - {id: order_my_steps, ref: ch.prime.verse.order_my_steps, performer: reader}
+  - {id: let_my_mouth, ref: ch.prime.verse.let_my_mouth, performer: reader}
+
+  - {id: trisagion, include: trisagion_to_our_father}
+  - {id: prayer, include: hour_prayer}
+  - {id: god_be_merciful, ref: sl.exclamation.god_be_merciful, performer: priest, voice: aloud, when: priest}
+  - {id: god_be_merciful_reader, ref: common.prayers_of_holy_fathers, performer: reader, when: "!priest"}
+  - {id: amen, ref: common.amen, performer: reader}
+  - {id: prayer_of_hour_priest, ref: ch.prime.prayer, performer: priest, voice: aloud, when: "priest && !typikon"}
+  - {id: prayer_of_hour_reader, ref: ch.prime.prayer, performer: reader, when: "!priest || typikon"}
+
+  # «Взбранной Воеводе»; от двунадесятого праздника до отдания — кондак
+  # праздника, от Фомина воскресенья до отдания Пасхи — кондак Пасхи.
+  - {id: closing_kontakion, slot: closing_kontakion, performer: choir, when: "!typikon"}
+  - {id: before_dismissal, include: glory_lhm_bless, when: typikon}
+  - {id: dismissal, include: dismissal}

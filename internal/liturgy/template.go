@@ -54,6 +54,7 @@ type Node struct {
 	Repeat    int       `yaml:"repeat"`
 	When      string    `yaml:"when"` // CEL over service params
 	Heading   bool      `yaml:"heading"`
+	Include   string    `yaml:"include"` // name of a shared fragment (data/templates/_<name>.yaml)
 	Children  []Node    `yaml:"children"`
 }
 
@@ -74,10 +75,63 @@ func LoadTemplate(dataDir, service string) (*Template, error) {
 	if err := yaml.Unmarshal(b, &t); err != nil {
 		return nil, fmt.Errorf("%s: %w", path, err)
 	}
+	if t.Nodes, err = resolveIncludes(dataDir, t.Nodes, nil); err != nil {
+		return nil, fmt.Errorf("%s: %w", path, err)
+	}
 	if err := t.validate(); err != nil {
 		return nil, fmt.Errorf("%s: %w", path, err)
 	}
 	return &t, nil
+}
+
+// resolveIncludes replaces `include` nodes by a group holding the fragment's
+// nodes; ids inside the fragment are prefixed with the include node's id.
+func resolveIncludes(dataDir string, ns []Node, stack []string) ([]Node, error) {
+	out := make([]Node, 0, len(ns))
+	for _, n := range ns {
+		if n.Include != "" {
+			for _, s := range stack {
+				if s == n.Include {
+					return nil, fmt.Errorf("include cycle: %v -> %s", stack, n.Include)
+				}
+			}
+			if n.ID == "" {
+				return nil, fmt.Errorf("include %q needs an id", n.Include)
+			}
+			path := filepath.Join(dataDir, "templates", "_"+n.Include+".yaml")
+			b, err := os.ReadFile(path)
+			if err != nil {
+				return nil, err
+			}
+			var frag Template
+			if err := yaml.Unmarshal(b, &frag); err != nil {
+				return nil, fmt.Errorf("%s: %w", path, err)
+			}
+			children, err := resolveIncludes(dataDir, frag.Nodes, append(stack, n.Include))
+			if err != nil {
+				return nil, err
+			}
+			prefixIDs(children, n.ID+".")
+			n.Children, n.Include = children, ""
+			out = append(out, n)
+			continue
+		}
+		var err error
+		if n.Children, err = resolveIncludes(dataDir, n.Children, stack); err != nil {
+			return nil, err
+		}
+		out = append(out, n)
+	}
+	return out, nil
+}
+
+func prefixIDs(ns []Node, prefix string) {
+	for i := range ns {
+		if ns[i].ID != "" {
+			ns[i].ID = prefix + ns[i].ID
+		}
+		prefixIDs(ns[i].Children, prefix)
+	}
 }
 
 func (t *Template) validate() error {

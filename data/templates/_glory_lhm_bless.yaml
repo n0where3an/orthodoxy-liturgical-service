@@ -1,0 +1,5 @@
+# «Слава, и ныне», «Господи, помилуй» трижды, «Благослови» — перед отпустом.
+nodes:
+  - {id: glory_now, ref: common.glory_now, performer: reader}
+  - {id: lhm_3, ref: common.lord_have_mercy, performer: reader, repeat: 3}
+  - {id: bless, ref: common.bless, performer: reader}

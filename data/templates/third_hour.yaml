@@ -1,0 +1,34 @@
+# Час третий — по Часослову (М., 1980).
+#
+# В приходской практике 3-й час начинается возгласом «Благословен Бог наш»
+# и без отпуста переходит в 6-й час (перед литургией).
+
+service: third_hour
+nodes:
+  - {id: title, ref: ch.terce.title, heading: true}
+  - {id: beginning, include: usual_beginning}
+
+  - {id: psalms_rubric, rubric: psalms}
+  - {id: psalm_16, ref: ch.terce.psalm.16, performer: reader}
+  - {id: psalm_24, ref: ch.terce.psalm.24, performer: reader}
+  - {id: psalm_50, ref: ch.terce.psalm.50, performer: reader}
+
+  - {id: troparion, include: troparion_kontakion}
+  - {id: theotokion, ref: ch.terce.theotokion, performer: reader}
+  - {id: blessed_is_the_lord, ref: ch.terce.verse.blessed_is_the_lord, performer: reader}
+
+  - {id: trisagion, include: trisagion_to_our_father}
+  - {id: prayer, include: hour_prayer}
+  # На 3-м и 6-м часах священник возглашает «Молитвами святых отец наших».
+  - {id: closing_exclamation, ref: common.prayers_of_holy_fathers, performer: priest, voice: aloud, when: priest}
+  - {id: closing_exclamation_reader, ref: common.prayers_of_holy_fathers, performer: reader, when: "!priest"}
+  - {id: amen, ref: common.amen, performer: reader}
+  # Молитву по окончании часа читает чтец.
+  - {id: prayer_of_mardarius, ref: ch.terce.prayer_of_mardarius, performer: reader}
+
+  - id: ending_standalone
+    when: standalone
+    children:
+      - {id: before_dismissal, include: glory_lhm_bless}
+      - {id: dismissal, include: dismissal}
+  - {id: next_rubric, rubric: sixth_hour_follows, audience: kliros, when: "!standalone"}

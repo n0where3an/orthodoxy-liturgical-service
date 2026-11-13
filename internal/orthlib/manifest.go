@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
+	"unicode"
+	"unicode/utf8"
 
 	"gopkg.in/yaml.v3"
 
@@ -35,6 +38,7 @@ type ManifestUnit struct {
 	After  string         `yaml:"after"`
 	From   string         `yaml:"from"`
 	To     string         `yaml:"to"`
+	Suffix string         `yaml:"suffix"` // replaces trailing punctuation
 	Meta   map[string]any `yaml:"meta"`
 }
 
@@ -85,6 +89,13 @@ func (m *Manifest) Extract(root string) ([]corpus.Unit, error) {
 		if err != nil {
 			errs = append(errs, fmt.Errorf("%s: %w", mu.Key, err))
 			continue
+		}
+		if mu.Suffix != "" {
+			body = strings.TrimRight(body, ",.:;") + mu.Suffix
+		}
+		// A unit cut from the middle of a sentence still starts a text.
+		if r, n := utf8.DecodeRuneInString(body); n > 0 {
+			body = string(unicode.ToUpper(r)) + body[n:]
 		}
 		units = append(units, corpus.Unit{
 			ID: mu.Key, Book: mu.Book, Kind: mu.Kind, Tone: mu.Tone, Meta: mu.Meta,

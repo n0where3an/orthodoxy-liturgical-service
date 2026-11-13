@@ -1,0 +1,11 @@
+# Трисвятое по «Отче наш» с возгласом «Яко Твое есть Царство».
+nodes:
+  - {id: trisagion, ref: common.trisagion, performer: reader, repeat: 3}
+  - {id: glory_now_1, ref: common.glory_now, performer: reader}
+  - {id: trinity, ref: common.most_holy_trinity, performer: reader}
+  - {id: lhm_3, ref: common.lord_have_mercy, performer: reader, repeat: 3}
+  - {id: glory_now_2, ref: common.glory_now, performer: reader}
+  - {id: our_father, ref: common.our_father, performer: reader}
+  - {id: exclamation, ref: sl.exclamation.for_thine_is_the_kingdom, performer: priest, voice: aloud, when: priest}
+  - {id: exclamation_reader, ref: common.prayers_of_holy_fathers, performer: reader, when: "!priest"}
+  - {id: amen, ref: common.amen, performer: reader}

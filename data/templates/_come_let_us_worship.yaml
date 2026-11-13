@@ -1,0 +1,5 @@
+# «Приидите, поклонимся» трижды — начало часа, присоединённого к предыдущей службе.
+nodes:
+  - {id: come_1, ref: common.come_let_us_worship.1, performer: reader}
+  - {id: come_2, ref: common.come_let_us_worship.2, performer: reader}
+  - {id: come_3, ref: common.come_let_us_worship.3, performer: reader}

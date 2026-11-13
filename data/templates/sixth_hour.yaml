@@ -1,0 +1,37 @@
+# Час шестый — по Часослову (М., 1980).
+#
+# В приходской практике 6-й час следует сразу за 3-м (начинается с
+# «Приидите, поклонимся») и без отпуста переходит в литургию.
+
+service: sixth_hour
+nodes:
+  - {id: title, ref: ch.sext.title, heading: true}
+  - {id: beginning, include: usual_beginning, when: standalone}
+  # От Фомина воскресенья до отдания Пасхи всякий час предваряется
+  # «Христос воскресе» трижды.
+  - {id: paschal_opening, slot: paschal_opening, performer: reader, when: "!standalone"}
+  - {id: come, include: come_let_us_worship, when: "!standalone"}
+
+  - {id: psalms_rubric, rubric: psalms}
+  - {id: psalm_53, ref: ch.sext.psalm.53, performer: reader}
+  - {id: psalm_54, ref: ch.sext.psalm.54, performer: reader}
+  - {id: psalm_90, ref: ch.sext.psalm.90, performer: reader}
+
+  - {id: troparion, include: troparion_kontakion}
+  - {id: theotokion, ref: ch.sext.theotokion, performer: reader}
+  - {id: let_thy_mercies, ref: ch.sext.verse.let_thy_mercies, performer: reader}
+
+  - {id: trisagion, include: trisagion_to_our_father}
+  - {id: prayer, include: hour_prayer}
+  - {id: closing_exclamation, ref: common.prayers_of_holy_fathers, performer: priest, voice: aloud, when: priest}
+  - {id: closing_exclamation_reader, ref: common.prayers_of_holy_fathers, performer: reader, when: "!priest"}
+  - {id: amen, ref: common.amen, performer: reader}
+  # Молитва свт. Василия Великого; читает чтец.
+  - {id: prayer_of_basil, ref: ch.sext.prayer_of_basil, performer: reader}
+
+  - id: ending_standalone
+    when: standalone
+    children:
+      - {id: before_dismissal, include: glory_lhm_bless}
+      - {id: dismissal, include: dismissal}
+  - {id: next_rubric, rubric: liturgy_follows, audience: kliros, when: "!standalone"}
