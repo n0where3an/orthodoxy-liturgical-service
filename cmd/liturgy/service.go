@@ -23,20 +23,22 @@ type commonFlags struct {
 	date, service, data string
 	julian, reader      bool
 	standalone, typikon bool
+	deacon              bool
 }
 
 func (c *commonFlags) register(fs *flag.FlagSet) {
 	fs.StringVar(&c.date, "date", time.Now().Format("2006-01-02"), "date YYYY-MM-DD (civil unless -julian)")
 	fs.BoolVar(&c.julian, "julian", false, "-date is a Julian (old style) date")
-	fs.StringVar(&c.service, "service", "ninth_hour", "service: first_hour, third_hour, sixth_hour, ninth_hour")
+	fs.StringVar(&c.service, "service", "ninth_hour", "service: vespers, first_hour, third_hour, sixth_hour, ninth_hour")
 	fs.StringVar(&c.data, "data", "data", "data directory (templates, rules, i18n)")
 	fs.BoolVar(&c.reader, "reader", false, "reader's order, without a priest")
 	fs.BoolVar(&c.standalone, "standalone", false, "serve the hour on its own: usual beginning and dismissal")
 	fs.BoolVar(&c.typikon, "typikon", false, "follow the Typikon where parish practice differs")
+	fs.BoolVar(&c.deacon, "deacon", false, "served with a deacon")
 }
 
 func (c *commonFlags) params() liturgy.Params {
-	return liturgy.Params{Priest: !c.reader, Standalone: c.standalone, Typikon: c.typikon}
+	return liturgy.Params{Priest: !c.reader, Standalone: c.standalone, Typikon: c.typikon, Deacon: c.deacon}
 }
 
 func parseDate(s string, julian bool) (calendar.JDate, error) {
@@ -101,7 +103,8 @@ func cmdRender(ctx context.Context, args []string) error {
 	var c commonFlags
 	c.register(fs)
 	mode := fs.String("mode", "laity", "display mode: laity | kliros")
-	lang := fs.String("lang", "cu", "language")
+	lang := fs.String("lang", "cu", "language (cu, en)")
+	lang2 := fs.String("lang2", "", "second language for parallel output")
 	out := fs.String("o", "", "output file (default stdout)")
 	fs.Parse(args)
 	d, err := parseDate(c.date, c.julian)
@@ -115,7 +118,7 @@ func cmdRender(ctx context.Context, args []string) error {
 	defer closeFn()
 	var buf bytes.Buffer
 	_, err = g.Generate(ctx, liturgy.Request{
-		Date: d, Service: c.service, Lang: *lang, Mode: *mode,
+		Date: d, Service: c.service, Lang: *lang, Lang2: *lang2, Mode: *mode,
 		Params: c.params(),
 	}, &buf)
 	if err != nil {
@@ -163,10 +166,11 @@ func cmdServe(ctx context.Context, args []string) error {
 		reader, _ := strconv.ParseBool(q.Get("reader"))
 		standalone, _ := strconv.ParseBool(q.Get("standalone"))
 		typikon, _ := strconv.ParseBool(q.Get("typikon"))
+		deacon, _ := strconv.ParseBool(q.Get("deacon"))
 		var buf bytes.Buffer
 		_, err = g.Generate(r.Context(), liturgy.Request{
-			Date: d, Service: service, Lang: lang, Mode: q.Get("mode"),
-			Params: liturgy.Params{Priest: !reader, Standalone: standalone, Typikon: typikon},
+			Date: d, Service: service, Lang: lang, Lang2: q.Get("lang2"), Mode: q.Get("mode"),
+			Params: liturgy.Params{Priest: !reader, Standalone: standalone, Typikon: typikon, Deacon: deacon},
 		}, &buf)
 		if err != nil {
 			status := http.StatusInternalServerError

@@ -1,0 +1,50 @@
+# English interface strings. Texts missing in English fall back to Church
+# Slavonic (marked on the page).
+lang: en
+name: English
+hip: false
+fallback: [cu]
+
+performers:
+  priest: "Priest:"
+  deacon: "Deacon:"
+  reader: "Reader:"
+  choir: "Choir:"
+  people: "People:"
+
+repeat:
+  3: "(thrice)"
+  12: "(12 times)"
+  40: "(40 times)"
+
+rubrics:
+  psalms: "Then the Psalms:"
+  and_again: "And again:"
+  troparion_of_day: "Troparion of the day:"
+  kontakion_of_day: "Kontakion of the day:"
+  no_dismissal: "There is no dismissal: the priest begins Vespers."
+  no_dismissal_laity: "Here Vespers begins."
+  sixth_hour_follows: "And straightway the Sixth Hour."
+  liturgy_follows: "Then the beginning of the Divine Liturgy."
+  kathisma: "Then the appointed kathisma of the Psalter."
+  lord_i_call: "“Lord, I have cried…” in the tone of the stichera. Stichera on 6."
+  prokeimenon: "Prokeimenon of the day."
+  aposticha: "The aposticha."
+  troparia: "Troparion of the day. Glory…, Now & ever…: Theotokion."
+
+titles:
+  lamp_prayers: "the prayers of the lamp-lighting"
+  psalm_103: "the reading of the Introductory Psalm"
+  head_bowing_prayer: "the prayer at the bowing of heads"
+  to_thee_o_lord: "the singing of “To Thee, O Lord”"
+  secret_prayers: "the secret prayers"
+
+placeholders:
+  during: "During DURING, the priest secretly reads TITLE."
+  generic: "The priest secretly reads TITLE."
+
+ui:
+  julian: "O.S."
+  tone: "Tone"
+  mode: "mode"
+  rule: "rule"

@@ -158,3 +158,68 @@ func nullable(s string) any {
 	}
 	return s
 }
+
+// UnitTones returns the tones of the given units (0 when none).
+func (s *Store) UnitTones(ctx context.Context, ids []string) (map[string]int, error) {
+	rows, err := s.Pool.Query(ctx, `SELECT id, coalesce(tone, 0) FROM text_unit WHERE id = ANY($1)`, ids)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	out := map[string]int{}
+	for rows.Next() {
+		var id string
+		var tone int16
+		if err := rows.Scan(&id, &tone); err != nil {
+			return nil, err
+		}
+		out[id] = int(tone)
+	}
+	return out, rows.Err()
+}
+
+// UpsertTranslations stores translations of existing units (Book/Kind of the
+// given units are ignored). Units unknown to the corpus are skipped and
+// returned.
+func (s *Store) UpsertTranslations(ctx context.Context, units []Unit) (skipped []string, err error) {
+	ids := make([]string, len(units))
+	for i, u := range units {
+		ids[i] = u.ID
+	}
+	rows, err := s.Pool.Query(ctx, `SELECT id FROM text_unit WHERE id = ANY($1)`, ids)
+	if err != nil {
+		return nil, err
+	}
+	known, err := pgx.CollectRows(rows, pgx.RowTo[string])
+	if err != nil {
+		return nil, err
+	}
+	have := map[string]bool{}
+	for _, id := range known {
+		have[id] = true
+	}
+	err = pgx.BeginFunc(ctx, s.Pool, func(tx pgx.Tx) error {
+		b := &pgx.Batch{}
+		for _, u := range units {
+			if !have[u.ID] {
+				skipped = append(skipped, u.ID)
+				continue
+			}
+			version := u.Version
+			if version == "" {
+				version = "default"
+			}
+			inc := u.Incipit
+			if inc == "" {
+				inc = Incipit(u.Body)
+			}
+			b.Queue(`INSERT INTO text_translation (unit_id, lang, version, body, incipit, source_id)
+				VALUES ($1, $2, $3, $4, $5, $6)
+				ON CONFLICT (unit_id, lang, version) DO UPDATE SET body = EXCLUDED.body,
+					incipit = EXCLUDED.incipit, source_id = EXCLUDED.source_id`,
+				u.ID, u.Lang, version, u.Body, inc, u.SourceID)
+		}
+		return tx.SendBatch(ctx, b).Close()
+	})
+	return skipped, err
+}

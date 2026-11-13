@@ -32,6 +32,14 @@ func (fakeCorpus) ListIDs(_ context.Context, prefix string) ([]string, error) {
 	return []string{prefix + ".troparion.1", prefix + ".troparion.2", prefix + ".kontakion.1"}, nil
 }
 
+func (fakeCorpus) UnitTones(_ context.Context, ids []string) (map[string]int, error) {
+	out := map[string]int{}
+	for _, id := range ids {
+		out[id] = 4
+	}
+	return out, nil
+}
+
 func (fakeCorpus) Load(_ context.Context, lang string, ids []string) (map[string]corpus.Text, error) {
 	out := map[string]corpus.Text{}
 	for _, id := range ids {
@@ -222,7 +230,24 @@ func TestTemplateRefsInManifest(t *testing.T) {
 	for _, u := range m.Units {
 		keys[u.Key] = true
 	}
-	for _, svc := range []string{"first_hour", "third_hour", "sixth_hour", "ninth_hour"} {
+	// Texts typed in for the project.
+	files, _ := filepath.Glob(filepath.Join(dataDir(), "texts", "*.yaml"))
+	for _, f := range files {
+		b, err := os.ReadFile(f)
+		if err != nil {
+			t.Fatal(err)
+		}
+		var mt struct {
+			Units []struct{ Key string } `yaml:"units"`
+		}
+		if err := yaml.Unmarshal(b, &mt); err != nil {
+			t.Fatal(err)
+		}
+		for _, u := range mt.Units {
+			keys[u.Key] = true
+		}
+	}
+	for _, svc := range []string{"first_hour", "third_hour", "sixth_hour", "ninth_hour", "vespers"} {
 		tpl, err := LoadTemplate(dataDir(), svc)
 		if err != nil {
 			t.Fatal(err)

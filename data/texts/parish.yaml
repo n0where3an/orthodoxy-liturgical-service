@@ -1,0 +1,60 @@
+# Texts typed in for this project (HIP), where the available sources give
+# only an outdated or monastic wording: petitions of the litanies in the
+# current parish usage of the Russian Church, and a few short exclamations.
+# Wording follows orthlib texts (Требник, молебны, Служебник) with the
+# parish forms; to be checked against the current Служебник.
+#
+# The bishop's name is left as «(имярек)»; the Patriarch is named.
+
+source:
+  id: manual.parish
+  title: Тексты, внесённые вручную (приходская редакция)
+  license: public-domain-text
+  note: "Liturgical texts typed for this project from current usage; verify against the current Служебник."
+
+units:
+  # --- Великая ектения: прошения о священноначалии и о стране ---
+  - key: lit.great.hierarchy
+    book: sluzhebnik
+    kind: petition
+    hip: "W= вели'комъ господи'нjь и= _о=тцjь` на'шемъ ст~jь'йшемъ патрiа'рсjь Кvрi'ллjь, и= w= господи'нjь на'шемъ преwсвяще'ннjьйшемъ митрополi'тjь (и=ли` а=рхiепi'скопjь, и=ли` _е=пi'скопjь) (и='м\\ркъ), честнjь'мъ пресвv'терствjь, во хр\\стjь` дiа'констве, w= все'мъ при'чтjь и= лю'дехъ, гд\\су помо'лимся."
+  - key: lit.great.country
+    book: sluzhebnik
+    kind: petition
+    hip: "W= богохрани'мjьй странjь` на'шей, властjь'хъ и= во'инствjь _е=я`, гд\\су помо'лимся."
+
+  # --- Сугубая ектения ---
+  - key: lit.augmented.hierarchy
+    book: sluzhebnik
+    kind: petition
+    hip: "_Е=ще` мо'лимся w= вели'комъ господи'нjь и= _о=тцjь` на'шемъ ст~jь'йшемъ патрiа'рсjь Кvрi'ллjь, и= w= господи'нjь на'шемъ преwсвяще'ннjьйшемъ митрополi'тjь (и=ли` а=рхiепi'скопjь, и=ли` _е=пi'скопjь) (и='м\\ркъ), и= все'й во хр\\стjь` бра'тiи на'шей."
+  - key: lit.augmented.country
+    book: sluzhebnik
+    kind: petition
+    hip: "_Е=ще` мо'лимся w= богохрани'мjьй странjь` на'шей, властjь'хъ и= во'инствjь _е=я`, да ти'хое и= безмо'лвное житiе` поживе'мъ во вся'комъ бл~гоче'стiи и= чт\\сотjь`."
+  - key: lit.augmented.brethren
+    book: sluzhebnik
+    kind: petition
+    hip: "_Е=ще` мо'лимся w= бра'тiяхъ на'шихъ, свяще'нницjьхъ, свяще'нномона'сjьхъ, и= все'мъ во хр\\стjь` бра'тствjь на'шемъ."
+  - key: lit.augmented.departed
+    book: sluzhebnik
+    kind: petition
+    hip: "_Е=ще` мо'лимся w= бл~же'нныхъ и= приснопа'мятныхъ ст~jь'йшихъ патрiа'рсехъ правосла'вныхъ, и= созда'телехъ ст~а'гw хра'ма сегw`, и= w= всjь'хъ преждепочи'вшихъ _о=ц~jь'хъ и= бра'тiяхъ, здjь` лежа'щихъ и= повсю'ду правосла'вныхъ."
+  - key: lit.augmented.mercy
+    book: sluzhebnik
+    kind: petition
+    hip: "_Е=ще` мо'лимся w= ми'лости, жи'зни, ми'рjь, здра'вiи, спасе'нiи, посjьще'нiи, проще'нiи и= w=ставле'нiи грjьхw'въ рабw'въ бж~iихъ, бра'тiи ст~а'гw хра'ма сегw`."
+
+  # --- Возгласы и ответы ---
+  - key: lit.wisdom
+    book: sluzhebnik
+    kind: exclamation
+    hip: "Прему'дрость."
+  - key: lit.let_us_attend
+    book: sluzhebnik
+    kind: exclamation
+    hip: "Во'нмемъ."
+  - key: lit.confirm_the_faith
+    book: sluzhebnik
+    kind: response
+    hip: "О_у=тверди`, бж~е, ст~у'ю правосла'вную вjь'ру правосла'вныхъ хрiстiа'нъ во вjь'къ вjь'ка."

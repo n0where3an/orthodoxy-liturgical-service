@@ -1,0 +1,94 @@
+# Rules for vespers. Implemented: daily vespers (вседневная) on weekdays of
+# the ordinary period, as the Menaion and Octoechos supply them. Great
+# vespers (Sundays, feasts, polyeleos and vigil saints) are recognised and
+# reported as not implemented yet.
+
+- id: vespers.sunday
+  service: vespers
+  priority: 300
+  when: weekday == 0
+  unsupported: "Воскресная (великая) вечерня ещё не реализована"
+
+- id: vespers.triodion
+  service: vespers
+  priority: 250
+  when: period != "ordinary"
+  unsupported: "Вечерня в дни Триоди ещё не реализована"
+
+- id: vespers.feast_day
+  service: vespers
+  priority: 200
+  when: feast_day
+  unsupported: "Великая вечерня двунадесятого праздника ещё не реализована"
+
+- id: vespers.great
+  service: vespers
+  priority: 150
+  # The Menaion service has an entrance, readings or a litiya.
+  when: menaion_great_vespers
+  unsupported: "Великая вечерня (праздник, полиелей, бдение) ещё не реализована"
+
+- id: vespers.daily
+  service: vespers
+  priority: 10
+  slots:
+    lord_i_call: {from: vespers_lic}
+    lord_i_call_glory_now: {from: vespers_glory_now, section: lic}
+    prokeimenon: {from: unit, refs: ["ch.vespers.prokeimenon.{day}"]}
+    prokeimenon_verse: {from: unit, refs: ["ch.vespers.prokeimenon.{day}.verse"]}
+    aposticha: {from: vespers_aposticha}
+    aposticha_glory_now: {from: vespers_glory_now, section: aposticha}
+    troparia: {from: vespers_troparia}
+
+# --- Kathisma at vespers (Устав о Псалтири, Следованная Псалтирь) ---
+# The day of vespers is the next day: "в понедельник на вечерни" is the
+# vespers of Tuesday. Winter (from the apodosis of the Exaltation to Dec 19,
+# and from Jan 15): kathisma 18 every weekday evening. Otherwise the
+# ordinary order: Mon 6, Tue 9, Wed 12, Thu 15, Fri 18 (evenings).
+# On Sunday evening the Psalter is not read.
+
+- id: vespers.kathisma.sunday_evening
+  slot: kathisma
+  service: vespers
+  priority: 100
+  when: weekday == 1
+  fill: {from: none}
+- id: vespers.kathisma.winter
+  slot: kathisma
+  service: vespers
+  priority: 90
+  when: >-
+    weekday >= 2 && (
+      (eve_month == 9 && eve_day >= 22) || eve_month == 10 || eve_month == 11 ||
+      (eve_month == 12 && eve_day <= 19) || (eve_month == 1 && eve_day >= 15) || eve_month == 2)
+  fill: {from: unit, refs: [ps.kathisma.18.1, ps.kathisma.18.2, ps.kathisma.18.3]}
+- id: vespers.kathisma.tue
+  slot: kathisma
+  service: vespers
+  priority: 50
+  when: weekday == 2
+  fill: {from: unit, refs: [ps.kathisma.6.1, ps.kathisma.6.2, ps.kathisma.6.3]}
+- id: vespers.kathisma.wed
+  slot: kathisma
+  service: vespers
+  priority: 50
+  when: weekday == 3
+  fill: {from: unit, refs: [ps.kathisma.9.1, ps.kathisma.9.2, ps.kathisma.9.3]}
+- id: vespers.kathisma.thu
+  slot: kathisma
+  service: vespers
+  priority: 50
+  when: weekday == 4
+  fill: {from: unit, refs: [ps.kathisma.12.1, ps.kathisma.12.2, ps.kathisma.12.3]}
+- id: vespers.kathisma.fri
+  slot: kathisma
+  service: vespers
+  priority: 50
+  when: weekday == 5
+  fill: {from: unit, refs: [ps.kathisma.15.1, ps.kathisma.15.2, ps.kathisma.15.3]}
+- id: vespers.kathisma.sat
+  slot: kathisma
+  service: vespers
+  priority: 50
+  when: weekday == 6
+  fill: {from: unit, refs: [ps.kathisma.18.1, ps.kathisma.18.2, ps.kathisma.18.3]}

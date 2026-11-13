@@ -10,17 +10,21 @@ cp .env.example .env            # set DATABASE_URL, ORTHLIB_DIR
 scripts/extract-orthlib.sh      # RAR archives -> var/orthlib/*.hip
 go build -o var/liturgy ./cmd/liturgy
 var/liturgy migrate
-var/liturgy import -v           # Chasoslov/Sluzhebnik units + Menaion troparia/kontakia
+scripts/extract-english.sh      # Coverdale PDF -> var/english/coverdale.txt (optional)
+var/liturgy import -v           # Slavonic corpus; English if ENGLISH_MD_DIR / coverdale.txt are present
 var/liturgy plan   -date 2026-11-12 -service first_hour      # JSON plan
 var/liturgy render -date 2026-11-12 -service third_hour -mode kliros -o terce.html
 var/liturgy serve                                   # http://127.0.0.1:8080/?date=2026-11-12&service=sixth_hour&mode=laity
 ```
 
-Services: `first_hour`, `third_hour`, `sixth_hour`, `ninth_hour`.
+Services: `vespers` (daily), `first_hour`, `third_hour`, `sixth_hour`, `ninth_hour`.
 Dates are civil (Gregorian); add `-julian` for old style. Options: `-reader`
 (reader's order, no priest), `-standalone` (the hour on its own: usual
 beginning and dismissal; by default hours are joined as in parish practice),
-`-typikon` (Typikon instead of parish practice where they differ).
+`-typikon` (Typikon instead of parish practice where they differ), `-deacon`
+(litanies by a deacon).
+Languages: `-lang cu|en`, `-lang2 en` for parallel output. Texts not yet
+translated fall back to Church Slavonic (marked on the page).
 Church Slavonic text is Unicode; install the Ponomar Unicode or Monomakh fonts.
 
 Layout: `calendar/` (Julian dates, paschalion, day context), `internal/hip`

@@ -201,7 +201,162 @@ func ParseMenaionDay(path string, month int, service string) ([]corpus.Unit, err
 		}
 		units = append(units, u)
 	}
+	if hasRed {
+		units = append(units, parseMenaionVespers(d, prefix, path)...)
+	}
 	return units, nil
+}
+
+var (
+	reGreatVespers = regexp.MustCompile(`вход|паремии|чтения|на велицей вечерни|на малей вечерни|лития|литию`)
+	reVespStop     = regexp.MustCompile(`^(тропарь|на утрени|канон|на повечерии|на полунощнице|на велицей вечерни)`)
+	reInyStichery  = regexp.MustCompile(`^ины стихиры`)
+	reGlory        = regexp.MustCompile(`^слава`)
+	reAndNow       = regexp.MustCompile(`^и ныне`)
+	reSingOn       = regexp.MustCompile(`на ([ѕдгиз])\x{0483}`)
+	reCrossTheot   = regexp.MustCompile(`^(или )?крстобгородичен`)
+	reTheotokion   = regexp.MustCompile(`бгородичен`)
+)
+
+// parseMenaionVespers extracts the daily-vespers hymns of a Menaion service:
+// stichera at «Господи, воззвах» with «Слава» / «И ныне», and the aposticha.
+// A service that has an entrance, readings or a litiya is marked
+// "<prefix>.vespers.great" (great vespers, not handled by daily vespers).
+func parseMenaionVespers(d *Doc, prefix, path string) []corpus.Unit {
+	var units []corpus.Unit
+	seen := map[string]bool{}
+	add := func(key, kind, heading, body string) {
+		body = CleanText(body)
+		if body == "" || seen[key] {
+			return
+		}
+		seen[key] = true
+		units = append(units, corpus.Unit{
+			ID: prefix + ".vespers." + key, Book: "menaion", Kind: kind, Tone: toneOf(heading),
+			Podoben: podobenOf(heading), Lang: "cu", Body: body, SourceID: "orthlib.mineya",
+			Meta: map[string]any{"heading": CleanText(heading), "file": filepath.Base(path)},
+		})
+	}
+	section, part, heading := "", "", ""
+	nSt := map[string]int{}
+	pendingVerse := ""
+	great := false
+	octoechosAposticha := false
+	for _, p := range d.Paras {
+		text := CleanText(pageRef.ReplaceAllString(p.Text(), ""))
+		plain := hip.PlainString(text)
+		red := hip.PlainString(p.RedPrefix())
+		isHead := len([]rune(red)) > 3
+		if isHead {
+			switch {
+			case reVespStop.MatchString(plain) && section != "":
+				goto done
+			case reGreatVespers.MatchString(red):
+				great = true
+			}
+			switch {
+			case reLIC.MatchString(plain):
+				section, part, heading = "lic", "sticheron", text
+				if m := reSingOn.FindStringSubmatch(text); m != nil && !seen["lic.on"] {
+					seen["lic.on"] = true
+					// "стихиры святых на ѕ҃": the Menaion stichera fill all the places.
+					units = append(units, corpus.Unit{
+						ID: fmt.Sprintf("%s.vespers.lic.on.%d", prefix, toneLetters[[]rune(m[1])[0]]), Book: "menaion",
+						Kind: "marker", Lang: "cu", Body: CleanText(text), SourceID: "orthlib.mineya",
+					})
+				}
+			case strings.HasPrefix(plain, "на стиховне"):
+				switch {
+				case section == "aposticha" && octoechosAposticha:
+					// Stichera offered instead of the Octoechos ones
+					// ("А идеже храм святых…"): kept apart, not used by default.
+					part, heading = "alt_sticheron", text
+				case strings.Contains(plain, "слава"):
+					// "На стиховне Октоиха. Слава, святых, глас 6:"
+					part, heading = "glory", text
+					octoechosAposticha = strings.Contains(plain, "октоиха")
+				case strings.Contains(plain, "октоиха"):
+					part, octoechosAposticha = "", true
+				default:
+					part, heading = "sticheron", text
+				}
+				section = "aposticha"
+			case section == "":
+			case reInyStichery.MatchString(plain):
+				part, heading = "sticheron", text
+			case strings.HasPrefix(plain, "подобен"):
+				heading += " " + text
+			case reVerse.MatchString(plain):
+				// "Стих: С|лыши, дщи…" — the verse itself, drop cap inside.
+				pendingVerse = verseText(text)
+			case reGlory.MatchString(plain) && strings.Contains(plain[:min(len(plain), 30)], "и ныне"):
+				heading = text
+				if reTheotokion.MatchString(plain) {
+					part = "theotokion_glory_now"
+				} else {
+					part = "glory_now"
+				}
+			case reGlory.MatchString(plain):
+				part, heading = "glory", text
+			case reAndNow.MatchString(plain):
+				part, heading = "theotokion", text
+				// A cue ("И ныне, Богородице, Ты еси лоза истинная:") points
+				// to a text given elsewhere; the Octoechos one is used instead.
+				if rest := strings.TrimSpace(strings.TrimPrefix(plain, "и ныне")); strings.HasSuffix(rest, ":") && len(strings.Fields(rest)) <= 10 &&
+					!strings.Contains(rest, "бгородичен") && !strings.Contains(rest, "подобен") && !strings.Contains(rest, "под:") {
+					part = ""
+				}
+			case reCrossTheot.MatchString(plain):
+				part, heading = "cross_theotokion", text
+			case reTheotokion.MatchString(plain) && part == "theotokion":
+				// "Богородичен:" after a theotokion heading: same part.
+			default:
+				// Author lines ("Феофаново:") keep the part; other rubrics end
+				// a run of stichera.
+				if section != "" && part == "sticheron" && len(strings.Fields(plain)) > 3 {
+					part = ""
+				}
+			}
+			// A heading that also carries the hymn (red drop cap inside).
+			if _, inline := splitHeading(p, text, true); inline == "" {
+				continue
+			} else {
+				text = inline
+			}
+		}
+		if section == "" || part == "" {
+			continue
+		}
+		switch part {
+		case "alt_sticheron":
+			nSt["alt"]++
+			add(fmt.Sprintf("%s.alt.sticheron.%d", section, nSt["alt"]), "sticheron", heading, text)
+		case "sticheron":
+			nSt[section]++
+			n := nSt[section]
+			if section == "aposticha" && pendingVerse != "" {
+				add(fmt.Sprintf("%s.verse.%d", section, n), "verse", "", pendingVerse)
+			}
+			add(fmt.Sprintf("%s.sticheron.%d", section, n), "sticheron", heading, text)
+			pendingVerse = ""
+		case "theotokion_glory_now":
+			add(section+".theotokion", "theotokion", heading, text)
+			units[len(units)-1].Meta["glory_now"] = true
+			part = ""
+		default:
+			kind := map[string]string{"glory": "sticheron", "glory_now": "sticheron", "theotokion": "theotokion", "cross_theotokion": "theotokion"}[part]
+			add(section+"."+part, kind, heading, text)
+			part = ""
+		}
+	}
+done:
+	if great {
+		units = append(units, corpus.Unit{
+			ID: prefix + ".vespers.great", Book: "menaion", Kind: "marker", Lang: "cu",
+			Body: "great vespers", SourceID: "orthlib.mineya",
+		})
+	}
+	return units
 }
 
 // incipitKey identifies a hymn by its first words (variant readings of the

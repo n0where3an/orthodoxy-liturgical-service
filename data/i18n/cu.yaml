@@ -26,6 +26,25 @@ rubrics:
   sixth_hour_follows: "И= а='бiе ча'съ s~-й."
   liturgy_follows: "Та'же нача'ло бж\\ственныя лiтурги'и."
 
+  kathisma: "Та'же стихосло'вiе _псалти'ри, каfi'сма рядова'я."
+  lord_i_call: "Гд\\си, воззва'хъ, во гла'съ стiхи'ръ. Стiхи^ры на s~."
+  prokeimenon: "Прокi'менъ дне`."
+  aposticha: "На стiхо'внjь стiхи^ры."
+  troparia: "Тропа'рь дне`. Сла'ва, и= ны'нjь, бг~оро'диченъ."
+
+# Titles of prayers and parts (HIP, used in placeholder rubrics).
+titles:
+  lamp_prayers: "свjьти'льничныя мл~твы"
+  psalm_103: "чте'нiя предначина'тельнагw _псалма`"
+  head_bowing_prayer: "мл~тву главопреклоне'нiя"
+  to_thee_o_lord: "пjь'нiя: Тебjь`, гд\\си"
+  secret_prayers: "та'йныя мл~твы"
+
+# Placeholder rubrics for secret prayers (HIP; TITLE, DURING substituted).
+placeholders:
+  during: "Во вре'мя DURING сщ~е'нникъ та'йнw чте'тъ TITLE."
+  generic: "Сщ~е'нникъ та'йнw чте'тъ TITLE."
+
 ui:
   julian: "ст. ст."
   tone: "глас"

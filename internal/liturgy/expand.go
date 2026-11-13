@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"sort"
 	"strconv"
+	"strings"
 
 	"cel.dev/cel-go/cel"
 	"gopkg.in/yaml.v3"
@@ -36,17 +37,44 @@ type RNode struct {
 	Body      string
 	Incipit   string
 	Repeat    int
+	// DuringTitle: the title key of the node this one is said during.
+	DuringTitle string
+	// Lang of the text (differs from the requested one on fallback).
+	Lang string
 }
 
 // Lang holds the localised strings of one language. Strings in the YAML
 // file are written in HIP for Church Slavonic and converted on load.
 type Lang struct {
-	Code       string               `yaml:"lang"`
+	Code string `yaml:"lang"`
+	Name string `yaml:"name"`
+	// Fallback: languages to take a text from when it is not translated.
+	Fallback   []string             `yaml:"fallback"`
 	HIP        bool                 `yaml:"hip"`
 	Performers map[Performer]string `yaml:"performers"`
 	Repeat     map[int]string       `yaml:"repeat"`
 	Rubrics    map[string]string    `yaml:"rubrics"`
 	UI         map[string]string    `yaml:"ui"`
+	// Titles of prayers and parts (HIP, kept raw), and placeholder rubrics
+	// with "TITLE" / "DURING" to substitute before conversion.
+	Titles       map[string]string `yaml:"titles"`
+	Placeholders map[string]string `yaml:"placeholders"`
+}
+
+// Placeholder builds the rubric standing for secret prayers.
+func (l *Lang) Placeholder(title, during string) string {
+	tpl, t := l.Placeholders["generic"], l.Titles[title]
+	if d := l.Titles[during]; d != "" && l.Placeholders["during"] != "" {
+		tpl = strings.ReplaceAll(l.Placeholders["during"], "DURING", d)
+	}
+	if t == "" {
+		t = l.Titles["secret_prayers"]
+	}
+	s := strings.ReplaceAll(tpl, "TITLE", t)
+	if l.HIP {
+		return hip.ToUnicode(s)
+	}
+	return s
 }
 
 // LoadLang reads data/i18n/<code>.yaml.
@@ -87,7 +115,7 @@ func (l *Lang) RepeatLabel(n int) string {
 
 func paramEnv() (*cel.Env, error) {
 	return cel.NewEnv(cel.Variable("priest", cel.BoolType), cel.Variable("standalone", cel.BoolType),
-		cel.Variable("typikon", cel.BoolType))
+		cel.Variable("typikon", cel.BoolType), cel.Variable("deacon", cel.BoolType))
 }
 
 // Expand fills the template with the plan's slots and the loaded texts.
@@ -96,11 +124,32 @@ func Expand(t *Template, plan *Plan, texts map[string]corpus.Text, lang *Lang) (
 	if err != nil {
 		return nil, err
 	}
-	vars := map[string]any{"priest": plan.Params.Priest, "standalone": plan.Params.Standalone, "typikon": plan.Params.Typikon}
+	vars := map[string]any{"priest": plan.Params.Priest, "standalone": plan.Params.Standalone, "typikon": plan.Params.Typikon,
+		"deacon": plan.Params.Deacon}
 	var out []RNode
 	missing := map[string]bool{}
+	titles := map[string]string{}
+	var index func([]Node)
+	index = func(ns []Node) {
+		for _, n := range ns {
+			if n.ID != "" {
+				titles[n.ID] = n.Title
+			}
+			index(n.Children)
+		}
+	}
+	index(t.Nodes)
+	performer := func(p Performer) Performer {
+		if p == Litanist {
+			if plan.Params.Deacon {
+				return Deacon
+			}
+			return Priest
+		}
+		return p
+	}
 
-	text := func(n Node, ref string, repeat int) {
+	text := func(n Node, ref string, repeat int, perf Performer) {
 		tx, ok := texts[ref]
 		if !ok {
 			missing[ref] = true
@@ -113,9 +162,13 @@ func Expand(t *Template, plan *Plan, texts map[string]corpus.Text, lang *Lang) (
 		if repeat == 0 {
 			repeat = n.Repeat
 		}
+		if perf == "" {
+			perf = n.Performer
+		}
 		out = append(out, RNode{
-			ID: n.ID, Kind: kind, Performer: n.Performer, Voice: n.Voice, Title: n.Title,
-			During: n.During, UnitID: ref, Body: tx.Body, Incipit: tx.Incipit, Repeat: repeat,
+			ID: n.ID, Kind: kind, Performer: performer(perf), Voice: n.Voice, Title: n.Title,
+			During: n.During, DuringTitle: titles[n.During], UnitID: ref, Body: tx.Body, Incipit: tx.Incipit, Repeat: repeat,
+			Lang: tx.Lang,
 		})
 	}
 
@@ -133,22 +186,31 @@ func Expand(t *Template, plan *Plan, texts map[string]corpus.Text, lang *Lang) (
 			}
 			switch {
 			case n.Ref != "":
-				text(n, n.Ref, 0)
+				text(n, n.Ref, 0, "")
 			case n.Slot != "":
 				items, ok := plan.Slots[n.Slot]
 				if !ok {
 					return fmt.Errorf("plan has no slot %q", n.Slot)
 				}
+				if n.Index > 0 {
+					if n.Index > len(items) {
+						continue
+					}
+					items = items[n.Index-1 : n.Index]
+				}
 				for _, it := range items {
-					text(n, it.Ref, it.Repeat)
+					text(n, it.Ref, it.Repeat, it.Performer)
 				}
 			case n.Rubric != "":
 				s, ok := lang.Rubrics[n.Rubric]
 				if !ok {
 					return fmt.Errorf("no rubric %q for language %s", n.Rubric, lang.Code)
 				}
-				out = append(out, RNode{ID: n.ID, Kind: KindRubric, Audience: n.Audience, Body: s, Performer: n.Performer})
+				out = append(out, RNode{ID: n.ID, Kind: KindRubric, Audience: n.Audience, Body: s, Performer: performer(n.Performer)})
 			default:
+				if n.IfSlot != "" && len(plan.Slots[n.IfSlot]) == 0 {
+					continue
+				}
 				if err := walk(n.Children); err != nil {
 					return err
 				}

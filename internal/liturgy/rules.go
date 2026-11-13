@@ -38,8 +38,11 @@ type Rule struct {
 
 // SlotSelector says where the texts of a slot come from.
 type SlotSelector struct {
-	From string `yaml:"from"` // menaion | unit | feast | feast_and_menaion | none
-	Kind string `yaml:"kind"` // troparion, kontakion, ...
+	// menaion | unit | feast | feast_and_menaion | none |
+	// vespers_lic | vespers_glory_now | vespers_aposticha | vespers_troparia
+	From    string `yaml:"from"`
+	Section string `yaml:"section"` // vespers_glory_now: lic | aposticha
+	Kind    string `yaml:"kind"`    // troparion, kontakion, ...
 	// AlternateByHour: troparia and kontakia at the hours are said
 	// alternately (Typikon). With n texts available, hour k (1st, 3rd, 6th,
 	// 9th = 1..4) takes text ((k-1) mod n) + 1.
@@ -69,6 +72,10 @@ func dayEnv() (*cel.Env, error) {
 		cel.Variable("menaion_kontakia", cel.IntType),
 		cel.Variable("feast", cel.StringType), // twelve-feast id from the feast to its apodosis, or ""
 		cel.Variable("feast_day", cel.BoolType),
+		// civil evening on which the vespers of the day are served (day − 1)
+		cel.Variable("eve_month", cel.IntType),
+		cel.Variable("eve_day", cel.IntType),
+		cel.Variable("menaion_great_vespers", cel.BoolType),
 	)
 }
 
@@ -132,25 +139,33 @@ type Facts struct {
 	Day     calendar.DayContext
 	Menaion map[string][]string // kind -> unit ids of the day, in order
 	Feast   *Feast              // twelve feast whose period (feast..apodosis) contains the day
+	// Octoechos daily-vespers units of the day's tone and weekday.
+	Octoechos map[string][]string
+	// Tones of Menaion troparia (for the dismissal theotokion).
+	Tones map[string]int
 }
 
 func (f Facts) vars() map[string]any {
+	eve := f.Day.Date.Eve()
 	feast, feastDay := "", false
 	if f.Feast != nil {
 		feast, feastDay = f.Feast.ID, f.Feast.IsFeastDay(f.Day)
 	}
 	return map[string]any{
-		"feast":            feast,
-		"feast_day":        feastDay,
-		"weekday":          int64(f.Day.Weekday),
-		"period":           f.Day.Period.String(),
-		"pascha_offset":    int64(f.Day.PaschaOffset),
-		"bright_week":      f.Day.BrightWeek,
-		"tone":             int64(f.Day.Tone),
-		"month":            int64(f.Day.Menaion.Month),
-		"day":              int64(f.Day.Menaion.Day),
-		"menaion_troparia": int64(len(f.Menaion["troparion"])),
-		"menaion_kontakia": int64(len(f.Menaion["kontakion"])),
+		"feast":                 feast,
+		"feast_day":             feastDay,
+		"eve_month":             int64(eve.Month()),
+		"eve_day":               int64(eve.Day()),
+		"menaion_great_vespers": len(f.Menaion["vespers.great"]) > 0,
+		"weekday":               int64(f.Day.Weekday),
+		"period":                f.Day.Period.String(),
+		"pascha_offset":         int64(f.Day.PaschaOffset),
+		"bright_week":           f.Day.BrightWeek,
+		"tone":                  int64(f.Day.Tone),
+		"month":                 int64(f.Day.Menaion.Month),
+		"day":                   int64(f.Day.Menaion.Day),
+		"menaion_troparia":      int64(len(f.Menaion["troparion"])),
+		"menaion_kontakia":      int64(len(f.Menaion["kontakion"])),
 	}
 }
 
@@ -193,6 +208,7 @@ func HourPosition(service string) int {
 // MenaionLister lists unit ids by prefix (implemented by corpus.Store).
 type MenaionLister interface {
 	ListIDs(ctx context.Context, prefix string) ([]string, error)
+	UnitTones(ctx context.Context, ids []string) (map[string]int, error)
 }
 
 // MenaionFacts collects the Menaion troparia/kontakia of the day. Services of
@@ -211,14 +227,13 @@ func MenaionFacts(ctx context.Context, l MenaionLister, md calendar.MonthDay) (m
 	}
 	var items []item
 	for _, id := range ids {
-		// me.MM.DD[suffix].kind.N
+		// me.MM.DD[suffix].<kind…>[.N]
 		parts := strings.Split(id, ".")
-		if len(parts) != 5 {
+		if len(parts) < 4 {
 			continue
 		}
-		var n int
-		fmt.Sscanf(parts[4], "%d", &n)
-		items = append(items, item{parts[2], parts[3], n, id})
+		kind, n := splitKindN(parts[3:])
+		items = append(items, item{parts[2], kind, n, id})
 	}
 	sort.Slice(items, func(i, j int) bool {
 		if items[i].service != items[j].service {
@@ -260,6 +275,52 @@ func (rs *Rules) FillSlotRules(service string, f Facts, slots map[string][]SlotI
 	return nil
 }
 
+// splitKindN splits "vespers.lic.sticheron.3" into ("vespers.lic.sticheron", 3)
+// and "vespers.lic.glory" into ("vespers.lic.glory", 1).
+func splitKindN(parts []string) (string, int) {
+	var n int
+	if _, err := fmt.Sscanf(parts[len(parts)-1], "%d", &n); err == nil && len(parts) > 1 {
+		return strings.Join(parts[:len(parts)-1], "."), n
+	}
+	return strings.Join(parts, "."), 1
+}
+
+// OctoechosFacts lists the Octoechos daily-vespers units for the tone and
+// day: kind ("vespers.lic.sticheron") -> ids in order.
+func OctoechosFacts(ctx context.Context, l MenaionLister, tone int, day time.Weekday) (map[string][]string, error) {
+	prefix := fmt.Sprintf("oc.%d.%s.", tone, WeekdayKey(day))
+	ids, err := l.ListIDs(ctx, prefix)
+	if err != nil {
+		return nil, err
+	}
+	type item struct {
+		kind string
+		n    int
+		id   string
+	}
+	var items []item
+	for _, id := range ids {
+		kind, n := splitKindN(strings.Split(strings.TrimPrefix(id, prefix), "."))
+		items = append(items, item{kind, n, id})
+	}
+	sort.Slice(items, func(i, j int) bool {
+		if items[i].kind != items[j].kind {
+			return items[i].kind < items[j].kind
+		}
+		return items[i].n < items[j].n
+	})
+	out := map[string][]string{}
+	for _, it := range items {
+		out[it.kind] = append(out[it.kind], it.id)
+	}
+	return out, nil
+}
+
+// WeekdayKey names a weekday in unit keys.
+func WeekdayKey(d time.Weekday) string {
+	return [7]string{"sun", "mon", "tue", "wed", "thu", "fri", "sat"}[d]
+}
+
 // Fill resolves the rule's slot selectors into slot items for service.
 func (r *Rule) Fill(f Facts, service string) (map[string][]SlotItem, error) {
 	slots := map[string][]SlotItem{}
@@ -290,8 +351,15 @@ func (sel SlotSelector) resolve(name string, f Facts, service string) ([]SlotIte
 			items = append(items, SlotItem{Ref: avail[(k-1)%len(avail)], Repeat: sel.Repeat})
 		case "unit":
 			for _, ref := range sel.Refs {
+				ref = strings.NewReplacer("{day}", WeekdayKey(f.Day.Weekday), "{tone}", fmt.Sprint(f.Day.Tone)).Replace(ref)
 				items = append(items, SlotItem{Ref: ref, Repeat: sel.Repeat})
 			}
+		case "vespers_lic", "vespers_glory_now", "vespers_aposticha", "vespers_troparia":
+			vs, err := vespersSlot(sel, f)
+			if err != nil {
+				return nil, fmt.Errorf("slot %s: %w", name, err)
+			}
+			items = append(items, vs...)
 		case "feast", "feast_and_menaion":
 			if f.Feast == nil {
 				return nil, fmt.Errorf("slot %s: no twelve feast on %v", name, f.Day.Date)

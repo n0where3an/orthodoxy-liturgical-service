@@ -1,0 +1,5 @@
+# «Слава, и ныне», аллилуия трижды, «Господи, помилуй» трижды — после статии кафизмы.
+nodes:
+  - {id: glory_now, ref: common.glory_now, performer: reader}
+  - {id: alleluia, ref: common.alleluia_glory_to_thee, performer: reader, repeat: 3}
+  - {id: lhm, ref: common.lord_have_mercy, performer: reader, repeat: 3}

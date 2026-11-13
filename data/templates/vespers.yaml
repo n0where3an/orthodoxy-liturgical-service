@@ -1,0 +1,130 @@
+# Вечерня вседневная — по Часослову (М., 1980) и Служебнику.
+#
+# Вечерня относится к литургическому дню, который она начинает: служится
+# накануне вечером (вечерня понедельника — в воскресенье вечером).
+# В приходской практике ей предшествует девятый час.
+#
+# Ектении произносит диакон, а без него — священник (performer: litanist).
+# Без священника (чин мирянский) ектении и возгласы опускаются.
+
+service: vespers
+nodes:
+  - {id: title, ref: sl.vespers.title, heading: true}
+
+  # --- Начало, предначинательный псалом ---
+  - {id: blessed, ref: sl.exclamation.blessed_is_our_god, performer: priest, voice: aloud, when: priest}
+  - {id: blessed_reader, ref: common.prayers_of_holy_fathers, performer: reader, when: "!priest"}
+  - {id: amen_0, ref: common.amen, performer: reader}
+  - {id: come, include: come_let_us_worship}
+  # Светильничные молитвы священник читает тайно во время предначинательного псалма.
+  - {id: lamp_1, ref: sl.vespers.lamp_prayer.1, performer: priest, voice: secret, title: lamp_prayers, during: psalm_103, when: priest}
+  - {id: lamp_2, ref: sl.vespers.lamp_prayer.2, performer: priest, voice: secret, title: lamp_prayers, during: psalm_103, when: priest}
+  - {id: lamp_3, ref: sl.vespers.lamp_prayer.3, performer: priest, voice: secret, title: lamp_prayers, during: psalm_103, when: priest}
+  - {id: lamp_4, ref: sl.vespers.lamp_prayer.4, performer: priest, voice: secret, title: lamp_prayers, during: psalm_103, when: priest}
+  - {id: lamp_5, ref: sl.vespers.lamp_prayer.5, performer: priest, voice: secret, title: lamp_prayers, during: psalm_103, when: priest}
+  - {id: lamp_6, ref: sl.vespers.lamp_prayer.6, performer: priest, voice: secret, title: lamp_prayers, during: psalm_103, when: priest}
+  - {id: lamp_7, ref: sl.vespers.lamp_prayer.7, performer: priest, voice: secret, title: lamp_prayers, during: psalm_103, when: priest}
+  - {id: psalm_103, ref: ch.vespers.psalm.103, performer: reader, title: psalm_103}
+  - {id: psalm_103_glory_now, ref: common.glory_now, performer: reader}
+  - {id: psalm_103_alleluia, ref: common.alleluia_glory_to_thee, performer: reader, repeat: 3}
+
+  - {id: great_litany, include: great_litany, when: priest}
+  - {id: great_litany_reader, ref: common.lord_have_mercy, performer: reader, repeat: 12, when: "!priest"}
+
+  # --- Кафизма рядовая (в воскресенье вечером не положена) ---
+  - id: kathisma
+    if_slot: kathisma
+    children:
+      - {id: kathisma_rubric, rubric: kathisma, audience: kliros}
+      - {id: stasis_1, slot: kathisma, index: 1, performer: reader}
+      - {id: doxology_1, include: stasis_doxology}
+      - {id: stasis_2, slot: kathisma, index: 2, performer: reader}
+      - {id: doxology_2, include: stasis_doxology}
+      - {id: stasis_3, slot: kathisma, index: 3, performer: reader}
+      - {id: doxology_3, include: stasis_doxology}
+      - {id: small_litany, include: small_litany, when: priest}
+
+  # --- Господи, воззвах, стихиры на 6 ---
+  - {id: lic_rubric, rubric: lord_i_call, audience: kliros}
+  - {id: lic_verse_1, ref: ch.vespers.lic.verse.1, performer: choir}
+  - {id: lic_verse_2, ref: ch.vespers.lic.verse.2, performer: choir}
+  - {id: lic_verse_3, ref: ch.vespers.lic.verse.3, performer: choir}
+  - {id: lic_verse_4, ref: ch.vespers.lic.verse.4, performer: reader}
+  - {id: lic_verse_5, ref: ch.vespers.lic.verse.5, performer: reader}
+  - {id: lic_verse_6, ref: ch.vespers.lic.verse.6, performer: reader}
+  - {id: lic_verse_7, ref: ch.vespers.lic.verse.7, performer: reader}
+  - {id: lic_verse_8, ref: ch.vespers.lic.verse.8, performer: reader}
+  - {id: lic_verse_9, ref: ch.vespers.lic.verse.9, performer: reader}
+  - {id: lic_verse_10, ref: ch.vespers.lic.verse.10, performer: reader}
+  - {id: lic_verse_11, ref: ch.vespers.lic.verse.11, performer: reader}
+  - {id: lic_verse_12, ref: ch.vespers.lic.verse.12, performer: reader}
+  - {id: lic_verse_13, ref: ch.vespers.lic.verse.13, performer: reader}
+  - {id: lic_verse_14, ref: ch.vespers.lic.verse.14, performer: reader}
+  - {id: lic_verse_15, ref: ch.vespers.lic.verse.15, performer: reader}
+  - {id: lic_verse_16, ref: ch.vespers.lic.verse.16, performer: reader}
+  - {id: lic_verse_17, ref: ch.vespers.lic.verse.17, performer: reader}
+  - {id: lic_verse_18, ref: ch.vespers.lic.verse.18, performer: reader}
+  - {id: lic_verse_19, ref: ch.vespers.lic.verse.19, performer: reader}
+  - {id: lic_verse_20, ref: ch.vespers.lic.verse.20, performer: reader}
+  - {id: lic_verse_21, ref: ch.vespers.lic.verse.21, performer: reader}
+  - {id: lic_verse_22, ref: ch.vespers.lic.verse.22, performer: reader}
+  - {id: lic_verse_23, ref: ch.vespers.lic.verse.23, performer: reader}
+  - {id: lic_verse_24, ref: ch.vespers.lic.verse.24, performer: reader}
+  - {id: lic_verse_25, ref: ch.vespers.lic.verse.25, performer: reader}
+  - {id: lic_sticheron_1, slot: lord_i_call, index: 1, performer: choir}
+  - {id: lic_verse_26, ref: ch.vespers.lic.verse.26, performer: reader}
+  - {id: lic_sticheron_2, slot: lord_i_call, index: 2, performer: choir}
+  - {id: lic_verse_27, ref: ch.vespers.lic.verse.27, performer: reader}
+  - {id: lic_sticheron_3, slot: lord_i_call, index: 3, performer: choir}
+  - {id: lic_verse_28, ref: ch.vespers.lic.verse.28, performer: reader}
+  - {id: lic_sticheron_4, slot: lord_i_call, index: 4, performer: choir}
+  - {id: lic_verse_29, ref: ch.vespers.lic.verse.29, performer: reader}
+  - {id: lic_sticheron_5, slot: lord_i_call, index: 5, performer: choir}
+  - {id: lic_verse_30, ref: ch.vespers.lic.verse.30, performer: reader}
+  - {id: lic_sticheron_6, slot: lord_i_call, index: 6, performer: choir}
+  - {id: lic_glory_now, slot: lord_i_call_glory_now, performer: choir}
+
+  # --- Свете тихий, прокимен ---
+  - {id: gladsome_light, ref: ch.vespers.gladsome_light, performer: reader}
+  - {id: attend, ref: lit.let_us_attend, performer: litanist, voice: aloud, when: priest}
+  - {id: peace, ref: lit.peace_be_unto_all, performer: priest, voice: aloud, when: priest}
+  - {id: and_with_thy_spirit, ref: lit.response.and_with_thy_spirit, performer: reader, when: priest}
+  - {id: wisdom, ref: lit.wisdom, performer: litanist, voice: aloud, when: priest}
+  - {id: prokeimenon_rubric, rubric: prokeimenon, audience: kliros}
+  - {id: prokeimenon, slot: prokeimenon, performer: choir}
+  - {id: prokeimenon_verse, slot: prokeimenon_verse, performer: reader}
+  - {id: prokeimenon_again, slot: prokeimenon, performer: choir}
+
+  # --- Сподоби, Господи; просительная ектения ---
+  - {id: vouchsafe, ref: ch.vespers.vouchsafe, performer: reader}
+  - {id: evening, include: evening_litany, when: priest}
+
+  # --- Стиховна ---
+  - {id: aposticha_rubric, rubric: aposticha, audience: kliros}
+  - {id: aposticha, slot: aposticha, performer: choir}
+  - {id: aposticha_glory_now, slot: aposticha_glory_now, performer: choir}
+
+  # --- Ныне отпущаеши, Трисвятое, тропари ---
+  - {id: nunc_dimittis, ref: ch.vespers.nunc_dimittis, performer: reader}
+  - {id: trisagion, include: trisagion_to_our_father}
+  - {id: troparia_rubric, rubric: troparia, audience: kliros}
+  - {id: troparia, slot: troparia, performer: choir}
+
+  # --- Сугубая ектения и отпуст ---
+  - id: ending_priest
+    when: priest
+    children:
+      - {id: augmented, include: augmented_litany}
+      - {id: wisdom_2, ref: lit.wisdom, performer: litanist, voice: aloud}
+      - {id: confirm, ref: lit.confirm_the_faith, performer: choir}
+      - {id: theotokos_save_us, ref: sl.vespers.most_holy_theotokos_save_us, performer: priest, voice: aloud}
+      - {id: more_honorable, ref: common.more_honorable, performer: choir}
+      - {id: dismissal, include: dismissal}
+  - id: ending_reader
+    when: "!priest"
+    children:
+      - {id: lhm_40, ref: common.lord_have_mercy, performer: reader, repeat: 40}
+      - {id: glory_now, ref: common.glory_now, performer: reader}
+      - {id: more_honorable_reader, ref: common.more_honorable, performer: reader}
+      - {id: holy_fathers, ref: common.prayers_of_holy_fathers, performer: reader}
+      - {id: amen_end, ref: common.amen, performer: reader}

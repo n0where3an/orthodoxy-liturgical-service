@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 	"unicode"
 	"unicode/utf8"
@@ -29,18 +30,23 @@ type Manifest struct {
 
 // ManifestUnit is one text unit cut from a file.
 type ManifestUnit struct {
-	Key    string         `yaml:"key"`
-	Book   string         `yaml:"book"`
-	Kind   string         `yaml:"kind"`
-	Tone   int            `yaml:"tone"`
-	Source string         `yaml:"source"`
-	File   string         `yaml:"file"`
-	After  string         `yaml:"after"`
-	From   string         `yaml:"from"`
-	To     string         `yaml:"to"`
-	Suffix string         `yaml:"suffix"` // replaces trailing punctuation
-	Meta   map[string]any `yaml:"meta"`
+	Key    string `yaml:"key"`
+	Book   string `yaml:"book"`
+	Kind   string `yaml:"kind"`
+	Tone   int    `yaml:"tone"`
+	Source string `yaml:"source"`
+	File   string `yaml:"file"`
+	After  string `yaml:"after"`
+	From   string `yaml:"from"`
+	To     string `yaml:"to"`
+	Suffix string `yaml:"suffix"` // replaces trailing punctuation
+	// DropBrackets removes editorial insertions in square brackets
+	// ("[аще в монастыре: о святей обители сей,]").
+	DropBrackets bool           `yaml:"drop_brackets"`
+	Meta         map[string]any `yaml:"meta"`
 }
+
+var reBrackets = regexp.MustCompile(`\s*\[[^\]]*\]`)
 
 // LoadManifest reads a manifest YAML file.
 func LoadManifest(path string) (*Manifest, error) {
@@ -89,6 +95,9 @@ func (m *Manifest) Extract(root string) ([]corpus.Unit, error) {
 		if err != nil {
 			errs = append(errs, fmt.Errorf("%s: %w", mu.Key, err))
 			continue
+		}
+		if mu.DropBrackets {
+			body = CleanText(reBrackets.ReplaceAllString(body, ""))
 		}
 		if mu.Suffix != "" {
 			body = strings.TrimRight(body, ",.:;") + mu.Suffix

@@ -20,12 +20,15 @@ type Params struct {
 	// Typikon: follow the Typikon instead of parish practice (as in the
 	// «Богослужебные указания»), where the two differ.
 	Typikon bool `json:"typikon"`
+	// Deacon: served with a deacon (litanies and some exclamations are his).
+	Deacon bool `json:"deacon"`
 }
 
 // SlotItem references one text unit placed into a slot.
 type SlotItem struct {
-	Ref    string `json:"ref"`
-	Repeat int    `json:"repeat,omitempty"`
+	Ref       string    `json:"ref"`
+	Repeat    int       `json:"repeat,omitempty"`
+	Performer Performer `json:"performer,omitempty"` // overrides the slot node's performer
 }
 
 // Plan is the resolved service: what goes where, without texts. It depends
@@ -69,7 +72,16 @@ func (p *Planner) Plan(ctx context.Context, d calendar.JDate, service string, pa
 	if err != nil {
 		return nil, err
 	}
-	f := Facts{Day: day, Menaion: men}
+	oct, err := OctoechosFacts(ctx, p.Menaion, day.Tone, day.Weekday)
+	if err != nil {
+		return nil, err
+	}
+	f := Facts{Day: day, Menaion: men, Octoechos: oct}
+	if tones, err := p.Menaion.UnitTones(ctx, men["troparion"]); err == nil {
+		f.Tones = tones
+	} else {
+		return nil, err
+	}
 	if p.Feasts != nil {
 		f.Feast = p.Feasts.At(day)
 	}

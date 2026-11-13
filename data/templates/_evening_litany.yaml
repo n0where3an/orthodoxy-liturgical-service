@@ -1,0 +1,31 @@
+# Просительная ектения «Исполним вечернюю молитву нашу», «Мир всем»,
+# главопреклонение (тайная молитва) и возглас «Буди держава».
+nodes:
+  - {id: complete, ref: lit.evening.complete, performer: litanist, voice: aloud}
+  - {id: r1, ref: common.lord_have_mercy, performer: choir}
+  - {id: help, ref: lit.help_us, performer: litanist, voice: aloud}
+  - {id: r2, ref: common.lord_have_mercy, performer: choir}
+  - {id: perfect, ref: lit.evening.perfect, performer: litanist, voice: aloud}
+  - {id: r3, ref: lit.response.grant_o_lord, performer: choir}
+  - {id: angel, ref: lit.evening.angel, performer: litanist, voice: aloud}
+  - {id: r4, ref: lit.response.grant_o_lord, performer: choir}
+  - {id: pardon, ref: lit.evening.pardon, performer: litanist, voice: aloud}
+  - {id: r5, ref: lit.response.grant_o_lord, performer: choir}
+  - {id: good_things, ref: lit.evening.good_things, performer: litanist, voice: aloud}
+  - {id: r6, ref: lit.response.grant_o_lord, performer: choir}
+  - {id: repentance, ref: lit.evening.peace_repentance, performer: litanist, voice: aloud}
+  - {id: r7, ref: lit.response.grant_o_lord, performer: choir}
+  - {id: ending, ref: lit.evening.christian_ending, performer: litanist, voice: aloud}
+  - {id: r8, ref: lit.response.grant_o_lord, performer: choir}
+  - {id: commemorating, ref: lit.commemorating, performer: litanist, voice: aloud}
+  - {id: r9, ref: lit.response.to_thee_o_lord, performer: choir}
+  - {id: exclamation, ref: lit.evening.exclamation, performer: priest, voice: aloud}
+  - {id: amen, ref: common.amen, performer: choir}
+  - {id: peace, ref: lit.peace_be_unto_all, performer: priest, voice: aloud}
+  - {id: and_with_thy_spirit, ref: lit.response.and_with_thy_spirit, performer: choir}
+  - {id: bow, ref: lit.bow_your_heads, performer: litanist, voice: aloud}
+  # Тайная молитва главопреклонения читается во время ответа «Тебе, Господи».
+  - {id: head_bowing_prayer, ref: sl.vespers.head_bowing_prayer, performer: priest, voice: secret, title: head_bowing_prayer, during: to_thee}
+  - {id: to_thee, ref: lit.response.to_thee_o_lord, performer: choir, title: to_thee_o_lord}
+  - {id: bow_exclamation, ref: sl.vespers.head_bowing_exclamation, performer: priest, voice: aloud}
+  - {id: amen_2, ref: common.amen, performer: choir}

@@ -15,11 +15,13 @@ import (
 type Performer string
 
 const (
-	Priest Performer = "priest"
-	Deacon Performer = "deacon"
-	Reader Performer = "reader"
-	Choir  Performer = "choir"
-	People Performer = "people"
+	// Litanist: the deacon if there is one, else the priest.
+	Litanist Performer = "litanist"
+	Priest   Performer = "priest"
+	Deacon   Performer = "deacon"
+	Reader   Performer = "reader"
+	Choir    Performer = "choir"
+	People   Performer = "people"
 )
 
 // Voice in which a node is said.
@@ -55,6 +57,8 @@ type Node struct {
 	When      string    `yaml:"when"` // CEL over service params
 	Heading   bool      `yaml:"heading"`
 	Include   string    `yaml:"include"` // name of a shared fragment (data/templates/_<name>.yaml)
+	Index     int       `yaml:"index"`   // slot: take only the n-th item (1-based)
+	IfSlot    string    `yaml:"if_slot"` // group: only when this slot is not empty
 	Children  []Node    `yaml:"children"`
 }
 
@@ -125,13 +129,33 @@ func resolveIncludes(dataDir string, ns []Node, stack []string) ([]Node, error) 
 	return out, nil
 }
 
+// prefixIDs prefixes the ids of a fragment's nodes, and `during`
+// references to nodes of the same fragment.
 func prefixIDs(ns []Node, prefix string) {
-	for i := range ns {
-		if ns[i].ID != "" {
-			ns[i].ID = prefix + ns[i].ID
+	local := map[string]bool{}
+	var collect func([]Node)
+	collect = func(ns []Node) {
+		for _, n := range ns {
+			if n.ID != "" {
+				local[n.ID] = true
+			}
+			collect(n.Children)
 		}
-		prefixIDs(ns[i].Children, prefix)
 	}
+	collect(ns)
+	var walk func([]Node)
+	walk = func(ns []Node) {
+		for i := range ns {
+			if ns[i].ID != "" {
+				ns[i].ID = prefix + ns[i].ID
+			}
+			if local[ns[i].During] {
+				ns[i].During = prefix + ns[i].During
+			}
+			walk(ns[i].Children)
+		}
+	}
+	walk(ns)
 }
 
 func (t *Template) validate() error {

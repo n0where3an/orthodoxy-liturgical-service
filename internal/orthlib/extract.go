@@ -93,13 +93,23 @@ func (d *Doc) Slice(after, from, to string) (string, error) {
 	if s < 0 {
 		return "", fmt.Errorf("%s: anchor 'from' %q not found", filepath.Base(d.Path), from)
 	}
+	rs := d.pos[s]
+	var re int
+	if to == "" {
+		// Up to the end of the paragraph.
+		re = rs
+		for re < len(d.text) && d.text[re] != '\n' {
+			re++
+		}
+		return CleanText(string(d.text[rs:re])), nil
+	}
 	t := hip.Fold(to)
 	e := d.indexFrom(t, s)
 	if e < 0 {
 		return "", fmt.Errorf("%s: anchor 'to' %q not found after %q", filepath.Base(d.Path), to, from)
 	}
 	e += len([]rune(t))
-	rs, re := d.pos[s], d.pos[e-1]+1
+	re = d.pos[e-1] + 1
 	for re < len(d.text) && unicode.Is(unicode.Mn, d.text[re]) {
 		re++
 	}

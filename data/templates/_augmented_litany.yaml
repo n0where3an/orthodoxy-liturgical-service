@@ -1,0 +1,18 @@
+# Сугубая ектения вседневной вечерни (начинается с «Помилуй нас, Боже»).
+nodes:
+  - {id: have_mercy, ref: lit.augmented.have_mercy, performer: litanist, voice: aloud}
+  - {id: r1, ref: common.lord_have_mercy, performer: choir, repeat: 3}
+  - {id: hierarchy, ref: lit.augmented.hierarchy, performer: litanist, voice: aloud}
+  - {id: r2, ref: common.lord_have_mercy, performer: choir, repeat: 3}
+  - {id: country, ref: lit.augmented.country, performer: litanist, voice: aloud}
+  - {id: r3, ref: common.lord_have_mercy, performer: choir, repeat: 3}
+  - {id: brethren, ref: lit.augmented.brethren, performer: litanist, voice: aloud}
+  - {id: r4, ref: common.lord_have_mercy, performer: choir, repeat: 3}
+  - {id: departed, ref: lit.augmented.departed, performer: litanist, voice: aloud}
+  - {id: r5, ref: common.lord_have_mercy, performer: choir, repeat: 3}
+  - {id: mercy, ref: lit.augmented.mercy, performer: litanist, voice: aloud}
+  - {id: r6, ref: common.lord_have_mercy, performer: choir, repeat: 3}
+  - {id: fruitbearers, ref: lit.augmented.fruitbearers, performer: litanist, voice: aloud}
+  - {id: r7, ref: common.lord_have_mercy, performer: choir, repeat: 3}
+  - {id: exclamation, ref: lit.augmented.exclamation, performer: priest, voice: aloud}
+  - {id: amen, ref: common.amen, performer: choir}

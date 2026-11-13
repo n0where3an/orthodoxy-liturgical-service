@@ -24,6 +24,18 @@ sources:
     url: http://orthlib.ru/worship/mineya/
     license: public-domain-edition
     note: "Electronic text by orthlib.ru (HIP); reprints of Synodal editions."
+  - id: orthlib.octoechos
+    title: Октоих
+    edition: "Октоих, сиречь Осмогласник. В 2 частях. М.: Издание Московской Патриархии, 1981"
+    url: http://orthlib.ru/worship/octoih/
+    license: unknown
+    note: "Electronic text by orthlib.ru (HIP); terms of use to be verified."
+  - id: orthlib.psalter
+    title: Псалтирь следованная
+    edition: "Псалтирь следованная. Ч. 1. М.: Московская Патриархия, 1978"
+    url: http://orthlib.ru/worship/sledpsalt/
+    license: unknown
+    note: "Electronic text by orthlib.ru (HIP); terms of use to be verified."
   - id: orthlib.triodion_tsvetnaya
     title: Триодь цветная
     edition: "Триодь цветная. М.: Издание Московской Патриархии, 1992"
@@ -540,3 +552,643 @@ units:
     file: triodion/tst/pentikost.hip
     from: "егда снизшед языки слия"
     to: "славим всестаго дха."
+
+  # --- Vespers: Служебник (последование вечерни) ---
+  - key: sl.vespers.title
+    book: sluzhebnik
+    kind: title
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "последование вечерни"
+    to: "последование вечерни"
+  - key: sl.vespers.lamp_prayer.1
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "гдси щедрый и милостивый, долготерпеливе"
+    to: ""
+  - key: sl.vespers.lamp_prayer.2
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "гдси, да не яростию твоею обличиши нас"
+    to: ""
+  - key: sl.vespers.lamp_prayer.3
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "гдси бже наш, помяни нас грешных"
+    to: ""
+  - key: sl.vespers.lamp_prayer.4
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "немолчными песньми и непрестанными"
+    to: ""
+  - key: sl.vespers.lamp_prayer.5
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "гдси, гдси, пречистою твоею дланию"
+    to: ""
+  - key: sl.vespers.lamp_prayer.6
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "бже великий и дивный, неисповедимою"
+    to: ""
+  - key: sl.vespers.lamp_prayer.7
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "бже великий и вышний, един имеяй"
+    to: ""
+  - key: lit.peace
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "миром гдсу помолимся."
+    to: "миром гдсу помолимся."
+  - key: lit.great.peace_from_above
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "о свышнем мире, и спасении"
+    to: ""
+  - key: lit.great.whole_world
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "о мире всего мира, блгостоянии"
+    to: ""
+  - key: lit.great.temple
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "о стем храме сем, и с верою"
+    to: ""
+  - key: lit.great.city
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "о граде сем"
+    to: ""
+    drop_brackets: true
+  - key: lit.great.seasons
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "о блгорастворении воздухов"
+    to: ""
+  - key: lit.great.travellers
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "о плавающих, путешествующих"
+    to: ""
+  - key: lit.great.deliverance
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "о избавитися нам от всякия скорби"
+    to: ""
+  - key: lit.help_us
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "заступи, спаси, помилуй и сохрани нас бже"
+    to: ""
+  - key: lit.commemorating
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "престую, пречстую, преблгословенную, славную влдчцу"
+    to: ""
+  - key: lit.great.exclamation
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "яко подобает тебе всякая слава, честь, и поклонение"
+    to: ""
+  - key: lit.small.again
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "паки и паки миром гдсу помолимся."
+    to: "помолимся."
+  - key: lit.small.exclamation
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    after: "возглашает сщенник:"
+    from: "яко твоя держава, и твое есть црство, и сила, и слава, оца"
+    to: ""
+  - key: lit.response.to_thee_o_lord
+    book: sluzhebnik
+    kind: response
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "тебе гдси."
+    to: "тебе гдси."
+  - key: lit.response.grant_o_lord
+    book: sluzhebnik
+    kind: response
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "подай гдси."
+    to: "подай гдси."
+  - key: lit.response.and_with_thy_spirit
+    book: sluzhebnik
+    kind: response
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "и дхови твоему."
+    to: "и дхови твоему."
+  - key: lit.peace_be_unto_all
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    after: "сщенник:"
+    from: "мир всем."
+    to: "мир всем."
+  - key: lit.bow_your_heads
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "главы нашя гдсви приклоним."
+    to: "приклоним."
+  - key: lit.augmented.have_mercy
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "помилуй нас бже, по велицей милости твоей"
+    to: ""
+  - key: lit.augmented.fruitbearers
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "еще молимся о плодоносящих и добродеющих"
+    to: ""
+  - key: lit.augmented.exclamation
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "яко милостив и человеколюбец бг еси"
+    to: ""
+  - key: lit.evening.complete
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "исполним вечернюю молитву нашу гдсви."
+    to: "гдсви."
+  - key: lit.evening.perfect
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "вечера всего совершенна"
+    to: ""
+  - key: lit.evening.angel
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "аггла мирна, верна наставника"
+    to: ""
+  - key: lit.evening.pardon
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "прощения и оставления грехов и прегрешений наших"
+    to: ""
+  - key: lit.evening.good_things
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "добрых и полезных душам нашым"
+    to: ""
+  - key: lit.evening.peace_repentance
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "прочее время живота нашего в мире"
+    to: ""
+  - key: lit.evening.christian_ending
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "хрстианския кончины живота нашего"
+    to: ""
+  - key: lit.evening.exclamation
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    after: "и сщенник возглашает:"
+    from: "яко блг и члвеколюбец бг еси, и тебе славу"
+    to: ""
+  - key: sl.vespers.head_bowing_prayer
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "гдси бже наш, приклонивый нбса"
+    to: ""
+  - key: sl.vespers.head_bowing_exclamation
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "буди держава црствия твоего"
+    to: ""
+  - key: sl.vespers.most_holy_theotokos_save_us
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "престая бцде, спаси нас."
+    to: "спаси нас."
+
+  # --- Vespers: Часослов (последование вечерни) ---
+  - key: ch.vespers.psalm.103
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "блгослови душе моя гдса: гдси бже мой"
+    to: ""
+  - key: ch.vespers.lic.verse.1
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "гдси, воззвах к тебе, услыши мя. услыши мя гдси."
+    to: "услыши мя гдси."
+  - key: ch.vespers.lic.verse.2
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "гдси, воззвах к тебе, услыши мя: вонми гласу"
+    to: ""
+  - key: ch.vespers.lic.verse.3
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "да исправится млтва моя, яко кадило"
+    to: ""
+  - key: ch.vespers.lic.verse.4
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "положи, гдси, хранение устом моим"
+    to: ""
+  - key: ch.vespers.lic.verse.5
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "не уклони сердце мое в словеса"
+    to: ""
+  - key: ch.vespers.lic.verse.6
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "с человеки делающими беззаконие"
+    to: ""
+  - key: ch.vespers.lic.verse.7
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "накажет мя праведник млстию"
+    to: ""
+  - key: ch.vespers.lic.verse.8
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "яко еще и млтва моя во блговолениих"
+    to: ""
+  - key: ch.vespers.lic.verse.9
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "услышатся глаголи мои, яко возмогоша"
+    to: ""
+  - key: ch.vespers.lic.verse.10
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "яко к тебе гдси, гдси, очи мои"
+    to: ""
+  - key: ch.vespers.lic.verse.11
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "сохрани мя от сети, юже составиша"
+    to: ""
+  - key: ch.vespers.lic.verse.12
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "падут во мрежу свою грешницы"
+    to: ""
+  - key: ch.vespers.lic.verse.13
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "гласом моим ко гдсу воззвах"
+    to: ""
+  - key: ch.vespers.lic.verse.14
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "пролию пред ним моление мое"
+    to: ""
+  - key: ch.vespers.lic.verse.15
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "внегда исчезати от мене духу моему"
+    to: ""
+  - key: ch.vespers.lic.verse.16
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "на пути сем, по немуже хождах"
+    to: ""
+  - key: ch.vespers.lic.verse.17
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "смотрях одесную и возглядах"
+    to: ""
+  - key: ch.vespers.lic.verse.18
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "погибе бегство от мене"
+    to: ""
+  - key: ch.vespers.lic.verse.19
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "воззвах к тебе гдси, рех"
+    to: ""
+  - key: ch.vespers.lic.verse.20
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "вонми молению моему, яко смирихся зело"
+    to: ""
+  - key: ch.vespers.lic.verse.21
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "изведи из темницы душу мою"
+    to: ""
+  - key: ch.vespers.lic.verse.22
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "мене ждут праведницы"
+    to: ""
+  - key: ch.vespers.lic.verse.23
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "из глубины воззвах к тебе гдси"
+    to: ""
+  - key: ch.vespers.lic.verse.24
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "да будут уши твои, внемлюще"
+    to: ""
+  - key: ch.vespers.lic.verse.25
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "аще беззакония назриши гдси"
+    to: ""
+  - key: ch.vespers.lic.verse.26
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "имене ради твоего потерпех тя гдси"
+    to: ""
+  - key: ch.vespers.lic.verse.27
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "от стражи утренния до нощи"
+    to: ""
+  - key: ch.vespers.lic.verse.28
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "яко у гдса млсть, и многое"
+    to: ""
+  - key: ch.vespers.lic.verse.29
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "хвалите гдса вси языцы"
+    to: ""
+  - key: ch.vespers.lic.verse.30
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "яко утвердися млсть его на нас"
+    to: ""
+  - key: ch.vespers.gladsome_light
+    book: chasoslov
+    kind: hymn
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "свете тихий стыя славы"
+    to: ""
+  - key: ch.vespers.prokeimenon.mon
+    book: chasoslov
+    kind: prokeimenon
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "се ныне блгословите гдса вси раби гдсни."
+    to: "гдсни."
+  - key: ch.vespers.prokeimenon.mon.verse
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "стоящии во храме гдсни, во дворех"
+    to: ""
+  - key: ch.vespers.prokeimenon.tue
+    book: chasoslov
+    kind: prokeimenon
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "гдсь услышит мя, внегда воззвати ми к нему."
+    to: "нему."
+  - key: ch.vespers.prokeimenon.tue.verse
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "внегда призвати ми, услыша мя"
+    to: ""
+  - key: ch.vespers.prokeimenon.wed
+    book: chasoslov
+    kind: prokeimenon
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "млсть твоя гдси, поженет мя вся дни"
+    to: ""
+  - key: ch.vespers.prokeimenon.wed.verse
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "гдсь пасет мя, и ничтоже мя лишит"
+    to: ""
+  - key: ch.vespers.prokeimenon.thu
+    book: chasoslov
+    kind: prokeimenon
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "бже, во имя твое спси мя, и в силе твоей суди ми."
+    to: "ми."
+  - key: ch.vespers.prokeimenon.thu.verse
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "бже, услыши млтву мою, внуши глаголы"
+    to: ""
+  - key: ch.vespers.prokeimenon.fri
+    book: chasoslov
+    kind: prokeimenon
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "помощь моя от гдса, сотворшаго нбо и землю."
+    to: "землю."
+  - key: ch.vespers.prokeimenon.fri.verse
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "возведох очи мои в горы"
+    to: ""
+  - key: ch.vespers.prokeimenon.sat
+    book: chasoslov
+    kind: prokeimenon
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "бже, заступник мой еси ты, и млсть твоя предварит мя."
+    to: "мя."
+  - key: ch.vespers.prokeimenon.sat.verse
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "изми мя от враг моих бже"
+    to: ""
+  - key: ch.vespers.vouchsafe
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "сподоби гдси в вечер сей без греха"
+    to: "во веки веков, аминь."
+  - key: ch.vespers.aposticha.verse.2
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "к тебе возведох очи мои, живущему на нбси"
+    to: ""
+  - key: ch.vespers.aposticha.verse.3
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "помилуй нас, гдси, помилуй нас, яко по многу"
+    to: ""
+  - key: ch.vespers.nunc_dimittis
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "ныне отпущаеши раба твоего, влдко"
+    to: ""
+
+  # --- Friday-evening aposticha verses (Октоих, глас 2) ---
+  - key: oc.vespers.aposticha.sat.verse.2
+    book: octoechos
+    kind: verse
+    source: orthlib.octoechos
+    file: octoih/oc/2_7sb.hip
+    from: "блжени, яже избрал и приял еси гдси."
+    to: "гдси."
+  - key: oc.vespers.aposticha.sat.verse.3
+    book: octoechos
+    kind: verse
+    source: orthlib.octoechos
+    file: octoih/oc/2_7sb.hip
+    from: "душы их во блгих водворятся."
+    to: "водворятся."
