@@ -1,0 +1,393 @@
+# English translations of fixed texts, under the keys of the Church Slavonic
+# units. Main source: I. F. Hapgood, Service Book of the Holy Orthodox-
+# Catholic Apostolic Church (Boston, 1906) — public domain; transcribed from
+# a tesseract OCR of the scan and corrected by hand. Petitions for the
+# Emperor are not used; texts Hapgood lacks (or gives in an outdated form)
+# are translated for the project in her style (source en.project).
+
+lang: en
+source:
+  id: en.hapgood
+  title: "Service Book of the Holy Orthodox-Catholic Apostolic Church (tr. I. F. Hapgood)"
+  license: public-domain
+  note: "Boston, 1906. Transcribed from OCR and corrected; the wording of the litanies follows Hapgood."
+sources:
+  - id: en.coverdale
+    title: "Coverdale Psalter for Orthodox Worship"
+    license: public-domain
+    note: "Philip Silouan Thompson (LXX numbering, kathismata). Released into the public domain by the editor."
+  - id: en.project
+    title: "Translations made for this project"
+    license: public-domain-text
+    note: "In the style of Hapgood, where her book has no text or an outdated one. To be reviewed."
+
+units:
+  # --- Common prayers ---
+  - key: common.amen
+    text: "Amen."
+  - key: common.glory_to_thee_our_god
+    text: "Glory to thee, our God; glory to thee."
+  - key: common.heavenly_king
+    text: "O heavenly King, the Comforter, Spirit of Truth, who art in all places and fillest all things; Treasury of good things and Giver of life: Come and take up thine abode in us, and cleanse us from every stain; and save our souls, O Good One."
+  - key: common.trisagion
+    text: "O Holy God, Holy Mighty, Holy Immortal One, have mercy upon us."
+  - key: common.glory_now
+    text: "Glory to the Father, and to the Son, and to the Holy Spirit, now, and ever, and unto ages of ages. Amen."
+  - key: common.glory
+    text: "Glory to the Father, and to the Son, and to the Holy Spirit:"
+  - key: common.and_now
+    text: "Now, and ever, and unto ages of ages. Amen."
+  - key: common.most_holy_trinity
+    text: "O all-holy Trinity, have mercy upon us. O Lord, wash away our sins. O Master, pardon our transgressions. O Holy One, visit and heal our infirmities, for thy Name's sake."
+  - key: common.lord_have_mercy
+    text: "Lord, have mercy."
+  - key: common.our_father
+    text: "Our Father, who art in heaven, Hallowed be thy Name. Thy kingdom come. Thy will be done on earth, As it is in heaven. Give us this day our daily bread. And forgive us our trespasses, As we forgive those who trespass against us. And lead us not into temptation; But deliver us from the Evil One."
+  - key: common.come_let_us_worship.1
+    text: "O come, let us worship God our King."
+  - key: common.come_let_us_worship.2
+    text: "O come, let us worship and fall down before Christ, our King and our God."
+  - key: common.come_let_us_worship.3
+    text: "O come, let us worship and fall down before the Very Christ, our King and our God."
+  - key: common.alleluia_glory_to_thee
+    text: "Alleluia, alleluia, alleluia. Glory to thee, O God."
+  - key: common.more_honorable
+    text: "More honourable than the Cherubim, and beyond compare more glorious than the Seraphim, thou who without defilement barest God the Word, true Birth-giver of God, we magnify thee."
+  - key: common.in_the_name_of_the_lord_bless
+    text: "In the Name of the Lord, Father, bless."
+    source: en.project
+  - key: common.bless
+    text: "Bless."
+    source: en.project
+  - key: common.prayers_of_holy_fathers
+    text: "Through the prayers of our holy Fathers, O Lord Jesus Christ our God, have mercy upon us. Amen."
+    source: en.project
+
+  # --- Exclamations and dismissal ---
+  - key: sl.exclamation.blessed_is_our_god
+    text: "Blessed is our God always, now, and ever, and unto ages of ages."
+  - key: sl.exclamation.for_thine_is_the_kingdom
+    text: "For thine is the kingdom, and the power, and the glory, of the Father, and of the Son, and of the Holy Spirit, now, and ever, and unto ages of ages."
+  - key: sl.exclamation.god_be_merciful
+    text: "God be merciful unto us, and bless us, and show the light of his countenance upon us, and have mercy upon us."
+    source: en.project
+  - key: sl.dismissal.glory_to_thee_christ_god
+    text: "Glory to thee, O Christ our God, our sure hope; glory to thee."
+  - key: sl.dismissal.daily
+    text: "May Christ, our true God, through the prayers of his most-holy Mother, and of all the Saints, have mercy upon us and save us, in that he is gracious and loveth mankind."
+
+  # --- Hours: titles ---
+  - key: ch.prime.title
+    text: "The First Hour"
+    source: en.project
+  - key: ch.terce.title
+    text: "The Third Hour"
+    source: en.project
+  - key: ch.sext.title
+    text: "The Sixth Hour"
+    source: en.project
+  - key: ch.none.title
+    text: "The Ninth Hour"
+    source: en.project
+
+  # --- Vespers ---
+  - key: sl.vespers.title
+    text: "Vespers"
+  - key: sl.vespers.lamp_prayer.1
+    text: "O Lord, bountiful and compassionate, long-suffering and plenteous in mercy, give ear unto our prayer, and attend to the voice of our supplication. Work upon us a sign for good. Lead us in thy way, that we may walk in thy truth. Make glad our hearts, that we may fear thy holy Name. For thou art great and doest wonders. Thou alone art God, and among all the gods there is none like unto thee, O Lord, mighty in mercy, gracious in strength, to aid and to comfort and save all those who put their trust in thy holy Name."
+  - key: sl.vespers.lamp_prayer.2
+    text: "O Lord, rebuke us not in thy displeasure, neither chasten us in thy wrath: but deal with us according to thy mercy, O Physician and Healer of our souls. Guide us unto the haven of thy will. Enlighten the eyes of our hearts to the knowledge of thy truth, and vouchsafe that the residue of this day and our whole life may be peaceful and without sin; through the intercessions of the holy Birth-giver of God, and of all the Saints."
+  - key: sl.vespers.lamp_prayer.3
+    text: "O Lord our God, remember us sinners and thine unprofitable servants when we call upon thy holy Name, and put us not to shame in our expectation of thy mercy: but grant us, O Lord, all our petitions which are unto salvation, and vouchsafe that we may love and fear thee with all our hearts, and do thy will in all things."
+  - key: sl.vespers.lamp_prayer.4
+    text: "O thou who, with never-silent hymns and never-ceasing songs of praise to thy glory, art hymned by the holy Powers: Fill our mouths with thy praise, that we may magnify thy holy Name. And grant unto us part and inheritance with all those who fear thee in truth and keep thy commandments; through the intercessions of the holy Birth-giver of God, and of all thy Saints."
+  - key: sl.vespers.lamp_prayer.5
+    text: "O Lord, Lord, who upholdest all things in the all-pure hollow of thy hand; who showest long-suffering upon us all, and repentest thee at our calamities: Remember thy bounties and thy mercy. Visit us with thy loving-kindness: and grant that, through the residue of this day, by thy grace, we may avoid the divers subtle snares of the Evil One, and preserve our lives unassailed; through the grace of thine all-holy Spirit."
+  - key: sl.vespers.lamp_prayer.6
+    text: "O God, great and wonderful, who with wisdom inscrutable and great riches of providence orderest all things, and bestowest upon us earthly good things; who hast given us a pledge of the promised kingdom through the good things already bestowed upon us, and hast made us to shun all evil during that part of the day which is past: Grant that we may also fulfil the residue of this day without reproach before thy holy glory, and hymn thee, the only good one, our God, who lovest mankind."
+  - key: sl.vespers.lamp_prayer.7
+    text: "O great and most high God, who alone hast immortality, and dwellest in light unapproachable; who hast made all creation in wisdom; who hast divided the light from the darkness, and hast appointed the sun to rule the day, the moon and stars also to rule the night; who hast vouchsafed unto us sinners at this present hour also to come before thy presence with confession, and to offer unto thee our evening sacrifice of praise: Do thou thyself, who lovest mankind, direct our prayer as a censer before thee, and accept it for a savour of sweet incense; and grant that we may pass this present evening and the coming night in peace. Endue us with the armour of light. Deliver us from the terror of the night, and from everything that walketh in darkness; and grant that the sleep, which thou hast appointed for the repose of our weakness, may be free from every imagination of the Devil. Yea, O Master, Bestower of all good things, may we, being moved to compunction upon our beds, call to remembrance thy holy Name in the night season: that, enlightened by meditation on thy statutes, we may rise up in joyfulness of soul to glorify thy goodness, offering up prayers and supplications unto thy tender love for our own sins and for those of all thy people: whom do thou visit in mercy, through the intercessions of the holy Birth-giver of God."
+
+  # Great Litany
+  - key: lit.peace
+    text: "In peace let us pray to the Lord."
+  - key: lit.great.peace_from_above
+    text: "For the peace that is from above, and for the salvation of our souls, let us pray to the Lord."
+  - key: lit.great.whole_world
+    text: "For the peace of the whole world; for the welfare of God's holy Churches, and for the union of them all, let us pray to the Lord."
+  - key: lit.great.temple
+    text: "For this holy Temple, and for those who with faith, devoutness, and in the fear of God have entered therein, let us pray to the Lord."
+  - key: lit.great.hierarchy
+    text: "For our Great Lord and Father, His Holiness Patriarch Kirill, and for our Lord, the Most Reverend Metropolitan (or Archbishop, or Bishop) N.; for the honourable Presbytery, the Diaconate in Christ; for all the clergy and the laity, let us pray to the Lord."
+    source: en.project
+  - key: lit.great.country
+    text: "For our God-preserved land, its authorities and armed forces, let us pray to the Lord."
+    source: en.project
+  - key: lit.great.city
+    text: "For this city, for every city and land, and for those who with faith dwell therein, let us pray to the Lord."
+  - key: lit.great.seasons
+    text: "For healthful seasons, for abundance of the fruits of the earth, and for peaceful times, let us pray to the Lord."
+  - key: lit.great.travellers
+    text: "For those who travel by sea or by land; for the sick and the suffering; for those who are in captivity, and for their salvation, let us pray to the Lord."
+  - key: lit.great.deliverance
+    text: "That he will deliver us from all tribulation, wrath, peril and necessity, let us pray to the Lord."
+  - key: lit.help_us
+    text: "Succour us, save us, have mercy upon us, and keep us, O God, by thy grace."
+  - key: lit.commemorating
+    text: "Calling to remembrance our most holy, undefiled, most blessed and glorious Lady, the Birth-giver of God and ever-virgin Mary, with all the Saints, let us commend ourselves, and each other, and all our life unto Christ our God."
+  - key: lit.great.exclamation
+    text: "For unto thee are due all glory, honour and worship, to the Father, and to the Son, and to the Holy Spirit, now, and ever, and unto ages of ages."
+  # Little Litany
+  - key: lit.small.again
+    text: "Again, yet again, in peace let us pray to the Lord."
+  - key: lit.small.exclamation
+    text: "For thine is the majesty, and thine are the kingdom and the power and the glory, of the Father, and of the Son, and of the Holy Spirit, now, and ever, and unto ages of ages."
+  # Responses
+  - key: lit.response.to_thee_o_lord
+    text: "To thee, O Lord."
+  - key: lit.response.grant_o_lord
+    text: "Grant this, O Lord."
+  - key: lit.response.and_with_thy_spirit
+    text: "And with thy spirit."
+  - key: lit.peace_be_unto_all
+    text: "Peace be unto all."
+  - key: lit.bow_your_heads
+    text: "Let us bow our heads unto the Lord."
+  - key: lit.wisdom
+    text: "Wisdom."
+  - key: lit.let_us_attend
+    text: "Let us attend."
+  - key: lit.confirm_the_faith
+    text: "Establish, O God, the Holy Orthodox Faith of Orthodox Christians, unto ages of ages."
+  # Augmented Litany (daily vespers)
+  - key: lit.augmented.have_mercy
+    text: "Have mercy upon us, O God, according to thy great mercy, we beseech thee: hearken, and have mercy."
+  - key: lit.augmented.hierarchy
+    text: "Furthermore we pray for our Great Lord and Father, His Holiness Patriarch Kirill, and for our Lord, the Most Reverend Metropolitan (or Archbishop, or Bishop) N., and for all our brethren in Christ."
+    source: en.project
+  - key: lit.augmented.country
+    text: "Furthermore we pray for our God-preserved land, its authorities and armed forces, that we may lead a quiet and peaceable life in all godliness and purity."
+    source: en.project
+  - key: lit.augmented.brethren
+    text: "Furthermore we pray for our brethren, the priests and hieromonks, and for all our brotherhood in Christ."
+    source: en.project
+  - key: lit.augmented.departed
+    text: "Furthermore we pray for the blessed and ever-memorable most holy Orthodox Patriarchs, and for the founders of this holy Temple; and for all our fathers and brethren, Orthodox believers, departed this life before us, who here and in all the world lie asleep in the Lord."
+  - key: lit.augmented.mercy
+    text: "Furthermore we pray for mercy, life, peace, health, salvation, visitation, forgiveness and remission of sins for the servants of God, the brethren of this holy Temple."
+  - key: lit.augmented.fruitbearers
+    text: "Furthermore we pray for those who bear fruit and do good works in this holy and all-honourable Temple; for those who labour in its service; for the singers; and for the people here present, who await of thee great and rich mercies."
+  - key: lit.augmented.exclamation
+    text: "For thou art a merciful God, who lovest mankind, and unto thee we ascribe glory, to the Father, and to the Son, and to the Holy Spirit, now, and ever, and unto ages of ages."
+  # Litany of Supplication
+  - key: lit.evening.complete
+    text: "Let us complete our evening prayer unto the Lord."
+  - key: lit.evening.perfect
+    text: "That the whole evening may be perfect, holy, peaceful and sinless, let us beseech of the Lord."
+  - key: lit.evening.angel
+    text: "An Angel of Peace, a faithful guide and guardian of our souls and bodies, let us beseech of the Lord."
+  - key: lit.evening.pardon
+    text: "The pardon and remission of our sins and transgressions, let us beseech of the Lord."
+  - key: lit.evening.good_things
+    text: "All things which are good and profitable to our souls, and peace to the world, let us beseech of the Lord."
+  - key: lit.evening.peace_repentance
+    text: "That we may pass the residue of our life in peace and penitence, let us beseech of the Lord."
+  - key: lit.evening.christian_ending
+    text: "A Christian ending to our life, painless, blameless, peaceful; and a good defence before the dread Judgment Seat of Christ, let us beseech of the Lord."
+  - key: lit.evening.exclamation
+    text: "For thou art a gracious God, and lovest mankind, and unto thee we ascribe glory, to the Father, and to the Son, and to the Holy Spirit, now, and ever, and unto ages of ages."
+  - key: sl.vespers.head_bowing_prayer
+    text: "O Lord our God, who didst bow the heavens and come down for the salvation of mankind: Look upon thy servants and thine inheritance; for unto thee, the awful Judge, who yet lovest mankind, have thy servants bowed their heads, and submissively inclined their necks, awaiting not succour from men, but expecting thy mercy and looking confidently for thy salvation. Guard them at all times, both during this present evening and in the approaching night, from every foe, from all adverse powers of the Devil, and from vain thoughts and from evil imaginations."
+  - key: sl.vespers.head_bowing_exclamation
+    text: "Blessed and glorified be the majesty of thy kingdom, of the Father, and of the Son, and of the Holy Spirit, now, and ever, and unto ages of ages."
+  - key: sl.vespers.most_holy_theotokos_save_us
+    text: "O most holy Birth-giver of God, save us."
+
+  # Vespers: Chasoslov parts
+  - key: ch.vespers.gladsome_light
+    text: "O gladsome radiance of the holy glory of the Father immortal, heavenly, holy, blessed, Jesus Christ! In that we now are come unto the setting of the sun, and behold the light of even, we hymn thee, Father, Son, and Holy Spirit, God. For meet is it that at all times thou shouldest be magnified by voices propitious, O Son of God, who bestowest life. For which cause all the world doth glorify thee."
+  - key: ch.vespers.prokeimenon.mon
+    text: "Behold now, praise the Lord, all ye servants of the Lord."
+  - key: ch.vespers.prokeimenon.mon.verse
+    text: "Ye that stand in the temple of the Lord, even in the courts of the house of our God."
+  - key: ch.vespers.prokeimenon.tue
+    text: "When I call upon the Lord, he will hear me."
+  - key: ch.vespers.prokeimenon.tue.verse
+    text: "Hear me when I call, O God of my righteousness."
+  - key: ch.vespers.prokeimenon.wed
+    text: "Thy mercy, O Lord, shall follow me all the days of my life."
+  - key: ch.vespers.prokeimenon.wed.verse
+    text: "The Lord is my shepherd, therefore can I lack nothing: he hath led me in a green pasture."
+  - key: ch.vespers.prokeimenon.thu
+    text: "Save me, O God, for thy Name's sake, and judge me in thy strength."
+  - key: ch.vespers.prokeimenon.thu.verse
+    text: "Hear my prayer, O God, and hearken unto the words of my mouth."
+  - key: ch.vespers.prokeimenon.fri
+    text: "My help cometh even from the Lord, who hath made heaven and earth."
+  - key: ch.vespers.prokeimenon.fri.verse
+    text: "I will lift up mine eyes unto the hills, from whence cometh my help."
+  - key: ch.vespers.prokeimenon.sat
+    text: "Thou art my defence, O God, and thy goodness preventeth me."
+  - key: ch.vespers.prokeimenon.sat.verse
+    text: "Deliver me from mine enemies, O God, and save me from them that rise up against me."
+  - key: ch.vespers.vouchsafe
+    text: "Vouchsafe, O Lord, to keep us this night without sin. Blessed art thou, O Lord, the God of our fathers, and praised and glorified is thy name forever. Amen. Let thy mercy be upon us, O Lord, even as we have set our hope on thee. Blessed art thou, O Lord; teach me thy statutes. Blessed art thou, O Master; make me to understand thy commandments. Blessed art thou, O Holy One; enlighten me with thy precepts. Thy mercy, O Lord, endureth forever: O despise not the works of thy hands. To thee belongeth worship, to thee belongeth praise, to thee belongeth glory, to the Father, and to the Son, and to the Holy Spirit, now, and ever, unto ages of ages. Amen."
+  - key: ch.vespers.nunc_dimittis
+    text: "Lord, now lettest thou thy servant depart in peace, according to thy word. For mine eyes have seen thy salvation, which thou hast prepared before the face of all people. To be a light to lighten the Gentiles, and to be the glory of thy people Israel."
+  # Aposticha verses (Coverdale, Ps 122; Friday evening: translated)
+  - key: ch.vespers.aposticha.verse.2
+    text: "Unto thee lift I up mine eyes: O thou that dwellest in the heavens. Behold, even as the eyes of servants look unto the hand of their masters, and as the eyes of a maiden unto the hand of her mistress: even so our eyes wait upon the Lord our God, until he have mercy upon us."
+    source: en.project
+  - key: ch.vespers.aposticha.verse.3
+    text: "Have mercy upon us, O Lord, have mercy upon us: for we are utterly despised. Our soul is filled with the scornful reproof of the wealthy: and with the despitefulness of the proud."
+    source: en.project
+  - key: oc.vespers.aposticha.sat.verse.2
+    text: "Blessed are they whom thou hast chosen and taken, O Lord."
+    source: en.project
+  - key: oc.vespers.aposticha.sat.verse.3
+    text: "Their souls shall dwell among good things."
+    source: en.project
+
+  # --- «Lord, I have cried»: Coverdale (Pss 140, 141, 129, 116), divided as in the Slavonic; verses 1-3 after Hapgood ---
+  - key: ch.vespers.lic.verse.1
+    text: "Lord, I have cried unto thee, hear me. Hear me, O Lord."
+    source: en.hapgood
+  - key: ch.vespers.lic.verse.2
+    text: "Lord, I have cried unto thee, hear me: receive the voice of my prayer when I call upon thee. Hear me, O Lord."
+    source: en.hapgood
+  - key: ch.vespers.lic.verse.3
+    text: "Let my prayer be set forth in thy sight as the incense: and let the lifting up of my hands be an evening sacrifice. Hear me, O Lord."
+    source: en.hapgood
+  - key: ch.vespers.lic.verse.4
+    text: "Set a watch, O Lord, before my mouth: and keep the door of my lips."
+    source: en.coverdale
+  - key: ch.vespers.lic.verse.5
+    text: "O let not mine heart be inclined to any evil thing: let me not be occupied in ungodly works;"
+    source: en.coverdale
+  - key: ch.vespers.lic.verse.6
+    text: "With the men that work wickedness, lest I eat of such things as please them."
+    source: en.coverdale
+  - key: ch.vespers.lic.verse.7
+    text: "Let the righteous rather smite me friendly: and reprove me."
+    source: en.coverdale
+  - key: ch.vespers.lic.verse.8
+    text: "But let not their precious balms break my head: yea, I will pray yet against their wickedness."
+    source: en.coverdale
+  - key: ch.vespers.lic.verse.9
+    text: "Let their judges be overthrown in stony places: that they may hear my words, for they are sweet. Our bones lie scattered before the pit: like as when one breaketh and heweth wood upon the earth."
+    source: en.coverdale
+  - key: ch.vespers.lic.verse.10
+    text: "But mine eyes look unto thee, O Lord God: in thee is my trust, O cast not out my soul."
+    source: en.coverdale
+  - key: ch.vespers.lic.verse.11
+    text: "Keep me from the snare that they have laid for me: and from the traps of the wicked doers."
+    source: en.coverdale
+  - key: ch.vespers.lic.verse.12
+    text: "Let the ungodly fall into their own nets together: and let me ever escape them."
+    source: en.coverdale
+  - key: ch.vespers.lic.verse.13
+    text: "I cried unto the Lord with my voice: yea, even unto the Lord did I make my supplication."
+    source: en.coverdale
+  - key: ch.vespers.lic.verse.14
+    text: "I poured out my complaints before him: and shewed him of my trouble."
+    source: en.coverdale
+  - key: ch.vespers.lic.verse.15
+    text: "When my spirit was in heaviness thou knewest my path:"
+    source: en.coverdale
+  - key: ch.vespers.lic.verse.16
+    text: "In the way wherein I walked have they privily laid a snare for me."
+    source: en.coverdale
+  - key: ch.vespers.lic.verse.17
+    text: "I looked also upon my right hand: and saw there was no man that would know me."
+    source: en.coverdale
+  - key: ch.vespers.lic.verse.18
+    text: "I had no place to flee unto: and no man cared for my soul."
+    source: en.coverdale
+  - key: ch.vespers.lic.verse.19
+    text: "I cried unto thee, O Lord, and said: Thou art my hope, and my portion in the land of the living."
+    source: en.coverdale
+  - key: ch.vespers.lic.verse.20
+    text: "Consider my complaint: for I am brought very low. O deliver me from my persecutors: for they are too strong for me."
+    source: en.coverdale
+  - key: ch.vespers.lic.verse.21
+    text: "Bring my soul out of prison, that I may give thanks unto thy Name."
+    source: en.coverdale
+  - key: ch.vespers.lic.verse.22
+    text: "Which thing if thou wilt grant me, then shall the righteous resort unto my company."
+    source: en.coverdale
+  - key: ch.vespers.lic.verse.23
+    text: "Out of the deep have I called unto thee, O Lord: Lord, hear my voice."
+    source: en.coverdale
+  - key: ch.vespers.lic.verse.24
+    text: "O let thine ears consider well: the voice of my complaint."
+    source: en.coverdale
+  - key: ch.vespers.lic.verse.25
+    text: "If thou, Lord, wilt be extreme to mark what is done amiss: O Lord, who may abide it? For there is mercy with thee."
+    source: en.coverdale
+  - key: ch.vespers.lic.verse.26
+    text: "Therefore shalt thou be feared. I look for the Lord; my soul doth wait for him: in his word is my trust."
+    source: en.coverdale
+  - key: ch.vespers.lic.verse.27
+    text: "My soul fleeth unto the Lord before the morning watch, I say, before the morning watch: O Israel, trust in the Lord."
+    source: en.coverdale
+  - key: ch.vespers.lic.verse.28
+    text: "For with the Lord there is mercy: and with him is plenteous redemption; and he shall redeem Israel from all his sins."
+    source: en.coverdale
+  - key: ch.vespers.lic.verse.29
+    text: "O praise the Lord, all ye heathen: praise him, all ye nations."
+    source: en.coverdale
+  - key: ch.vespers.lic.verse.30
+    text: "For his merciful kindness is ever more and more towards us: and the truth of the Lord endureth for ever."
+    source: en.coverdale
+  - key: tc.pascha.troparion
+    text: "Christ is risen from the dead, trampling down Death by death, and upon those in the tomb bestowing life."
+
+  # --- Hours (not in Hapgood): translated for the project ---
+  - key: common.prayer_of_the_hours
+    text: "O thou who at all times and at every hour, in heaven and on earth, art worshipped and glorified, O Christ God; who art long-suffering, plenteous in mercy, most compassionate; who lovest the righteous and showest mercy upon sinners; who callest all men unto salvation through the promise of the blessings to come: Do thou thyself, O Lord, receive our prayers also at this hour, and direct our life according to thy commandments. Sanctify our souls; hallow our bodies; correct our thoughts; cleanse our intentions; and deliver us from all tribulation, evil and distress. Compass us about with thy holy Angels, that, guarded and guided by their host, we may attain unto the unity of the faith, and unto the knowledge of thine unapproachable glory: for blessed art thou unto ages of ages. Amen."
+    source: en.project
+  - key: ch.none.theotokion
+    text: "O thou who for our sake wast born of the Virgin, and didst endure crucifixion, O Good One; who by death didst despoil death, and as God didst reveal the resurrection: despise not those whom thou hast fashioned with thine own hand. Show forth thy love for mankind, O Merciful One; accept the Birth-giver of God who bare thee, interceding for us; and save, O our Saviour, a despairing people."
+    source: en.project
+  - key: ch.none.do_not_deliver_us
+    text: "Deliver us not up utterly, for thy Name's sake, and annul not thy covenant; and cause not thy mercy to depart from us, for the sake of Abraham thy beloved, and for the sake of Isaac thy servant, and of Israel thy holy one."
+    source: en.project
+  - key: ch.none.prayer_of_basil
+    text: "O Master, Lord Jesus Christ our God, who art long-suffering in our transgressions, and who hast brought us even unto this present hour, wherein, hanging upon the life-giving Tree, thou didst make a way into paradise for the wise thief, and by death didst destroy death: Cleanse us, thy sinful and unworthy servants; for we have sinned and done iniquity, and are not worthy to lift up our eyes and behold the height of heaven, because we have forsaken the way of thy righteousness, and have walked in the desires of our own hearts. But we implore thy boundless goodness: Spare us, O Lord, according to the multitude of thy mercy, and save us for thy holy Name's sake; for our days have passed away in vanity. Snatch us out of the hand of the adversary; forgive us our sins; and mortify our carnal mind; that, putting off the old man, we may be clothed with the new, and may live unto thee, our Master and Benefactor; and that so, following thy commandments, we may attain unto rest everlasting, where is the dwelling-place of all who rejoice. For thou art in very truth the joy and gladness of those who love thee, O Christ our God, and unto thee we ascribe glory, together with thy Father, who is from everlasting, and thine all-holy, and good, and life-giving Spirit, now, and ever, and unto ages of ages. Amen."
+    source: en.project
+  - key: ch.prime.theotokion
+    text: "What shall we call thee, O thou who art full of grace? Heaven: for thou hast caused the Sun of Righteousness to shine forth. Paradise: for thou hast budded forth the flower of incorruption. Virgin: for thou hast remained incorrupt. Pure Mother: for thou hast held in thy holy arms a Son, the God of all. Entreat him to save our souls."
+    source: en.project
+  - key: ch.prime.verse.order_my_steps
+    text: "Order my steps in thy word: and so shall no wickedness have dominion over me. O deliver me from the wrongful dealings of men: and so shall I keep thy commandments. Shew the light of thy countenance upon thy servant: and teach me thy statutes."
+    source: en.project
+  - key: ch.prime.verse.let_my_mouth
+    text: "O let my mouth be filled with thy praise: that I may sing of thy glory and honour all the day long."
+    source: en.project
+  - key: ch.prime.prayer
+    text: "O Christ, the true Light, who enlightenest and sanctifiest every man that cometh into the world: Let the light of thy countenance be signed upon us, that in it we may behold the Light unapproachable; and direct our steps in the doing of thy commandments; through the intercessions of thy most pure Mother, and of all thy Saints. Amen."
+    source: en.project
+  - key: ch.terce.theotokion
+    text: "O Birth-giver of God, thou art the true vine, which hath borne for us the Fruit of life: Thee do we entreat: Intercede, O Lady, together with the holy Apostles, that our souls may obtain mercy."
+    source: en.project
+  - key: ch.terce.verse.blessed_is_the_lord
+    text: "Blessed be the Lord God; blessed be the Lord day by day: the God of our salvation shall prosper us; our God is the God of salvation."
+    source: en.project
+  - key: ch.terce.prayer_of_mardarius
+    text: "O Master, God the Father Almighty, and Lord, the Only-begotten Son, Jesus Christ, and the Holy Spirit, one Godhead, one Power: Have mercy upon me a sinner; and by the judgments which thou knowest, save me, thine unworthy servant: for blessed art thou unto ages of ages. Amen."
+    source: en.project
+  - key: ch.sext.theotokion
+    text: "Forasmuch as we have no boldness because of our many sins, do thou, O Virgin Birth-giver of God, entreat him who was born of thee; for the supplication of a mother availeth much to win the favour of the Master. Disdain not the prayers of sinners, O all-pure one; for merciful and mighty to save is he who deigned to suffer for our sake."
+    source: en.project
+  - key: ch.sext.verse.let_thy_mercies
+    text: "Let thy mercies speedily go before us, O Lord, for we are brought very low. Help us, O God of our salvation, for the glory of thy Name; O Lord, deliver us, and be merciful unto our sins, for thy Name's sake."
+    source: en.project
+  - key: ch.sext.prayer_of_basil
+    text: "O God and Lord of Hosts, Creator of all creation, who, through the tender compassion of thy mercy which passeth all understanding, didst send down thine Only-begotten Son, our Lord Jesus Christ, for the salvation of our race, and by his precious Cross didst tear asunder the handwriting of our sins, and thereby didst triumph over the principalities and powers of darkness: Do thou thyself, O Master who lovest mankind, accept also from us sinners these prayers of thanksgiving and supplication; and deliver us from every destructive and dark transgression, and from all visible and invisible enemies who seek to do us evil. Nail down our flesh with the fear of thee, and incline not our hearts unto words or thoughts of evil; but wound our souls with longing for thee, that, ever looking unto thee and being guided by the light that cometh from thee, beholding thee, the unapproachable and everlasting Light, we may send up unceasing confession and thanksgiving unto thee, the Father without beginning, together with thine Only-begotten Son, and thine all-holy, and good, and life-giving Spirit, now, and ever, and unto ages of ages. Amen."
+    source: en.project
+  - key: tp.akathist.kontakion.1
+    text: "To thee, the Champion Leader, we thy servants dedicate a feast of victory and of thanksgiving, as ones rescued out of sufferings, O Birth-giver of God: but as thou art one with might which is invincible, from all dangers that can be do thou deliver us, that we may cry to thee: Rejoice, O unwedded Bride."
+    source: en.project
+  - key: tc.pascha.kontakion
+    text: "Though thou didst descend into the grave, O Immortal One, yet didst thou destroy the power of hell, and didst arise as victor, O Christ God, calling to the myrrh-bearing women: Rejoice! and giving peace unto thine Apostles, O thou who grantest resurrection to the fallen."
+    source: en.project

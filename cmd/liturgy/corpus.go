@@ -56,7 +56,7 @@ func cmdImport(ctx context.Context, args []string) error {
 	warnings = append(warnings, w...)
 	theot, w := orthlib.ImportDismissalTheotokia(*root)
 	warnings = append(warnings, w...)
-	manualSrc, manual, err := orthlib.ImportManual(*textsDir)
+	manualSrc, manual, manualTr, err := orthlib.ImportManual(*textsDir)
 	if err != nil {
 		return err
 	}
@@ -97,7 +97,7 @@ func cmdImport(ctx context.Context, args []string) error {
 		}
 	}
 	// English translations of the units above.
-	var english []corpus.Unit
+	english := manualTr
 	var enSources []corpus.Source
 	if _, err := os.Stat(*coverdale); err == nil {
 		cov, w, err := englishpkg.ImportCoverdale(*coverdale)

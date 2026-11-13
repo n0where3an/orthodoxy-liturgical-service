@@ -50,6 +50,7 @@ var (
 	reVespStart  = regexp.MustCompile(`^At (Little )?Vespers`)
 	reMarkup     = regexp.MustCompile(`\*([^*]+)\*`)
 	reTwice      = regexp.MustCompile(`\s*\*(Twice|Thrice)\*\s*$`)
+	reSameMelody = regexp.MustCompile(`^\*?(In the same melody|Same melody):\*?\s*`)
 	roman        = map[string]int{"I": 1, "II": 2, "III": 3, "IV": 4, "V": 5, "VI": 6, "VII": 7, "VIII": 8}
 	monthsByName = map[string]time.Month{}
 )
@@ -69,6 +70,7 @@ func toneEn(s string) int {
 
 func cleanMd(s string) string {
 	s = reTwice.ReplaceAllString(s, "")
+	s = reSameMelody.ReplaceAllString(s, "")
 	s = strings.NewReplacer(`\(`, "(", `\)`, ")", `\*`, "*", `\[`, "[", `\]`, "]").Replace(s)
 	s = reMarkup.ReplaceAllString(s, "$1")
 	return strings.TrimSpace(s)
@@ -129,7 +131,13 @@ func parseService(path string) []hymn {
 			case inVespers && reAposEn.MatchString(p):
 				section = "aposticha"
 				expect = "vespers.aposticha.sticheron"
-				if strings.Contains(p, "Octoechos") {
+				switch {
+				case strings.Contains(p, "Glory") && strings.Contains(p, "Now & ever"):
+					expect = "vespers.aposticha.glory_now"
+				case strings.Contains(p, "Glory"):
+					// "At the aposticha, the stichera from the Octoechos; and, Glory…"
+					expect = "vespers.aposticha.glory"
+				case strings.Contains(p, "Octoechos"):
 					expect = ""
 				}
 			case inVespers && section != "" && reGloryEn.MatchString(p):
