@@ -1,0 +1,266 @@
+# Утреня вседневная — по Часослову (М., 1980) и Служебнику, с Октоихом
+# и Минеей; для дня святого без знака.
+#
+# Начало: в приходской практике (без полунощницы) — обычное начало,
+# «Приидите, поклонимся», царская часть (псалмы 19 и 20, тропари, краткая
+# сугубая ектения). На кафизмах в будни ектений не бывает; малые ектении —
+# по 3-й, 6-й песни и по «Достойно есть» (Служебник, Устав утрени).
+# В будни по «Утверди, Боже» чтец начинает первый час (в приходской
+# практике час соединён с утреней); отдельно служимая утреня (standalone)
+# оканчивается отпустом.
+#
+# Ектении произносит диакон, а без него — священник (performer: litanist).
+# Без священника (чин мирянский) вместо ектений — «Господи, помилуй».
+
+service: matins
+nodes:
+  - {id: title, ref: ch.matins.title, heading: true}
+  - {id: beginning, include: usual_beginning}
+
+  # --- Царская часть ---
+  - {id: psalm_19, ref: ch.matins.psalm.19, performer: reader}
+  - {id: psalm_20, ref: ch.matins.psalm.20, performer: reader}
+  - {id: royal_glory_now, ref: common.glory_now, performer: reader}
+  - {id: royal_trisagion, include: trisagion_to_our_father}
+  - {id: royal_troparion, ref: ch.troparion.day.wed, performer: reader}
+  - {id: royal_glory, ref: common.glory, performer: reader}
+  - {id: royal_kontakion, ref: ch.kontakion.day.wed, performer: reader}
+  - {id: royal_now, ref: common.and_now, performer: reader}
+  - {id: royal_theotokion, ref: ch.matins.theotokion.dread, performer: reader}
+  - id: royal_litany
+    when: priest
+    children:
+      - {id: royal_have_mercy, ref: lit.augmented.have_mercy, performer: litanist, voice: aloud}
+      - {id: royal_r1, ref: common.lord_have_mercy, performer: choir, repeat: 3}
+      - {id: royal_hierarchy, ref: lit.augmented.hierarchy, performer: litanist, voice: aloud}
+      - {id: royal_r2, ref: common.lord_have_mercy, performer: choir, repeat: 3}
+      - {id: royal_all_christians, ref: lit.matins.all_christians, performer: litanist, voice: aloud}
+      - {id: royal_r3, ref: common.lord_have_mercy, performer: choir, repeat: 3}
+      - {id: royal_exclamation, ref: lit.augmented.exclamation, performer: priest, voice: aloud}
+      - {id: royal_amen, ref: common.amen, performer: choir}
+  - {id: royal_lhm, ref: common.lord_have_mercy, performer: reader, repeat: 12, when: "!priest"}
+  - {id: in_the_name, ref: common.in_the_name_of_the_lord_bless, performer: reader}
+  - {id: glory_to_trinity, ref: sl.matins.glory_to_trinity, performer: priest, voice: aloud, when: priest}
+  - {id: glory_to_trinity_reader, ref: common.prayers_of_holy_fathers, performer: reader, when: "!priest"}
+  - {id: glory_to_trinity_amen, ref: common.amen, performer: reader}
+
+  # --- Шестопсалмие; утренние молитвы ---
+  - {id: hexapsalm_rubric, rubric: hexapsalm, audience: laity}
+  - {id: glory_in_highest, ref: ch.hexapsalm.glory_in_the_highest, performer: reader, repeat: 3, title: hexapsalm}
+  - {id: open_my_lips, ref: ch.hexapsalm.open_my_lips, performer: reader, repeat: 2}
+  - {id: psalm_3, ref: ch.hexapsalm.psalm.3, performer: reader}
+  - {id: psalm_3_verse, ref: ch.hexapsalm.psalm.3.verse, performer: reader}
+  - {id: psalm_37, ref: ch.hexapsalm.psalm.37, performer: reader}
+  - {id: psalm_37_verse, ref: ch.hexapsalm.psalm.37.verse, performer: reader}
+  - {id: psalm_62, ref: ch.hexapsalm.psalm.62, performer: reader}
+  - {id: psalm_62_verse_1, ref: ch.hexapsalm.psalm.62.verse.1, performer: reader}
+  - {id: psalm_62_verse_2, ref: ch.hexapsalm.psalm.62.verse.2, performer: reader}
+  - {id: hexa_glory_now_1, ref: common.glory_now, performer: reader}
+  - {id: hexa_alleluia_1, ref: ch.hexapsalm.alleluia, performer: reader, repeat: 3}
+  - {id: hexa_lhm, ref: common.lord_have_mercy, performer: reader, repeat: 3}
+  - {id: hexa_glory_now_2, ref: common.glory_now, performer: reader}
+  # Утренние молитвы священник читает тайно во время второй половины шестопсалмия.
+  - {id: morning_prayer_1, ref: sl.matins.morning_prayer.1, performer: priest, voice: secret, title: morning_prayers, during: psalm_87, when: priest}
+  - {id: morning_prayer_2, ref: sl.matins.morning_prayer.2, performer: priest, voice: secret, title: morning_prayers, during: psalm_87, when: priest}
+  - {id: morning_prayer_3, ref: sl.matins.morning_prayer.3, performer: priest, voice: secret, title: morning_prayers, during: psalm_87, when: priest}
+  - {id: morning_prayer_4, ref: sl.matins.morning_prayer.4, performer: priest, voice: secret, title: morning_prayers, during: psalm_87, when: priest}
+  - {id: morning_prayer_5, ref: sl.matins.morning_prayer.5, performer: priest, voice: secret, title: morning_prayers, during: psalm_87, when: priest}
+  - {id: morning_prayer_6, ref: sl.matins.morning_prayer.6, performer: priest, voice: secret, title: morning_prayers, during: psalm_87, when: priest}
+  - {id: morning_prayer_7, ref: sl.matins.morning_prayer.7, performer: priest, voice: secret, title: morning_prayers, during: psalm_87, when: priest}
+  - {id: morning_prayer_8, ref: sl.matins.morning_prayer.8, performer: priest, voice: secret, title: morning_prayers, during: psalm_87, when: priest}
+  - {id: morning_prayer_9, ref: sl.matins.morning_prayer.9, performer: priest, voice: secret, title: morning_prayers, during: psalm_87, when: priest}
+  - {id: morning_prayer_10, ref: sl.matins.morning_prayer.10, performer: priest, voice: secret, title: morning_prayers, during: psalm_87, when: priest}
+  - {id: morning_prayer_11, ref: sl.matins.morning_prayer.11, performer: priest, voice: secret, title: morning_prayers, during: psalm_87, when: priest}
+  - {id: morning_prayer_12, ref: sl.matins.morning_prayer.12, performer: priest, voice: secret, title: morning_prayers, during: psalm_87, when: priest}
+  - {id: psalm_87, ref: ch.hexapsalm.psalm.87, performer: reader, title: hexapsalm_second}
+  - {id: psalm_87_verse_1, ref: ch.hexapsalm.psalm.87.verse.1, performer: reader}
+  - {id: psalm_87_verse_2, ref: ch.hexapsalm.psalm.87.verse.2, performer: reader}
+  - {id: psalm_102, ref: ch.hexapsalm.psalm.102, performer: reader}
+  - {id: psalm_102_verse, ref: ch.hexapsalm.psalm.102.verse, performer: reader}
+  - {id: psalm_142, ref: ch.hexapsalm.psalm.142, performer: reader}
+  - {id: psalm_142_verse_1, ref: ch.hexapsalm.psalm.142.verse.1, performer: reader, repeat: 2}
+  - {id: psalm_142_verse_2, ref: ch.hexapsalm.psalm.142.verse.2, performer: reader}
+  - {id: hexa_glory_now_3, ref: common.glory_now, performer: reader}
+  - {id: hexa_alleluia_2, ref: ch.hexapsalm.alleluia, performer: reader, repeat: 3}
+
+  - {id: great_litany, include: great_litany, when: priest}
+  - {id: great_litany_reader, ref: common.lord_have_mercy, performer: reader, repeat: 12, when: "!priest"}
+
+  # --- Бог Господь; тропари ---
+  - {id: god_is_the_lord_rubric, rubric: god_is_the_lord, audience: kliros}
+  - {id: god_is_the_lord_v1, ref: ch.matins.god_is_the_lord.verse.1, performer: litanist, voice: aloud, when: priest}
+  - {id: god_is_the_lord_1, ref: ch.matins.god_is_the_lord, performer: choir}
+  - {id: god_is_the_lord_v2, ref: ch.matins.god_is_the_lord.verse.2, performer: litanist, voice: aloud, when: priest}
+  - {id: god_is_the_lord_2, ref: ch.matins.god_is_the_lord, performer: choir}
+  - {id: god_is_the_lord_v3, ref: ch.matins.god_is_the_lord.verse.3, performer: litanist, voice: aloud, when: priest}
+  - {id: god_is_the_lord_3, ref: ch.matins.god_is_the_lord, performer: choir}
+  - {id: god_is_the_lord_v4, ref: ch.matins.god_is_the_lord.verse.4, performer: litanist, voice: aloud, when: priest}
+  - {id: god_is_the_lord_4, ref: ch.matins.god_is_the_lord, performer: choir}
+  - {id: troparia, slot: troparia, performer: choir}
+
+  # --- Кафизмы с седальнами ---
+  - {id: kathisma_rubric, rubric: matins_kathismata, audience: kliros}
+  - id: kathisma_1
+    if_slot: kathisma_1
+    children:
+      - {id: k1_stasis_1, slot: kathisma_1, index: 1, performer: reader}
+      - {id: k1_doxology_1, include: stasis_doxology}
+      - {id: k1_stasis_2, slot: kathisma_1, index: 2, performer: reader}
+      - {id: k1_doxology_2, include: stasis_doxology}
+      - {id: k1_stasis_3, slot: kathisma_1, index: 3, performer: reader}
+      - {id: k1_doxology_3, include: stasis_doxology}
+      - {id: k1_sedalny_rubric, rubric: sedalny, audience: kliros}
+      - {id: k1_sedalny, slot: sedalny_1, performer: choir}
+  - id: kathisma_2
+    if_slot: kathisma_2
+    children:
+      - {id: k2_stasis_1, slot: kathisma_2, index: 1, performer: reader}
+      - {id: k2_doxology_1, include: stasis_doxology}
+      - {id: k2_stasis_2, slot: kathisma_2, index: 2, performer: reader}
+      - {id: k2_doxology_2, include: stasis_doxology}
+      - {id: k2_stasis_3, slot: kathisma_2, index: 3, performer: reader}
+      - {id: k2_doxology_3, include: stasis_doxology}
+      - {id: k2_sedalny_rubric, rubric: sedalny, audience: kliros}
+      - {id: k2_sedalny, slot: sedalny_2, performer: choir}
+  - id: kathisma_3
+    if_slot: kathisma_3
+    children:
+      - {id: k3_stasis_1, slot: kathisma_3, index: 1, performer: reader}
+      - {id: k3_doxology_1, include: stasis_doxology}
+      - {id: k3_stasis_2, slot: kathisma_3, index: 2, performer: reader}
+      - {id: k3_doxology_2, include: stasis_doxology}
+      - {id: k3_stasis_3, slot: kathisma_3, index: 3, performer: reader}
+      - {id: k3_doxology_3, include: stasis_doxology}
+      - {id: k3_sedalny_rubric, rubric: sedalny, audience: kliros}
+      - {id: k3_sedalny, slot: sedalny_3, performer: choir}
+
+  # --- Псалом 50; канон ---
+  - {id: psalm_50, ref: ch.psalm.50, performer: reader}
+  - {id: canon_rubric, rubric: matins_canon, audience: kliros}
+  - {id: canon_1_3, slot: canon_1_3, performer: choir}
+  - id: small_litany_3
+    when: priest
+    children:
+      - {id: sl3, include: small_litany_open}
+      - {id: sl3_exclamation, ref: sl.matins.exclamation.ode3, performer: priest, voice: aloud}
+      - {id: sl3_amen, ref: common.amen, performer: choir}
+  - {id: sl3_reader, ref: common.lord_have_mercy, performer: reader, repeat: 3, when: "!priest"}
+  - {id: sedalen_rubric, rubric: sedalen_menaion, audience: kliros}
+  - {id: sedalen, slot: sedalen, performer: choir}
+  - {id: canon_4_6, slot: canon_4_6, performer: choir}
+  - id: small_litany_6
+    when: priest
+    children:
+      - {id: sl6, include: small_litany_open}
+      - {id: sl6_exclamation, ref: sl.matins.exclamation.ode6, performer: priest, voice: aloud}
+      - {id: sl6_amen, ref: common.amen, performer: choir}
+  - {id: sl6_reader, ref: common.lord_have_mercy, performer: reader, repeat: 3, when: "!priest"}
+  - {id: kontakion, slot: kontakion, performer: reader}
+  - {id: canon_7_8, slot: canon_7_8, performer: choir}
+
+  # --- Песнь Богородицы ---
+  - {id: magnificat_rubric, rubric: magnificat, audience: kliros}
+  - {id: magnificat_1, ref: ch.matins.magnificat.1, performer: choir}
+  - {id: magnificat_r1, ref: common.more_honorable, performer: choir}
+  - {id: magnificat_2, ref: ch.matins.magnificat.2, performer: choir}
+  - {id: magnificat_r2, ref: common.more_honorable, performer: choir}
+  - {id: magnificat_3, ref: ch.matins.magnificat.3, performer: choir}
+  - {id: magnificat_r3, ref: common.more_honorable, performer: choir}
+  - {id: magnificat_4, ref: ch.matins.magnificat.4, performer: choir}
+  - {id: magnificat_r4, ref: common.more_honorable, performer: choir}
+  - {id: magnificat_5, ref: ch.matins.magnificat.5, performer: choir}
+  - {id: magnificat_r5, ref: common.more_honorable, performer: choir}
+  - {id: magnificat_6, ref: ch.matins.magnificat.6, performer: choir}
+  - {id: magnificat_r6, ref: common.more_honorable, performer: choir}
+  - {id: canon_9, slot: canon_9, performer: choir}
+  - {id: truly_meet, ref: ch.lit.it_is_truly_meet, performer: choir}
+  - id: small_litany_9
+    when: priest
+    children:
+      - {id: sl9, include: small_litany_open}
+      - {id: sl9_exclamation, ref: sl.matins.exclamation.ode9, performer: priest, voice: aloud}
+      - {id: sl9_amen, ref: common.amen, performer: choir}
+  - {id: sl9_reader, ref: common.lord_have_mercy, performer: reader, repeat: 3, when: "!priest"}
+  - {id: exapostilaria, slot: exapostilaria, performer: choir}
+
+  # --- Хвалитны; славословие ---
+  - {id: praises_1, ref: ch.matins.praises.1, performer: reader}
+  - {id: praises_r1, ref: ch.matins.praises.refrain, performer: reader}
+  - {id: praises_2, ref: ch.matins.praises.2, performer: reader}
+  - {id: praises_r2, ref: ch.matins.praises.refrain, performer: reader}
+  - {id: praises_148, ref: ch.matins.praises.148, performer: reader}
+  - {id: praises_149, ref: ch.matins.praises.149, performer: reader}
+  - {id: praises_149_verse, ref: ch.matins.praises.149.verse, performer: reader}
+  - {id: praises_150_1, ref: ch.matins.praises.150.1, performer: reader}
+  - {id: praises_150, ref: ch.matins.praises.150, performer: reader}
+  - {id: praises_glory_now, ref: common.glory_now, performer: reader}
+  - {id: to_thee_glory, ref: ch.matins.to_thee_glory, performer: reader}
+  - {id: who_showed_light, ref: ch.matins.glory_to_thee_who_showed, performer: reader}
+  - {id: doxology_1, ref: ch.matins.doxology.1, performer: reader}
+  - {id: doxology_2, ref: ch.matins.doxology.2, performer: reader}
+  - {id: doxology_3, ref: ch.matins.doxology.3, performer: reader}
+  - {id: doxology_4, ref: ch.matins.doxology.4, performer: reader}
+  - {id: doxology_5, ref: ch.matins.doxology.5, performer: reader}
+  - {id: doxology_6, ref: ch.matins.doxology.6, performer: reader}
+
+  # --- Просительная ектения ---
+  - id: complete_litany
+    when: priest
+    children:
+      - {id: cl_complete, ref: lit.matins.complete, performer: litanist, voice: aloud}
+      - {id: cl_r1, ref: common.lord_have_mercy, performer: choir}
+      - {id: cl_help, ref: lit.help_us, performer: litanist, voice: aloud}
+      - {id: cl_r2, ref: common.lord_have_mercy, performer: choir}
+      - {id: cl_day, ref: lit.offertory.day_perfect, performer: litanist, voice: aloud}
+      - {id: cl_r3, ref: lit.response.grant_o_lord, performer: choir}
+      - {id: cl_angel, ref: lit.evening.angel, performer: litanist, voice: aloud}
+      - {id: cl_r4, ref: lit.response.grant_o_lord, performer: choir}
+      - {id: cl_pardon, ref: lit.evening.pardon, performer: litanist, voice: aloud}
+      - {id: cl_r5, ref: lit.response.grant_o_lord, performer: choir}
+      - {id: cl_good, ref: lit.evening.good_things, performer: litanist, voice: aloud}
+      - {id: cl_r6, ref: lit.response.grant_o_lord, performer: choir}
+      - {id: cl_repentance, ref: lit.evening.peace_repentance, performer: litanist, voice: aloud}
+      - {id: cl_r7, ref: lit.response.grant_o_lord, performer: choir}
+      - {id: cl_ending, ref: lit.evening.christian_ending, performer: litanist, voice: aloud}
+      - {id: cl_r8, ref: lit.response.grant_o_lord, performer: choir}
+      - {id: cl_commemorating, ref: lit.commemorating, performer: litanist, voice: aloud}
+      - {id: cl_r9, ref: lit.response.to_thee_o_lord, performer: choir}
+      - {id: cl_exclamation, ref: sl.matins.complete_exclamation, performer: priest, voice: aloud}
+      - {id: cl_amen, ref: common.amen, performer: choir}
+      - {id: cl_peace, ref: lit.peace_be_unto_all, performer: priest, voice: aloud}
+      - {id: cl_and_with_thy_spirit, ref: lit.response.and_with_thy_spirit, performer: choir}
+      - {id: cl_bow, ref: lit.bow_your_heads, performer: litanist, voice: aloud}
+      - {id: cl_head_bowing_prayer, ref: sl.matins.head_bowing_prayer, performer: priest, voice: secret, title: head_bowing_prayer, during: cl_to_thee}
+      - {id: cl_to_thee, ref: lit.response.to_thee_o_lord, performer: choir, title: to_thee_o_lord}
+      - {id: cl_bow_exclamation, ref: sl.matins.head_bowing_exclamation, performer: priest, voice: aloud}
+      - {id: cl_amen_2, ref: common.amen, performer: choir}
+  - {id: cl_reader, ref: common.lord_have_mercy, performer: reader, repeat: 12, when: "!priest"}
+
+  # --- Стиховна ---
+  - {id: aposticha_rubric, rubric: matins_aposticha, audience: kliros}
+  - {id: aposticha, slot: aposticha, performer: choir}
+  - {id: it_is_good, ref: ch.matins.it_is_good, performer: reader}
+  - {id: end_trisagion, include: trisagion_to_our_father}
+  - {id: end_troparia, slot: end_troparia, performer: choir}
+
+  # --- Сугубая ектения; окончание ---
+  - id: ending_priest
+    when: priest
+    children:
+      - {id: augmented, include: augmented_litany}
+      - {id: wisdom, ref: lit.wisdom, performer: litanist, voice: aloud}
+      - {id: bless, ref: common.bless, performer: choir}
+      - {id: he_who_is, ref: sl.matins.he_who_is, performer: priest, voice: aloud}
+      - {id: he_who_is_amen, ref: common.amen, performer: choir}
+      - {id: confirm, ref: lit.confirm_the_faith, performer: choir}
+  - {id: ending_reader, ref: common.lord_have_mercy, performer: reader, repeat: 40, when: "!priest"}
+  - id: joined
+    when: "!standalone"
+    children:
+      - {id: first_hour_follows, rubric: first_hour_follows}
+  - id: dismissal_standalone
+    when: standalone
+    children:
+      - {id: theotokos_save_us, ref: sl.vespers.most_holy_theotokos_save_us, performer: priest, voice: aloud, when: priest}
+      - {id: more_honorable, ref: common.more_honorable, performer: choir}
+      - {id: dismissal, include: dismissal}

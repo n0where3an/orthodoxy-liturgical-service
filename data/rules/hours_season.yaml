@@ -8,14 +8,14 @@
 # --- Prayers after the opening exclamation of the usual beginning ---
 - id: hours.opening.paschal
   slot: opening_prayers
-  services: [first_hour, third_hour, sixth_hour, ninth_hour]
+  services: [first_hour, third_hour, sixth_hour, ninth_hour, matins]
   priority: 100
   when: pascha_offset >= 7 && pascha_offset <= 38
   # «Христос воскресе» трижды вместо «Слава Тебе, Боже наш» и «Царю Небесный».
   fill: {from: unit, refs: [tc.pascha.troparion], repeat: 3}
 - id: hours.opening.ascension_to_pentecost
   slot: opening_prayers
-  services: [first_hour, third_hour, sixth_hour, ninth_hour]
+  services: [first_hour, third_hour, sixth_hour, ninth_hour, matins]
   priority: 90
   # From the Ascension to Pentecost (inclusive: «Царю Небесный» returns at
   # the vespers of Pentecost) the hours begin with the Trisagion.
@@ -23,7 +23,7 @@
   fill: {from: none}
 - id: hours.opening.ordinary
   slot: opening_prayers
-  services: [first_hour, third_hour, sixth_hour, ninth_hour]
+  services: [first_hour, third_hour, sixth_hour, ninth_hour, matins]
   priority: 0
   fill: {from: unit, refs: [common.glory_to_thee_our_god, common.heavenly_king]}
 

@@ -1,0 +1,96 @@
+# Rules for matins. Implemented: daily (weekday) matins, Monday..Friday of
+# the ordinary period, for a Menaion saint without a sign: sessional hymns,
+# canons and aposticha of the Octoechos, the Menaion canon, sessional hymn,
+# kontakion with ikos and exapostilarion.
+#
+# Recognised but not yet implemented: Sunday and Saturday matins, feasts and
+# afterfeasts, saints with a sign (polyeleos, great doxology), the Triodion
+# periods (Lenten matins with «Аллилуиа», Paschal matins).
+
+- id: matins.sunday
+  service: matins
+  priority: 300
+  when: weekday == 0
+  unsupported: "Воскресная утреня (полиелей, воскресные тропари, евангелие, канон воскресный) ещё не реализована"
+
+- id: matins.saturday
+  service: matins
+  priority: 290
+  when: weekday == 6
+  unsupported: "Субботняя утреня (кафизмы 16 и 17, каноны Октоиха мученикам и усопшим) ещё не реализована"
+
+- id: matins.triodion
+  service: matins
+  priority: 250
+  when: period != "ordinary"
+  unsupported: "Утреня в дни Триоди (в Великий пост — «Аллилуиа», трипеснцы) ещё не реализована"
+
+- id: matins.feast
+  service: matins
+  priority: 200
+  when: feast != ""
+  unsupported: "Утреня двунадесятого праздника, предпразднства и попразднства ещё не реализована"
+
+- id: matins.great_saint
+  service: matins
+  priority: 150
+  # A Menaion service with great vespers has polyeleos or the great doxology.
+  when: menaion_great_vespers
+  unsupported: "Утреня святому со знаком (полиелей, великое славословие) ещё не реализована"
+
+- id: matins.weekday
+  service: matins
+  priority: 10
+  slots:
+    troparia: {from: matins_troparia}
+    sedalny_1: {from: matins_sedalny, section: "1"}
+    sedalny_2: {from: matins_sedalny, section: "2"}
+    canon_1_3: {from: matins_canon, section: "1-3"}
+    sedalen: {from: matins_sedalen}
+    canon_4_6: {from: matins_canon, section: "4-6"}
+    kontakion: {from: matins_kontakion}
+    canon_7_8: {from: matins_canon, section: "7-8"}
+    canon_9: {from: matins_canon, section: "9"}
+    exapostilaria: {from: matins_exapostilaria}
+    aposticha: {from: matins_aposticha}
+    end_troparia: {from: vespers_troparia}
+
+# --- Kathismata (Следованная Псалтирь, «Устав о Псалтири») ---
+# Ordinary order (from Thomas Sunday to the Exaltation and from Dec 20 to
+# Jan 14): two kathismata — Mon 4, 5; Tue 7, 8; Wed 10, 11; Thu 13, 14;
+# Fri 19, 20. Winter (from Sep 22 to Dec 19, from Jan 15 to the Triodion):
+# three — Mon 4, 5, 6; Tue 7, 8, 9; Wed 10, 11, 12; Thu 13, 14, 15;
+# Fri 19, 20 (the 18th is read at vespers). The sessional hymns after the
+# third kathisma are the Octoechos's «иные седальны» (sedalen.3).
+- {id: matins.kathisma_1.mon.winter, slot: kathisma_1, service: matins, priority: 60, when: "weekday == 1 && ((month == 9 && day >= 22) || month == 10 || month == 11 || (month == 12 && day <= 19) || (month == 1 && day >= 15) || month == 2)", fill: {from: unit, refs: [ps.kathisma.4.1, ps.kathisma.4.2, ps.kathisma.4.3]}}
+- {id: matins.kathisma_2.mon.winter, slot: kathisma_2, service: matins, priority: 60, when: "weekday == 1 && ((month == 9 && day >= 22) || month == 10 || month == 11 || (month == 12 && day <= 19) || (month == 1 && day >= 15) || month == 2)", fill: {from: unit, refs: [ps.kathisma.5.1, ps.kathisma.5.2, ps.kathisma.5.3]}}
+- {id: matins.kathisma_3.mon.winter, slot: kathisma_3, service: matins, priority: 60, when: "weekday == 1 && ((month == 9 && day >= 22) || month == 10 || month == 11 || (month == 12 && day <= 19) || (month == 1 && day >= 15) || month == 2)", fill: {from: unit, refs: [ps.kathisma.6.1, ps.kathisma.6.2, ps.kathisma.6.3]}}
+- {id: matins.kathisma_1.mon.ordinary, slot: kathisma_1, service: matins, priority: 50, when: "weekday == 1", fill: {from: unit, refs: [ps.kathisma.4.1, ps.kathisma.4.2, ps.kathisma.4.3]}}
+- {id: matins.kathisma_2.mon.ordinary, slot: kathisma_2, service: matins, priority: 50, when: "weekday == 1", fill: {from: unit, refs: [ps.kathisma.5.1, ps.kathisma.5.2, ps.kathisma.5.3]}}
+- {id: matins.kathisma_3.mon.ordinary, slot: kathisma_3, service: matins, priority: 50, when: "weekday == 1", fill: {from: none}}
+- {id: matins.kathisma_1.tue.winter, slot: kathisma_1, service: matins, priority: 60, when: "weekday == 2 && ((month == 9 && day >= 22) || month == 10 || month == 11 || (month == 12 && day <= 19) || (month == 1 && day >= 15) || month == 2)", fill: {from: unit, refs: [ps.kathisma.7.1, ps.kathisma.7.2, ps.kathisma.7.3]}}
+- {id: matins.kathisma_2.tue.winter, slot: kathisma_2, service: matins, priority: 60, when: "weekday == 2 && ((month == 9 && day >= 22) || month == 10 || month == 11 || (month == 12 && day <= 19) || (month == 1 && day >= 15) || month == 2)", fill: {from: unit, refs: [ps.kathisma.8.1, ps.kathisma.8.2, ps.kathisma.8.3]}}
+- {id: matins.kathisma_3.tue.winter, slot: kathisma_3, service: matins, priority: 60, when: "weekday == 2 && ((month == 9 && day >= 22) || month == 10 || month == 11 || (month == 12 && day <= 19) || (month == 1 && day >= 15) || month == 2)", fill: {from: unit, refs: [ps.kathisma.9.1, ps.kathisma.9.2, ps.kathisma.9.3]}}
+- {id: matins.kathisma_1.tue.ordinary, slot: kathisma_1, service: matins, priority: 50, when: "weekday == 2", fill: {from: unit, refs: [ps.kathisma.7.1, ps.kathisma.7.2, ps.kathisma.7.3]}}
+- {id: matins.kathisma_2.tue.ordinary, slot: kathisma_2, service: matins, priority: 50, when: "weekday == 2", fill: {from: unit, refs: [ps.kathisma.8.1, ps.kathisma.8.2, ps.kathisma.8.3]}}
+- {id: matins.kathisma_3.tue.ordinary, slot: kathisma_3, service: matins, priority: 50, when: "weekday == 2", fill: {from: none}}
+- {id: matins.kathisma_1.wed.winter, slot: kathisma_1, service: matins, priority: 60, when: "weekday == 3 && ((month == 9 && day >= 22) || month == 10 || month == 11 || (month == 12 && day <= 19) || (month == 1 && day >= 15) || month == 2)", fill: {from: unit, refs: [ps.kathisma.10.1, ps.kathisma.10.2, ps.kathisma.10.3]}}
+- {id: matins.kathisma_2.wed.winter, slot: kathisma_2, service: matins, priority: 60, when: "weekday == 3 && ((month == 9 && day >= 22) || month == 10 || month == 11 || (month == 12 && day <= 19) || (month == 1 && day >= 15) || month == 2)", fill: {from: unit, refs: [ps.kathisma.11.1, ps.kathisma.11.2, ps.kathisma.11.3]}}
+- {id: matins.kathisma_3.wed.winter, slot: kathisma_3, service: matins, priority: 60, when: "weekday == 3 && ((month == 9 && day >= 22) || month == 10 || month == 11 || (month == 12 && day <= 19) || (month == 1 && day >= 15) || month == 2)", fill: {from: unit, refs: [ps.kathisma.12.1, ps.kathisma.12.2, ps.kathisma.12.3]}}
+- {id: matins.kathisma_1.wed.ordinary, slot: kathisma_1, service: matins, priority: 50, when: "weekday == 3", fill: {from: unit, refs: [ps.kathisma.10.1, ps.kathisma.10.2, ps.kathisma.10.3]}}
+- {id: matins.kathisma_2.wed.ordinary, slot: kathisma_2, service: matins, priority: 50, when: "weekday == 3", fill: {from: unit, refs: [ps.kathisma.11.1, ps.kathisma.11.2, ps.kathisma.11.3]}}
+- {id: matins.kathisma_3.wed.ordinary, slot: kathisma_3, service: matins, priority: 50, when: "weekday == 3", fill: {from: none}}
+- {id: matins.kathisma_1.thu.winter, slot: kathisma_1, service: matins, priority: 60, when: "weekday == 4 && ((month == 9 && day >= 22) || month == 10 || month == 11 || (month == 12 && day <= 19) || (month == 1 && day >= 15) || month == 2)", fill: {from: unit, refs: [ps.kathisma.13.1, ps.kathisma.13.2, ps.kathisma.13.3]}}
+- {id: matins.kathisma_2.thu.winter, slot: kathisma_2, service: matins, priority: 60, when: "weekday == 4 && ((month == 9 && day >= 22) || month == 10 || month == 11 || (month == 12 && day <= 19) || (month == 1 && day >= 15) || month == 2)", fill: {from: unit, refs: [ps.kathisma.14.1, ps.kathisma.14.2, ps.kathisma.14.3]}}
+- {id: matins.kathisma_3.thu.winter, slot: kathisma_3, service: matins, priority: 60, when: "weekday == 4 && ((month == 9 && day >= 22) || month == 10 || month == 11 || (month == 12 && day <= 19) || (month == 1 && day >= 15) || month == 2)", fill: {from: unit, refs: [ps.kathisma.15.1, ps.kathisma.15.2, ps.kathisma.15.3]}}
+- {id: matins.kathisma_1.thu.ordinary, slot: kathisma_1, service: matins, priority: 50, when: "weekday == 4", fill: {from: unit, refs: [ps.kathisma.13.1, ps.kathisma.13.2, ps.kathisma.13.3]}}
+- {id: matins.kathisma_2.thu.ordinary, slot: kathisma_2, service: matins, priority: 50, when: "weekday == 4", fill: {from: unit, refs: [ps.kathisma.14.1, ps.kathisma.14.2, ps.kathisma.14.3]}}
+- {id: matins.kathisma_3.thu.ordinary, slot: kathisma_3, service: matins, priority: 50, when: "weekday == 4", fill: {from: none}}
+- {id: matins.kathisma_1.fri.winter, slot: kathisma_1, service: matins, priority: 60, when: "weekday == 5 && ((month == 9 && day >= 22) || month == 10 || month == 11 || (month == 12 && day <= 19) || (month == 1 && day >= 15) || month == 2)", fill: {from: unit, refs: [ps.kathisma.19.1, ps.kathisma.19.2, ps.kathisma.19.3]}}
+- {id: matins.kathisma_2.fri.winter, slot: kathisma_2, service: matins, priority: 60, when: "weekday == 5 && ((month == 9 && day >= 22) || month == 10 || month == 11 || (month == 12 && day <= 19) || (month == 1 && day >= 15) || month == 2)", fill: {from: unit, refs: [ps.kathisma.20.1, ps.kathisma.20.2, ps.kathisma.20.3]}}
+- {id: matins.kathisma_3.fri.winter, slot: kathisma_3, service: matins, priority: 60, when: "weekday == 5 && ((month == 9 && day >= 22) || month == 10 || month == 11 || (month == 12 && day <= 19) || (month == 1 && day >= 15) || month == 2)", fill: {from: none}}
+- {id: matins.kathisma_1.fri.ordinary, slot: kathisma_1, service: matins, priority: 50, when: "weekday == 5", fill: {from: unit, refs: [ps.kathisma.19.1, ps.kathisma.19.2, ps.kathisma.19.3]}}
+- {id: matins.kathisma_2.fri.ordinary, slot: kathisma_2, service: matins, priority: 50, when: "weekday == 5", fill: {from: unit, refs: [ps.kathisma.20.1, ps.kathisma.20.2, ps.kathisma.20.3]}}
+- {id: matins.kathisma_3.fri.ordinary, slot: kathisma_3, service: matins, priority: 50, when: "weekday == 5", fill: {from: none}}
+- {id: matins.sedalny_3.winter, slot: sedalny_3, service: matins, priority: 60, when: "weekday >= 1 && weekday <= 4 && ((month == 9 && day >= 22) || month == 10 || month == 11 || (month == 12 && day <= 19) || (month == 1 && day >= 15) || month == 2)", fill: {from: matins_sedalny, section: "3"}}
+- {id: matins.sedalny_3.none, slot: sedalny_3, service: matins, priority: 10, when: "true", fill: {from: none}}

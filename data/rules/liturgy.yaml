@@ -1,0 +1,114 @@
+# Rules for the Divine Liturgy of St John Chrysostom.
+#
+# Implemented: a weekday (Monday..Friday) of the ordinary period with a
+# Menaion saint without a sign (шестеричный, без знака): typical antiphons,
+# troparion and kontakion of the day and of the saint, «Со святыми упокой»,
+# «Предстательство», prokeimenon, alleluia and communion verse of the day,
+# the ordinary Apostle and Gospel of the lectionary.
+#
+# Recognised but not yet implemented: Sundays and Saturdays, feasts and
+# afterfeasts, saints with a sign (own prokeimenon and readings), the
+# Triodion, days without ordinary readings. The weekdays of Great Lent have
+# no full liturgy at all.
+
+- id: liturgy.lenten_weekday
+  service: liturgy
+  priority: 400
+  when: period == "lenten-triodion" && pascha_offset >= -48 && pascha_offset <= -3 && weekday >= 1 && weekday <= 5
+  unsupported: "В будни Великого поста полная литургия не совершается (Литургия Преждеосвященных Даров — в среду и пяток)"
+
+- id: liturgy.sunday
+  service: liturgy
+  priority: 300
+  when: weekday == 0
+  unsupported: "Воскресная литургия (изобразительны с блаженнами на 8, воскресные тропари, прокимен гласа) ещё не реализована"
+
+- id: liturgy.saturday
+  service: liturgy
+  priority: 290
+  when: weekday == 6
+  unsupported: "Субботняя литургия (тропари «Апостоли, мученицы», «Помяни, Господи», прокимен и чтения за упокой) ещё не реализована"
+
+- id: liturgy.triodion
+  service: liturgy
+  priority: 250
+  when: period != "ordinary"
+  unsupported: "Литургия в дни Триоди ещё не реализована"
+
+- id: liturgy.feast
+  service: liturgy
+  priority: 200
+  when: feast != ""
+  unsupported: "Литургия двунадесятого праздника, предпразднства и попразднства ещё не реализована"
+
+- id: liturgy.great_saint
+  service: liturgy
+  priority: 150
+  # A Menaion service with great vespers (polyeleos, vigil, feast) has its
+  # own prokeimenon, readings and antiphons at the Liturgy.
+  when: menaion_great_vespers
+  unsupported: "Литургия святому со знаком (свои прокимен и чтения) ещё не реализована"
+
+- id: liturgy.no_readings
+  service: liturgy
+  priority: 140
+  when: lections_omitted
+  unsupported: "В этот день рядовые чтения не положены (свои чтения дня) — ещё не реализовано"
+
+- id: liturgy.weekday
+  service: liturgy
+  priority: 10
+  slots:
+    saint_troparion: {from: menaion, kind: troparion}
+    saint_kontakion: {from: menaion, kind: kontakion}
+    prokeimenon: {from: unit, refs: ["sl.prokeimenon.{day}"]}
+    prokeimenon_verse: {from: unit, refs: ["sl.prokeimenon.{day}.verse"]}
+    alleluia_verse_1: {from: unit, refs: ["sl.alleluia.{day}.verse.1"]}
+    alleluia_verse_2: {from: unit, refs: ["sl.alleluia.{day}.verse.2"]}
+    kinonik: {from: unit, refs: ["sl.kinonik.{day}"]}
+    apostle_announce: {from: lection, part: apostle, kind: announce}
+    apostle: {from: lection, part: apostle}
+    gospel_announce: {from: lection, part: gospel, kind: announce}
+    gospel: {from: lection, part: gospel}
+
+# --- Troparia and kontakia of the day (Часослов, «Указ о тропарех») ---
+# Wednesday and Friday share the troparion and kontakion of the Cross.
+- id: liturgy.day_troparia.wed_fri
+  slot: day_troparia
+  service: liturgy
+  priority: 50
+  when: weekday == 3 || weekday == 5
+  fill: {from: unit, refs: [ch.troparion.day.wed]}
+- id: liturgy.day_troparia.thu
+  slot: day_troparia
+  service: liturgy
+  priority: 50
+  when: weekday == 4
+  fill: {from: unit, refs: [ch.troparion.day.thu, ch.troparion.day.thu.2]}
+- id: liturgy.day_kontakia.wed_fri
+  slot: day_kontakia
+  service: liturgy
+  priority: 50
+  when: weekday == 3 || weekday == 5
+  fill: {from: unit, refs: [ch.kontakion.day.wed]}
+- id: liturgy.day_kontakia.thu
+  slot: day_kontakia
+  service: liturgy
+  priority: 50
+  when: weekday == 4
+  fill: {from: unit, refs: [ch.kontakion.day.thu, ch.kontakion.day.thu.2]}
+
+- {id: liturgy.day_troparia, slot: day_troparia, service: liturgy, priority: 10, when: "true", fill: {from: unit, refs: ["ch.troparion.day.{day}"]}}
+- {id: liturgy.day_kontakia, slot: day_kontakia, service: liturgy, priority: 10, when: "true", fill: {from: unit, refs: ["ch.kontakion.day.{day}"]}}
+
+# --- Tones of the prokeimenon and alleluia of the day (Служебник) ---
+- {id: liturgy.prokeimenon_tone.mon, slot: prokeimenon_tone, service: liturgy, priority: 50, when: weekday == 1, fill: {from: unit, refs: [lit.prokeimenon.tone.4]}}
+- {id: liturgy.prokeimenon_tone.tue, slot: prokeimenon_tone, service: liturgy, priority: 50, when: weekday == 2, fill: {from: unit, refs: [lit.prokeimenon.tone.7]}}
+- {id: liturgy.prokeimenon_tone.wed, slot: prokeimenon_tone, service: liturgy, priority: 50, when: weekday == 3, fill: {from: unit, refs: [lit.prokeimenon.tone.3]}}
+- {id: liturgy.prokeimenon_tone.thu, slot: prokeimenon_tone, service: liturgy, priority: 50, when: weekday == 4, fill: {from: unit, refs: [lit.prokeimenon.tone.8]}}
+- {id: liturgy.prokeimenon_tone.fri, slot: prokeimenon_tone, service: liturgy, priority: 50, when: weekday == 5, fill: {from: unit, refs: [lit.prokeimenon.tone.7]}}
+- {id: liturgy.alleluia_tone.mon, slot: alleluia_tone, service: liturgy, priority: 50, when: weekday == 1, fill: {from: unit, refs: [lit.alleluia.tone.5]}}
+- {id: liturgy.alleluia_tone.tue, slot: alleluia_tone, service: liturgy, priority: 50, when: weekday == 2, fill: {from: unit, refs: [lit.alleluia.tone.4]}}
+- {id: liturgy.alleluia_tone.wed, slot: alleluia_tone, service: liturgy, priority: 50, when: weekday == 3, fill: {from: unit, refs: [lit.alleluia.tone.8]}}
+- {id: liturgy.alleluia_tone.thu, slot: alleluia_tone, service: liturgy, priority: 50, when: weekday == 4, fill: {from: unit, refs: [lit.alleluia.tone.1]}}
+- {id: liturgy.alleluia_tone.fri, slot: alleluia_tone, service: liturgy, priority: 50, when: weekday == 5, fill: {from: unit, refs: [lit.alleluia.tone.1]}}

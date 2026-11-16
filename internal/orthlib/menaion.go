@@ -203,6 +203,7 @@ func ParseMenaionDay(path string, month int, service string) ([]corpus.Unit, err
 	}
 	if hasRed {
 		units = append(units, parseMenaionVespers(d, prefix, path)...)
+		units = append(units, parseMenaionMatins(d, prefix, path)...)
 	}
 	return units, nil
 }

@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/n0where3an/orthodoxy-liturgical-service/internal/corpus"
 	"github.com/n0where3an/orthodoxy-liturgical-service/internal/db"
@@ -35,6 +36,7 @@ func cmdImport(ctx context.Context, args []string) error {
 	textsDir := fs.String("texts", "data/texts", "texts typed in for the project (HIP)")
 	englishMD := fs.String("english-md", os.Getenv("ENGLISH_MD_DIR"), "english-md checkout (Lambertsen Menaion); empty to skip")
 	coverdale := fs.String("coverdale", "var/english/coverdale.txt", "Coverdale Psalter as text (scripts/extract-english.sh); missing file is skipped")
+	ponomar := fs.String("ponomar", os.Getenv("PONOMAR_DIR"), "Ponomar checkout (lectionary table); empty to skip the readings")
 	verbose := fs.Bool("v", false, "print warnings")
 	fs.Parse(args)
 
@@ -52,6 +54,9 @@ func cmdImport(ctx context.Context, args []string) error {
 	}
 	oct, w := orthlib.ImportOctoechosVespers(*root)
 	warnings = append(warnings, w...)
+	octMatins, w := orthlib.ImportOctoechosMatins(*root)
+	warnings = append(warnings, w...)
+	oct = append(oct, octMatins...)
 	psalter, w := orthlib.ImportPsalter(*root)
 	warnings = append(warnings, w...)
 	theot, w := orthlib.ImportDismissalTheotokia(*root)
@@ -59,6 +64,15 @@ func cmdImport(ctx context.Context, args []string) error {
 	manualSrc, manual, manualTr, err := orthlib.ImportManual(*textsDir)
 	if err != nil {
 		return err
+	}
+	var readings []corpus.Unit
+	if *ponomar != "" {
+		readings, w, err = orthlib.ImportReadings(*root, filepath.Join(*ponomar, "scripts/Perl/data/lectionary.tsv"))
+		if err != nil {
+			return err
+		}
+		warnings = append(warnings, w...)
+		manualSrc = append(manualSrc, orthlib.LectionarySource)
 	}
 
 	pool, err := db.Open(ctx)
@@ -75,7 +89,7 @@ func cmdImport(ctx context.Context, args []string) error {
 			return err
 		}
 	}
-	all := append(append(append(append(append(fixed, men...), oct...), psalter...), theot...), manual...)
+	all := append(append(append(append(append(append(fixed, men...), oct...), psalter...), theot...), manual...), readings...)
 	if dup := duplicateIDs(all); len(dup) > 0 {
 		return fmt.Errorf("duplicate unit keys: %v", dup)
 	}
@@ -137,8 +151,8 @@ func cmdImport(ctx context.Context, args []string) error {
 	for _, u := range men {
 		kinds[u.Kind]++
 	}
-	fmt.Printf("imported %d fixed units, %d Menaion units (%d troparia, %d kontakia), %d Octoechos, %d Psalter, %d theotokia, %d typed-in; %d warnings\n",
-		len(fixed), len(men), kinds["troparion"], kinds["kontakion"], len(oct), len(psalter), len(theot), len(manual), len(warnings))
+	fmt.Printf("imported %d fixed units, %d Menaion units (%d troparia, %d kontakia), %d Octoechos, %d Psalter, %d theotokia, %d typed-in, %d readings; %d warnings\n",
+		len(fixed), len(men), kinds["troparion"], kinds["kontakion"], len(oct), len(psalter), len(theot), len(manual), len(readings)/2, len(warnings))
 	if *verbose {
 		for _, w := range warnings {
 			fmt.Println("warning:", w)

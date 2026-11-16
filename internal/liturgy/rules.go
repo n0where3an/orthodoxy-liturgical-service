@@ -39,7 +39,8 @@ type Rule struct {
 // SlotSelector says where the texts of a slot come from.
 type SlotSelector struct {
 	// menaion | unit | feast | feast_and_menaion | none |
-	// vespers_lic | vespers_glory_now | vespers_aposticha | vespers_troparia
+	// vespers_lic | vespers_glory_now | vespers_aposticha | vespers_troparia |
+	// lection (Part: apostle | gospel; Kind: announce for the announcement)
 	From    string `yaml:"from"`
 	Section string `yaml:"section"` // vespers_glory_now: lic | aposticha
 	Kind    string `yaml:"kind"`    // troparion, kontakion, ...
@@ -76,6 +77,7 @@ func dayEnv() (*cel.Env, error) {
 		cel.Variable("eve_month", cel.IntType),
 		cel.Variable("eve_day", cel.IntType),
 		cel.Variable("menaion_great_vespers", cel.BoolType),
+		cel.Variable("lections_omitted", cel.BoolType), // no ordinary Apostle and Gospel
 	)
 }
 
@@ -157,6 +159,7 @@ func (f Facts) vars() map[string]any {
 		"eve_month":             int64(eve.Month()),
 		"eve_day":               int64(eve.Day()),
 		"menaion_great_vespers": len(f.Menaion["vespers.great"]) > 0,
+		"lections_omitted":      f.Day.Lections.Omitted,
 		"weekday":               int64(f.Day.Weekday),
 		"period":                f.Day.Period.String(),
 		"pascha_offset":         int64(f.Day.PaschaOffset),
@@ -384,6 +387,23 @@ func (sel SlotSelector) resolve(name string, f Facts, service string) ([]SlotIte
 				k = HourPosition(service)
 			}
 			items = append(items, SlotItem{Ref: avail[(k-1)%len(avail)], Repeat: sel.Repeat})
+		case "matins_troparia", "matins_sedalny", "matins_canon", "matins_sedalen", "matins_kontakion",
+			"matins_exapostilaria", "matins_aposticha":
+			ms, err := matinsSlot(sel, f)
+			if err != nil {
+				return nil, fmt.Errorf("slot %s: %w", name, err)
+			}
+			items = append(items, ms...)
+		case "lection":
+			l, err := lection(f, sel.Part)
+			if err != nil {
+				return nil, fmt.Errorf("slot %s: %w", name, err)
+			}
+			ref := fmt.Sprintf("lect.%s.%d.%d", map[string]string{"apostle": "ap", "gospel": "gos"}[sel.Part], l.Week, int(l.Weekday))
+			if sel.Kind == "announce" {
+				ref += ".announce"
+			}
+			items = append(items, SlotItem{Ref: ref})
 		case "none":
 		default:
 			return nil, fmt.Errorf("slot %s: unknown source %q", name, sel.From)
@@ -394,3 +414,17 @@ func (sel SlotSelector) resolve(name string, f Facts, service string) ([]SlotIte
 
 // weekdayName is used in error messages.
 func weekdayName(w time.Weekday) string { return w.String() }
+
+// lection returns the ordinary reading of the day for part apostle|gospel.
+func lection(f Facts, part string) (calendar.Lection, error) {
+	if f.Day.Lections.Omitted {
+		return calendar.Lection{}, fmt.Errorf("no ordinary readings on %v", f.Day.Date)
+	}
+	switch part {
+	case "apostle":
+		return f.Day.Lections.Apostle, nil
+	case "gospel":
+		return f.Day.Lections.Gospel, nil
+	}
+	return calendar.Lection{}, fmt.Errorf("lection part %q (apostle, gospel)", part)
+}

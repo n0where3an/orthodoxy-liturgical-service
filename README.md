@@ -6,18 +6,20 @@ Orthodox liturgical sequence generator
 Requirements: Go, PostgreSQL, `unrar`, a local copy of orthlib.ru.
 
 ```sh
-cp .env.example .env            # set DATABASE_URL, ORTHLIB_DIR
+cp .env.example .env            # set DATABASE_URL, ORTHLIB_DIR, PONOMAR_DIR
 scripts/extract-orthlib.sh      # RAR archives -> var/orthlib/*.hip
 go build -o var/liturgy ./cmd/liturgy
 var/liturgy migrate
 scripts/extract-english.sh      # Coverdale PDF -> var/english/coverdale.txt (optional)
-var/liturgy import -v           # Slavonic corpus; English if ENGLISH_MD_DIR / coverdale.txt are present
+var/liturgy import -v           # Slavonic corpus (readings if PONOMAR_DIR); English if ENGLISH_MD_DIR / coverdale.txt
 var/liturgy plan   -date 2026-11-12 -service first_hour      # JSON plan
 var/liturgy render -date 2026-11-12 -service third_hour -mode kliros -o terce.html
 var/liturgy serve                                   # http://127.0.0.1:8080/?date=2026-11-12&service=sixth_hour&mode=laity
 ```
 
-Services: `vespers` (daily), `first_hour`, `third_hour`, `sixth_hour`, `ninth_hour`.
+Services: `liturgy` (St John Chrysostom, weekdays Mon–Fri of the ordinary
+period), `matins` (daily, Mon–Fri; joined to the first hour unless
+`-standalone`), `vespers` (daily), `first_hour`, `third_hour`, `sixth_hour`, `ninth_hour`.
 Dates are civil (Gregorian); add `-julian` for old style. Options: `-reader`
 (reader's order, no priest), `-standalone` (the hour on its own: usual
 beginning and dismissal; by default hours are joined as in parish practice),
@@ -38,4 +40,5 @@ GNU Affero General Public License v3.0 — see [LICENSE](LICENSE).
 
 The table of Saturday/Sunday ordinary readings in `calendar/lectionary_weekend.go`
 is generated from A. A. Andreev's tables as encoded in the
-[Ponomar](https://github.com/typiconman/ponomar) project (GPLv3).
+[Ponomar](https://github.com/typiconman/ponomar) project (GPLv3); the table of
+ordinary readings (`lectionary.tsv`) is read from a Ponomar checkout at import.

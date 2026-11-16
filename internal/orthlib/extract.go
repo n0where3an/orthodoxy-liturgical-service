@@ -23,7 +23,7 @@ type Doc struct {
 	prs   []rune
 }
 
-var pageRef = regexp.MustCompile(`\s*\(с\.\s*\d+\)`)
+var pageRef = regexp.MustCompile(`\s*\((с\.\s*\d+|л\.\s*[^)]{1,12})\)`)
 
 // CleanText removes page references like "(с. 767)" and tidies spaces.
 func CleanText(s string) string {
@@ -115,3 +115,5 @@ func (d *Doc) Slice(after, from, to string) (string, error) {
 	}
 	return CleanText(string(d.text[rs:re])), nil
 }
+
+func hipToUnicode(s string) string { return hip.ToUnicode(s) }

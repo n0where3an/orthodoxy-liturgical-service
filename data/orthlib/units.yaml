@@ -1192,3 +1192,1889 @@ units:
     file: octoih/oc/2_7sb.hip
     from: "душы их во блгих водворятся."
     to: "водворятся."
+
+  # === Божественная литургия св. Иоанна Златоустаго (Служебник, Часослов) ===
+  - key: lit.deacon.bless_master
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "блгослови, влдко."
+    to: "влдко."
+  - key: sl.lit.blessed_is_the_kingdom
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "блгословено црство, оца"
+    to: "во веки веков."
+  - key: sl.lit.antiphon_prayer.1
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "гдси бже наш, егоже держава не сказанна"
+    to: ""
+  - key: sl.lit.antiphon_prayer.2
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "гдси бже наш, спаси люди твоя и блгослови достояние твое, исполнение"
+    to: ""
+  - key: sl.lit.antiphon_prayer.3
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "иже общыя сия, и согласныя"
+    to: ""
+  - key: sl.lit.small.exclamation.2
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    after: "молитва втораго антифона"
+    from: "яко блг и человеколюбец бг еси, и тебе славу"
+    to: "во веки веков."
+  - key: ch.typika.psalm_102
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/06izobrazit.hip
+    from: "блгослови душе моя гдса, блгословен еси гдси."
+    to: ""
+  - key: ch.typika.psalm_102.refrain
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/06izobrazit.hip
+    after: "паки первый лик"
+    from: "блгослови душе моя гдса, и вся внутренняя моя, имя стое его."
+    to: "блгословен еси гдси."
+  - key: ch.typika.psalm_145
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/06izobrazit.hip
+    from: "хвали душе моя гдса. восхвалю"
+    to: ""
+  - key: ch.typika.only_begotten
+    book: chasoslov
+    kind: hymn
+    source: orthlib.chasoslov
+    file: chasoslov/ch/06izobrazit.hip
+    from: "единородный сне, и слове бжий"
+    to: ""
+  - key: ch.typika.beatitudes.0
+    book: chasoslov
+    kind: hymn
+    source: orthlib.chasoslov
+    file: chasoslov/ch/06izobrazit.hip
+    from: "во црствии твоем помяни нас, гдси, егда"
+    to: ""
+  - key: ch.typika.beatitudes.1
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/06izobrazit.hip
+    from: "блжени нищии духом, яко"
+    to: ""
+  - key: ch.typika.beatitudes.2
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/06izobrazit.hip
+    from: "блжени плачущии"
+    to: ""
+  - key: ch.typika.beatitudes.3
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/06izobrazit.hip
+    from: "блжени кротцыи"
+    to: ""
+  - key: ch.typika.beatitudes.4
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/06izobrazit.hip
+    from: "блжени алчущии"
+    to: ""
+  - key: ch.typika.beatitudes.5
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/06izobrazit.hip
+    from: "блжени млстивии"
+    to: ""
+  - key: ch.typika.beatitudes.6
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/06izobrazit.hip
+    from: "блжени чистии сердцем"
+    to: ""
+  - key: ch.typika.beatitudes.7
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/06izobrazit.hip
+    from: "блжени миротворцы"
+    to: ""
+  - key: ch.typika.beatitudes.8
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/06izobrazit.hip
+    from: "блжени изгнани правды"
+    to: ""
+  - key: ch.typika.beatitudes.9
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/06izobrazit.hip
+    from: "блжени есте, егда поносят"
+    to: ""
+  - key: ch.typika.beatitudes.10
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/06izobrazit.hip
+    from: "радуйтеся и веселитеся, яко мзда"
+    to: ""
+  - key: sl.lit.entrance_prayer
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "влдко гдси бже наш, уставивый"
+    to: "сославословящих твою блгость."
+  - key: lit.deacon.bless_entrance
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "блгослови, влдко, стый вход."
+    to: "вход."
+  - key: sl.lit.blessed_is_the_entrance
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "блгословен вход стых твоих"
+    to: "во веки веков."
+  - key: lit.wisdom_aright
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    after: "показуяй стое еиглие"
+    from: "премудрость, прости."
+    to: "прости."
+  - key: ch.lit.come_let_us_worship.weekday
+    book: sluzhebnik
+    kind: hymn
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "приидите, поклонимся и припадем ко хрсту."
+    to: "поющыя ти, аллилуиа."
+  - key: lit.deacon.bless_time_trisagion
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "блгослови, влдко, время тристаго."
+    to: "тристаго."
+  - key: sl.lit.trisagion_exclamation
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    after: "знаменуя его"
+    from: "яко ст еси бже наш, и тебе славу возсылаем"
+    to: "ныне и присно."
+  - key: lit.deacon.o_lord_save_the_pious
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "гдси, спаси блгочестивыя, и услыши ны."
+    to: "ны."
+  - key: lit.deacon.and_unto_ages
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    after: "ко вне стоящым велегласно"
+    from: "и во веки веков."
+    to: "веков."
+  - key: sl.lit.trisagion_prayer
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "бже стый, иже во стых почиваяй"
+    to: ""
+  - key: lit.deacon.command
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "повели, влдко."
+    to: "влдко."
+  - key: sl.lit.blessed_is_he_that_comes
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    after: "священник отходя глаголет"
+    from: "блгословен грядый во имя гдсне."
+    to: "гдсне."
+  - key: lit.deacon.bless_high_throne
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "блгослови, влдко, горний прстол."
+    to: "прстол."
+  - key: sl.lit.blessed_art_thou_on_throne
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "блгословен еси на прстоле славы"
+    to: "во веки веков."
+  - key: sl.lit.gospel_prayer
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "возсияй в сердцах наших."
+    to: ""
+  - key: lit.deacon.bless_evangelist
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "блгослови, влдко, блговестителя"
+    to: "имрк."
+  - key: sl.lit.bless_evangelist
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "бг, млтвами стаго, славнаго, всехвальнаго апсла"
+    to: "хрста."
+  - key: sl.lit.wisdom_aright_gospel
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "премудрость, прости, услышим стаго еиглиа."
+    to: "еиглиа."
+  - key: sl.lit.glory_to_thee_o_lord
+    book: sluzhebnik
+    kind: hymn
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    after: "от имрк стаго еиглиа чтение"
+    from: "слава тебе гдси, слава тебе."
+    to: "слава тебе."
+  - key: sl.lit.peace_to_thee_evangelist
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "мир ти блговествующему."
+    to: "блговествующему."
+  - key: lit.augmented.let_us_say
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "рцем вси от всея души"
+    to: "нашего рцем."
+  - key: lit.augmented.almighty
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "гдси вседержителю, бже оц наших"
+    to: "помилуй."
+  - key: sl.lit.fervent_prayer
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "гдси бже наш, прилежное сие моление"
+    to: ""
+  - key: lit.catechumens.pray
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "помолитеся, оглашеннии гдсви."
+    to: "гдсви."
+  - key: lit.catechumens.faithful
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "вернии, о оглашенных помолимся"
+    to: "помилует их."
+  - key: lit.catechumens.word
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "огласит их словом истины."
+    to: "истины."
+  - key: lit.catechumens.gospel
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "открыет им еиглие правды."
+    to: "правды."
+  - key: lit.catechumens.unite
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "соединит их стей своей соборней"
+    to: "церкви."
+  - key: lit.catechumens.save
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "спаси, помилуй, заступи и сохрани их"
+    to: "блгодатию."
+  - key: lit.catechumens.bow
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "оглашеннии, главы вашя гдсви приклоните."
+    to: "приклоните."
+  - key: sl.lit.catechumens_prayer
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "гдси бже наш, иже на высоких живый"
+    to: ""
+  - key: sl.lit.catechumens_exclamation
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "да и тии с нами славят"
+    to: "во веки веков."
+  - key: lit.catechumens.depart
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "елицы оглашеннии, изыдите, оглашеннии изыдите,"
+    to: "миром гдсу помолимся."
+  - key: sl.lit.faithful_prayer.1
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "блгодарим тя гдси бже сил"
+    to: ""
+  - key: sl.lit.faithful_prayer.2
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "паки, и многажды тебе припадаем"
+    to: ""
+  - key: lit.again_and_again
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    after: "млтва верных, первая"
+    from: "паки и паки миром гдсу помолимся."
+    to: "помолимся."
+  - key: sl.lit.faithful_exclamation.2
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "яко да под державою твоею"
+    to: "во веки веков."
+  - key: sl.lit.cherubic_prayer
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "никтоже достоин от связавшихся"
+    to: ""
+  - key: ch.lit.cherubic.1
+    book: sluzhebnik
+    kind: hymn
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "иже херувимы тайно образующе"
+    to: "попечение."
+  - key: ch.lit.cherubic.2
+    book: sluzhebnik
+    kind: hymn
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "яко да цря всех подимем"
+    to: "аллилуиа, аллилуиа, аллилуиа."
+  - key: sl.lit.entrance.all_of_you
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "всех вас, православных хрстиан, да помянет"
+    to: "во веки веков."
+  - key: lit.offertory.complete
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "исполним молитву нашу гдсви."
+    to: "гдсви."
+  - key: lit.offertory.gifts
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "о предложенных честных дарех"
+    to: "помолимся."
+  - key: lit.offertory.day_perfect
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "дне всего совершенна, свята"
+    to: "просим."
+  - key: sl.lit.proskomide_prayer
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "гдси бже вседержителю, едине сте"
+    to: ""
+  - key: sl.lit.offertory_exclamation
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "щедротами единороднаго сна твоего"
+    to: "во веки веков."
+  - key: lit.deacon.let_us_love
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "возлюбим другъдруга"
+    to: "исповемы."
+  - key: ch.lit.father_son_spirit
+    book: sluzhebnik
+    kind: hymn
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "оца, и сна, и стаго дха, троцу единосущную"
+    to: "нераздельную."
+  - key: sl.lit.i_will_love_thee
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "возлюблю тя гдси, крепосте моя"
+    to: "прибежище мое."
+  - key: lit.deacon.the_doors
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "двери, двери премудростию вонмем."
+    to: "вонмем."
+  - key: common.creed
+    book: sluzhebnik
+    kind: creed
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    after: "двери, двери премудростию"
+    from: "верую во единаго бга оца вседержителя"
+    to: "аминь."
+  - key: lit.deacon.let_us_stand_aright
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "станем добре, станем со страхом"
+    to: "приносити."
+  - key: ch.lit.mercy_of_peace
+    book: sluzhebnik
+    kind: hymn
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "милость мира, жертву хваления."
+    to: "хваления."
+  - key: sl.lit.grace
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "блгодать гдса нашего ииса хрста, и любы"
+    to: "со всеми вами."
+  - key: lit.response.and_with_thy_spirit_2
+    book: sluzhebnik
+    kind: response
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    after: "со всеми вами."
+    from: "и со дхом твоим."
+    to: "твоим."
+  - key: sl.lit.lift_up_your_hearts
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "горе имеим сердца."
+    to: "сердца."
+  - key: ch.lit.we_lift_them_up
+    book: sluzhebnik
+    kind: hymn
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "имамы ко гдсу."
+    to: "гдсу."
+  - key: sl.lit.let_us_give_thanks
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    after: "имамы ко гдсу"
+    from: "блгодарим гдса."
+    to: "гдса."
+  - key: ch.lit.it_is_meet_and_right
+    book: sluzhebnik
+    kind: hymn
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "достойно и праведно есть, покланятися"
+    to: "нераздельней."
+  - key: sl.lit.anaphora_prayer.1
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "достойно и праведно тя пети"
+    to: ""
+  - key: sl.lit.triumphal_hymn
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "победную песнь поюще"
+    to: "глаголюще."
+  - key: ch.lit.sanctus
+    book: sluzhebnik
+    kind: hymn
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "ст, ст, ст гдсь саваоф, исполнь нбо и земля славы твоея, осанна"
+    to: ""
+  - key: sl.lit.anaphora_prayer.2
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "с сими и мы блаженными силами"
+    to: ""
+  - key: sl.lit.take_eat
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "приимите, ядите, сие есть тело мое"
+    to: "грехов."
+  - key: sl.lit.drink_ye_all
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    after: "подобне и чашу по вечери"
+    from: "пийте от нея вси"
+    to: "грехов."
+  - key: sl.lit.anaphora_prayer.3
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "поминающе убо спасительную сию заповедь"
+    to: ""
+  - key: sl.lit.thine_own
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "твоя от твоих тебе приносяще"
+    to: "за вся."
+  - key: ch.lit.we_hymn_thee
+    book: sluzhebnik
+    kind: hymn
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "тебе поем, тебе блгословим"
+    to: "бже наш."
+  - key: sl.lit.epiclesis
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "еще приносим ти словесную сию и безкровную службу"
+    to: ""
+  - key: sl.lit.epiclesis.bread
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "и сотвори убо хлеб сей"
+    to: "хрста твоего."
+  - key: sl.lit.epiclesis.cup
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "а еже в чаши сей"
+    to: "хрста твоего."
+  - key: sl.lit.epiclesis.both
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "преложив дхом твоим стым."
+    to: "стым."
+  - key: sl.lit.anaphora_prayer.4
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "якоже быти причащающымся во трезвение"
+    to: ""
+  - key: sl.lit.anaphora_prayer.5
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "еще приносим ти словесную сию службу, о иже в вере почивших"
+    to: ""
+  - key: sl.lit.especially
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "изрядно о престей"
+    to: "мрии."
+  - key: ch.lit.it_is_truly_meet
+    book: sluzhebnik
+    kind: hymn
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "достойно есть яко воистинну, блажити тя"
+    to: "величаем."
+  - key: sl.lit.anaphora_prayer.6
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "стаго иоанна пророка, предтечи"
+    to: ""
+  - key: sl.lit.anaphora_prayer.7
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "еще молим тя, помяни гдси всякое епскпство"
+    to: ""
+  - key: sl.lit.anaphora_prayer.8
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "еще приносим ти словесную сию службу о вселенней"
+    to: ""
+  - key: ch.lit.and_all_mankind
+    book: sluzhebnik
+    kind: hymn
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "и всех, и вся."
+    to: "вся."
+  - key: sl.lit.anaphora_prayer.9
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "помяни гдси град сей, в немже живем"
+    to: ""
+  - key: sl.lit.and_grant_us
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "и даждь нам единеми усты"
+    to: "во веки веков."
+  - key: sl.lit.mercies
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "и да будут милости великаго бга"
+    to: "со всеми вами."
+  - key: lit.lords_prayer.remembered
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "вся стыя помянувше, паки и паки"
+    to: "помолимся."
+  - key: lit.lords_prayer.gifts
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "о принесенных и освященных честных дарех"
+    to: "помолимся."
+  - key: lit.lords_prayer.that_god
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "яко да члвеколюбец бг наш прием я"
+    to: "помолимся."
+  - key: sl.lit.lords_prayer_prayer
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "тебе предлагаем живот наш весь"
+    to: ""
+  - key: lit.lords_prayer.unity
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "соединение веры, и причастие стаго дха"
+    to: "предадим."
+  - key: sl.lit.and_vouchsafe
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "и сподоби нас, влдко, со дерзновением"
+    to: "глаголати."
+  - key: sl.lit.head_bowing_prayer
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "блгодарим тя, црю невидимый"
+    to: ""
+  - key: sl.lit.head_bowing_exclamation
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "блгодатию, и щедротами, и человеколюбием"
+    to: "во веки веков."
+  - key: sl.lit.elevation_prayer
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "вонми, гдси иисе хрсте бже наш, от стаго жилища"
+    to: ""
+  - key: sl.lit.holy_things
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "стая стым."
+    to: "стым."
+  - key: ch.lit.one_is_holy
+    book: sluzhebnik
+    kind: hymn
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "един ст, един гдсь"
+    to: "аминь."
+  - key: lit.deacon.approach
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    after: "отверзают двери стаго олтаря"
+    from: "со страхом бжиим и верою приступите."
+    to: "приступите."
+  - key: ch.lit.blessed_is_he
+    book: sluzhebnik
+    kind: hymn
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "блгословен грядый во имя гдсне, бг гдсь"
+    to: "явися нам."
+  - key: sl.lit.communion_prayer.1
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "верую, гдси, и исповедую, яко ты еси"
+    to: ""
+  - key: sl.lit.communion_prayer.2
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "вечери твоея тайныя, днесь"
+    to: ""
+  - key: sl.lit.communion_prayer.3
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "да не в суд или во осуждение"
+    to: ""
+  - key: sl.lit.save_o_god_thy_people
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "спаси бже люди твоя, и благослови достояние твое."
+    to: "твое."
+  - key: ch.lit.we_have_seen
+    book: sluzhebnik
+    kind: hymn
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "видехом свет истинный"
+    to: ""
+  - key: sl.lit.be_thou_exalted
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "вознесися на нбса бже"
+    to: "слава твоя."
+  - key: sl.lit.always_now
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    after: "и возгласно:"
+    from: "всегда, ныне и присно, и во веки веков."
+    to: "веков."
+  - key: ch.lit.let_our_mouths
+    book: sluzhebnik
+    kind: hymn
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "да исполнятся уста нашя хваления"
+    to: ""
+  - key: lit.thanksgiving.aright
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "прости приимше бжественных"
+    to: "благодарим гдса."
+  - key: lit.thanksgiving.day
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "день весь совершен, ст, мирен"
+    to: "предадим."
+  - key: sl.lit.thanksgiving_prayer
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "блгодарим тя, влдко члвеколюбче"
+    to: ""
+  - key: sl.lit.thou_art_our_sanctification
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "яко ты еси освящение наше"
+    to: "во веки веков."
+  - key: sl.lit.let_us_depart
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "с миром изыдем."
+    to: "изыдем."
+  - key: ch.lit.in_the_name_of_the_lord
+    book: sluzhebnik
+    kind: hymn
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "о имени гдсни."
+    to: "гдсни."
+  - key: lit.let_us_pray_to_the_lord
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    after: "о имени гдсни."
+    from: "гдсу помолимся."
+    to: "помолимся."
+  - key: sl.lit.ambo_prayer
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "блгословляяй блгословящыя тя гдси"
+    to: ""
+  - key: ch.typika.blessed_be_the_name
+    book: chasoslov
+    kind: hymn
+    source: orthlib.chasoslov
+    file: chasoslov/ch/06izobrazit.hip
+    from: "буди имя гдсне блгословено от ныне и до века."
+    to: "до века."
+  - key: ch.typika.psalm_33
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/06izobrazit.hip
+    from: "блгословлю гдса на всякое время"
+    to: ""
+  - key: sl.lit.consumption_prayer
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "исполнение закона и пророков сам сый"
+    to: ""
+  - key: sl.lit.blessing_of_the_lord
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "благословение гдсне на вас"
+    to: "во веки веков."
+  - key: sl.dismissal.liturgy_chrysostom
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/04litur_zlat.hip
+    from: "хрстос истинный бг наш, млтвами пречстыя своея мтре"
+    to: "члвеколюбец."
+    drop_brackets: true
+  - key: ch.troparion.day.mon
+    book: chasoslov
+    kind: troparion
+    tone: 4
+    source: orthlib.chasoslov
+    file: chasoslov/ch/16otpsedm.hip
+    from: "нбсных воинств архистратизи"
+    to: ""
+  - key: ch.troparion.day.tue
+    book: chasoslov
+    kind: troparion
+    tone: 2
+    source: orthlib.chasoslov
+    file: chasoslov/ch/16otpsedm.hip
+    from: "память праведнаго с похвалами"
+    to: ""
+  - key: ch.troparion.day.wed
+    book: chasoslov
+    kind: troparion
+    tone: 1
+    source: orthlib.chasoslov
+    file: chasoslov/ch/16otpsedm.hip
+    from: "спси гдси, люди твоя и блгослови"
+    to: ""
+  - key: ch.troparion.day.thu
+    book: chasoslov
+    kind: troparion
+    tone: 3
+    source: orthlib.chasoslov
+    file: chasoslov/ch/16otpsedm.hip
+    from: "апсли стии, молите млстиваго"
+    to: ""
+  - key: ch.troparion.day.thu.2
+    book: chasoslov
+    kind: troparion
+    tone: 4
+    source: orthlib.chasoslov
+    file: chasoslov/ch/16otpsedm.hip
+    from: "правило веры и образ кротости"
+    to: ""
+  - key: ch.troparion.day.sat
+    book: chasoslov
+    kind: troparion
+    tone: 2
+    source: orthlib.chasoslov
+    file: chasoslov/ch/16otpsedm.hip
+    from: "апсли, мчнцы и пророцы, стителие"
+    to: ""
+  - key: ch.troparion.day.sat.2
+    book: chasoslov
+    kind: troparion
+    tone: 2
+    source: orthlib.chasoslov
+    file: chasoslov/ch/16otpsedm.hip
+    from: "помяни гдси, яко блг, рабы твоя"
+    to: ""
+  - key: ch.kontakion.day.mon
+    book: chasoslov
+    kind: kontakion
+    tone: 2
+    source: orthlib.chasoslov
+    file: chasoslov/ch/06izobrazit.hip
+    from: "архистратизи бжии, служителие"
+    to: ""
+  - key: ch.kontakion.day.tue
+    book: chasoslov
+    kind: kontakion
+    tone: 2
+    source: orthlib.chasoslov
+    file: chasoslov/ch/06izobrazit.hip
+    from: "пророче бжий, и прдтече блгодати"
+    to: ""
+  - key: ch.kontakion.day.wed
+    book: chasoslov
+    kind: kontakion
+    tone: 4
+    source: orthlib.chasoslov
+    file: chasoslov/ch/06izobrazit.hip
+    from: "вознесыйся на крст волею"
+    to: ""
+  - key: ch.kontakion.day.thu
+    book: chasoslov
+    kind: kontakion
+    tone: 2
+    source: orthlib.chasoslov
+    file: chasoslov/ch/06izobrazit.hip
+    from: "твердыя и бговещанныя проповедатели"
+    to: ""
+  - key: ch.kontakion.day.thu.2
+    book: chasoslov
+    kind: kontakion
+    tone: 3
+    source: orthlib.chasoslov
+    file: chasoslov/ch/06izobrazit.hip
+    from: "в мирех сте сщеннодействитель"
+    to: ""
+  - key: ch.kontakion.day.sat
+    book: chasoslov
+    kind: kontakion
+    tone: 8
+    source: orthlib.chasoslov
+    file: chasoslov/ch/06izobrazit.hip
+    from: "яко начатки естества насадителю"
+    to: ""
+  - key: ch.kontakion.with_the_saints
+    book: chasoslov
+    kind: kontakion
+    tone: 8
+    source: orthlib.chasoslov
+    file: chasoslov/ch/12mpovech.hip
+    from: "со стыми упокой хрсте, душы раб твоих"
+    to: ""
+  - key: ch.kontakion.protection
+    book: chasoslov
+    kind: kontakion
+    tone: 6
+    source: orthlib.chasoslov
+    file: chasoslov/ch/06izobrazit.hip
+    from: "предстательство хрстиан непостыдное"
+    to: ""
+  - key: sl.prokeimenon.mon
+    book: sluzhebnik
+    kind: prokeimenon
+    tone: 4
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/17prok_dnevn.hip
+    from: "творяй агглы своя дхи, и слуги своя"
+    to: "огненный."
+  - key: sl.prokeimenon.mon.verse
+    book: sluzhebnik
+    kind: verse
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/17prok_dnevn.hip
+    from: "блгослови душе моя гдса, гдси бже мой"
+    to: ""
+  - key: sl.alleluia.mon.verse.1
+    book: sluzhebnik
+    kind: verse
+    tone: 5
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/17prok_dnevn.hip
+    from: "хвалите гдса вси аггли его"
+    to: "силы его."
+  - key: sl.alleluia.mon.verse.2
+    book: sluzhebnik
+    kind: verse
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/17prok_dnevn.hip
+    from: "яко той рече, и быша"
+    to: ""
+  - key: sl.kinonik.mon
+    book: sluzhebnik
+    kind: kinonik
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/17prok_dnevn.hip
+    after: "причастен"
+    from: "творяй агглы своя дхи, и слуги своя"
+    to: "огненный."
+  - key: sl.prokeimenon.tue
+    book: sluzhebnik
+    kind: prokeimenon
+    tone: 7
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/17prok_dnevn.hip
+    from: "возвеселится праведник о гдсе"
+    to: "на него."
+  - key: sl.prokeimenon.tue.verse
+    book: sluzhebnik
+    kind: verse
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/17prok_dnevn.hip
+    from: "услыши бже глас мой"
+    to: ""
+  - key: sl.alleluia.tue.verse.1
+    book: sluzhebnik
+    kind: verse
+    tone: 4
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/17prok_dnevn.hip
+    from: "праведник яко финикс"
+    to: "умножится."
+  - key: sl.alleluia.tue.verse.2
+    book: sluzhebnik
+    kind: verse
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/17prok_dnevn.hip
+    from: "насаждени в дому гдсни"
+    to: ""
+  - key: sl.prokeimenon.wed
+    book: sluzhebnik
+    kind: prokeimenon
+    tone: 3
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/17prok_dnevn.hip
+    from: "величит душа моя гдса"
+    to: "спсе моем."
+  - key: sl.prokeimenon.wed.verse
+    book: sluzhebnik
+    kind: verse
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/17prok_dnevn.hip
+    from: "яко призре на смирение"
+    to: ""
+  - key: sl.alleluia.wed.verse.1
+    book: sluzhebnik
+    kind: verse
+    tone: 8
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/17prok_dnevn.hip
+    from: "слыши дщи и виждь"
+    to: "ухо твое."
+  - key: sl.alleluia.wed.verse.2
+    book: sluzhebnik
+    kind: verse
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/17prok_dnevn.hip
+    from: "лицу твоему помолятся"
+    to: ""
+  - key: sl.kinonik.wed
+    book: sluzhebnik
+    kind: kinonik
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/17prok_dnevn.hip
+    from: "чашу спасения прииму"
+    to: "призову."
+  - key: sl.prokeimenon.thu
+    book: sluzhebnik
+    kind: prokeimenon
+    tone: 8
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/17prok_dnevn.hip
+    after: "в четверток"
+    from: "во всю землю изыде вещание их"
+    to: "глаголы их."
+  - key: sl.prokeimenon.thu.verse
+    book: sluzhebnik
+    kind: verse
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/17prok_dnevn.hip
+    after: "в четверток"
+    from: "нбса поведают славу"
+    to: ""
+  - key: sl.alleluia.thu.verse.1
+    book: sluzhebnik
+    kind: verse
+    tone: 1
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/17prok_dnevn.hip
+    from: "исповедят небеса чудеса твоя"
+    to: "в цркви стых."
+  - key: sl.alleluia.thu.verse.2
+    book: sluzhebnik
+    kind: verse
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/17prok_dnevn.hip
+    from: "бг прославляемь в совете"
+    to: ""
+  - key: sl.kinonik.thu
+    book: sluzhebnik
+    kind: kinonik
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/17prok_dnevn.hip
+    after: "бг прославляемь в совете"
+    from: "во всю землю изыде вещание их"
+    to: "глаголы их."
+  - key: sl.prokeimenon.fri
+    book: sluzhebnik
+    kind: prokeimenon
+    tone: 7
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/17prok_dnevn.hip
+    from: "возносите гдса бга нашего"
+    to: "сто есть."
+  - key: sl.prokeimenon.fri.verse
+    book: sluzhebnik
+    kind: verse
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/17prok_dnevn.hip
+    from: "гдсь воцрися, да гневаются"
+    to: ""
+  - key: sl.alleluia.fri.verse.1
+    book: sluzhebnik
+    kind: verse
+    tone: 1
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/17prok_dnevn.hip
+    from: "помяни сонм твой"
+    to: "исперва."
+  - key: sl.alleluia.fri.verse.2
+    book: sluzhebnik
+    kind: verse
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/17prok_dnevn.hip
+    from: "бг же црь наш прежде века"
+    to: ""
+  - key: sl.kinonik.fri
+    book: sluzhebnik
+    kind: kinonik
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/17prok_dnevn.hip
+    from: "спасение соделал еси посреде"
+    to: "бже."
+
+  # === Утреня вседневная (Часослов, Служебник, Октоих) ===
+  - key: ch.matins.psalm.19
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "услышит тя гдсь в день печали"
+    to: ""
+  - key: ch.matins.psalm.20
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "гдси, силою твоею возвеселится царь"
+    to: ""
+  - key: ch.matins.theotokion.dread
+    book: chasoslov
+    kind: theotokion
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "предстательство страшное и непостыдное"
+    to: ""
+  - key: lit.matins.all_christians
+    book: chasoslov
+    kind: petition
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "еще молимся за всю братию и за вся христианы."
+    to: "христианы."
+  - key: sl.matins.glory_to_trinity
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/02utren.hip
+    from: "слава стей, и единосущней"
+    to: "во веки веков."
+  - key: ch.hexapsalm.glory_in_the_highest
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    after: "со блгоговением и страхом"
+    from: "слава в вышних бгу, и на земли мир, в человецех блговоление."
+    to: "блговоление."
+  - key: ch.hexapsalm.open_my_lips
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "гдси, устне мои отверзеши"
+    to: "хвалу твою."
+  - key: ch.hexapsalm.psalm.3
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "гдси, что ся умножиша стужающии ми"
+    to: ""
+  - key: ch.hexapsalm.psalm.3.verse
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "аз уснух и спах, востах"
+    to: ""
+  - key: ch.hexapsalm.psalm.37
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "гдси, да не яростию твоею обличиши мене, ниже гневом"
+    to: ""
+  - key: ch.hexapsalm.psalm.37.verse
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    after: "в помощь мою, гдси спсения моего."
+    from: "не остави мене, гдси бже мой, не отступи"
+    to: ""
+  - key: ch.hexapsalm.psalm.62
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "бже бже мой, к тебе утреннюю"
+    to: ""
+  - key: ch.hexapsalm.psalm.62.verse.1
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    after: "уста глаголющих неправедная."
+    from: "на утренних поучахся в тя"
+    to: ""
+  - key: ch.hexapsalm.psalm.62.verse.2
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    after: "уста глаголющих неправедная."
+    from: "прильпе душа моя по тебе"
+    to: ""
+  - key: ch.hexapsalm.alleluia
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "аллилуиа, аллилуиа, аллилуиа, слава тебе бже."
+    to: "слава тебе бже."
+  - key: ch.hexapsalm.psalm.87
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "гдси бже спсения моего, во дни воззвах, и в нощи пред тобою: да внидет"
+    to: ""
+  - key: ch.hexapsalm.psalm.87.verse.1
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    after: "знаемых моих от страстей"
+    from: "гдси бже спсения моего, во дни воззвах, и в нощи пред тобою."
+    to: ""
+  - key: ch.hexapsalm.psalm.87.verse.2
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    after: "знаемых моих от страстей"
+    from: "да внидет пред тя млтва моя, приклони ухо твое к молению моему."
+    to: ""
+  - key: ch.hexapsalm.psalm.102
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "блгослови душе моя гдса и вся внутренняя моя имя стое его. блгослови душе моя гдса, и не забывай"
+    to: ""
+  - key: ch.hexapsalm.psalm.102.verse
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "на всяком месте влдчествия его, блгослови"
+    to: ""
+  - key: ch.hexapsalm.psalm.142
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "гдси, услыши млтву мою, внуши моление"
+    to: ""
+  - key: ch.hexapsalm.psalm.142.verse.1
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    after: "яко аз раб твой есмь"
+    from: "услыши мя гдси, в правде твоей, и не вниди в суд с рабом твоим."
+    to: ""
+  - key: ch.hexapsalm.psalm.142.verse.2
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    after: "яко аз раб твой есмь"
+    from: "дх твой блгий наставит мя на землю праву."
+    to: "праву."
+  - key: sl.matins.morning_prayer.1
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/02utren.hip
+    from: "блгодарим тя, гдси бже наш, возставившаго нас от ложей"
+    to: "аминь."
+  - key: sl.matins.morning_prayer.2
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/02utren.hip
+    from: "от нощи утренюет дух наш к тебе бже наш, зане свет"
+    to: "аминь."
+  - key: sl.matins.morning_prayer.3
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/02utren.hip
+    from: "от нощи утренюет дух наш к тебе бже, зане свет повеления твоя. научи"
+    to: "аминь."
+  - key: sl.matins.morning_prayer.4
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/02utren.hip
+    from: "влдко бже стый и непостижимый, рекий из тмы"
+    to: "аминь."
+  - key: sl.matins.morning_prayer.5
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/02utren.hip
+    from: "блгих сокровище, источниче приснотекущий"
+    to: "аминь."
+  - key: sl.matins.morning_prayer.6
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/02utren.hip
+    from: "блгодарим тя, гдси бже спасений наших"
+    to: "аминь."
+  - key: sl.matins.morning_prayer.7
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/02utren.hip
+    from: "бже и оче гдса нашего ииса хрста, возставивый ны"
+    to: "аминь."
+  - key: sl.matins.morning_prayer.8
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/02utren.hip
+    from: "гдси бже наш, сонное уныние отгнавый"
+    to: "аминь."
+  - key: sl.matins.morning_prayer.9
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/02utren.hip
+    from: "возсияй в сердцах наших, члвеколюбче влдко"
+    to: "аминь."
+  - key: sl.matins.morning_prayer.10
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/02utren.hip
+    from: "гдси бже наш, покаянием оставление"
+    to: "аминь."
+  - key: sl.matins.morning_prayer.11
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/02utren.hip
+    from: "бже, бже наш, умныя и словесныя составивый"
+    to: "аминь."
+  - key: sl.matins.morning_prayer.12
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/02utren.hip
+    from: "хвалим, поем, блгословим, и блгодарим тя, бже оц наших"
+    to: "аминь."
+  - key: ch.matins.god_is_the_lord
+    book: chasoslov
+    kind: hymn
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "бг гдсь, и явися нам, блгословен грядый во имя гдсне."
+    to: "гдсне."
+  - key: ch.matins.god_is_the_lord.verse.1
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "исповедайтеся гдсеви. яко блг, яко в век млсть его."
+    to: "млсть его."
+  - key: ch.matins.god_is_the_lord.verse.2
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "обышедше обыдоша мя, и именем гдсним противляхся им."
+    to: "им."
+  - key: ch.matins.god_is_the_lord.verse.3
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "не умру, но жив буду, и повем дела гдсня."
+    to: "гдсня."
+  - key: ch.matins.god_is_the_lord.verse.4
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "камень, егоже небрегоша зиждущии"
+    to: "во очесех наших."
+  - key: ch.psalm.50
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/01polunosch.hip
+    from: "помилуй мя бже, по велицей милости твоей и по множеству щедрот"
+    to: ""
+  - key: ch.matins.magnificat.1
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "величит душа моя гдса, и возрадовася дух мой"
+    to: ""
+  - key: ch.matins.magnificat.2
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "яко призре на смирение рабы своея, се бо"
+    to: ""
+  - key: ch.matins.magnificat.3
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "яко сотвори мне величие сильный"
+    to: ""
+  - key: ch.matins.magnificat.4
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "сотвори державу мышцею своею"
+    to: ""
+  - key: ch.matins.magnificat.5
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "низложи сильныя со престол"
+    to: ""
+  - key: ch.matins.magnificat.6
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "восприят ииля отрока своего"
+    to: ""
+  - key: sl.matins.exclamation.ode3
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/02utren.hip
+    after: "млтва пятая"
+    from: "яко ты еси бг наш, и тебе славу возсылаем"
+    to: "во веки веков,"
+    suffix: "."
+  - key: sl.matins.exclamation.ode6
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/02utren.hip
+    from: "ты бо еси црь мира, и спс душ наших"
+    to: "во веки веков,"
+    suffix: "."
+  - key: sl.matins.exclamation.ode9
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/02utren.hip
+    from: "яко тя хвалят вся силы нбсныя и тебе славу"
+    to: "во веки веков."
+  - key: oc.exapostilarion.mon
+    book: octoechos
+    kind: exapostilarion
+    source: orthlib.octoechos
+    file: octoih/oc/exapsedm.hip
+    from: "небо звездами украсивый"
+    to: ""
+  - key: oc.exapostilarion.mon.theotokion
+    book: octoechos
+    kind: theotokion
+    source: orthlib.octoechos
+    file: octoih/oc/exapsedm.hip
+    from: "сладость агглов, скорбящих радость"
+    to: ""
+  - key: oc.exapostilarion.tue
+    book: octoechos
+    kind: exapostilarion
+    source: orthlib.octoechos
+    file: octoih/oc/exapsedm.hip
+    from: "прдтечу иоанна, и крстителя"
+    to: ""
+  - key: oc.exapostilarion.wed
+    book: octoechos
+    kind: exapostilarion
+    source: orthlib.octoechos
+    file: octoih/oc/exapsedm.hip
+    from: "крст - хранитель всея"
+    to: ""
+  - key: oc.exapostilarion.wed.theotokion
+    book: octoechos
+    kind: theotokion
+    source: orthlib.octoechos
+    file: octoih/oc/exapsedm.hip
+    from: "у крста предстоящи"
+    to: ""
+  - key: oc.exapostilarion.thu
+    book: octoechos
+    kind: exapostilarion
+    source: orthlib.octoechos
+    file: octoih/oc/exapsedm.hip
+    from: "во всю подсолнечную текше"
+    to: ""
+  - key: oc.exapostilarion.thu.2
+    book: octoechos
+    kind: exapostilarion
+    source: orthlib.octoechos
+    file: octoih/oc/exapsedm.hip
+    from: "великаго началопастыря"
+    to: ""
+  - key: oc.exapostilarion.thu.theotokion
+    book: octoechos
+    kind: theotokion
+    source: orthlib.octoechos
+    file: octoih/oc/exapsedm.hip
+    from: "мрие чистейшая, златая кадильнице"
+    to: ""
+  - key: ch.matins.praises.1
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "хвалите гдса с нбс, хвалите его в вышних."
+    to: "в вышних."
+  - key: ch.matins.praises.refrain
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "тебе подобает песнь бгу."
+    to: "бгу."
+  - key: ch.matins.praises.2
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "хвалите его вси аггли его, хвалите его вся силы его."
+    to: "силы его."
+  - key: ch.matins.praises.148
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "хвалите его солнце и луна"
+    to: ""
+  - key: ch.matins.praises.149
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "воспойте гдсеви песнь нову"
+    to: ""
+  - key: ch.matins.praises.149.verse
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    after: "стихиры на з"
+    from: "сотворити в них суд написан"
+    to: ""
+  - key: ch.matins.praises.150.1
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    after: "стихиры на з"
+    from: "хвалите бга во стых его, хвалите его во утвержении"
+    to: ""
+  - key: ch.matins.praises.150
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "хвалите его на силах его"
+    to: ""
+  - key: ch.matins.to_thee_glory
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "тебе слава подобает, гдси бже наш"
+    to: "аминь."
+  - key: ch.matins.glory_to_thee_who_showed
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    after: "тебе слава подобает, гдси бже наш"
+    from: "слава тебе показавшему нам свет."
+    to: "свет."
+  - key: ch.matins.doxology.1
+    book: chasoslov
+    kind: hymn
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    after: "тебе слава подобает, гдси бже наш"
+    from: "слава в вышних бгу, и на земли мир, в человецех блговоление. хвалим тя"
+    to: ""
+  - key: ch.matins.doxology.2
+    book: chasoslov
+    kind: hymn
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    after: "тебе слава подобает, гдси бже наш"
+    from: "на всяк день блгословлю тя"
+    to: ""
+  - key: ch.matins.doxology.3
+    book: chasoslov
+    kind: hymn
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    after: "тебе слава подобает, гдси бже наш"
+    from: "гдси, прибежище был еси нам в род и род."
+    to: ""
+  - key: ch.matins.doxology.4
+    book: chasoslov
+    kind: hymn
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    after: "тебе слава подобает, гдси бже наш"
+    from: "сподоби гдси, в день сей"
+    to: ""
+  - key: ch.matins.doxology.5
+    book: chasoslov
+    kind: hymn
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    after: "тебе слава подобает, гдси бже наш"
+    from: "буди гдси, млсть твоя на нас"
+    to: ""
+  - key: ch.matins.doxology.6
+    book: chasoslov
+    kind: hymn
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    after: "тебе слава подобает, гдси бже наш"
+    from: "гдси, млсть твоя во век, дел руку"
+    to: ""
+  - key: lit.matins.complete
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/02utren.hip
+    from: "исполним утреннюю молитву нашу гдсви."
+    to: "гдсви."
+  - key: sl.matins.complete_exclamation
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/02utren.hip
+    after: "исполним утреннюю молитву нашу"
+    from: "яко бг милости, щедрот и члвеколюбия еси"
+    to: "во веки веков."
+  - key: sl.matins.head_bowing_prayer
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/02utren.hip
+    from: "гдси стый, в вышних живый"
+    to: ""
+  - key: sl.matins.head_bowing_exclamation
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/02utren.hip
+    from: "твое бо есть еже миловати и спасати ны"
+    to: "во веки веков,"
+    suffix: "."
+  - key: ch.matins.aposticha.verse.2
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    after: "осмогласника стихиры"
+    from: "исполнихомся заутра млсти твоея гдси"
+    to: ""
+  - key: ch.matins.aposticha.verse.3
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    after: "осмогласника стихиры"
+    from: "и буди светлость гдса бга нашего на нас"
+    to: ""
+  - key: ch.matins.it_is_good
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "блго есть исповедатися гдсеви, и пети"
+    to: "на всяку нощь."
+  - key: sl.matins.he_who_is
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/02utren.hip
+    from: "сый блгсвен хрстос бг наш"
+    to: "во веки веков."

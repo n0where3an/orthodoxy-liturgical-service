@@ -1,0 +1,260 @@
+package orthlib
+
+import (
+	"fmt"
+	"path/filepath"
+	"regexp"
+	"strings"
+
+	"github.com/n0where3an/orthodoxy-liturgical-service/internal/corpus"
+	"github.com/n0where3an/orthodoxy-liturgical-service/internal/hip"
+)
+
+// Matins of a Menaion service (files with red markup). Keys under
+// me.<MM>.<DD>.matins:
+//
+//	canon.<C>.ode.<O>.irmos | .troparion.<N> | .theotokion | .cross_theotokion
+//	sedalen.<N>, sedalen.glory, sedalen.theotokion, sedalen.cross_theotokion
+//	    (the sessional hymn after the 3rd ode)
+//	ikos.<N>                                       (after the 6th ode)
+//	exapostilarion.<N>, exapostilarion.theotokion  (after the 9th ode)
+//	aposticha.glory, aposticha.theotokion          (when the Menaion has them)
+//
+// The kontakia are imported with the troparia (me.….kontakion.N).
+var (
+	reMCanon      = regexp.MustCompile(`^(иный |ин |другий )?канон`)
+	reMOde        = regexp.MustCompile(`песнь\s`)
+	reMOther      = regexp.MustCompile(`^(ин|иный)\.?\s*ирмос`)
+	reMTheot      = regexp.MustCompile(`^(слава,?\s*)?(и ныне,?\s*)?(крсто?)?бгородичен`)
+	reMCross      = regexp.MustCompile(`крстобгородичен`)
+	reMTrinity    = regexp.MustCompile(`^(слава,?\s*)?тр(о|ои)?и?чен`)
+	reMSedalen    = regexp.MustCompile(`^(слава,? и ныне,? |таже,? |ин )?седален`)
+	reMKontakion  = regexp.MustCompile(`^(таже,? |ин )?кондак`)
+	reMIkos       = regexp.MustCompile(`^икос`)
+	reMSvetilen   = regexp.MustCompile(`^(таже,? |ин )?(светилен|ексапостиларий)`)
+	reMAposticha  = regexp.MustCompile(`^на стиховне`)
+	reMGlory      = regexp.MustCompile(`^слава`)
+	reMAndNow     = regexp.MustCompile(`^и ныне`)
+	reMHeadText   = regexp.MustCompile(`^(глас \S+ )?песнь \S+ ирмос:?$|^(ин\.? )?ирмос( тойже)?[.:]?$|^глас \S+ ирмос:?$`)
+	reMSame       = regexp.MustCompile(`ирмос тойже`)
+	reMIrmosOnly  = regexp.MustCompile(`^(глас \S+ )?ирмос:?$`)
+	reMCompline   = regexp.MustCompile(`^на повечерии`)
+	reMMatinsNote = regexp.MustCompile(`^на утрени`)
+	reMOtherSaint = regexp.MustCompile(`^\S+( \S+)?:$`)
+	reMStop       = regexp.MustCompile(`^(на хвалитех|на литургии|на велицем славословии|на 1-м часе|конец|на утрени|на вечерни|на малей вечерни|на велицей вечерни|месяца|в тойже день)`)
+)
+
+func parseMenaionMatins(d *Doc, prefix, path string) []corpus.Unit {
+	var units []corpus.Unit
+	seen := map[string]bool{}
+	add := func(key, kind, heading, body string, meta map[string]any) {
+		body = CleanText(body)
+		if body == "" || seen[key] {
+			return
+		}
+		seen[key] = true
+		m := map[string]any{"heading": CleanText(heading), "file": filepath.Base(path)}
+		for k, v := range meta {
+			m[k] = v
+		}
+		units = append(units, corpus.Unit{
+			ID: prefix + ".matins." + key, Book: "menaion", Kind: kind, Tone: toneOf(heading),
+			Podoben: podobenOf(heading), Lang: "cu", Body: body, SourceID: "orthlib.mineya", Meta: m,
+		})
+	}
+	started := false
+	section := ""             // canon | sedalen | kontakion | ikos | svetilen | aposticha
+	expect, heading := "", "" // what the next body paragraph is
+	canon, canons, ode := 0, 0, 0
+	nTrop := map[string]int{}
+	nSed, nIkos, nSvet := 0, 0, 0
+	irmos := map[int]string{}
+	sequential := false
+	compline := false
+	for _, p := range d.Paras {
+		text := CleanText(pageRef.ReplaceAllString(p.Text(), ""))
+		red := hip.PlainString(p.RedPrefix())
+		plain := hip.PlainString(text)
+		if len([]rune(strings.TrimSpace(red))) > 3 || reMHeadText.MatchString(plain) { // a heading
+			// "Канон Октоиха един, на 6: и святых два канона на 8" is the
+			// Typikon's instruction, not a canon of this service.
+			isCanon := reMCanon.MatchString(plain) && !strings.Contains(plain, "октоиха") &&
+				!strings.Contains(plain, "со ирмосом") && strings.Count(plain, "канон") == 1 &&
+				!strings.HasPrefix(plain, "канона ")
+			if isCanon {
+				started, section, expect = true, "canon", ""
+				switch {
+				case ode <= 1:
+					canons++
+					canon = canons
+				case ode == 9:
+					// Canons printed one after another, each with all its odes.
+					canons++
+					canon, ode, sequential = canons, 0, true
+				}
+			}
+			switch {
+			case reMCompline.MatchString(plain):
+				compline = true // the canon of compline (forefeasts) is not matins
+				continue
+			case !started && (compline || !(reMOde.MatchString(plain) && strings.Contains(plain, "ирмос"))):
+				if reMMatinsNote.MatchString(plain) {
+					compline = false
+				}
+				continue
+			case reMStop.MatchString(plain):
+				return units
+			case section == "canon" && reMSame.MatchString(plain):
+				// "Ин. Ирмос тойже": the irmos of the first canon.
+				if !isCanon && reMOther.MatchString(plain) {
+					canon++
+				}
+				if ir := irmos[ode]; ir != "" && canon > 1 {
+					add(fmt.Sprintf("canon.%d.ode.%d.irmos", canon, ode), "irmos", text, ir, map[string]any{"same_as": 1})
+				}
+				expect = ""
+				continue
+			case reMOde.MatchString(plain) && (section == "canon" || strings.Contains(plain, "ирмос")):
+				started = true
+				n := odeNumber(text)
+				if n == 0 {
+					n = nextOde(ode)
+				}
+				if n != ode {
+					ode = n
+					switch {
+					case isCanon || n == 1: // the canon just opened
+						canon = max(canons, 1)
+					case !sequential:
+						canon = 1
+					}
+				}
+				section, expect, heading = "canon", "", text
+				if strings.Contains(plain, "ирмос") {
+					expect = "irmos"
+				}
+				continue
+			case section == "canon" && reMOther.MatchString(plain):
+				canon++
+				expect, heading = "irmos", text
+				continue
+			case section == "canon" && reMIrmosOnly.MatchString(plain):
+				expect, heading = "irmos", text // "Глас тойже. Ирмос:" after «Ин канон»
+				continue
+			case isCanon:
+				continue
+			case section == "canon" && reMTrinity.MatchString(plain):
+				expect, heading = "trinity", text
+				continue
+			case reMSedalen.MatchString(plain):
+				section, expect, heading = "sedalen", "sedalen", text
+				continue
+			case reMKontakion.MatchString(plain):
+				section, expect = "kontakion", ""
+				continue
+			case reMIkos.MatchString(plain):
+				section, expect, heading = "ikos", "ikos", text
+				continue
+			case reMSvetilen.MatchString(plain):
+				section, expect, heading = "svetilen", "svetilen", text
+				continue
+			case reMAposticha.MatchString(plain):
+				section, heading = "aposticha", text
+				expect = ""
+				if strings.Contains(plain, "слава") {
+					expect = "glory"
+				}
+				continue
+			case reMTheot.MatchString(plain) || reMAndNow.MatchString(plain) && strings.Contains(plain, "бгородичен"):
+				expect, heading = "theotokion", text
+				if reMCross.MatchString(plain) && !strings.Contains(plain, "или") {
+					expect = "cross_theotokion"
+				}
+				continue
+			case reMGlory.MatchString(plain):
+				expect, heading = "glory", text
+				continue
+			case section == "canon" && ode > 0 && reMOtherSaint.MatchString(plain):
+				// "Преподобнаго:" — the troparia of the second saint's canon,
+				// printed under the same irmos.
+				canon++
+				expect = ""
+				continue
+			default:
+				expect = ""
+				continue
+			}
+		}
+		if !started || expect == "" && section != "canon" {
+			continue
+		}
+		switch section {
+		case "canon":
+			if ode == 0 {
+				continue
+			}
+			base := fmt.Sprintf("canon.%d.ode.%d", canon, ode)
+			switch expect {
+			case "irmos":
+				if canon == 1 {
+					irmos[ode] = text
+				}
+				add(base+".irmos", "irmos", heading, text, nil)
+			case "theotokion", "cross_theotokion":
+				add(base+"."+expect, "theotokion", heading, text, nil)
+			default:
+				nTrop[base]++
+				var meta map[string]any
+				if expect == "trinity" {
+					meta = map[string]any{"label": "trinity"}
+				}
+				add(fmt.Sprintf("%s.troparion.%d", base, nTrop[base]), "canon_troparion", heading, text, meta)
+			}
+			expect = ""
+		case "sedalen":
+			switch expect {
+			case "sedalen":
+				nSed++
+				add(fmt.Sprintf("sedalen.%d", nSed), "sedalen", heading, text, nil)
+			case "glory":
+				add("sedalen.glory", "sedalen", heading, text, nil)
+			case "theotokion", "cross_theotokion":
+				add("sedalen."+expect, "theotokion", heading, text, nil)
+			}
+			expect = ""
+		case "ikos":
+			nIkos++
+			add(fmt.Sprintf("ikos.%d", nIkos), "ikos", heading, text, nil)
+			expect = ""
+		case "svetilen":
+			switch expect {
+			case "svetilen", "glory":
+				nSvet++
+				add(fmt.Sprintf("exapostilarion.%d", nSvet), "exapostilarion", heading, text, nil)
+			case "theotokion", "cross_theotokion":
+				add("exapostilarion."+expect, "theotokion", heading, text, nil)
+			}
+			expect = ""
+		case "aposticha":
+			switch expect {
+			case "glory":
+				add("aposticha.glory", "sticheron", heading, text, nil)
+			case "theotokion", "cross_theotokion":
+				add("aposticha."+expect, "theotokion", heading, text, nil)
+			}
+			expect = ""
+		}
+	}
+	return units
+}
+
+// odeNumber reads the number after «Пѣ́снь» in a Unicode heading.
+func odeNumber(text string) int {
+	w := strings.Fields(text)
+	for i := 0; i+1 < len(w); i++ {
+		if hip.PlainString(w[i]) == "песнь" {
+			return numeralOfWord(w[i+1])
+		}
+	}
+	return 0
+}

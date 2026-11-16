@@ -58,3 +58,148 @@ units:
     book: sluzhebnik
     kind: response
     hip: "О_у=тверди`, бж~е, ст~у'ю правосла'вную вjь'ру правосла'вныхъ хрiстiа'нъ во вjь'къ вjь'ка."
+
+  # --- Божественная литургия: приходская редакция ---
+  - key: sl.lit.title
+    book: sluzhebnik
+    kind: title
+    hip: "Бж~е'ственная лiтурги'я _и=же во ст~ы'хъ _о=тца` на'шегw i=wа'нна златоу'стагw."
+  # Великий вход (с диаконом: первое — диакон, прочие — священник).
+  - key: lit.entrance.hierarchy
+    book: sluzhebnik
+    kind: commemoration
+    hip: "Вели'каго господи'на и= _о=тца` на'шего ст~jь'йшаго патрiа'рха моско'вскагw и= всея` ру'си Кvрi'лла, и= господи'на на'шего преwсвяще'ннjьйшаго митрополi'та (и=ли` а=рхiепi'скопа, и=ли` _е=пi'скопа) (и='м\\ркъ), да помяне'тъ гд\\сь бг~ъ во ц\\рствiи свое'мъ, всегда`, ны'нjь и= при'снw, и= во вjь'ки вjькw'въ."
+  - key: lit.entrance.country
+    book: sluzhebnik
+    kind: commemoration
+    hip: "Богохрани'мую страну` на'шу, вла'сти и= во'инство _е=я`, да помяне'тъ гд\\сь бг~ъ во ц\\рствiи свое'мъ, всегда`, ны'нjь и= при'снw, и= во вjь'ки вjькw'въ."
+  - key: sl.lit.among_the_first
+    book: sluzhebnik
+    kind: exclamation
+    hip: "Въ пе'рвыхъ помяни` гд\\си, вели'каго господи'на и= _о=тца` на'шего ст~jь'йшаго патрiа'рха Кvрi'лла, и= господи'на на'шего преwсвяще'ннjьйшаго митрополi'та (и=ли` а=рхiепi'скопа, и=ли` _е=пi'скопа) (и='м\\ркъ), и='хже да'руй ст~ы'мъ твои'мъ цр~ква'мъ, въ ми'рjь цjь'лыхъ, чт\\сны'хъ, здра'выхъ, долгоде'нствующихъ, пра'вw пра'вящихъ сло'во твоея` и='стины."
+  - key: ch.lit.body_of_christ
+    book: sluzhebnik
+    kind: hymn
+    hip: "Тjь'ло хр\\сто'во прiими'те, i=сто'чника безсме'ртнагw вкуси'те."
+  - key: sl.lit.peace_be_to_thee
+    book: sluzhebnik
+    kind: exclamation
+    hip: "Ми'ръ ти`."
+  - key: common.trisagion.immortal
+    book: chasoslov
+    kind: hymn
+    hip: "Ст~ы'й безсме'ртный, поми'луй на'съ."
+  - key: common.alleluia.thrice
+    book: chasoslov
+    kind: hymn
+    hip: "А=ллилу'iа, а=ллилу'iа, а=ллилу'iа."
+  - key: lit.prokeimenon.tone.1
+    book: sluzhebnik
+    kind: announcement
+    hip: "Прокi'менъ, гла'съ а~:"
+  - key: lit.prokeimenon.tone.2
+    book: sluzhebnik
+    kind: announcement
+    hip: "Прокi'менъ, гла'съ в~:"
+  - key: lit.prokeimenon.tone.3
+    book: sluzhebnik
+    kind: announcement
+    hip: "Прокi'менъ, гла'съ г~:"
+  - key: lit.prokeimenon.tone.4
+    book: sluzhebnik
+    kind: announcement
+    hip: "Прокi'менъ, гла'съ д~:"
+  - key: lit.prokeimenon.tone.5
+    book: sluzhebnik
+    kind: announcement
+    hip: "Прокi'менъ, гла'съ е~:"
+  - key: lit.prokeimenon.tone.6
+    book: sluzhebnik
+    kind: announcement
+    hip: "Прокi'менъ, гла'съ s~:"
+  - key: lit.prokeimenon.tone.7
+    book: sluzhebnik
+    kind: announcement
+    hip: "Прокi'менъ, гла'съ з~:"
+  - key: lit.prokeimenon.tone.8
+    book: sluzhebnik
+    kind: announcement
+    hip: "Прокi'менъ, гла'съ и~:"
+  - key: lit.alleluia.tone.1
+    book: sluzhebnik
+    kind: announcement
+    hip: "А=ллилу'iа, гла'съ а~:"
+  - key: lit.alleluia.tone.2
+    book: sluzhebnik
+    kind: announcement
+    hip: "А=ллилу'iа, гла'съ в~:"
+  - key: lit.alleluia.tone.3
+    book: sluzhebnik
+    kind: announcement
+    hip: "А=ллилу'iа, гла'съ г~:"
+  - key: lit.alleluia.tone.4
+    book: sluzhebnik
+    kind: announcement
+    hip: "А=ллилу'iа, гла'съ д~:"
+  - key: lit.alleluia.tone.5
+    book: sluzhebnik
+    kind: announcement
+    hip: "А=ллилу'iа, гла'съ е~:"
+  - key: lit.alleluia.tone.6
+    book: sluzhebnik
+    kind: announcement
+    hip: "А=ллилу'iа, гла'съ s~:"
+  - key: lit.alleluia.tone.7
+    book: sluzhebnik
+    kind: announcement
+    hip: "А=ллилу'iа, гла'съ з~:"
+  - key: lit.alleluia.tone.8
+    book: sluzhebnik
+    kind: announcement
+    hip: "А=ллилу'iа, гла'съ и~:"
+  - key: sl.kinonik.tue
+    book: sluzhebnik
+    kind: kinonik
+    hip: "Въ па'мять вjь'чную бу'детъ пра'ведникъ, w\\т слу'ха зла` не о_у=бои'тся."
+
+  # --- Утреня ---
+  - key: ch.matins.title
+    book: chasoslov
+    kind: title
+    hip: "Послjь'дованiе о_у='трени."
+  - key: ch.canon.katavasia
+    book: chasoslov
+    kind: rubric
+    hip: "Катава'сiа:"
+  - key: ch.canon.ode.1
+    book: chasoslov
+    kind: rubric
+    hip: "Пjь'снь а~."
+  - key: ch.canon.ode.3
+    book: chasoslov
+    kind: rubric
+    hip: "Пjь'снь г~."
+  - key: ch.canon.ode.4
+    book: chasoslov
+    kind: rubric
+    hip: "Пjь'снь д~."
+  - key: ch.canon.ode.5
+    book: chasoslov
+    kind: rubric
+    hip: "Пjь'снь е~."
+  - key: ch.canon.ode.6
+    book: chasoslov
+    kind: rubric
+    hip: "Пjь'снь s~."
+  - key: ch.canon.ode.7
+    book: chasoslov
+    kind: rubric
+    hip: "Пjь'снь з~."
+  - key: ch.canon.ode.8
+    book: chasoslov
+    kind: rubric
+    hip: "Пjь'снь и~."
+  - key: ch.canon.ode.9
+    book: chasoslov
+    kind: rubric
+    hip: "Пjь'снь f~."

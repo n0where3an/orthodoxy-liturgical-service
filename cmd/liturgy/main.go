@@ -1,8 +1,8 @@
 // Command liturgy manages the corpus and generates services.
 //
 //	liturgy migrate
-//	liturgy import [-orthlib var/orthlib]
-//	liturgy plan   -date 2026-11-12 [-service first_hour|third_hour|sixth_hour|ninth_hour] [-reader] [-standalone] [-typikon]
+//	liturgy import [-orthlib var/orthlib] [-ponomar $PONOMAR_DIR]
+//	liturgy plan   -date 2026-11-12 [-service liturgy|matins|vespers|first_hour|third_hour|sixth_hour|ninth_hour] [-deacon] [-reader] [-standalone] [-typikon]
 //	liturgy render -date 2026-11-12 [-mode laity|kliros] [-lang cu] [-o out.html]
 //	liturgy serve  [-addr 127.0.0.1:8080]
 //
