@@ -25,12 +25,22 @@ type Verse struct {
 type Book struct {
 	Name     string
 	Chapters map[int]map[int]*Verse
+	// Zachala: the pericopes marked in the text, in order.
+	Zachala []Zachalo
+}
+
+// Zachalo is the start of a pericope (зачало) of the liturgical books.
+type Zachalo struct {
+	N    int
+	Half bool // «от полу»: the second half, marked without a number
+	// Start: the first verse.
+	Chapter, Verse int
 }
 
 // slavonic numeral letters and their values
 var numeral = map[rune]int{
 	'а': 1, 'в': 2, 'г': 3, 'д': 4, 'є': 5, 'ѕ': 6, 'з': 7, 'и': 8, 'ѳ': 9, 'і': 10,
-	'к': 20, 'л': 30, 'м': 40, 'н': 50, 'ѯ': 60, 'ѻ': 70, 'п': 80, 'ч': 90, 'р': 100,
+	'к': 20, 'л': 30, 'м': 40, 'н': 50, 'ѯ': 60, 'ѻ': 70, 'п': 80, 'ч': 90, 'р': 100, 'с': 200, 'т': 300, 'ѵ': 400, 'у': 400,
 }
 
 // numeralValue parses a Church Slavonic number written with titlo ("г҃і" = 13).
@@ -82,9 +92,15 @@ func ParseBook(path string) (*Book, error) {
 		}
 		text.Reset()
 	}
+	var pendingZach *Zachalo
 	newVerse := func(n int) {
 		flush()
 		verse = n
+		if pendingZach != nil {
+			pendingZach.Chapter, pendingZach.Verse = chapter, n
+			b.Zachala = append(b.Zachala, *pendingZach)
+			pendingZach = nil
+		}
 		if b.Chapters[chapter] == nil {
 			b.Chapters[chapter] = map[int]*Verse{}
 		}
@@ -104,6 +120,16 @@ func ParseBook(path string) (*Book, error) {
 				case reZach.MatchString(plain) && strings.HasPrefix(trimmed, "("):
 					if !started {
 						started, chapter = true, 1
+					}
+					z := Zachalo{}
+					if w := strings.Fields(strings.Trim(trimmed, "()")); len(w) > 1 {
+						z.N = numeralValue(strings.TrimRight(w[1], ").,"))
+					}
+					if z.N == 0 && len(b.Zachala) > 0 {
+						z.N, z.Half = b.Zachala[len(b.Zachala)-1].N, true
+					}
+					if z.N > 0 {
+						pendingZach = &z
 					}
 					continue
 				case strings.HasPrefix(trimmed, "*"):
@@ -399,4 +425,32 @@ func splitStars(p hip.Paragraph) hip.Paragraph {
 		}
 	}
 	return out
+}
+
+// ZachaloRanges returns the verses of pericope n (its second half if half).
+func (b *Book) ZachaloRanges(n int, half bool) ([]VerseRange, error) {
+	for i, z := range b.Zachala {
+		if z.N != n || z.Half != half {
+			continue
+		}
+		// It ends where the next numbered pericope begins (a half marker
+		// lies within its own pericope).
+		end := VerseRange{}
+		for _, nx := range b.Zachala[i+1:] {
+			if nx.N != n {
+				end = VerseRange{ToChapter: nx.Chapter, ToVerse: nx.Verse - 1}
+				break
+			}
+		}
+		if end.ToChapter == 0 { // the last pericope: to the end of the book
+			end.ToChapter = len(b.Chapters)
+			end.ToVerse = len(b.Chapters[end.ToChapter])
+		}
+		if end.ToVerse == 0 { // the next one starts a chapter
+			end.ToChapter--
+			end.ToVerse = len(b.Chapters[end.ToChapter])
+		}
+		return []VerseRange{{FromChapter: z.Chapter, FromVerse: z.Verse, ToChapter: end.ToChapter, ToVerse: end.ToVerse}}, nil
+	}
+	return nil, fmt.Errorf("%s: no pericope %d (half %v)", b.Name, n, half)
 }

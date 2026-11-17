@@ -94,7 +94,15 @@ func cmdImport(ctx context.Context, args []string) error {
 			return err
 		}
 	}
-	all := append(append(append(append(append(append(fixed, men...), oct...), psalter...), theot...), manual...), readings...)
+	zach, w, err := orthlib.ImportZachala(*root)
+	if err != nil {
+		return err
+	}
+	warnings = append(warnings, w...)
+	all := append(append(append(append(append(append(append(fixed, men...), oct...), psalter...), theot...), manual...), readings...), zach...)
+	// The Menaion's liturgy rubrics and cited texts.
+	all, w = orthlib.ResolveLiturgy(*root, all)
+	warnings = append(warnings, w...)
 	if dup := duplicateIDs(all); len(dup) > 0 {
 		return fmt.Errorf("duplicate unit keys: %v", dup)
 	}

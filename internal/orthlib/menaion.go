@@ -241,6 +241,7 @@ func ParseMenaionDay(path string, month int, service string) ([]corpus.Unit, err
 		}
 		units = append(units, u)
 	}
+	units = append(units, parseMenaionLiturgy(d, prefix, path, strings.TrimPrefix(prefix, "me."))...)
 	if hasRed {
 		units = append(units, parseMenaionVespers(d, prefix, path)...)
 		units = append(units, parseMenaionMatins(d, prefix, path)...)

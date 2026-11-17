@@ -33,21 +33,20 @@ func menaionDay(d calendar.JDate) mapCorpus {
 
 func TestWeekdayLiturgySlots(t *testing.T) {
 	cases := []struct {
-		date           calendar.JDate
-		troparia       string
-		kontakia       string
-		prokeimenon    string
-		tone, alleluia string
+		date                calendar.JDate
+		troparia            string // without the saint's
+		prokeimenon, tone   string
+		alleluiaTone, kinon string
 	}{
 		// Tuesday 2026-11-04 O.S.: the Forerunner.
-		{calendar.MustJDate(2026, time.November, 4), "ch.troparion.day.tue", "ch.kontakion.day.tue",
-			"sl.prokeimenon.tue", "lit.prokeimenon.tone.7", "lit.alleluia.tone.4"},
+		{calendar.MustJDate(2026, time.November, 4), "ch.troparion.day.tue", "sl.prokeimenon.tue", "lit.prokeimenon.tone.7",
+			"lit.alleluia.tone.4", "sl.kinonik.tue"},
 		// Thursday: the Apostles and St Nicholas.
-		{calendar.MustJDate(2026, time.November, 6), "ch.troparion.day.thu,ch.troparion.day.thu.2",
-			"ch.kontakion.day.thu,ch.kontakion.day.thu.2", "sl.prokeimenon.thu", "lit.prokeimenon.tone.8", "lit.alleluia.tone.1"},
+		{calendar.MustJDate(2026, time.November, 6), "ch.troparion.day.thu,ch.troparion.day.thu.2", "sl.prokeimenon.thu",
+			"lit.prokeimenon.tone.8", "lit.alleluia.tone.1", "sl.kinonik.thu"},
 		// Friday: the Cross (texts of Wednesday).
-		{calendar.MustJDate(2026, time.November, 7), "ch.troparion.day.wed", "ch.kontakion.day.wed",
-			"sl.prokeimenon.fri", "lit.prokeimenon.tone.7", "lit.alleluia.tone.1"},
+		{calendar.MustJDate(2026, time.November, 7), "ch.troparion.day.wed", "sl.prokeimenon.fri", "lit.prokeimenon.tone.7",
+			"lit.alleluia.tone.1", "sl.kinonik.fri"},
 	}
 	for _, c := range cases {
 		plan, err := planLiturgy(t, menaionDay(c.date), c.date)
@@ -57,22 +56,33 @@ func TestWeekdayLiturgySlots(t *testing.T) {
 		day := calendar.NewDayContext(c.date)
 		me := "me." + pad(int(day.Menaion.Month)) + "." + pad(day.Menaion.Day) + "."
 		ap, gos := day.Lections.Apostle, day.Lections.Gospel
-		want := map[string]string{
-			"day_troparia":     c.troparia,
-			"saint_troparion":  me + "troparion.1",
-			"day_kontakia":     c.kontakia,
-			"saint_kontakion":  me + "kontakion.1",
-			"prokeimenon":      c.prokeimenon,
-			"prokeimenon_tone": c.tone,
-			"alleluia_tone":    c.alleluia,
-			"apostle":          "lect.ap." + itoaN(ap.Week) + "." + itoaN(int(ap.Weekday)),
-			"apostle_announce": "lect.ap." + itoaN(ap.Week) + "." + itoaN(int(ap.Weekday)) + ".announce",
-			"gospel":           "lect.gos." + itoaN(gos.Week) + "." + itoaN(int(gos.Weekday)),
+		apRef := "lect.ap." + itoaN(ap.Week) + "." + itoaN(int(ap.Weekday))
+		gosRef := "lect.gos." + itoaN(gos.Week) + "." + itoaN(int(gos.Weekday))
+		tr := refs(plan.Slots["troparia"])
+		if !strings.HasPrefix(tr, c.troparia+","+me+"troparion.1,") || !strings.Contains(tr, me+"kontakion.1,common.glory,ch.kontakion.with_the_saints,common.and_now,ch.kontakion.protection") {
+			t.Errorf("%v troparia: %s", c.date, tr)
 		}
-		for slot, w := range want {
-			if got := refs(plan.Slots[slot]); got != w {
-				t.Errorf("%v %s:\n got %s\nwant %s", c.date, slot, got, w)
-			}
+		pk := refs(plan.Slots["prokeimena"])
+		if !strings.HasPrefix(pk, c.tone+","+c.prokeimenon+","+c.prokeimenon+","+c.prokeimenon+".verse,") {
+			t.Errorf("%v prokeimena: %s", c.date, pk)
+		}
+		if got := refs(plan.Slots["apostles"]); got != "lit.wisdom,"+apRef+".announce,lit.let_us_attend,"+apRef {
+			t.Errorf("%v apostles: %s", c.date, got)
+		}
+		if got := refs(plan.Slots["gospels"]); !strings.HasSuffix(got, gosRef) {
+			t.Errorf("%v gospels: %s", c.date, got)
+		}
+		if got := refs(plan.Slots["alleluia"]); !strings.HasPrefix(got, c.alleluiaTone+",") {
+			t.Errorf("%v alleluia: %s", c.date, got)
+		}
+		if got := refs(plan.Slots["kinonik"]); got != c.kinon+",common.alleluia.thrice" {
+			t.Errorf("%v kinonik: %s", c.date, got)
+		}
+		if got := refs(plan.Slots["antiphon_1"]); got != "ch.typika.psalm_102,common.glory_now,ch.typika.psalm_102.refrain" {
+			t.Errorf("%v antiphon 1: %s", c.date, got)
+		}
+		if got := refs(plan.Slots["truly_meet"]); got != "ch.lit.it_is_truly_meet" {
+			t.Errorf("%v truly meet: %s", c.date, got)
 		}
 	}
 }
@@ -94,7 +104,7 @@ func TestLiturgyUnsupported(t *testing.T) {
 	}{
 		{calendar.MustJDate(2026, time.November, 2), "liturgy.sunday"},
 		{calendar.MustJDate(2026, time.November, 8), "liturgy.saturday"},
-		{calendar.MustJDate(2027, time.January, 7), "liturgy.feast"},        // afterfeast of the Theophany
+		{calendar.MustJDate(2027, time.January, 7), "liturgy.afterfeast"},   // afterfeast of the Theophany
 		{calendar.MustJDate(2027, time.March, 3), "liturgy.lenten_weekday"}, // Wednesday of Great Lent
 	} {
 		_, err := planLiturgy(t, menaionDay(c.d), c.d)
@@ -108,8 +118,8 @@ func TestLiturgyUnsupported(t *testing.T) {
 	c.ids = append(c.ids, "me.11.13.vespers.great")
 	_, err := planLiturgy(t, c, great)
 	var ue *UnsupportedError
-	if !errors.As(err, &ue) || ue.Rule != "liturgy.great_saint" {
-		t.Errorf("saint with a sign: got %v", err)
+	if !errors.As(err, &ue) || ue.Rule != "liturgy.great_saint_unsupported" {
+		t.Errorf("saint with a sign without readings: got %v", err)
 	}
 }
 

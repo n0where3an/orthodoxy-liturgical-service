@@ -225,3 +225,34 @@ units:
     book: sluzhebnik
     kind: petition
     text: "Є҆щѐ мо́лимсѧ ѡ҆ є҆́же сохрани́тисѧ гра́дꙋ семꙋ̀, и҆ ст҃о́мꙋ хра́мꙋ семꙋ̀, и҆ всѧ́комꙋ гра́дꙋ и҆ странѣ̀ ѿ гла́да, гꙋби́тельства, трꙋ́са, пото́па, ѻ҆гнѧ̀, меча̀, наше́ствїѧ и҆ноплеме́нникѡвъ и҆ междоꙋсо́бныѧ бра́ни: ѡ҆ є҆́же ми́лостивꙋ и҆ благоꙋвѣ́тливꙋ бы́ти бл҃го́мꙋ и҆ чл҃вѣколюби́вомꙋ бг҃ꙋ на́шемꙋ, ѿврати́ти всѧ́кїй гнѣ́въ на ны̀ дви́жимый, и҆ и҆зба́вити ны̀ ѿ належа́щагѡ и҆ пра́веднагѡ своегѡ̀ преще́нїѧ, и҆ поми́ловати ны̀."
+
+  # --- Запевы задостойников двунадесятых праздников (поются перед ирмосом) ---
+  # В Минее (orthlib) запев приведён не у всех праздников; сверить с Минеей и Служебником.
+  - key: lit.zadostoinik.refrain.nativity_of_theotokos
+    book: menaion
+    kind: refrain
+    hip: "Велича'й, душе` моя`, пресла'вное рождество` бж~iя ма'тере."
+  - key: lit.zadostoinik.refrain.exaltation
+    book: menaion
+    kind: refrain
+    hip: "Велича'й, душе` моя`, пречестны'й кр\\стъ гд\\сень."
+  - key: lit.zadostoinik.refrain.entry_of_theotokos
+    book: menaion
+    kind: refrain
+    hip: "А='гг~ли, вхожде'нiе пречи'стыя ви'дяще, о_у=диви'шася, ка'кw дв~а со сла'вою вни'де во ст~а^я ст~ы'хъ."
+  - key: lit.zadostoinik.refrain.meeting
+    book: menaion
+    kind: refrain
+    hip: "Бг~оро'дице дв~о, о_у=пова'нiе хрiстiа'нъ, покры'й, соблюди` и= спаси` на тя` о_у=пова'ющыя."
+  - key: lit.zadostoinik.refrain.annunciation
+    book: menaion
+    kind: refrain
+    hip: "Бл~говjь'ствуй, земле`, ра'дость ве'лiю, хвали'те, нб~са`, бж~iю сла'ву."
+  - key: lit.zadostoinik.refrain.transfiguration
+    book: menaion
+    kind: refrain
+    hip: "Велича'й, душе` моя`, на fаво'рjь преобрази'вшагося гд\\са."
+  - key: lit.zadostoinik.refrain.dormition
+    book: menaion
+    kind: refrain
+    hip: "А='гг~ли о_у=спе'нiе пречи'стыя ви'дjьвше, о_у=диви'шася, ка'кw дв~а восхо'дитъ w\\т земли` на нб~о."

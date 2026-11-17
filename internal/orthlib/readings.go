@@ -170,3 +170,65 @@ func ImportReadings(root, lectionaryTSV string) ([]corpus.Unit, []string, error)
 func hipAnnouncement(code string) string {
 	return hipToUnicode(announcements[code])
 }
+
+// apostolOrder: the books of the Apostol (one numbering of pericopes).
+var apostolOrder = []string{"Acts", "Jas", "I Pet", "II Pet", "I Jn", "II Jn", "III Jn", "Jude", "Rom", "I Cor", "II Cor",
+	"Gal", "Eph", "Phil", "Col", "I Thess", "II Thess", "I Tim", "II Tim", "Tit", "Philem", "Heb"}
+
+// gospelKeys: the Gospels, each with its own numbering.
+var gospelKeys = map[string]string{"Mt": "mt", "Mk": "mk", "Lk": "lk", "Jn": "jn"}
+
+// ImportZachala makes every pericope of the Apostol and the Gospels a
+// reading: lect.zach.ap.<N> (one numbering for the whole Apostol),
+// lect.zach.<mt|mk|lk|jn>.<N>; «от полу» — <key>.half; with announcements
+// (<key>.announce). The Menaion and the feasts cite readings this way.
+func ImportZachala(root string) ([]corpus.Unit, []string, error) {
+	var units []corpus.Unit
+	var warnings []string
+	seen := map[string]bool{}
+	emit := func(code, key string, b *Book) {
+		for _, z := range b.Zachala {
+			id := fmt.Sprintf("lect.zach.%s.%d", key, z.N)
+			if z.Half {
+				id += ".half"
+			}
+			if seen[id] {
+				continue
+			}
+			ranges, err := b.ZachaloRanges(z.N, z.Half)
+			// The Gospel of the feasts of the Theotokos: Lk 10:38-42 and 11:27-28.
+			if err == nil && code == "Lk" && z.N == 54 && !z.Half {
+				ranges = append(ranges, VerseRange{FromChapter: 11, FromVerse: 27, ToChapter: 11, ToVerse: 28})
+			}
+			if err == nil {
+				var text string
+				if text, err = b.Reading(ranges); err == nil {
+					seen[id] = true
+					units = append(units,
+						corpus.Unit{ID: id, Book: "lectionary", Kind: "reading", Lang: "cu", Body: text, SourceID: "orthlib.lectionary",
+							Meta: map[string]any{"book": code, "zachalo": z.N, "half": z.Half,
+								"ref": fmt.Sprintf("%s_%d:%d-%d:%d", code, ranges[0].FromChapter, ranges[0].FromVerse, ranges[0].ToChapter, ranges[0].ToVerse)}},
+						corpus.Unit{ID: id + ".announce", Book: "lectionary", Kind: "announcement", Lang: "cu",
+							Body: hipAnnouncement(code), SourceID: "orthlib.lectionary"})
+					continue
+				}
+			}
+			warnings = append(warnings, fmt.Sprintf("%s: %v", id, err))
+		}
+	}
+	for _, code := range apostolOrder {
+		b, err := ParseBook(filepath.Join(root, bookFiles[code]))
+		if err != nil {
+			return nil, nil, err
+		}
+		emit(code, "ap", b)
+	}
+	for code, key := range gospelKeys {
+		b, err := ParseBook(filepath.Join(root, bookFiles[code]))
+		if err != nil {
+			return nil, nil, err
+		}
+		emit(code, key, b)
+	}
+	return units, warnings, nil
+}

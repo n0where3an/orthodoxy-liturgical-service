@@ -407,6 +407,13 @@ func (sel SlotSelector) resolve(name string, f Facts, service string) ([]SlotIte
 				return nil, fmt.Errorf("slot %s: %w", name, err)
 			}
 			items = append(items, gs...)
+		case "lit_antiphon", "lit_entrance", "lit_troparia", "lit_trisagion", "lit_prokeimena", "lit_apostles",
+			"lit_alleluia", "lit_gospels", "lit_kinonik", "lit_truly_meet":
+			ls, err := liturgySlot(sel, f)
+			if err != nil {
+				return nil, fmt.Errorf("slot %s: %w", name, err)
+			}
+			items = append(items, ls...)
 		case "lection":
 			l, err := lection(f, sel.Part)
 			if err != nil {

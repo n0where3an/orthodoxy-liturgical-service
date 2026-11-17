@@ -3150,3 +3150,17 @@ units:
     file: sluzhebnik/sl/01vechern.hip
     from: "облечеся гдсь в силу, и препоясася."
     to: "препоясася."
+  - key: sl.dismissal.prefix.meeting
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/07otp_vladychn.hip
+    from: "иже во обятиих првднаго симеона"
+    to: "спасения,"
+  - key: sl.dismissal.prefix.transfiguration
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/07otp_vladychn.hip
+    from: "иже на горе фаворстей преобразивыйся"
+    to: "апслы,"

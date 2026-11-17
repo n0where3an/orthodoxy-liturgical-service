@@ -108,6 +108,8 @@ titles:
   morning_prayers: "the Morning Prayers"
   vespers_entrance_prayer: "the Prayer of the Entrance"
   lic_glory_now: "the singing of “Glory… Now and ever…”"
+  antiphon_3: "the Third Antiphon"
+  theotokos_hymn: "the hymn to the Theotokos"
 
 placeholders:
   during: "During DURING, the priest secretly reads TITLE."

@@ -18,105 +18,62 @@ nodes:
 
   # --- Антифон первый (изобразительный: псалом 102) ---
   - {id: antiphon_prayer_1, ref: sl.lit.antiphon_prayer.1, performer: priest, voice: secret, title: antiphon_prayer_1, during: antiphon_1}
-  - {id: antiphon_1, ref: ch.typika.psalm_102, performer: choir, title: antiphon_1}
-  - {id: antiphon_1_glory_now, ref: common.glory_now, performer: choir}
-  - {id: antiphon_1_refrain, ref: ch.typika.psalm_102.refrain, performer: choir}
+  - {id: antiphon_1, slot: antiphon_1, performer: choir, title: antiphon_1}
   - {id: small_litany_1, include: small_litany}
 
-  # --- Антифон второй (псалом 145, «Единородный Сыне») ---
+  # --- Антифон второй ---
   - {id: antiphon_prayer_2, ref: sl.lit.antiphon_prayer.2, performer: priest, voice: secret, title: antiphon_prayer_2, during: antiphon_2}
-  - {id: antiphon_2_glory, ref: common.glory, performer: choir}
-  - {id: antiphon_2, ref: ch.typika.psalm_145, performer: choir, title: antiphon_2}
-  - {id: antiphon_2_now, ref: common.and_now, performer: choir}
-  - {id: only_begotten, ref: ch.typika.only_begotten, performer: choir}
+  - {id: antiphon_2, slot: antiphon_2, performer: choir, title: antiphon_2}
   - {id: small_litany_2, include: small_litany_open}
   - {id: small_litany_2_exclamation, ref: sl.lit.small.exclamation.2, performer: priest, voice: aloud}
   - {id: small_litany_2_amen, ref: common.amen, performer: choir}
 
-  # --- Антифон третий: блаженны; малый вход ---
-  - {id: antiphon_prayer_3, ref: sl.lit.antiphon_prayer.3, performer: priest, voice: secret, title: antiphon_prayer_3, during: beatitudes_0}
-  - {id: beatitudes_0, ref: ch.typika.beatitudes.0, performer: choir, title: beatitudes}
-  - {id: beatitudes_1, ref: ch.typika.beatitudes.1, performer: choir}
-  - {id: beatitudes_2, ref: ch.typika.beatitudes.2, performer: choir}
-  - {id: beatitudes_3, ref: ch.typika.beatitudes.3, performer: choir}
-  - {id: beatitudes_4, ref: ch.typika.beatitudes.4, performer: choir}
-  - {id: beatitudes_5, ref: ch.typika.beatitudes.5, performer: choir}
-  - {id: beatitudes_6, ref: ch.typika.beatitudes.6, performer: choir}
-  - {id: beatitudes_7, ref: ch.typika.beatitudes.7, performer: choir}
-  - {id: beatitudes_8, ref: ch.typika.beatitudes.8, performer: choir}
-  - {id: entrance_prayer, ref: sl.lit.entrance_prayer, performer: priest, voice: secret, title: entrance_prayer, during: beatitudes_9}
-  - {id: bless_entrance, ref: lit.deacon.bless_entrance, performer: deacon, voice: secret, title: entrance_prayer, during: beatitudes_9, when: deacon}
-  - {id: blessed_entrance, ref: sl.lit.blessed_is_the_entrance, performer: priest, voice: secret, title: entrance_prayer, during: beatitudes_9}
-  - {id: beatitudes_9, ref: ch.typika.beatitudes.9, performer: choir, title: little_entrance}
-  - {id: beatitudes_10, ref: ch.typika.beatitudes.10, performer: choir}
-  - {id: beatitudes_glory_now, ref: common.glory_now, performer: choir}
+  # --- Антифон третий (блаженны или праздничный); малый вход ---
+  - {id: antiphon_prayer_3, ref: sl.lit.antiphon_prayer.3, performer: priest, voice: secret, title: antiphon_prayer_3, during: antiphon_3}
+  - {id: entrance_prayer, ref: sl.lit.entrance_prayer, performer: priest, voice: secret, title: entrance_prayer, during: antiphon_3}
+  - {id: bless_entrance, ref: lit.deacon.bless_entrance, performer: deacon, voice: secret, title: entrance_prayer, during: antiphon_3, when: deacon}
+  - {id: blessed_entrance, ref: sl.lit.blessed_is_the_entrance, performer: priest, voice: secret, title: entrance_prayer, during: antiphon_3}
+  - {id: antiphon_3, slot: antiphon_3, performer: choir, title: antiphon_3}
   - {id: wisdom_aright, ref: lit.wisdom_aright, performer: litanist, voice: aloud}
-  - {id: come_let_us_worship, ref: ch.lit.come_let_us_worship.weekday, performer: choir}
+  - {id: entrance_verse, slot: entrance, performer: choir}
 
   # --- Тропари и кондаки ---
   - {id: troparia_rubric, rubric: liturgy_troparia, audience: kliros}
-  - {id: day_troparia, slot: day_troparia, performer: choir}
-  - {id: saint_troparion, slot: saint_troparion, performer: choir}
-  - {id: day_kontakia, slot: day_kontakia, performer: choir}
-  - {id: saint_kontakion, slot: saint_kontakion, performer: choir}
-  - {id: kontakia_glory, ref: common.glory, performer: choir}
-  - {id: with_the_saints, ref: ch.kontakion.with_the_saints, performer: choir}
-  - {id: kontakia_now, ref: common.and_now, performer: choir}
-  - {id: protection, ref: ch.kontakion.protection, performer: choir, title: last_kontakion}
+  - {id: troparia, slot: troparia, performer: choir, title: last_kontakion}
 
   # --- Трисвятое ---
-  - {id: bless_time_trisagion, ref: lit.deacon.bless_time_trisagion, performer: deacon, voice: secret, title: secret_prayers, during: protection, when: deacon}
+  - {id: bless_time_trisagion, ref: lit.deacon.bless_time_trisagion, performer: deacon, voice: secret, title: secret_prayers, during: troparia, when: deacon}
   - {id: trisagion_exclamation_1, ref: sl.lit.trisagion_exclamation, performer: priest, voice: aloud}
   - {id: save_the_pious, ref: lit.deacon.o_lord_save_the_pious, performer: deacon, voice: aloud, when: deacon}
   - {id: and_unto_ages, ref: lit.deacon.and_unto_ages, performer: litanist, voice: aloud}
   - {id: trisagion_amen, ref: common.amen, performer: choir}
   - {id: trisagion_prayer, ref: sl.lit.trisagion_prayer, performer: priest, voice: secret, title: trisagion_prayer, during: trisagion}
-  - {id: trisagion, ref: common.trisagion, performer: choir, repeat: 3, title: trisagion_hymn}
-  - {id: trisagion_glory_now, ref: common.glory_now, performer: choir}
-  - {id: trisagion_immortal, ref: common.trisagion.immortal, performer: choir}
-  - {id: high_place_command, ref: lit.deacon.command, performer: deacon, voice: secret, title: high_place, during: trisagion_once, when: deacon}
-  - {id: high_place_blessed, ref: sl.lit.blessed_is_he_that_comes, performer: priest, voice: secret, title: high_place, during: trisagion_once}
-  - {id: high_place_bless, ref: lit.deacon.bless_high_throne, performer: deacon, voice: secret, title: high_place, during: trisagion_once, when: deacon}
-  - {id: high_place_throne, ref: sl.lit.blessed_art_thou_on_throne, performer: priest, voice: secret, title: high_place, during: trisagion_once}
-  - {id: trisagion_once, ref: common.trisagion, performer: choir, title: trisagion_hymn}
+  - {id: high_place_command, ref: lit.deacon.command, performer: deacon, voice: secret, title: high_place, during: trisagion, when: deacon}
+  - {id: high_place_blessed, ref: sl.lit.blessed_is_he_that_comes, performer: priest, voice: secret, title: high_place, during: trisagion}
+  - {id: high_place_bless, ref: lit.deacon.bless_high_throne, performer: deacon, voice: secret, title: high_place, during: trisagion, when: deacon}
+  - {id: high_place_throne, ref: sl.lit.blessed_art_thou_on_throne, performer: priest, voice: secret, title: high_place, during: trisagion}
+  - {id: trisagion, slot: trisagion, performer: choir, title: trisagion_hymn}
 
-  # --- Апостол ---
+  # --- Прокимен, Апостол ---
   - {id: ap_attend, ref: lit.let_us_attend, performer: litanist, voice: aloud}
   - {id: ap_peace, ref: lit.peace_be_unto_all, performer: priest, voice: aloud}
   - {id: ap_and_with_thy_spirit, ref: lit.response.and_with_thy_spirit, performer: reader}
   - {id: ap_wisdom, ref: lit.wisdom, performer: litanist, voice: aloud}
-  - {id: prokeimenon_tone, slot: prokeimenon_tone, performer: reader}
-  - {id: prokeimenon, slot: prokeimenon, performer: reader}
-  - {id: prokeimenon_choir, slot: prokeimenon, performer: choir}
-  - {id: prokeimenon_verse, slot: prokeimenon_verse, performer: reader}
-  - {id: prokeimenon_choir_2, slot: prokeimenon, performer: choir}
-  - {id: prokeimenon_half, slot: prokeimenon, performer: reader}
-  - {id: prokeimenon_choir_3, slot: prokeimenon, performer: choir}
-  - {id: ap_wisdom_2, ref: lit.wisdom, performer: litanist, voice: aloud}
-  - {id: apostle_announce, slot: apostle_announce, performer: reader}
-  - {id: ap_attend_2, ref: lit.let_us_attend, performer: litanist, voice: aloud}
-  - {id: apostle, slot: apostle, performer: reader, title: apostle}
+  - {id: prokeimena, slot: prokeimena, performer: reader}
+  - {id: apostles, slot: apostles, performer: reader, title: apostle}
   - {id: ap_peace_to_thee, ref: sl.lit.peace_be_to_thee, performer: priest, voice: aloud}
   - {id: ap_and_to_thy_spirit, ref: lit.response.and_with_thy_spirit, performer: reader}
 
   # --- Аллилуиа, Евангелие ---
   - {id: al_wisdom, ref: lit.wisdom, performer: litanist, voice: aloud}
   - {id: gospel_prayer, ref: sl.lit.gospel_prayer, performer: priest, voice: secret, title: gospel_prayer, during: alleluia}
-  - {id: alleluia_tone, slot: alleluia_tone, performer: reader}
-  - {id: alleluia, ref: common.alleluia.thrice, performer: choir, title: alleluia}
-  - {id: alleluia_verse_1, slot: alleluia_verse_1, performer: reader}
-  - {id: alleluia_2, ref: common.alleluia.thrice, performer: choir}
-  - {id: alleluia_verse_2, slot: alleluia_verse_2, performer: reader}
-  - {id: alleluia_3, ref: common.alleluia.thrice, performer: choir}
-  - {id: bless_evangelist, ref: lit.deacon.bless_evangelist, performer: deacon, voice: secret, title: secret_prayers, during: alleluia_3, when: deacon}
-  - {id: blessing_evangelist, ref: sl.lit.bless_evangelist, performer: priest, voice: secret, title: secret_prayers, during: alleluia_3, when: deacon}
+  - {id: bless_evangelist, ref: lit.deacon.bless_evangelist, performer: deacon, voice: secret, title: secret_prayers, during: alleluia, when: deacon}
+  - {id: blessing_evangelist, ref: sl.lit.bless_evangelist, performer: priest, voice: secret, title: secret_prayers, during: alleluia, when: deacon}
+  - {id: alleluia, slot: alleluia, performer: choir, title: alleluia}
   - {id: gospel_wisdom, ref: sl.lit.wisdom_aright_gospel, performer: priest, voice: aloud}
   - {id: gospel_peace, ref: lit.peace_be_unto_all, performer: priest, voice: aloud}
   - {id: gospel_and_with_thy_spirit, ref: lit.response.and_with_thy_spirit, performer: choir}
-  - {id: gospel_announce, slot: gospel_announce, performer: litanist}
-  - {id: gospel_glory_1, ref: sl.lit.glory_to_thee_o_lord, performer: choir}
-  - {id: gospel_attend, ref: lit.let_us_attend, performer: priest, voice: aloud}
-  - {id: gospel, slot: gospel, performer: litanist, voice: aloud, title: gospel}
+  - {id: gospels, slot: gospels, performer: litanist, title: gospel}
   - {id: gospel_glory_2, ref: sl.lit.glory_to_thee_o_lord, performer: choir}
 
   # --- Сугубая ектения ---
@@ -252,7 +209,7 @@ nodes:
   - {id: anaphora_6, ref: sl.lit.anaphora_prayer.6, performer: priest, voice: secret, title: intercession_prayer, during: truly_meet}
   - {id: anaphora_7, ref: sl.lit.anaphora_prayer.7, performer: priest, voice: secret, title: intercession_prayer, during: truly_meet}
   - {id: anaphora_8, ref: sl.lit.anaphora_prayer.8, performer: priest, voice: secret, title: intercession_prayer, during: truly_meet}
-  - {id: truly_meet, ref: ch.lit.it_is_truly_meet, performer: choir, title: it_is_truly_meet}
+  - {id: truly_meet, slot: truly_meet, performer: choir, title: theotokos_hymn}
   - {id: among_the_first, ref: sl.lit.among_the_first, performer: priest, voice: aloud}
   - {id: and_all_mankind, ref: ch.lit.and_all_mankind, performer: choir}
   - {id: anaphora_9, ref: sl.lit.anaphora_prayer.9, performer: priest, voice: secret, title: intercession_prayer}
@@ -306,7 +263,6 @@ nodes:
   # --- Причастен; причащение ---
   - {id: kinonik_rubric, rubric: kinonik, audience: kliros}
   - {id: kinonik, slot: kinonik, performer: choir, title: kinonik}
-  - {id: kinonik_alleluia, ref: common.alleluia.thrice, performer: choir}
   - {id: clergy_communion, rubric: clergy_communion, audience: laity}
   - {id: approach, ref: lit.deacon.approach, performer: litanist, voice: aloud}
   - {id: blessed_is_he, ref: ch.lit.blessed_is_he, performer: choir}
@@ -348,5 +304,6 @@ nodes:
   - {id: dismissal_glory_now, ref: common.glory_now, performer: choir}
   - {id: dismissal_lhm, ref: common.lord_have_mercy, performer: choir, repeat: 3}
   - {id: dismissal_bless, ref: common.bless, performer: choir}
+  - {id: dismissal_prefix, slot: dismissal_prefix, performer: priest, voice: aloud}
   - {id: dismissal, ref: sl.dismissal.liturgy_chrysostom, performer: priest, voice: aloud}
   - {id: dismissal_amen, ref: common.amen, performer: choir}

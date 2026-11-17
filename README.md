@@ -17,8 +17,8 @@ var/liturgy render -date 2026-11-12 -service third_hour -mode kliros -o terce.ht
 var/liturgy serve                                   # http://127.0.0.1:8080/?date=2026-11-12&service=sixth_hour&mode=laity
 ```
 
-Services: `liturgy` (St John Chrysostom, weekdays Mon–Fri of the ordinary
-period), `matins` (daily, Mon–Fri; joined to the first hour unless
+Services: `liturgy` (St John Chrysostom: weekdays Mon–Fri of the ordinary
+period, saints with a sign, fixed twelve feasts), `matins` (daily, Mon–Fri; joined to the first hour unless
 `-standalone`), `vespers` (daily; great vespers and all-night vigil of Menaion
 saints with readings and of the fixed twelve feasts), `first_hour`, `third_hour`, `sixth_hour`, `ninth_hour`.
 Dates are civil (Gregorian); add `-julian` for old style. Options: `-reader`
