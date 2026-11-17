@@ -51,7 +51,8 @@ nodes:
   - {id: small_litany, include: small_litany}
 
   # --- Господи, воззвах; вход ---
-  - {id: lic_rubric, rubric: lord_i_call_great, audience: kliros}
+  - {id: lic_rubric, rubric: lord_i_call_great, audience: kliros, when: "!sunday"}
+  - {id: lic_rubric_sunday, rubric: lord_i_call_sunday, audience: kliros, when: sunday}
   - {id: lic_verse_1, ref: ch.vespers.lic.verse.1, performer: choir}
   - {id: lic_verse_2, ref: ch.vespers.lic.verse.2, performer: choir}
   - {id: lic_verse_3, ref: ch.vespers.lic.verse.3, performer: choir}
@@ -72,26 +73,8 @@ nodes:
   - {id: lic_verse_18, ref: ch.vespers.lic.verse.18, performer: reader}
   - {id: lic_verse_19, ref: ch.vespers.lic.verse.19, performer: reader}
   - {id: lic_verse_20, ref: ch.vespers.lic.verse.20, performer: reader}
-  - {id: lic_verse_21, ref: ch.vespers.lic.verse.21, performer: reader}
-  - {id: lic_verse_22, ref: ch.vespers.lic.verse.22, performer: reader}
-  - {id: lic_verse_23, ref: ch.vespers.lic.verse.23, performer: reader}
-  - {id: lic_sticheron_1, slot: lord_i_call, index: 1, performer: choir}
-  - {id: lic_verse_24, ref: ch.vespers.lic.verse.24, performer: reader}
-  - {id: lic_sticheron_2, slot: lord_i_call, index: 2, performer: choir}
-  - {id: lic_verse_25, ref: ch.vespers.lic.verse.25, performer: reader}
-  - {id: lic_sticheron_3, slot: lord_i_call, index: 3, performer: choir}
-  - {id: lic_verse_26, ref: ch.vespers.lic.verse.26, performer: reader}
-  - {id: lic_sticheron_4, slot: lord_i_call, index: 4, performer: choir}
-  - {id: lic_verse_27, ref: ch.vespers.lic.verse.27, performer: reader}
-  - {id: lic_sticheron_5, slot: lord_i_call, index: 5, performer: choir}
-  - {id: lic_verse_28, ref: ch.vespers.lic.verse.28, performer: reader}
-  - {id: lic_sticheron_6, slot: lord_i_call, index: 6, performer: choir}
-  - {id: lic_verse_29, ref: ch.vespers.lic.verse.29, performer: reader}
-  - {id: lic_sticheron_7, slot: lord_i_call, index: 7, performer: choir}
-  - {id: lic_verse_30, ref: ch.vespers.lic.verse.30, performer: reader}
-  - {id: lic_sticheron_8, slot: lord_i_call, index: 8, performer: choir}
-  - {id: lic_sticheron_9, slot: lord_i_call, index: 9, performer: choir}
-  - {id: lic_sticheron_10, slot: lord_i_call, index: 10, performer: choir}
+  # Стихи 21–30 — в слоте, перед каждой стихирой (на 8, на 10…).
+  - {id: lic_stichera, slot: lord_i_call, performer: choir}
   - {id: entrance_prayer, ref: sl.vespers.entrance_prayer, performer: priest, voice: secret, title: vespers_entrance_prayer, during: lic_glory_now}
   - {id: lic_glory_now, slot: lord_i_call_glory_now, performer: choir, title: lic_glory_now}
   - {id: wisdom_aright, ref: lit.wisdom_aright, performer: litanist, voice: aloud}
@@ -104,6 +87,7 @@ nodes:
   - {id: wisdom, ref: lit.wisdom, performer: litanist, voice: aloud}
   - {id: prokeimenon_rubric, rubric: prokeimenon, audience: kliros}
   - {id: prokeimenon, slot: prokeimenon, performer: choir}
+  # Стих (в субботу вечера — три стиха, прокимен между ними).
   - {id: prokeimenon_verse, slot: prokeimenon_verse, performer: reader}
   - {id: prokeimenon_again, slot: prokeimenon, performer: choir}
   - {id: paremias, slot: paremias, performer: reader}
@@ -145,7 +129,8 @@ nodes:
       - {id: li_prayer_amen, ref: common.amen, performer: choir}
 
   # --- Стиховна, «Ныне отпущаеши», тропари ---
-  - {id: aposticha_rubric, rubric: aposticha_great, audience: kliros}
+  - {id: aposticha_rubric, rubric: aposticha_great, audience: kliros, when: "!sunday"}
+  - {id: aposticha_rubric_sunday, rubric: aposticha_sunday, audience: kliros, when: sunday}
   - {id: aposticha, slot: aposticha, performer: choir}
   - {id: nunc_dimittis, ref: ch.vespers.nunc_dimittis, performer: reader}
   - {id: trisagion, include: trisagion_to_our_father}
@@ -165,6 +150,13 @@ nodes:
       - {id: blessing, ref: sl.lit.blessing_of_the_lord, performer: priest, voice: aloud}
       - {id: blessing_amen, ref: common.amen, performer: choir}
       - {id: matins_follows, rubric: matins_follows}
+
+  # --- Бдение без литии: сразу утреня ---
+  - id: vigil_no_loaves
+    if_slot: vigil
+    unless_slot: loaves
+    children:
+      - {id: matins_follows_now, rubric: matins_follows}
 
   # --- Окончание великой вечерни без бдения ---
   - id: ending

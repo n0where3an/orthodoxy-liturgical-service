@@ -20,13 +20,21 @@ var/liturgy serve                                   # http://127.0.0.1:8080/?dat
 Services: `liturgy` (St John Chrysostom: weekdays Mon–Fri of the ordinary
 period, saints with a sign, fixed twelve feasts), `matins` (daily Mon–Fri; festal: saints with a sign and fixed twelve
 feasts; joined to the first hour unless
-`-standalone`), `vespers` (daily; great vespers and all-night vigil of Menaion
-saints with readings and of the fixed twelve feasts), `first_hour`, `third_hour`, `sixth_hour`, `ninth_hour`.
+`-standalone`), `vespers` (daily; Sunday great vespers at the Saturday-evening vigil with a saint
+without a sign; great vespers and all-night vigil of Menaion saints with readings and of the
+fixed twelve feasts), `first_hour`, `third_hour`, `sixth_hour`, `ninth_hour`.
 Dates are civil (Gregorian); add `-julian` for old style. Options: `-reader`
 (reader's order, no priest), `-standalone` (the hour on its own: usual
 beginning and dismissal; by default hours are joined as in parish practice),
 `-typikon` (Typikon instead of parish practice where they differ), `-deacon`
 (litanies by a deacon).
+`-temple <id>`: the dedication of the church where the service is held — an id
+listed by `liturgy temples` (feasts of the Lord, of the Theotokos, patron saints;
+`data/calendar/temples.yaml`) or a Menaion day `me.MM.DD`. At the liturgy the
+temple's troparion and kontakion are sung after the entrance in the Typikon's
+order for a church of the Lord, of the Theotokos or of a saint; rules can test
+`temple`, `temple_kind` and `temple_feast` (the patronal feast is today).
+In the web server: `&temple=<id>`.
 Languages: `-lang cu|en`, `-lang2 en` for parallel output. Texts not yet
 translated fall back to Church Slavonic (marked on the page).
 Church Slavonic text is Unicode; install the Ponomar Unicode or Monomakh fonts.

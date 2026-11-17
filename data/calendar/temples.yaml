@@ -1,0 +1,36 @@
+# Посвящения храмов — варианты параметра -temple (в честь кого освящён храм,
+# в котором совершается служба). kind: lord (Господский), theotokos
+# (Богородичный), saint (святому; также бесплотным силам). date: день
+# престольного праздника (юлианский MM-DD). troparion/kontakion: ключи
+# текстов храма (поются по входе на литургии).
+#
+# Кроме этого списка, -temple принимает день Минеи: me.MM.DD (или
+# me.MM.DDp — вторая служба дня): тропарь и кондак — первые этого дня.
+
+temples:
+  # --- Господские ---
+  - {id: nativity, title: Рождества Христова, kind: lord, date: "12-25", troparion: me.12.25.troparion.1, kontakion: me.12.25.kontakion.1}
+  - {id: theophany, title: Богоявления (Крещения Господня), kind: lord, date: "01-06", troparion: me.01.06.troparion.3, kontakion: me.01.06.kontakion.1}
+  - {id: meeting, title: Сретения Господня, kind: lord, date: "02-02", troparion: me.02.02.troparion.1, kontakion: me.02.02.kontakion.1}
+  - {id: transfiguration, title: Преображения Господня, kind: lord, date: "08-06", troparion: me.08.06.troparion.1, kontakion: me.08.06.kontakion.1}
+  - {id: exaltation, title: Воздвижения Креста Господня, kind: lord, date: "09-14", troparion: me.09.14.troparion.1, kontakion: me.09.14.kontakion.1}
+  - {id: holy_mandylion, title: Нерукотворного Образа Спасителя, kind: lord, date: "08-16", troparion: me.08.16.troparion.1, kontakion: me.08.16.kontakion.2}
+
+  # --- Богородичные ---
+  - {id: nativity_of_theotokos, title: Рождества Пресвятой Богородицы, kind: theotokos, date: "09-08", troparion: me.09.08.troparion.1, kontakion: me.09.08.kontakion.1}
+  - {id: entry_of_theotokos, title: Введения во храм Пресвятой Богородицы, kind: theotokos, date: "11-21", troparion: me.11.21.troparion.1, kontakion: me.11.21.kontakion.1}
+  - {id: annunciation, title: Благовещения Пресвятой Богородицы, kind: theotokos, date: "03-25", troparion: me.03.25.troparion.1, kontakion: me.03.25.kontakion.1}
+  - {id: dormition, title: Успения Пресвятой Богородицы, kind: theotokos, date: "08-15", troparion: me.08.15.troparion.1, kontakion: me.08.15.kontakion.1}
+  - {id: protection, title: Покрова Пресвятой Богородицы, kind: theotokos, date: "10-01", troparion: me.10.01.troparion.3, kontakion: me.10.01.kontakion.3}
+  - {id: kazan_icon, title: Казанской иконы Божией Матери, kind: theotokos, date: "10-22", troparion: me.10.22.troparion.2, kontakion: me.10.22.kontakion.3}
+
+  # --- Святым ---
+  - {id: archangel_michael, title: Архистратига Михаила, kind: saint, date: "11-08", troparion: me.11.08.troparion.1, kontakion: me.11.08.kontakion.1}
+  - {id: nativity_of_forerunner, title: Рождества Иоанна Предтечи, kind: saint, date: "06-24", troparion: me.06.24.troparion.1, kontakion: me.06.24.kontakion.1}
+  - {id: elijah, title: Пророка Илии, kind: saint, date: "07-20", troparion: me.07.20.troparion.1, kontakion: me.07.20.kontakion.1}
+  - {id: peter_and_paul, title: Апостолов Петра и Павла, kind: saint, date: "06-29", troparion: me.06.29.troparion.1, kontakion: me.06.29.kontakion.1}
+  - {id: nicholas, title: Святителя Николая Чудотворца, kind: saint, date: "12-06", troparion: me.12.06.troparion.1, kontakion: me.12.06.kontakion.1}
+  - {id: george, title: Великомученика Георгия Победоносца, kind: saint, date: "04-23", troparion: me.04.23.troparion.1, kontakion: me.04.23.kontakion.1}
+  - {id: panteleimon, title: Великомученика Пантелеимона, kind: saint, date: "07-27", troparion: me.07.27.troparion.1, kontakion: me.07.27.kontakion.1}
+  - {id: sergius, title: Преподобного Сергия Радонежского, kind: saint, date: "09-25", troparion: me.09.25.troparion.2, kontakion: me.09.25.kontakion.2}
+  - {id: seraphim, title: Преподобного Серафима Саровского, kind: saint, date: "07-19", troparion: me.07.19.troparion.2, kontakion: me.07.19.kontakion.1}

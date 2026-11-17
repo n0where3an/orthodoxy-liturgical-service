@@ -61,7 +61,9 @@ type Node struct {
 	Include   string    `yaml:"include"` // name of a shared fragment (data/templates/_<name>.yaml)
 	Index     int       `yaml:"index"`   // slot: take only the n-th item (1-based)
 	IfSlot    string    `yaml:"if_slot"` // group: only when this slot is not empty
-	Children  []Node    `yaml:"children"`
+	// UnlessSlot: group: only when this slot is empty.
+	UnlessSlot string `yaml:"unless_slot"`
+	Children   []Node `yaml:"children"`
 }
 
 // Template is the unchanging order of a service with named slots.

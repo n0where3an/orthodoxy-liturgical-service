@@ -22,6 +22,9 @@ type Params struct {
 	Typikon bool `json:"typikon"`
 	// Deacon: served with a deacon (litanies and some exclamations are his).
 	Deacon bool `json:"deacon"`
+	// Temple: the dedication of the church (an id of data/calendar/temples.yaml
+	// or a Menaion day me.MM.DD); "" when not given.
+	Temple string `json:"temple,omitempty"`
 }
 
 // SlotItem references one text unit placed into a slot.
@@ -59,6 +62,7 @@ type DaySummary struct {
 type Planner struct {
 	Rules   *Rules
 	Feasts  *Feasts
+	Temples *Temples
 	Menaion MenaionLister
 }
 
@@ -81,7 +85,8 @@ func (p *Planner) Plan(ctx context.Context, d calendar.JDate, service string, pa
 	f := Facts{Day: day, Menaion: men, Octoechos: oct}
 	toneIDs := append([]string{}, men["troparion"]...)
 	for _, k := range []string{"gvespers.lic.glory", "gvespers.lic.now", "gvespers.litiya.glory", "gvespers.aposticha.glory", "gvespers.lic.sticheron",
-		"gvespers.litiya.sticheron", "gvespers.aposticha.sticheron", "lit.prokeimenon", "lit.alleluia.verse", "matins.prokeimenon"} {
+		"gvespers.litiya.sticheron", "gvespers.aposticha.sticheron", "lit.prokeimenon", "lit.alleluia.verse", "matins.prokeimenon",
+		"vespers.lic.glory", "vespers.lic.glory_now", "vespers.aposticha.glory"} {
 		toneIDs = append(toneIDs, men[k]...)
 	}
 	if tones, err := p.Menaion.UnitTones(ctx, toneIDs); err == nil {
@@ -91,6 +96,9 @@ func (p *Planner) Plan(ctx context.Context, d calendar.JDate, service string, pa
 	}
 	if p.Feasts != nil {
 		f.Feast = p.Feasts.At(day)
+	}
+	if f.Temple, err = p.Temples.Find(params.Temple); err != nil {
+		return nil, err
 	}
 	r, err := p.Rules.Match(service, f)
 	if err != nil {

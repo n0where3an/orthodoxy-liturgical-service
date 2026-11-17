@@ -3156,6 +3156,22 @@ units:
     file: sluzhebnik/sl/01vechern.hip
     from: "облечеся гдсь в силу, и препоясася."
     to: "препоясася."
+  - key: ch.vespers.prokeimenon.sun.verse.2
+    book: sluzhebnik
+    kind: verse
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    after: "и препоясася."
+    from: "ибо утверди вселенную"
+    to: "не подвижится."
+  - key: ch.vespers.prokeimenon.sun.verse.3
+    book: sluzhebnik
+    kind: verse
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    after: "не подвижится."
+    from: "дому твоему подобает"
+    to: "долготу дний."
   - key: sl.dismissal.prefix.meeting
     book: sluzhebnik
     kind: exclamation

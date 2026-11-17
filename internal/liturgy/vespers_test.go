@@ -161,7 +161,8 @@ func TestVespersUnsupported(t *testing.T) {
 		c    mapCorpus
 		rule string
 	}{
-		{sunday, weekdayCorpus(sunday), "vespers.sunday"},
+		// A saint with a sign on Sunday.
+		{sunday, weekdayCorpus(sunday, "vespers.great"), "vespers.sunday.unsupported"},
 		{great, weekdayCorpus(great, "vespers.great"), "vespers.great"},
 	} {
 		_, err := planVespers(t, c.c, c.d)

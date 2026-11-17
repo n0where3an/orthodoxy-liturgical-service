@@ -244,6 +244,9 @@ func parseServiceFile(path, prefix, service string) ([]corpus.Unit, error) {
 		if of != "" {
 			u.Meta["of"] = of
 		}
+		if full := completeCue(d, b); full != "" {
+			u.Body, u.Meta["completed_cue"] = full, true
+		}
 		units = append(units, u)
 	}
 	units = append(units, parseMenaionLiturgy(d, prefix, path, strings.TrimPrefix(prefix, "me."))...)
@@ -508,4 +511,28 @@ func dayTitle(paras []hip.Paragraph) string {
 // SortUnits orders units by id for stable output.
 func SortUnits(us []corpus.Unit) {
 	sort.Slice(us, func(i, j int) bool { return us[i].ID < us[j].ID })
+}
+
+// reCueRepeat: a hymn cited by its first words with a count («В рождестве
+// девство сохранила еси: трижды.»), at the blessing of loaves and the like.
+var reCueRepeat = regexp.MustCompile(`^(.+?):?\s*(трижды|дважды|единожды)\.?$`)
+
+// completeCue returns the full text of a hymn the paragraph only cites,
+// from a paragraph of the same file that begins with the cited words; ""
+// when the body is not such a cue or no text is found.
+func completeCue(d *Doc, body string) string {
+	plain := strings.ToLower(hip.PlainString(body))
+	m := reCueRepeat.FindStringSubmatch(plain)
+	if m == nil || len(strings.Fields(m[1])) > 10 {
+		return ""
+	}
+	cue := hip.Fold(strings.TrimRight(m[1], ":,. "))
+	for _, p := range d.Paras {
+		text := CleanText(pageRef.ReplaceAllString(p.Text(), ""))
+		pp := strings.ToLower(hip.PlainString(text))
+		if len(pp) > len(plain)+20 && strings.HasPrefix(hip.Fold(pp), cue) {
+			return text
+		}
+	}
+	return ""
 }

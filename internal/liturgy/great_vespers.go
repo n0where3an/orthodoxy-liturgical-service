@@ -50,14 +50,30 @@ func gvLIC(f Facts) ([]SlotItem, error) {
 	if on := markerN(mainMenaion(f, "gvespers.lic.on")); on > 0 {
 		places = on
 	}
+	var refs []string
+	refs = append(refs, men...)
+	for i := 0; len(refs) < places; i++ { // fewer stichera: repeated from the first
+		refs = append(refs, men[i%len(men)])
+	}
+	return licWithVerses(refs), nil
+}
+
+// licWithVerses puts the verses of «Господи, воззвах» from the 21st (the
+// first twenty are in the template) before the stichera: on 10 each of the
+// ten has its verse, on 8 verses 21 and 22 come first.
+func licWithVerses(stichera []string) []SlotItem {
+	if len(stichera) > 10 {
+		stichera = stichera[:10]
+	}
 	var items []SlotItem
-	for _, id := range men {
-		items = append(items, SlotItem{Ref: id})
+	first := 30 - len(stichera) + 1
+	for v := 21; v < first; v++ {
+		items = append(items, reader(fmt.Sprintf("ch.vespers.lic.verse.%d", v)))
 	}
-	for i := 0; len(items) < places; i++ { // fewer stichera: repeated from the first
-		items = append(items, SlotItem{Ref: men[i%len(men)]})
+	for i, st := range stichera {
+		items = append(items, reader(fmt.Sprintf("ch.vespers.lic.verse.%d", first+i)), SlotItem{Ref: st})
 	}
-	return items, nil
+	return items
 }
 
 // bogorTheotokion: the resurrectional theotokion of the tone (Menaion,
@@ -164,6 +180,9 @@ func gvTroparia(f Facts, part string) ([]SlotItem, error) {
 			return nil, fmt.Errorf("no troparion of the feast")
 		}
 		return []SlotItem{{Ref: troparia[0], Repeat: 3}}, nil
+	case "theotokos":
+		// A vigil without the blessing of loaves (Sunday): «Богородице Дево» thrice.
+		return []SlotItem{{Ref: "ch.theotokos_rejoice", Repeat: 3}}, nil
 	case "vigil":
 		if len(troparia) == 0 {
 			return nil, fmt.Errorf("no troparion of the saint")

@@ -2,9 +2,10 @@
 //
 //	liturgy migrate
 //	liturgy import [-orthlib var/orthlib] [-ponomar $PONOMAR_DIR]
-//	liturgy plan   -date 2026-11-12 [-service liturgy|matins|vespers|first_hour|third_hour|sixth_hour|ninth_hour] [-deacon] [-reader] [-standalone] [-typikon]
+//	liturgy plan   -date 2026-11-12 [-service liturgy|matins|vespers|first_hour|third_hour|sixth_hour|ninth_hour] [-deacon] [-reader] [-standalone] [-typikon] [-temple nicholas]
 //	liturgy render -date 2026-11-12 [-mode laity|kliros] [-lang cu] [-o out.html]
 //	liturgy serve  [-addr 127.0.0.1:8080]
+//	liturgy temples                       # dedications for -temple
 //
 // Dates are civil (Gregorian) unless -julian is given. Configuration comes
 // from the environment, with .env in the current directory as a fallback.
@@ -35,6 +36,7 @@ func main() {
 		"plan":    cmdPlan,
 		"render":  cmdRender,
 		"serve":   cmdServe,
+		"temples": cmdTemples,
 	}
 	f, ok := cmds[os.Args[1]]
 	if !ok {
@@ -48,5 +50,5 @@ func main() {
 }
 
 func usage() {
-	fmt.Fprintln(os.Stderr, "usage: liturgy migrate | import | plan | render | serve [flags]")
+	fmt.Fprintln(os.Stderr, "usage: liturgy migrate | import | plan | render | serve | temples [flags]")
 }

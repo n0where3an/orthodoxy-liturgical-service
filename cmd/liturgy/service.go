@@ -24,6 +24,7 @@ type commonFlags struct {
 	julian, reader      bool
 	standalone, typikon bool
 	deacon              bool
+	temple              string
 }
 
 func (c *commonFlags) register(fs *flag.FlagSet) {
@@ -35,10 +36,11 @@ func (c *commonFlags) register(fs *flag.FlagSet) {
 	fs.BoolVar(&c.standalone, "standalone", false, "serve the hour on its own: usual beginning and dismissal")
 	fs.BoolVar(&c.typikon, "typikon", false, "follow the Typikon where parish practice differs")
 	fs.BoolVar(&c.deacon, "deacon", false, "served with a deacon")
+	fs.StringVar(&c.temple, "temple", "", "dedication of the church: an id from 'liturgy temples', or me.MM.DD")
 }
 
 func (c *commonFlags) params() liturgy.Params {
-	return liturgy.Params{Priest: !c.reader, Standalone: c.standalone, Typikon: c.typikon, Deacon: c.deacon}
+	return liturgy.Params{Priest: !c.reader, Standalone: c.standalone, Typikon: c.typikon, Deacon: c.deacon, Temple: c.temple}
 }
 
 func parseDate(s string, julian bool) (calendar.JDate, error) {
@@ -67,10 +69,15 @@ func newGenerator(ctx context.Context, dataDir string) (*liturgy.Generator, func
 		pool.Close()
 		return nil, nil, err
 	}
+	temples, err := liturgy.LoadTemples(dataDir)
+	if err != nil {
+		pool.Close()
+		return nil, nil, err
+	}
 	st := &corpus.Store{Pool: pool}
 	return &liturgy.Generator{
 		DataDir: dataDir,
-		Planner: &liturgy.Planner{Rules: rules, Feasts: feasts, Menaion: st},
+		Planner: &liturgy.Planner{Rules: rules, Feasts: feasts, Temples: temples, Menaion: st},
 		Texts:   st,
 	}, pool.Close, nil
 }
@@ -170,7 +177,8 @@ func cmdServe(ctx context.Context, args []string) error {
 		var buf bytes.Buffer
 		_, err = g.Generate(r.Context(), liturgy.Request{
 			Date: d, Service: service, Lang: lang, Lang2: q.Get("lang2"), Mode: q.Get("mode"),
-			Params: liturgy.Params{Priest: !reader, Standalone: standalone, Typikon: typikon, Deacon: deacon},
+			Params: liturgy.Params{Priest: !reader, Standalone: standalone, Typikon: typikon, Deacon: deacon,
+				Temple: q.Get("temple")},
 		}, &buf)
 		if err != nil {
 			status := http.StatusInternalServerError
@@ -194,6 +202,48 @@ func cmdServe(ctx context.Context, args []string) error {
 	fmt.Printf("listening on http://%s/?date=YYYY-MM-DD&service=liturgy|matins|vespers|first_hour|third_hour|sixth_hour|ninth_hour&mode=laity|kliros\n", *addr)
 	if err := srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 		return err
+	}
+	return nil
+}
+
+// cmdTemples lists the dedications -temple accepts and checks that their
+// troparia and kontakia are in the corpus.
+func cmdTemples(ctx context.Context, args []string) error {
+	fs := flag.NewFlagSet("temples", flag.ExitOnError)
+	data := fs.String("data", "data", "data directory")
+	fs.Parse(args)
+	temples, err := liturgy.LoadTemples(*data)
+	if err != nil {
+		return err
+	}
+	pool, err := db.Open(ctx)
+	if err != nil {
+		return err
+	}
+	defer pool.Close()
+	st := &corpus.Store{Pool: pool}
+	var ids []string
+	for _, t := range temples.List {
+		ids = append(ids, t.Troparion, t.Kontakion)
+	}
+	texts, err := st.Load(ctx, "cu", ids)
+	if err != nil {
+		return err
+	}
+	missing := 0
+	for _, t := range temples.List {
+		note := ""
+		for _, id := range []string{t.Troparion, t.Kontakion} {
+			if _, ok := texts[id]; !ok {
+				note += " MISSING " + id
+				missing++
+			}
+		}
+		fmt.Printf("%-24s %-9s %s  %s%s\n", t.ID, t.Kind, t.Date, t.Title, note)
+	}
+	fmt.Println("\nor me.MM.DD (me.MM.DDp): a saint of that Menaion day, its first troparion and kontakion")
+	if missing > 0 {
+		return fmt.Errorf("%d texts missing in the corpus", missing)
 	}
 	return nil
 }

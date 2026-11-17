@@ -7,6 +7,7 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"time"
 
 	"cel.dev/cel-go/cel"
 	"gopkg.in/yaml.v3"
@@ -115,7 +116,8 @@ func (l *Lang) RepeatLabel(n int) string {
 
 func paramEnv() (*cel.Env, error) {
 	return cel.NewEnv(cel.Variable("priest", cel.BoolType), cel.Variable("standalone", cel.BoolType),
-		cel.Variable("typikon", cel.BoolType), cel.Variable("deacon", cel.BoolType))
+		cel.Variable("typikon", cel.BoolType), cel.Variable("deacon", cel.BoolType),
+		cel.Variable("sunday", cel.BoolType)) // the liturgical day is a Sunday (its vespers: Saturday evening)
 }
 
 // Expand fills the template with the plan's slots and the loaded texts.
@@ -125,7 +127,7 @@ func Expand(t *Template, plan *Plan, texts map[string]corpus.Text, lang *Lang) (
 		return nil, err
 	}
 	vars := map[string]any{"priest": plan.Params.Priest, "standalone": plan.Params.Standalone, "typikon": plan.Params.Typikon,
-		"deacon": plan.Params.Deacon}
+		"deacon": plan.Params.Deacon, "sunday": plan.Day.Weekday == time.Sunday.String()}
 	var out []RNode
 	missing := map[string]bool{}
 	titles := map[string]string{}
@@ -208,7 +210,8 @@ func Expand(t *Template, plan *Plan, texts map[string]corpus.Text, lang *Lang) (
 				}
 				out = append(out, RNode{ID: n.ID, Kind: KindRubric, Audience: n.Audience, Body: s, Performer: performer(n.Performer)})
 			default:
-				if n.IfSlot != "" && len(plan.Slots[n.IfSlot]) == 0 {
+				if n.IfSlot != "" && len(plan.Slots[n.IfSlot]) == 0 ||
+					n.UnlessSlot != "" && len(plan.Slots[n.UnlessSlot]) > 0 {
 					continue
 				}
 				if err := walk(n.Children); err != nil {

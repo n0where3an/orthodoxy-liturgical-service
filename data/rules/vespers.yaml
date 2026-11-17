@@ -2,15 +2,35 @@
 # the ordinary period, and great vespers from the Menaion's own service:
 # polyeleos (entrance, readings), vigil (with the litiya and the blessing of
 # loaves) — of a saint or of a fixed twelve feast. Doxology-rank services
-# have daily vespers with the Menaion's stichera. Sunday vespers (Octoechos),
-# the Triodion and the movable feasts are recognised and reported as not
-# implemented yet.
+# have daily vespers with the Menaion's stichera. Sunday great vespers
+# (Octoechos) with a saint without a sign. Sundays with a feast, an
+# afterfeast or a saint with a sign, the Triodion and the movable feasts are
+# recognised and reported as not implemented yet.
 
 - id: vespers.sunday
   service: vespers
   priority: 300
+  # Saturday evening, all-night vigil (parish practice: without the litiya
+  # and the blessing of loaves): the Octoechos with a saint without a sign.
+  when: weekday == 0 && period == "ordinary" && feast == "" && !menaion_great_vespers
+  template: great_vespers
+  slots:
+    title: {from: unit, refs: [ch.vigil.title]}
+    vigil: {from: unit, refs: [lit.vigil.arise]}
+    kathisma: {from: unit, refs: [ps.kathisma.1.1]}
+    lord_i_call: {from: sv_lic}
+    lord_i_call_glory_now: {from: sv_glory_now}
+    prokeimenon: {from: unit, refs: [ch.vespers.prokeimenon.sun]}
+    prokeimenon_verse: {from: sv_prokeimenon_verses}
+    paremias: {from: none}
+    aposticha: {from: sv_aposticha}
+    troparia: {from: gv_troparia, part: theotokos}
+
+- id: vespers.sunday.unsupported
+  service: vespers
+  priority: 299
   when: weekday == 0
-  unsupported: "Воскресная (великая) вечерня ещё не реализована"
+  unsupported: "Воскресная вечерня с праздником, попразднством, святым со знаком или в дни Триоди ещё не реализована"
 
 - id: vespers.triodion
   service: vespers

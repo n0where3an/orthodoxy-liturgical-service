@@ -2,6 +2,7 @@ package orthlib
 
 import (
 	"fmt"
+	"path/filepath"
 	"strings"
 	"testing"
 
@@ -177,4 +178,27 @@ func TestSupplementFromGeneralMenaion(t *testing.T) {
 	if len(warnings) != 1 || !strings.Contains(warnings[0], "me.12.26") {
 		t.Errorf("warnings %v, want one for me.12.26", warnings)
 	}
+}
+
+// A troparion cited by its first words («…: трижды») gets its full text.
+func TestCompleteCueTroparion(t *testing.T) {
+	root := extractedRoot(t)
+	matches, _ := filepath.Glob(filepath.Join(root, "mineya", "aug", "aug", "*", "15.hip"))
+	if len(matches) != 1 {
+		t.Fatalf("08.15: %v", matches)
+	}
+	us, err := parseServiceFile(matches[0], "me.08.15", "")
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, u := range us {
+		if u.ID == "me.08.15.troparion.1" {
+			p := strings.ToLower(hip.PlainString(u.Body))
+			if !strings.HasPrefix(p, "в ржстве девство сохранила еси, во успении") || u.Meta["completed_cue"] != true {
+				t.Errorf("troparion %q", p)
+			}
+			return
+		}
+	}
+	t.Error("no me.08.15.troparion.1")
 }

@@ -51,8 +51,12 @@ func TestVigilVespersPlan(t *testing.T) {
 	g := "me.11.13.gvespers."
 	want := map[string]string{
 		// 5 stichera on 8: the first three are repeated.
-		"lord_i_call": strings.Join([]string{g + "lic.sticheron.1", g + "lic.sticheron.2", g + "lic.sticheron.3", g + "lic.sticheron.4",
-			g + "lic.sticheron.5", g + "lic.sticheron.1", g + "lic.sticheron.2", g + "lic.sticheron.3"}, ","),
+		// On 8: verses 21–22 first, then verses 23–30 before each sticheron.
+		"lord_i_call": strings.Join([]string{"ch.vespers.lic.verse.21", "ch.vespers.lic.verse.22",
+			"ch.vespers.lic.verse.23", g + "lic.sticheron.1", "ch.vespers.lic.verse.24", g + "lic.sticheron.2",
+			"ch.vespers.lic.verse.25", g + "lic.sticheron.3", "ch.vespers.lic.verse.26", g + "lic.sticheron.4",
+			"ch.vespers.lic.verse.27", g + "lic.sticheron.5", "ch.vespers.lic.verse.28", g + "lic.sticheron.1",
+			"ch.vespers.lic.verse.29", g + "lic.sticheron.2", "ch.vespers.lic.verse.30", g + "lic.sticheron.3"}, ","),
 		// «И ныне» only cited: the dogmatikon of the tone of «Слава».
 		"lord_i_call_glory_now": "common.glory," + g + "lic.glory,common.and_now,me.bogor.6.lic",
 		"paremias": "lit.wisdom," + g + "paremia.1.title,lit.let_us_attend," + g + "paremia.1,lit.wisdom," + g + "paremia.2.title,lit.let_us_attend," + g +

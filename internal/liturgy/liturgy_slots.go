@@ -145,6 +145,51 @@ func litBeatitudes(f Facts, part string) ([]SlotItem, error) {
 	return append(items, choir("common.and_now"), choir(th)), nil
 }
 
+// templeOfDay: the dedications whose hymns are those of the weekday itself
+// (Monday: the bodiless powers; Wednesday, Friday: the Cross; Thursday:
+// St Nicholas) — not sung twice.
+var templeOfDay = map[time.Weekday][]string{
+	time.Monday: {"archangel_michael"}, time.Wednesday: {"exaltation"}, time.Thursday: {"nicholas"},
+	time.Friday: {"exaltation"},
+}
+
+// litTemple: the temple whose troparion and kontakion are added after the
+// entrance, nil when none is given or its hymns are already the day's.
+func litTemple(f Facts, troparia []string) *Temple {
+	t := f.Temple
+	if t == nil {
+		return nil
+	}
+	for _, id := range troparia {
+		if id == t.Troparion {
+			return nil // the patronal feast itself
+		}
+	}
+	for _, id := range templeOfDay[f.Day.Weekday] {
+		if id == t.ID {
+			return nil
+		}
+	}
+	return t
+}
+
+// litTroparia: the troparia and kontakia after the entrance. With a temple
+// (Типикон; «Богослужебные указания»):
+//
+//   - weekday, a church of the Lord: the temple's troparion, the day's, the
+//     saint's; the temple's kontakion, the day's, the saint's; «Слава» «Со
+//     святыми упокой», «И ныне» «Предстательство»;
+//   - of the Theotokos: the day's troparion, the temple's, the saint's; the
+//     day's kontakion, the saint's; «Слава» «Со святыми упокой», «И ныне»
+//     the temple's kontakion;
+//   - of a saint: the day's troparion, the temple's, the saint's; the day's
+//     kontakion, the temple's, the saint's; «Слава» «Со святыми упокой»,
+//     «И ныне» «Предстательство»;
+//   - a saint with a sign: the Lord's temple's troparion first, else after
+//     the saint's; «Слава» the saint's kontakion, «И ныне» the kontakion of
+//     a church of the Theotokos, else «Предстательство» (the temple's
+//     kontakion before «Слава» in a church of the Lord or of a saint);
+//   - at a twelve feast only the feast's.
 func litTroparia(f Facts, part string) ([]SlotItem, error) {
 	troparia, kontakia := mainMenaion(f, "troparion"), mainMenaion(f, "kontakion")
 	switch part {
@@ -157,29 +202,62 @@ func litTroparia(f Facts, part string) ([]SlotItem, error) {
 		if len(troparia) == 0 || len(kontakia) == 0 {
 			return nil, fmt.Errorf("no troparion or kontakion of the saint")
 		}
+		t := litTemple(f, troparia)
 		var items []SlotItem
-		for _, t := range troparia {
-			items = append(items, choir(t))
+		if t != nil && t.Kind == TempleLord {
+			items = append(items, choir(t.Troparion))
 		}
-		return append(items, choir("common.glory"), choir(kontakia[0]), choir("common.and_now"), choir("ch.kontakion.protection")), nil
+		for _, tr := range troparia {
+			items = append(items, choir(tr))
+		}
+		now := "ch.kontakion.protection"
+		if t != nil {
+			switch t.Kind {
+			case TempleTheotokos:
+				items = append(items, choir(t.Troparion))
+				now = t.Kontakion
+			case TempleSaint:
+				items = append(items, choir(t.Troparion), choir(t.Kontakion))
+			case TempleLord:
+				items = append(items, choir(t.Kontakion))
+			}
+		}
+		return append(items, choir("common.glory"), choir(kontakia[0]), choir("common.and_now"), choir(now)), nil
 	}
 	d, err := dayOf(f)
 	if err != nil {
 		return nil, err
 	}
-	var items []SlotItem
-	for _, t := range d.troparia {
-		items = append(items, choir(t))
-	}
 	if len(troparia) == 0 || len(kontakia) == 0 {
 		return nil, fmt.Errorf("no Menaion troparion or kontakion for %02d.%02d", int(f.Day.Menaion.Month), f.Day.Menaion.Day)
 	}
+	t := litTemple(f, troparia)
+	var items []SlotItem
+	if t != nil && t.Kind == TempleLord {
+		items = append(items, choir(t.Troparion))
+	}
+	for _, tr := range d.troparia {
+		items = append(items, choir(tr))
+	}
+	if t != nil && t.Kind != TempleLord {
+		items = append(items, choir(t.Troparion))
+	}
 	items = append(items, choir(troparia[0]))
+	if t != nil && t.Kind == TempleLord {
+		items = append(items, choir(t.Kontakion))
+	}
 	for _, k := range d.kontakia {
 		items = append(items, choir(k))
 	}
+	if t != nil && t.Kind == TempleSaint {
+		items = append(items, choir(t.Kontakion))
+	}
+	now := "ch.kontakion.protection"
+	if t != nil && t.Kind == TempleTheotokos {
+		now = t.Kontakion
+	}
 	return append(items, choir(kontakia[0]), choir("common.glory"), choir("ch.kontakion.with_the_saints"),
-		choir("common.and_now"), choir("ch.kontakion.protection")), nil
+		choir("common.and_now"), choir(now)), nil
 }
 
 // prokeimenon sung with its verse: the reader announces the tone and says it,

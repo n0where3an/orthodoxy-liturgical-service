@@ -78,6 +78,9 @@ func dayEnv() (*cel.Env, error) {
 		cel.Variable("eve_month", cel.IntType),
 		cel.Variable("eve_day", cel.IntType),
 		cel.Variable("menaion_great_vespers", cel.BoolType),
+		cel.Variable("temple", cel.StringType),         // the -temple id, or ""
+		cel.Variable("temple_kind", cel.StringType),    // lord, theotokos, saint, or ""
+		cel.Variable("temple_feast", cel.BoolType),     // the patronal feast is today
 		cel.Variable("lections_omitted", cel.BoolType), // no ordinary Apostle and Gospel
 		// The day's main Menaion service has great vespers with readings
 		// (polyeleos, vigil, feast) / a litiya (vigil).
@@ -150,6 +153,8 @@ type Facts struct {
 	Octoechos map[string][]string
 	// Tones of Menaion troparia (for the dismissal theotokion).
 	Tones map[string]int
+	// Temple: the dedication of the church, nil when not given.
+	Temple *Temple
 }
 
 func (f Facts) vars() map[string]any {
@@ -158,7 +163,14 @@ func (f Facts) vars() map[string]any {
 	if f.Feast != nil {
 		feast, feastDay = f.Feast.ID, f.Feast.IsFeastDay(f.Day)
 	}
+	temple, templeKind := "", ""
+	if f.Temple != nil {
+		temple, templeKind = f.Temple.ID, string(f.Temple.Kind)
+	}
 	return map[string]any{
+		"temple":                temple,
+		"temple_kind":           templeKind,
+		"temple_feast":          f.Temple.IsFeastDay(int(f.Day.Menaion.Month), f.Day.Menaion.Day),
 		"feast":                 feast,
 		"feast_day":             feastDay,
 		"eve_month":             int64(eve.Month()),
@@ -401,6 +413,12 @@ func (sel SlotSelector) resolve(name string, f Facts, service string) ([]SlotIte
 				return nil, fmt.Errorf("slot %s: %w", name, err)
 			}
 			items = append(items, ms...)
+		case "sv_lic", "sv_glory_now", "sv_prokeimenon_verses", "sv_aposticha":
+			ss, err := sundayVespersSlot(sel, f)
+			if err != nil {
+				return nil, fmt.Errorf("slot %s: %w", name, err)
+			}
+			items = append(items, ss...)
 		case "gv_lic", "gv_glory_now", "gv_paremias", "gv_litiya", "gv_aposticha", "gv_troparia":
 			gs, err := greatVespersSlot(sel, f)
 			if err != nil {
