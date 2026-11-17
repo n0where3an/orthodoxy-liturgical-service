@@ -123,7 +123,7 @@ func TestMatinsUnsupported(t *testing.T) {
 	}{
 		{calendar.MustJDate(2026, time.November, 2), "matins.sunday"},
 		{calendar.MustJDate(2026, time.November, 8), "matins.saturday"},
-		{calendar.MustJDate(2027, time.January, 7), "matins.feast"},
+		{calendar.MustJDate(2027, time.January, 7), "matins.afterfeast"},
 		{calendar.MustJDate(2027, time.March, 3), "matins.triodion"},
 	} {
 		_, err := planMatins(t, matinsCorpus(c.d, 1), c.d)

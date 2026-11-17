@@ -29,7 +29,7 @@ var (
 	reLitAntiphons = regexp.MustCompile(`на литургии,? антифон`)
 	reLitBeat      = regexp.MustCompile(`бла?женна[^.]*`)
 	reLitBeatOde   = regexp.MustCompile(`(?:(а|в|г)-го (?:канона )?)?песнь (\S+?)(?:-я|-ю)?[ ,.:]`)
-	reLitProk      = regexp.MustCompile(`прокимен,? (?:песнь бцды,? )?глас (\S+?)[.:,]\s*(?:песнь бцды:\s*)?(.+?)\s*стих:\s*(.+?)\s*(?:всякое дыхание|апсл|апостол)`)
+	reLitProk      = regexp.MustCompile(`прокимен,?\s*(?:песнь бцды,? |стаго,?\s*)?(?:глас (\S+?)[.:,]\s*|:\s*)(?:песнь бцды:\s*)?(.+?)\s*стих:\s*(.+?)\s*(?:всякое дыхание|апсл|апостол|еиглие|евангелие)`)
 	reLitApostle   = regexp.MustCompile(`(?:апсл|апостол)[^.]*?зачало (\S+?)(\s+от полу)?[.,:]`)
 	reLitAlleluia  = regexp.MustCompile(`аллилуиа,? глас (\S+?)[.:]\s*(.+?)\s*(?:стих:\s*(.+?)\s*)?(?:еиглие|евангелие)`)
 	reLitGospel    = regexp.MustCompile(`(?:еиглие|евангелие) (?:от )?(матфеа|марка|луки|иоанна)[^.]*?зачало (\S+?)(\s+от полу)?[.,:]`)
@@ -228,7 +228,9 @@ func parseLiturgyRubric(text, plain string, pos []int, add func(key, kind, body 
 		}
 	}
 	if m := reLitProk.FindStringSubmatchIndex(plain); m != nil {
-		meta["prok_tone"] = uniNumeral(text, pos, plain, m[2], m[3])
+		if m[2] >= 0 { // else the tone of the cited prokeimenon (ResolveLiturgy)
+			meta["prok_tone"] = uniNumeral(text, pos, plain, m[2], m[3])
+		}
 		meta["prok"] = uni(text, pos, plain, m[4], m[5])
 		meta["prok_verse"] = uni(text, pos, plain, m[6], m[7])
 	}

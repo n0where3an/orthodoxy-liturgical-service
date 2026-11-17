@@ -256,3 +256,21 @@ units:
     book: menaion
     kind: refrain
     hip: "А='гг~ли о_у=спе'нiе пречи'стыя ви'дjьвше, о_у=диви'шася, ка'кw дв~а восхо'дитъ w\\т земли` на нб~о."
+
+  # --- Утреня праздничная ---
+  - key: ch.matins.ps50.glory
+    book: chasoslov
+    kind: hymn
+    hip: "Моли'твами _а=по'стwлъ, ми'лостиве, очи'сти мнw'жества согрjьше'нiй на'шихъ."
+  - key: ch.matins.ps50.now
+    book: chasoslov
+    kind: hymn
+    hip: "Моли'твами бг~оро'дицы, ми'лостиве, очи'сти мнw'жества согрjьше'нiй на'шихъ."
+  - key: ch.matins.ps50.verse
+    book: chasoslov
+    kind: verse
+    hip: "Поми'луй мя`, бж~е, по вели'цjьй ми'лости твое'й, и= по мно'жеству щедро'тъ твои'хъ, очи'сти беззако'нiе мое`."
+  - key: ch.matins.holy_is_the_lord
+    book: chasoslov
+    kind: hymn
+    hip: "Ст~ъ гд\\сь бг~ъ на'шъ."

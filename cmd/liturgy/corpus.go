@@ -59,6 +59,9 @@ func cmdImport(ctx context.Context, args []string) error {
 		warnings = append(warnings, err.Error())
 	}
 	men = append(men, bogor...)
+	om, w := orthlib.ImportGeneralMenaion(*root)
+	warnings = append(warnings, w...)
+	men = append(men, om...)
 	octMatins, w := orthlib.ImportOctoechosMatins(*root)
 	warnings = append(warnings, w...)
 	oct = append(oct, octMatins...)
@@ -66,6 +69,16 @@ func cmdImport(ctx context.Context, args []string) error {
 	warnings = append(warnings, w...)
 	theot, w := orthlib.ImportDismissalTheotokia(*root)
 	warnings = append(warnings, w...)
+	if ps, err := orthlib.ImportPsalms(*root, 134, 135); err == nil {
+		psalter = append(psalter, ps...)
+	} else {
+		warnings = append(warnings, err.Error())
+	}
+	if th, err := orthlib.ImportResurrectionalDismissalTheotokia(*root); err == nil {
+		theot = append(theot, th...)
+	} else {
+		warnings = append(warnings, err.Error())
+	}
 	manualSrc, manual, manualTr, err := orthlib.ImportManual(*textsDir)
 	if err != nil {
 		return err
@@ -102,6 +115,9 @@ func cmdImport(ctx context.Context, args []string) error {
 	all := append(append(append(append(append(append(append(fixed, men...), oct...), psalter...), theot...), manual...), readings...), zach...)
 	// The Menaion's liturgy rubrics and cited texts.
 	all, w = orthlib.ResolveLiturgy(*root, all)
+	warnings = append(warnings, w...)
+	// The common parts of the General Menaion for the days that lack them.
+	all, w = orthlib.SupplementFromGeneralMenaion(all)
 	warnings = append(warnings, w...)
 	if dup := duplicateIDs(all); len(dup) > 0 {
 		return fmt.Errorf("duplicate unit keys: %v", dup)

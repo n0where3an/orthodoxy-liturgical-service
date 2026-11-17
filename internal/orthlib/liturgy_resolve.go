@@ -161,8 +161,12 @@ func ResolveLiturgy(root string, units []corpus.Unit) ([]corpus.Unit, []string) 
 		if strings.TrimSpace(body) == "" {
 			return
 		}
-		add = append(add, corpus.Unit{ID: id, Book: "menaion", Kind: kind, Tone: tone, Lang: "cu", Body: CleanText(body),
-			SourceID: "orthlib.mineya", Meta: meta})
+		book, src := "menaion", "orthlib.mineya"
+		if strings.HasPrefix(id, "om.") {
+			book, src = "general_menaion", "orthlib.obschminea"
+		}
+		add = append(add, corpus.Unit{ID: id, Book: book, Kind: kind, Tone: tone, Lang: "cu", Body: CleanText(body),
+			SourceID: src, Meta: meta})
 	}
 	copyUnit := func(id, src string) bool {
 		j, ok := byID[src]
@@ -180,17 +184,18 @@ func ResolveLiturgy(root string, units []corpus.Unit) ([]corpus.Unit, []string) 
 		}
 		return
 	}
-	pt, pv, _ := prokTexts()
+	pt, pv, ptones := prokTexts()
 	var at []string
 	for _, a := range pool.alleluia {
 		at = append(at, a.Text)
 	}
 	for _, u := range units {
-		if !strings.HasSuffix(u.ID, ".lit.rubric") {
+		// The rubrics of the liturgy and of matins (prokeimenon, Gospel).
+		if !strings.HasSuffix(u.ID, ".lit.rubric") && !strings.HasSuffix(u.ID, ".matins.rubric") {
 			continue
 		}
-		base := strings.TrimSuffix(u.ID, "rubric") // me.MM.DD.lit.
-		day := strings.TrimSuffix(base, "lit.")    // me.MM.DD.
+		base := strings.TrimSuffix(u.ID, "rubric") // me.MM.DD.lit. / me.MM.DD.matins.
+		day := strings.TrimSuffix(strings.TrimSuffix(base, "lit."), "matins.")
 		m := u.Meta
 		if prok, _ := m["prok"].(string); prok != "" {
 			tone, _ := m["prok_tone"].(int)
@@ -200,6 +205,14 @@ func ResolveLiturgy(root string, units []corpus.Unit) ([]corpus.Unit, []string) 
 				for i := range pt {
 					if sameStart(pt[i], full) && pv[i] != "" {
 						verse = pv[i]
+						break
+					}
+				}
+			}
+			if tone == 0 {
+				for i := range pt {
+					if pt[i] == full {
+						tone = ptones[i]
 						break
 					}
 				}

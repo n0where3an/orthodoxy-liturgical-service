@@ -57,7 +57,9 @@ rubrics:
   aposticha_great: "Aposticha of the Menaion."
   blessing_of_loaves: "The blessing of the loaves, wheat, wine and oil."
   matins_follows: "And straightway Matins begins with the Six Psalms."
-
+  polyeleos: "The Polyeleos: Psalms 134 and 135 with Alleluia. The Magnification."
+  stepenna: "The Hymns of Ascent: the first antiphon of Tone 4."
+  matins_canon_festal: "The canon of the Menaion; katavasia."
 titles:
   lamp_prayers: "the prayers of the lamp-lighting"
   psalm_103: "the reading of the Introductory Psalm"

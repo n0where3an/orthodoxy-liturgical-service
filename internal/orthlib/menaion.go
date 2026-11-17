@@ -131,6 +131,12 @@ var (
 // ParseMenaionDay extracts troparia and kontakia from one day file. service
 // is the file stem ("25", "23p").
 func ParseMenaionDay(path string, month int, service string) ([]corpus.Unit, error) {
+	return parseServiceFile(path, fmt.Sprintf("me.%02d.%s", month, service), service)
+}
+
+// parseServiceFile parses a Menaion-like service (a day of the Menaion, a
+// common service of the General Menaion) under prefix.
+func parseServiceFile(path, prefix, service string) ([]corpus.Unit, error) {
 	d, err := LoadDoc(path)
 	if err != nil {
 		return nil, err
@@ -150,7 +156,6 @@ func ParseMenaionDay(path string, month int, service string) ([]corpus.Unit, err
 		return reRubric.MatchString(hip.PlainString(p.Text()))
 	}
 
-	prefix := fmt.Sprintf("me.%02d.%s", month, service)
 	title := dayTitle(d.Paras)
 	var units []corpus.Unit
 	counts := map[string]int{}
@@ -242,10 +247,14 @@ func ParseMenaionDay(path string, month int, service string) ([]corpus.Unit, err
 		units = append(units, u)
 	}
 	units = append(units, parseMenaionLiturgy(d, prefix, path, strings.TrimPrefix(prefix, "me."))...)
+	if strings.HasPrefix(prefix, "me.") {
+		units = append(units, parseCommonRefs(d, prefix, path)...)
+	}
 	if hasRed {
 		units = append(units, parseMenaionVespers(d, prefix, path)...)
 		units = append(units, parseMenaionMatins(d, prefix, path)...)
 		units = append(units, parseMenaionGreatVespers(d, prefix, path)...)
+		units = append(units, parseMenaionFeastMatins(d, prefix, path)...)
 	}
 	return units, nil
 }

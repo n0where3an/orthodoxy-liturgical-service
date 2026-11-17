@@ -142,3 +142,43 @@ func squeeze(s string) string {
 	}
 	return string(b)
 }
+
+// ImportResurrectionalDismissalTheotokia reads the theotokia of the resurrectional
+// dismissal troparia (Часослов, «Отпустительнии воскресны осми гласов»):
+// ch.theotokion.dismissal.<tone>.sun — sung after a saint's troparion at
+// the matins of a vigil («богородичен воскресен»).
+func ImportResurrectionalDismissalTheotokia(root string) ([]corpus.Unit, error) {
+	d, err := LoadDoc(filepath.Join(root, "chasoslov", "ch", "14otpvoskr.hip"))
+	if err != nil {
+		return nil, err
+	}
+	var units []corpus.Unit
+	tone, want := 0, false
+	for _, p := range d.Paras {
+		text := CleanText(pageRef.ReplaceAllString(p.Text(), ""))
+		plain := hip.PlainString(text)
+		switch {
+		case strings.HasPrefix(plain, "тропарь, глас"):
+			tone++
+			want = false
+		case strings.HasPrefix(plain, "бгородичен"):
+			if body := afterColon(text, 6); body != "" && tone > 0 {
+				units = append(units, corpus.Unit{ID: fmt.Sprintf("ch.theotokion.dismissal.%d.sun", tone), Book: "chasoslov",
+					Kind: "theotokion", Tone: tone, Lang: "cu", Body: body, SourceID: "orthlib.chasoslov"})
+			} else {
+				want = true
+			}
+		case want && tone > 0:
+			units = append(units, corpus.Unit{ID: fmt.Sprintf("ch.theotokion.dismissal.%d.sun", tone), Book: "chasoslov",
+				Kind: "theotokion", Tone: tone, Lang: "cu", Body: text, SourceID: "orthlib.chasoslov"})
+			want = false
+		}
+		if tone == 8 && len(units) == 8 {
+			break
+		}
+	}
+	if len(units) != 8 {
+		return units, fmt.Errorf("14otpvoskr.hip: %d resurrectional theotokia", len(units))
+	}
+	return units, nil
+}

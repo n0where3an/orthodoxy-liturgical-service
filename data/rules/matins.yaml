@@ -7,11 +7,52 @@
 # afterfeasts, saints with a sign (polyeleos, great doxology), the Triodion
 # periods (Lenten matins with «Аллилуиа», Paschal matins).
 
+- id: matins.lord_feast_on_sunday
+  service: matins
+  priority: 320
+  when: weekday == 0 && feast_day && feast in ["exaltation", "meeting", "transfiguration"] && menaion_paremias
+  template: great_matins
+  slots: &feast_slots
+    troparia: {from: gm_troparia, part: feast}
+    sedalny_1: {from: gm_sedalny, section: "1"}
+    sedalny_2: {from: gm_sedalny, section: "2"}
+    sedalny_3: {from: gm_sedalny, section: "3"}
+    sedalny_p: {from: gm_sedalny, section: "p"}
+    magnification: {from: gm_magnification}
+    prokeimenon: {from: gm_prokeimenon}
+    gospel: {from: gm_gospel}
+    ps50: {from: gm_ps50}
+    canon_1_3: {from: gm_canon, section: "1-3", part: feast}
+    sedalen: {from: gm_sedalen}
+    canon_4_6: {from: gm_canon, section: "4-6", part: feast}
+    kontakion: {from: matins_kontakion}
+    canon_7_8: {from: gm_canon, section: "7-8", part: feast}
+    magnificat: {from: none}
+    canon_9: {from: gm_canon, section: "9", part: feast}
+    exapostilaria: {from: gm_exapostilaria, part: feast}
+    praises: {from: gm_praises}
+    end_troparia: {from: gm_end_troparia, part: feast}
+    plain_beginning: {from: none}
+
 - id: matins.sunday
   service: matins
   priority: 300
   when: weekday == 0
   unsupported: "Воскресная утреня (полиелей, воскресные тропари, евангелие, канон воскресный) ещё не реализована"
+
+- id: matins.nativity_theophany
+  service: matins
+  priority: 296
+  when: (month == 12 && day == 25) || (month == 1 && day == 6)
+  unsupported: "Утреня Рождества Христова и Богоявления (с великим повечерием) ещё не реализована"
+
+- id: matins.feast
+  service: matins
+  priority: 295
+  # A fixed twelve feast: matins of the vigil, from the Menaion.
+  when: feast_day && period == "ordinary" && menaion_paremias
+  template: great_matins
+  slots: *feast_slots
 
 - id: matins.saturday
   service: matins
@@ -25,18 +66,54 @@
   when: period != "ordinary"
   unsupported: "Утреня в дни Триоди (в Великий пост — «Аллилуиа», трипеснцы) ещё не реализована"
 
-- id: matins.feast
+- id: matins.afterfeast
   service: matins
   priority: 200
   when: feast != ""
-  unsupported: "Утреня двунадесятого праздника, предпразднства и попразднства ещё не реализована"
+  unsupported: "Утреня попразднства и отдания, праздника без своей службы в Минее ещё не реализована"
+
+- id: matins.vigil
+  service: matins
+  priority: 160
+  # A saint with a vigil: matins begins with the Six Psalms after vespers.
+  when: menaion_litiya && menaion_paremias
+  template: great_matins
+  slots: &saint_slots
+    troparia: {from: gm_troparia}
+    sedalny_1: {from: gm_sedalny, section: "1"}
+    sedalny_2: {from: gm_sedalny, section: "2"}
+    sedalny_3: {from: gm_sedalny, section: "3"}
+    sedalny_p: {from: gm_sedalny, section: "p"}
+    magnification: {from: gm_magnification}
+    prokeimenon: {from: gm_prokeimenon}
+    gospel: {from: gm_gospel}
+    ps50: {from: gm_ps50}
+    canon_1_3: {from: gm_canon, section: "1-3"}
+    sedalen: {from: gm_sedalen}
+    canon_4_6: {from: gm_canon, section: "4-6"}
+    kontakion: {from: matins_kontakion}
+    canon_7_8: {from: gm_canon, section: "7-8"}
+    magnificat: {from: unit, refs: [ch.matins.magnificat.1]}
+    canon_9: {from: gm_canon, section: "9"}
+    exapostilaria: {from: gm_exapostilaria}
+    praises: {from: gm_praises}
+    end_troparia: {from: gm_end_troparia}
+    plain_beginning: {from: none}
+
+- id: matins.polyeleos
+  service: matins
+  priority: 155
+  when: menaion_paremias
+  template: great_matins
+  slots:
+    <<: *saint_slots
+    plain_beginning: {from: unit, refs: [sl.exclamation.blessed_is_our_god]}
 
 - id: matins.great_saint
   service: matins
   priority: 150
-  # A Menaion service with great vespers has polyeleos or the great doxology.
   when: menaion_great_vespers
-  unsupported: "Утреня святому со знаком (полиелей, великое славословие) ещё не реализована"
+  unsupported: "Утреня святому со знаком, чья служба в Минее неполна, ещё не реализована"
 
 - id: matins.weekday
   service: matins
@@ -94,3 +171,7 @@
 - {id: matins.kathisma_3.fri.ordinary, slot: kathisma_3, service: matins, priority: 50, when: "weekday == 5", fill: {from: none}}
 - {id: matins.sedalny_3.winter, slot: sedalny_3, service: matins, priority: 60, when: "weekday >= 1 && weekday <= 4 && ((month == 9 && day >= 22) || month == 10 || month == 11 || (month == 12 && day <= 19) || (month == 1 && day >= 15) || month == 2)", fill: {from: matins_sedalny, section: "3"}}
 - {id: matins.sedalny_3.none, slot: sedalny_3, service: matins, priority: 10, when: "true", fill: {from: none}}
+# Sunday (a feast of the Lord on Sunday): kathismata 2 and 3.
+- {id: matins.kathisma_1.sun, slot: kathisma_1, service: matins, priority: 50, when: "weekday == 0", fill: {from: unit, refs: [ps.kathisma.2.1, ps.kathisma.2.2, ps.kathisma.2.3]}}
+- {id: matins.kathisma_2.sun, slot: kathisma_2, service: matins, priority: 50, when: "weekday == 0", fill: {from: unit, refs: [ps.kathisma.3.1, ps.kathisma.3.2, ps.kathisma.3.3]}}
+- {id: matins.kathisma_3.sun, slot: kathisma_3, service: matins, priority: 50, when: "weekday == 0", fill: {from: none}}

@@ -81,7 +81,7 @@ func (p *Planner) Plan(ctx context.Context, d calendar.JDate, service string, pa
 	f := Facts{Day: day, Menaion: men, Octoechos: oct}
 	toneIDs := append([]string{}, men["troparion"]...)
 	for _, k := range []string{"gvespers.lic.glory", "gvespers.lic.now", "gvespers.litiya.glory", "gvespers.aposticha.glory", "gvespers.lic.sticheron",
-		"gvespers.litiya.sticheron", "gvespers.aposticha.sticheron", "lit.prokeimenon", "lit.alleluia.verse"} {
+		"gvespers.litiya.sticheron", "gvespers.aposticha.sticheron", "lit.prokeimenon", "lit.alleluia.verse", "matins.prokeimenon"} {
 		toneIDs = append(toneIDs, men[k]...)
 	}
 	if tones, err := p.Menaion.UnitTones(ctx, toneIDs); err == nil {

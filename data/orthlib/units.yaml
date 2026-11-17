@@ -48,6 +48,12 @@ sources:
     url: http://orthlib.ru/worship/triodion/
     license: unknown
     note: "Electronic text by orthlib.ru (HIP); terms of use to be verified."
+  - id: orthlib.obschminea
+    title: Минея общая
+    edition: "Минея общая. М.: Издательский Совет Русской Православной Церкви, 2002"
+    url: http://orthlib.ru/worship/obschminea/
+    license: unknown
+    note: "Electronic text by orthlib.ru (HIP); terms of use to be verified."
 
 units:
   # --- Usual beginning and common prayers (Часослов, час третий) ---
@@ -3164,3 +3170,161 @@ units:
     file: sluzhebnik/sl/07otp_vladychn.hip
     from: "иже на горе фаворстей преобразивыйся"
     to: "апслы,"
+
+  # === Утреня праздничная и полиелейная (Часослов, Служебник, Октоих) ===
+  - key: sl.matins.exclamation.polyeleos
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/02utren.hip
+    from: "яко блгословися имя твое, и прославися црство твое"
+    to: "во веки веков."
+  - key: sl.matins.exclamation.prokeimenon
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/02utren.hip
+    from: "яко ст еси бже наш, и во стых почиваеши"
+    to: "во веки веков."
+  - key: lit.matins.every_breath
+    book: sluzhebnik
+    kind: prokeimenon
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/02utren.hip
+    from: "всякое дыхание да хвалит гдса."
+    to: "гдса."
+  - key: lit.matins.every_breath.verse
+    book: sluzhebnik
+    kind: verse
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/02utren.hip
+    from: "хвалите бга во стых его, хвалите его во утверждении"
+    to: "силы его."
+  - key: lit.matins.vouchsafe_gospel
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/02utren.hip
+    from: "и о сподобитися нам слышанию"
+    to: "молим."
+  - key: sl.matins.exclamation.after_ps50
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/02utren.hip
+    from: "милостию и щедротами и члвеколюбием единороднаго твоего сна"
+    to: "во веки веков,"
+    suffix: "."
+  - key: ch.matins.great_doxology.1
+    book: chasoslov
+    kind: hymn
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "слава в вышних бгу, и на земли мир, в человецех блговоление. хвалим тя, блгословим тя, кланяем ти ся, славословим тя, блгодарим тя великия"
+    to: ""
+  - key: ch.matins.great_doxology.2
+    book: chasoslov
+    kind: hymn
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "на всяк день блгословлю тя"
+    to: ""
+  - key: ch.matins.great_doxology.3
+    book: chasoslov
+    kind: hymn
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "сподоби гдси в день сей без греха"
+    to: ""
+  - key: ch.matins.great_doxology.4
+    book: chasoslov
+    kind: hymn
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "буди гдси, млсть твоя на нас, якоже уповахом на тя."
+    to: "на тя."
+  - key: ch.matins.great_doxology.5
+    book: chasoslov
+    kind: hymn
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "блгословен еси гдси, научи мя оправданием твоим."
+    to: "оправданием твоим."
+  - key: ch.matins.great_doxology.6
+    book: chasoslov
+    kind: hymn
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "гдси, прибежище был еси нам в род и род. аз рех"
+    to: ""
+  - key: ch.matins.great_doxology.7
+    book: chasoslov
+    kind: hymn
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "гдси, к тебе прибегох, научи мя"
+    to: ""
+  - key: ch.matins.praises.149.2
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "яко блговолит гдсь в людех своих"
+    to: "во спсение."
+  - key: ch.matins.praises.149.3
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "восхвалятся прпдбнии во славе"
+    to: "на ложах своих."
+  - key: ch.matins.praises.150.2
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "хвалите его на силах его, хвалите его по множеству"
+    to: "величествия его."
+  - key: ch.matins.praises.150.3
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "хвалите его во гласе трубнем"
+    to: "псалтири и гуслех."
+  - key: ch.matins.praises.150.4
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "хвалите его в тимпане и лице"
+    to: "во струнах и органе."
+  - key: ch.matins.praises.150.5
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "хвалите его в кимвалех доброгласных"
+    to: "да хвалит гдса."
+  - key: oc.stepenna.4.1.1
+    book: octoechos
+    kind: hymn
+    source: orthlib.octoechos
+    file: octoih/oc/4_1nd.hip
+    from: "от юности моея мнози борют мя страсти"
+    to: ""
+  - key: oc.stepenna.4.1.2
+    book: octoechos
+    kind: hymn
+    source: orthlib.octoechos
+    file: octoih/oc/4_1nd.hip
+    from: "ненавидящии сиона, посрамитеся"
+    to: ""
+  - key: oc.stepenna.4.1.glory
+    book: octoechos
+    kind: hymn
+    source: orthlib.octoechos
+    file: octoih/oc/4_1nd.hip
+    after: "степенна, глас д. антифон а"
+    from: "стым дхом всяка душа живится"
+    to: ""

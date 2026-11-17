@@ -103,3 +103,51 @@ func stripVerseNumber(s string) string {
 	}
 	return s
 }
+
+// ImportPsalms reads whole psalms from the Psalter (ps.psalm.<N>, one verse
+// per line), for the services that sing them apart from the kathismata:
+// the polyeleos (134, 135).
+func ImportPsalms(root string, numbers ...int) ([]corpus.Unit, error) {
+	d, err := LoadDoc(filepath.Join(root, "sledpsalt", "sp", "01ps.hip"))
+	if err != nil {
+		return nil, err
+	}
+	want := map[int]bool{}
+	for _, n := range numbers {
+		want[n] = true
+	}
+	var units []corpus.Unit
+	cur := 0
+	var lines []string
+	flush := func() {
+		if cur > 0 && len(lines) > 0 {
+			units = append(units, corpus.Unit{ID: fmt.Sprintf("ps.psalm.%d", cur), Book: "psalter", Kind: "psalm",
+				Lang: "cu", Body: strings.Join(lines, "\n"), SourceID: "orthlib.psalter"})
+		}
+		cur, lines = 0, nil
+	}
+	for _, p := range d.Paras {
+		text := CleanText(pageRef.ReplaceAllString(p.Text(), ""))
+		if isSuperscription(text) {
+			flush()
+			w := strings.Fields(text)
+			if n := numeralValue(strings.TrimSuffix(w[len(w)-1], ".")); want[n] {
+				cur = n
+			}
+			continue
+		}
+		if cur == 0 {
+			continue
+		}
+		if v := stripVerseNumber(text); v != text {
+			lines = append(lines, v)
+		} else {
+			flush() // «Слава», a kathisma heading: the psalm is over
+		}
+	}
+	flush()
+	if len(units) != len(numbers) {
+		return units, fmt.Errorf("psalms %v: %d found", numbers, len(units))
+	}
+	return units, nil
+}

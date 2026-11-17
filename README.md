@@ -18,7 +18,8 @@ var/liturgy serve                                   # http://127.0.0.1:8080/?dat
 ```
 
 Services: `liturgy` (St John Chrysostom: weekdays Mon–Fri of the ordinary
-period, saints with a sign, fixed twelve feasts), `matins` (daily, Mon–Fri; joined to the first hour unless
+period, saints with a sign, fixed twelve feasts), `matins` (daily Mon–Fri; festal: saints with a sign and fixed twelve
+feasts; joined to the first hour unless
 `-standalone`), `vespers` (daily; great vespers and all-night vigil of Menaion
 saints with readings and of the fixed twelve feasts), `first_hour`, `third_hour`, `sixth_hour`, `ninth_hour`.
 Dates are civil (Gregorian); add `-julian` for old style. Options: `-reader`
@@ -29,6 +30,14 @@ beginning and dismissal; by default hours are joined as in parish practice),
 Languages: `-lang cu|en`, `-lang2 en` for parallel output. Texts not yet
 translated fall back to Church Slavonic (marked on the page).
 Church Slavonic text is Unicode; install the Ponomar Unicode or Monomakh fonts.
+
+The General Menaion (`orthlib.obschminea`, keys `om.<rank>.*`) supplies what a
+Menaion day with a sign leaves to it: the common paremias (ch. 39), the
+prokeimenon of matins, and the prokeimenon, Apostle, alleluia, Gospel and
+communion verse of the liturgy (ch. 40). The rank comes from the day's own
+reference («на литургии служба преподобническая», «чтения три стительская»,
+«евангелие стительское»), else from its Apostle and Gospel, else from its title;
+copies carry `copied_from` (and `rank_from_title` when guessed).
 
 Layout: `calendar/` (Julian dates, paschalion, day context), `internal/hip`
 (HIP → Unicode), `internal/orthlib` (import), `internal/corpus` (storage),
