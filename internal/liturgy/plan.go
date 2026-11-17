@@ -35,13 +35,15 @@ type SlotItem struct {
 // on the date, service and parameters, not on language or display mode, and
 // can be cached by (date, service, params).
 type Plan struct {
-	Date    string                `json:"date"`  // Julian, YYYY-MM-DD
-	Civil   string                `json:"civil"` // Gregorian
-	Service string                `json:"service"`
-	Rule    string                `json:"rule"`
-	Params  Params                `json:"params"`
-	Day     DaySummary            `json:"day"`
-	Slots   map[string][]SlotItem `json:"slots"`
+	Date    string `json:"date"`  // Julian, YYYY-MM-DD
+	Civil   string `json:"civil"` // Gregorian
+	Service string `json:"service"`
+	Rule    string `json:"rule"`
+	// Template: data/templates/<template>.yaml (default: the service).
+	Template string                `json:"template,omitempty"`
+	Params   Params                `json:"params"`
+	Day      DaySummary            `json:"day"`
+	Slots    map[string][]SlotItem `json:"slots"`
 }
 
 // DaySummary is the part of the day context recorded in a plan.
@@ -77,7 +79,12 @@ func (p *Planner) Plan(ctx context.Context, d calendar.JDate, service string, pa
 		return nil, err
 	}
 	f := Facts{Day: day, Menaion: men, Octoechos: oct}
-	if tones, err := p.Menaion.UnitTones(ctx, men["troparion"]); err == nil {
+	toneIDs := append([]string{}, men["troparion"]...)
+	for _, k := range []string{"gvespers.lic.glory", "gvespers.lic.now", "gvespers.litiya.glory", "gvespers.aposticha.glory", "gvespers.lic.sticheron",
+		"gvespers.litiya.sticheron", "gvespers.aposticha.sticheron"} {
+		toneIDs = append(toneIDs, men[k]...)
+	}
+	if tones, err := p.Menaion.UnitTones(ctx, toneIDs); err == nil {
 		f.Tones = tones
 	} else {
 		return nil, err
@@ -101,11 +108,12 @@ func (p *Planner) Plan(ctx context.Context, d calendar.JDate, service string, pa
 	}
 	y, m, dd := d.Date()
 	return &Plan{
-		Date:    fmt.Sprintf("%04d-%02d-%02d", y, int(m), dd),
-		Civil:   d.CivilString(),
-		Service: service,
-		Rule:    r.ID,
-		Params:  params,
+		Date:     fmt.Sprintf("%04d-%02d-%02d", y, int(m), dd),
+		Civil:    d.CivilString(),
+		Service:  service,
+		Rule:     r.ID,
+		Template: r.Template,
+		Params:   params,
 		Day: DaySummary{
 			Weekday: weekdayName(day.Weekday), Period: day.Period.String(),
 			PaschaOffset: day.PaschaOffset, Tone: day.Tone, Feast: feastID(f.Feast),

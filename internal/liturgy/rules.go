@@ -31,6 +31,7 @@ type Rule struct {
 	Priority    int                     `yaml:"priority"`
 	When        string                  `yaml:"when"`
 	Unsupported string                  `yaml:"unsupported"` // the case is recognised but not implemented yet
+	Template    string                  `yaml:"template"`    // template other than the service's own
 	Slots       map[string]SlotSelector `yaml:"slots"`
 
 	prg cel.Program
@@ -78,6 +79,10 @@ func dayEnv() (*cel.Env, error) {
 		cel.Variable("eve_day", cel.IntType),
 		cel.Variable("menaion_great_vespers", cel.BoolType),
 		cel.Variable("lections_omitted", cel.BoolType), // no ordinary Apostle and Gospel
+		// The day's main Menaion service has great vespers with readings
+		// (polyeleos, vigil, feast) / a litiya (vigil).
+		cel.Variable("menaion_paremias", cel.BoolType),
+		cel.Variable("menaion_litiya", cel.BoolType),
 	)
 }
 
@@ -158,8 +163,10 @@ func (f Facts) vars() map[string]any {
 		"feast_day":             feastDay,
 		"eve_month":             int64(eve.Month()),
 		"eve_day":               int64(eve.Day()),
-		"menaion_great_vespers": len(f.Menaion["vespers.great"]) > 0,
+		"menaion_great_vespers": len(mainMenaion(f, "vespers.great")) > 0,
 		"lections_omitted":      f.Day.Lections.Omitted,
+		"menaion_paremias":      len(mainMenaion(f, "gvespers.paremia")) >= 3,
+		"menaion_litiya":        len(mainMenaion(f, "gvespers.litiya.sticheron")) > 0,
 		"weekday":               int64(f.Day.Weekday),
 		"period":                f.Day.Period.String(),
 		"pascha_offset":         int64(f.Day.PaschaOffset),
@@ -394,6 +401,12 @@ func (sel SlotSelector) resolve(name string, f Facts, service string) ([]SlotIte
 				return nil, fmt.Errorf("slot %s: %w", name, err)
 			}
 			items = append(items, ms...)
+		case "gv_lic", "gv_glory_now", "gv_paremias", "gv_litiya", "gv_aposticha", "gv_troparia":
+			gs, err := greatVespersSlot(sel, f)
+			if err != nil {
+				return nil, fmt.Errorf("slot %s: %w", name, err)
+			}
+			items = append(items, gs...)
 		case "lection":
 			l, err := lection(f, sel.Part)
 			if err != nil {

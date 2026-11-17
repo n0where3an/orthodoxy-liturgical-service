@@ -1,7 +1,10 @@
 # Rules for vespers. Implemented: daily vespers (вседневная) on weekdays of
-# the ordinary period, as the Menaion and Octoechos supply them. Great
-# vespers (Sundays, feasts, polyeleos and vigil saints) are recognised and
-# reported as not implemented yet.
+# the ordinary period, and great vespers from the Menaion's own service:
+# polyeleos (entrance, readings), vigil (with the litiya and the blessing of
+# loaves) — of a saint or of a fixed twelve feast. Doxology-rank services
+# have daily vespers with the Menaion's stichera. Sunday vespers (Octoechos),
+# the Triodion and the movable feasts are recognised and reported as not
+# implemented yet.
 
 - id: vespers.sunday
   service: vespers
@@ -15,18 +18,105 @@
   when: period != "ordinary"
   unsupported: "Вечерня в дни Триоди ещё не реализована"
 
+- id: vespers.nativity_theophany
+  service: vespers
+  priority: 220
+  when: (month == 12 && day == 25) || (month == 1 && day == 6)
+  unsupported: "Вечерня Рождества Христова и Богоявления (соединённая с литургией свт. Василия Великого, Царские часы) ещё не реализована"
+
+- id: vespers.vigil.lord_feast_on_sunday
+  service: vespers
+  priority: 310
+  # A feast of the Lord on Saturday evening: the feast's service only (the
+  # Sunday hymns are not sung). Feasts of the Theotokos on Sunday combine
+  # with the resurrection — not implemented yet (vespers.sunday).
+  when: weekday == 0 && feast_day && feast in ["exaltation", "meeting", "transfiguration"] && menaion_litiya && menaion_paremias
+  template: great_vespers
+  slots:
+    title: {from: unit, refs: [ch.vigil.title]}
+    vigil: {from: unit, refs: [lit.vigil.arise]}
+    kathisma: {from: unit, refs: [ps.kathisma.1.1]}
+    lord_i_call: {from: gv_lic}
+    lord_i_call_glory_now: {from: gv_glory_now, section: lic}
+    prokeimenon: {from: unit, refs: [ch.vespers.prokeimenon.sun]}
+    prokeimenon_verse: {from: unit, refs: [ch.vespers.prokeimenon.sun.verse]}
+    paremias: {from: gv_paremias}
+    litiya: {from: gv_litiya}
+    aposticha: {from: gv_aposticha}
+    troparia: {from: gv_troparia, part: feast}
+    loaves: {from: unit, refs: [sl.vespers.loaves_prayer]}
+
+- id: vespers.vigil.feast
+  service: vespers
+  priority: 210
+  # A fixed twelve feast: all-night vigil from the Menaion.
+  when: feast_day && menaion_litiya && menaion_paremias
+  template: great_vespers
+  slots:
+    title: {from: unit, refs: [ch.vigil.title]}
+    vigil: {from: unit, refs: [lit.vigil.arise]}
+    kathisma: {from: unit, refs: [ps.kathisma.1.1]}
+    lord_i_call: {from: gv_lic}
+    lord_i_call_glory_now: {from: gv_glory_now, section: lic}
+    prokeimenon: {from: unit, refs: ["ch.vespers.prokeimenon.{day}"]}
+    prokeimenon_verse: {from: unit, refs: ["ch.vespers.prokeimenon.{day}.verse"]}
+    paremias: {from: gv_paremias}
+    litiya: {from: gv_litiya}
+    aposticha: {from: gv_aposticha}
+    troparia: {from: gv_troparia, part: feast}
+    loaves: {from: unit, refs: [sl.vespers.loaves_prayer]}
+
 - id: vespers.feast_day
   service: vespers
   priority: 200
   when: feast_day
-  unsupported: "Великая вечерня двунадесятого праздника ещё не реализована"
+  unsupported: "Великая вечерня этого праздника (переходящего или без службы в Минее) ещё не реализована"
+
+- id: vespers.vigil
+  service: vespers
+  priority: 160
+  # The Menaion service has a litiya: all-night vigil.
+  when: menaion_litiya && menaion_paremias
+  template: great_vespers
+  slots:
+    title: {from: unit, refs: [ch.vigil.title]}
+    vigil: {from: unit, refs: [lit.vigil.arise]}
+    kathisma: {from: unit, refs: [ps.kathisma.1.1]}
+    lord_i_call: {from: gv_lic}
+    lord_i_call_glory_now: {from: gv_glory_now, section: lic}
+    prokeimenon: {from: unit, refs: ["ch.vespers.prokeimenon.{day}"]}
+    prokeimenon_verse: {from: unit, refs: ["ch.vespers.prokeimenon.{day}.verse"]}
+    paremias: {from: gv_paremias}
+    litiya: {from: gv_litiya}
+    aposticha: {from: gv_aposticha}
+    troparia: {from: gv_troparia, part: vigil}
+    loaves: {from: unit, refs: [sl.vespers.loaves_prayer]}
+
+- id: vespers.polyeleos
+  service: vespers
+  priority: 155
+  # Entrance and readings without a litiya: great vespers (polyeleos).
+  when: menaion_paremias
+  template: great_vespers
+  slots:
+    title: {from: unit, refs: [sl.vespers.great_title]}
+    plain_beginning: {from: unit, refs: [sl.exclamation.blessed_is_our_god]}
+    kathisma: {from: unit, refs: [ps.kathisma.1.1]}
+    lord_i_call: {from: gv_lic}
+    lord_i_call_glory_now: {from: gv_glory_now, section: lic}
+    prokeimenon: {from: unit, refs: ["ch.vespers.prokeimenon.{day}"]}
+    prokeimenon_verse: {from: unit, refs: ["ch.vespers.prokeimenon.{day}.verse"]}
+    paremias: {from: gv_paremias}
+    aposticha: {from: gv_aposticha}
+    troparia: {from: gv_troparia}
 
 - id: vespers.great
   service: vespers
   priority: 150
-  # The Menaion service has an entrance, readings or a litiya.
+  # A great vespers whose readings the Menaion does not give in full
+  # (references to the General Menaion, to another day without them).
   when: menaion_great_vespers
-  unsupported: "Великая вечерня (праздник, полиелей, бдение) ещё не реализована"
+  unsupported: "Великая вечерня: чтения в Минее не приведены (ссылка на Общую Минею или на другой день) — ещё не поддерживается"
 
 - id: vespers.daily
   service: vespers

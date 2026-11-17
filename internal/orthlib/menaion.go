@@ -69,7 +69,47 @@ func ImportMenaion(root string) ([]corpus.Unit, []string, error) {
 			units = append(units, us...)
 		}
 	}
+	units = resolveGreatVespersRefs(units)
 	return units, warnings, nil
+}
+
+// resolveGreatVespersRefs copies the readings (and the litiya) of another
+// day of the month to services that refer to them («Чтения три. Писаны
+// сего месяца в а҃ день»).
+func resolveGreatVespersRefs(units []corpus.Unit) []corpus.Unit {
+	byID := map[string]bool{}
+	for _, u := range units {
+		byID[u.ID] = true
+	}
+	var add []corpus.Unit
+	for _, ref := range units {
+		if !strings.HasSuffix(ref.ID, ".gvespers.see") {
+			continue
+		}
+		day, _ := ref.Meta["day"].(int)
+		parts := strings.SplitN(ref.ID, ".", 4) // me MM DDs gvespers…
+		src := fmt.Sprintf("me.%s.%02d.gvespers.", parts[1], day)
+		dst := strings.TrimSuffix(ref.ID, "see")
+		withLitiya, _ := ref.Meta["litiya"].(bool)
+		for _, u := range units {
+			if !strings.HasPrefix(u.ID, src) {
+				continue
+			}
+			key := strings.TrimPrefix(u.ID, src)
+			if !strings.HasPrefix(key, "paremia.") && !(withLitiya && strings.HasPrefix(key, "litiya.")) {
+				continue
+			}
+			if byID[dst+key] {
+				continue
+			}
+			c := u
+			c.ID = dst + key
+			c.Meta = map[string]any{"copied_from": u.ID}
+			add = append(add, c)
+			byID[c.ID] = true
+		}
+	}
+	return append(units, add...)
 }
 
 func hasKind(us []corpus.Unit, kind string) bool {
@@ -204,6 +244,7 @@ func ParseMenaionDay(path string, month int, service string) ([]corpus.Unit, err
 	if hasRed {
 		units = append(units, parseMenaionVespers(d, prefix, path)...)
 		units = append(units, parseMenaionMatins(d, prefix, path)...)
+		units = append(units, parseMenaionGreatVespers(d, prefix, path)...)
 	}
 	return units, nil
 }

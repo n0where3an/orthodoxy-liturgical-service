@@ -75,8 +75,9 @@ func ImportManual(dir string) ([]corpus.Source, []corpus.Unit, []corpus.Unit, er
 				}
 				src = u.Source
 			}
+			// Church Slavonic is typed in HIP, or given in Unicode as text.
 			body := strings.TrimSpace(u.Text)
-			if lang == "cu" {
+			if lang == "cu" && u.HIP != "" {
 				body = hip.ToUnicode(u.HIP)
 			}
 			if body == "" {

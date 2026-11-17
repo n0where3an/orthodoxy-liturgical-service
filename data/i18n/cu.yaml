@@ -9,12 +9,15 @@ performers:
   reader: "Чте'цъ:"
   choir: "Ли'къ:"
   people: "Лю'дiе:"
+  clergy: "Сщ~е'нно-служи'телiе:"
 
 repeat:
   2: "два'жды."
   3: "три'жды."
   12: "в~_i."
+  30: "л~."
   40: "м~."
+  50: "н~."
 
 rubrics:
   psalms: "Та'же _псалмы`:"
@@ -48,6 +51,13 @@ rubrics:
   sedalen_menaion: "Сjьда'ленъ мине'и."
   magnificat: "Пjь'снь бг~оро'дицы: Вели'читъ душа` моя` гд\\са."
   matins_aposticha: "На стiхо'внjь стiхи^ры _о=ктw'иха."
+  # Великая вечерня / Great vespers
+  blessed_is_the_man: "Блаже'нъ му'жъ, пе'рвый а=нтiфw'нъ."
+  lord_i_call_great: "Гд\\си, воззва'хъ. Стiхи^ры мине'и на и~ (по о_у=ста'ву)."
+  litiya: "Лiтi'а: сщ~е'нникъ и= дiа'конъ и=схо'дятъ въ при'творъ, ли'къ поётъ стiхи^ры лiтi'и."
+  aposticha_great: "На стiхо'внjь стiхи^ры мине'и."
+  blessing_of_loaves: "Благослове'нiе хлjь'бwвъ, пшени'цы, вина` и= _е=ле'а."
+  matins_follows: "И= а='бiе нача'ло о_у='трени: шесто_пса'лмiе."
 
 titles:
   lamp_prayers: "свjьти'льничныя мл~твы"
@@ -99,6 +109,8 @@ titles:
   hexapsalm: "чте'нiя шесто_пса'лмiя"
   hexapsalm_second: "чте'нiя втора'гw полу` шесто_пса'лмiя"
   morning_prayers: "мл~твы о_у='треннiя"
+  vespers_entrance_prayer: "мл~тву вхо'да"
+  lic_glory_now: "пjь'нiя: Сла'ва, и= ны'нjь"
 
 placeholders:
   during: "Во вре'мя DURING сщ~е'нникъ та'йнw чте'тъ TITLE."

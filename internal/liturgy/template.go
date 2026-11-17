@@ -22,6 +22,8 @@ const (
 	Reader   Performer = "reader"
 	Choir    Performer = "choir"
 	People   Performer = "people"
+	// Clergy: the priest with the deacon (and concelebrants) singing together.
+	Clergy Performer = "clergy"
 )
 
 // Voice in which a node is said.

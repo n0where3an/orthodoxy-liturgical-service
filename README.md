@@ -19,7 +19,8 @@ var/liturgy serve                                   # http://127.0.0.1:8080/?dat
 
 Services: `liturgy` (St John Chrysostom, weekdays Mon–Fri of the ordinary
 period), `matins` (daily, Mon–Fri; joined to the first hour unless
-`-standalone`), `vespers` (daily), `first_hour`, `third_hour`, `sixth_hour`, `ninth_hour`.
+`-standalone`), `vespers` (daily; great vespers and all-night vigil of Menaion
+saints with readings and of the fixed twelve feasts), `first_hour`, `third_hour`, `sixth_hour`, `ninth_hour`.
 Dates are civil (Gregorian); add `-julian` for old style. Options: `-reader`
 (reader's order, no priest), `-standalone` (the hour on its own: usual
 beginning and dismissal; by default hours are joined as in parish practice),

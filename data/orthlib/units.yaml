@@ -3078,3 +3078,75 @@ units:
     file: sluzhebnik/sl/02utren.hip
     from: "сый блгсвен хрстос бг наш"
     to: "во веки веков."
+
+  # === Великая вечерня, лития, благословение хлебов (Служебник, Часослов) ===
+  - key: sl.vespers.entrance_prayer
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "вечер, и заутра, и полудне, хвалим"
+    to: ""
+  - key: lit.litiya.save_o_god
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "спаси бже люди твоя, и благослови достояние твое: посети"
+    to: ""
+  - key: lit.litiya.hear_voice
+    book: sluzhebnik
+    kind: petition
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "еще молимся и о еже услышати гдсу"
+    to: ""
+  - key: sl.litiya.exclamation
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "услыши ны бже спсителю наш"
+    to: "во веки веков."
+  - key: sl.litiya.prayer
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "влдко многомлстиве гдси, иисе хрсте"
+    to: ""
+  - key: sl.vespers.loaves_prayer
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "гдси иисе хрсте бже наш, блгословивый пять хлебов"
+    to: ""
+  - key: ch.theotokos_rejoice
+    book: chasoslov
+    kind: troparion
+    source: orthlib.chasoslov
+    file: chasoslov/ch/09vechern.hip
+    from: "бцде дво радуйся, блгодатная мрие"
+    to: "душ наших."
+  - key: ch.vigil.psalm_33
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/06izobrazit.hip
+    from: "блгословлю гдса на всякое время"
+    to: "всякаго блга."
+  - key: ch.vespers.prokeimenon.sun
+    book: sluzhebnik
+    kind: prokeimenon
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "гдсь воцрися, в лепоту облечеся."
+    to: "облечеся."
+  - key: ch.vespers.prokeimenon.sun.verse
+    book: sluzhebnik
+    kind: verse
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/01vechern.hip
+    from: "облечеся гдсь в силу, и препоясася."
+    to: "препоясася."

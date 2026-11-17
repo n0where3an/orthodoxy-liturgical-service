@@ -36,7 +36,11 @@ func (g *Generator) Generate(ctx context.Context, r Request, w io.Writer) (*Plan
 	if err != nil {
 		return nil, err
 	}
-	t, err := LoadTemplate(g.DataDir, r.Service)
+	name := r.Service
+	if plan.Template != "" {
+		name = plan.Template
+	}
+	t, err := LoadTemplate(g.DataDir, name)
 	if err != nil {
 		return plan, err
 	}

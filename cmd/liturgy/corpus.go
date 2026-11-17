@@ -54,6 +54,11 @@ func cmdImport(ctx context.Context, args []string) error {
 	}
 	oct, w := orthlib.ImportOctoechosVespers(*root)
 	warnings = append(warnings, w...)
+	bogor, err := orthlib.ImportResurrectionalTheotokia(*root)
+	if err != nil {
+		warnings = append(warnings, err.Error())
+	}
+	men = append(men, bogor...)
 	octMatins, w := orthlib.ImportOctoechosMatins(*root)
 	warnings = append(warnings, w...)
 	oct = append(oct, octMatins...)

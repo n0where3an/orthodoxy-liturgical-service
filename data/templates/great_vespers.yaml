@@ -1,0 +1,180 @@
+# Великая вечерня — по Служебнику (М., 1896) и Часослову, со службой Минеи;
+# в составе всенощного бдения (святому с бдением, двунадесятому празднику)
+# — с литией и благословением хлебов, без бдения (полиелей) — с отпустом.
+#
+# Начало бдения: «Восстаните», «Слава Святей…», «Приидите, поклонимся»,
+# предначинательный псалом. Без бдения — «Благословен Бог наш».
+# Кафизма — первый антифон «Блажен муж». Вход с кадилом, «Свете тихий»,
+# прокимен дне, три паремии; сугубая ектения («Рцем вси»), «Сподоби»,
+# просительная ектения. Лития, стиховна, «Ныне отпущаеши», тропари.
+#
+# Ектении произносит диакон, а без него — священник (performer: litanist).
+# Великая вечерня требует священника.
+
+service: vespers
+nodes:
+  - {id: title, slot: title, heading: true}
+
+  # --- Начало ---
+  - id: vigil_beginning
+    if_slot: vigil
+    children:
+      - {id: arise, slot: vigil, performer: litanist, voice: aloud}
+      - {id: glory_to_trinity, ref: sl.matins.glory_to_trinity, performer: priest, voice: aloud}
+      - {id: glory_to_trinity_amen, ref: common.amen, performer: choir}
+      # На бдении «Приидите, поклонимся» поют священнослужители.
+      - {id: come_clergy_1, ref: common.come_let_us_worship.1, performer: clergy}
+      - {id: come_clergy_2, ref: common.come_let_us_worship.2, performer: clergy}
+      - {id: come_clergy_3, ref: common.come_let_us_worship.3, performer: clergy}
+  - id: plain_beginning
+    if_slot: plain_beginning
+    children:
+      - {id: blessed, slot: plain_beginning, performer: priest, voice: aloud}
+      - {id: amen_0, ref: common.amen, performer: reader}
+      - {id: come, include: come_let_us_worship}
+  - {id: lamp_1, ref: sl.vespers.lamp_prayer.1, performer: priest, voice: secret, title: lamp_prayers, during: psalm_103}
+  - {id: lamp_2, ref: sl.vespers.lamp_prayer.2, performer: priest, voice: secret, title: lamp_prayers, during: psalm_103}
+  - {id: lamp_3, ref: sl.vespers.lamp_prayer.3, performer: priest, voice: secret, title: lamp_prayers, during: psalm_103}
+  - {id: lamp_4, ref: sl.vespers.lamp_prayer.4, performer: priest, voice: secret, title: lamp_prayers, during: psalm_103}
+  - {id: lamp_5, ref: sl.vespers.lamp_prayer.5, performer: priest, voice: secret, title: lamp_prayers, during: psalm_103}
+  - {id: lamp_6, ref: sl.vespers.lamp_prayer.6, performer: priest, voice: secret, title: lamp_prayers, during: psalm_103}
+  - {id: lamp_7, ref: sl.vespers.lamp_prayer.7, performer: priest, voice: secret, title: lamp_prayers, during: psalm_103}
+  - {id: psalm_103, ref: ch.vespers.psalm.103, performer: choir, title: psalm_103}
+  - {id: psalm_103_glory_now, ref: common.glory_now, performer: choir}
+  - {id: psalm_103_alleluia, ref: common.alleluia_glory_to_thee, performer: choir, repeat: 3}
+  - {id: great_litany, include: great_litany}
+
+  # --- «Блажен муж» ---
+  - {id: kathisma_rubric, rubric: blessed_is_the_man, audience: kliros}
+  - {id: blessed_is_the_man, slot: kathisma, performer: choir}
+  - {id: kathisma_doxology, include: stasis_doxology}
+  - {id: small_litany, include: small_litany}
+
+  # --- Господи, воззвах; вход ---
+  - {id: lic_rubric, rubric: lord_i_call_great, audience: kliros}
+  - {id: lic_verse_1, ref: ch.vespers.lic.verse.1, performer: choir}
+  - {id: lic_verse_2, ref: ch.vespers.lic.verse.2, performer: choir}
+  - {id: lic_verse_3, ref: ch.vespers.lic.verse.3, performer: choir}
+  - {id: lic_verse_4, ref: ch.vespers.lic.verse.4, performer: reader}
+  - {id: lic_verse_5, ref: ch.vespers.lic.verse.5, performer: reader}
+  - {id: lic_verse_6, ref: ch.vespers.lic.verse.6, performer: reader}
+  - {id: lic_verse_7, ref: ch.vespers.lic.verse.7, performer: reader}
+  - {id: lic_verse_8, ref: ch.vespers.lic.verse.8, performer: reader}
+  - {id: lic_verse_9, ref: ch.vespers.lic.verse.9, performer: reader}
+  - {id: lic_verse_10, ref: ch.vespers.lic.verse.10, performer: reader}
+  - {id: lic_verse_11, ref: ch.vespers.lic.verse.11, performer: reader}
+  - {id: lic_verse_12, ref: ch.vespers.lic.verse.12, performer: reader}
+  - {id: lic_verse_13, ref: ch.vespers.lic.verse.13, performer: reader}
+  - {id: lic_verse_14, ref: ch.vespers.lic.verse.14, performer: reader}
+  - {id: lic_verse_15, ref: ch.vespers.lic.verse.15, performer: reader}
+  - {id: lic_verse_16, ref: ch.vespers.lic.verse.16, performer: reader}
+  - {id: lic_verse_17, ref: ch.vespers.lic.verse.17, performer: reader}
+  - {id: lic_verse_18, ref: ch.vespers.lic.verse.18, performer: reader}
+  - {id: lic_verse_19, ref: ch.vespers.lic.verse.19, performer: reader}
+  - {id: lic_verse_20, ref: ch.vespers.lic.verse.20, performer: reader}
+  - {id: lic_verse_21, ref: ch.vespers.lic.verse.21, performer: reader}
+  - {id: lic_verse_22, ref: ch.vespers.lic.verse.22, performer: reader}
+  - {id: lic_verse_23, ref: ch.vespers.lic.verse.23, performer: reader}
+  - {id: lic_sticheron_1, slot: lord_i_call, index: 1, performer: choir}
+  - {id: lic_verse_24, ref: ch.vespers.lic.verse.24, performer: reader}
+  - {id: lic_sticheron_2, slot: lord_i_call, index: 2, performer: choir}
+  - {id: lic_verse_25, ref: ch.vespers.lic.verse.25, performer: reader}
+  - {id: lic_sticheron_3, slot: lord_i_call, index: 3, performer: choir}
+  - {id: lic_verse_26, ref: ch.vespers.lic.verse.26, performer: reader}
+  - {id: lic_sticheron_4, slot: lord_i_call, index: 4, performer: choir}
+  - {id: lic_verse_27, ref: ch.vespers.lic.verse.27, performer: reader}
+  - {id: lic_sticheron_5, slot: lord_i_call, index: 5, performer: choir}
+  - {id: lic_verse_28, ref: ch.vespers.lic.verse.28, performer: reader}
+  - {id: lic_sticheron_6, slot: lord_i_call, index: 6, performer: choir}
+  - {id: lic_verse_29, ref: ch.vespers.lic.verse.29, performer: reader}
+  - {id: lic_sticheron_7, slot: lord_i_call, index: 7, performer: choir}
+  - {id: lic_verse_30, ref: ch.vespers.lic.verse.30, performer: reader}
+  - {id: lic_sticheron_8, slot: lord_i_call, index: 8, performer: choir}
+  - {id: lic_sticheron_9, slot: lord_i_call, index: 9, performer: choir}
+  - {id: lic_sticheron_10, slot: lord_i_call, index: 10, performer: choir}
+  - {id: entrance_prayer, ref: sl.vespers.entrance_prayer, performer: priest, voice: secret, title: vespers_entrance_prayer, during: lic_glory_now}
+  - {id: lic_glory_now, slot: lord_i_call_glory_now, performer: choir, title: lic_glory_now}
+  - {id: wisdom_aright, ref: lit.wisdom_aright, performer: litanist, voice: aloud}
+  - {id: gladsome_light, ref: ch.vespers.gladsome_light, performer: choir}
+
+  # --- Прокимен, паремии ---
+  - {id: attend, ref: lit.let_us_attend, performer: litanist, voice: aloud}
+  - {id: peace, ref: lit.peace_be_unto_all, performer: priest, voice: aloud}
+  - {id: and_with_thy_spirit, ref: lit.response.and_with_thy_spirit, performer: choir}
+  - {id: wisdom, ref: lit.wisdom, performer: litanist, voice: aloud}
+  - {id: prokeimenon_rubric, rubric: prokeimenon, audience: kliros}
+  - {id: prokeimenon, slot: prokeimenon, performer: choir}
+  - {id: prokeimenon_verse, slot: prokeimenon_verse, performer: reader}
+  - {id: prokeimenon_again, slot: prokeimenon, performer: choir}
+  - {id: paremias, slot: paremias, performer: reader}
+
+  # --- Сугубая ектения, «Сподоби», просительная ---
+  - {id: let_us_say, ref: lit.augmented.let_us_say, performer: litanist, voice: aloud}
+  - {id: let_us_say_r, ref: common.lord_have_mercy, performer: choir}
+  - {id: almighty, ref: lit.augmented.almighty, performer: litanist, voice: aloud}
+  - {id: almighty_r, ref: common.lord_have_mercy, performer: choir}
+  - {id: augmented, include: augmented_litany}
+  - {id: vouchsafe, ref: ch.vespers.vouchsafe, performer: reader}
+  - {id: evening, include: evening_litany}
+
+  # --- Лития ---
+  - id: litiya
+    if_slot: litiya
+    children:
+      - {id: litiya_rubric, rubric: litiya, audience: laity}
+      - {id: litiya_stichera, slot: litiya, performer: choir}
+      - {id: li_save, ref: lit.litiya.save_o_god, performer: litanist, voice: aloud}
+      # Ответы — по Служебнику: 40; 50 (о священноначалии и братстве);
+      # 30 (о властех: в Служебнике — после царских прошений); трижды.
+      - {id: li_r1, ref: common.lord_have_mercy, performer: choir, repeat: 40}
+      - {id: li_hierarchy, ref: lit.litiya.hierarchy, performer: litanist, voice: aloud}
+      - {id: li_r2, ref: common.lord_have_mercy, performer: choir, repeat: 50}
+      - {id: li_country, ref: lit.augmented.country, performer: litanist, voice: aloud}
+      - {id: li_r3, ref: common.lord_have_mercy, performer: choir, repeat: 30}
+      - {id: li_city, ref: lit.litiya.city, performer: litanist, voice: aloud}
+      - {id: li_r4, ref: common.lord_have_mercy, performer: choir, repeat: 3}
+      - {id: li_hear, ref: lit.litiya.hear_voice, performer: litanist, voice: aloud}
+      - {id: li_r5, ref: common.lord_have_mercy, performer: choir, repeat: 3}
+      - {id: li_exclamation, ref: sl.litiya.exclamation, performer: priest, voice: aloud}
+      - {id: li_amen, ref: common.amen, performer: choir}
+      - {id: li_peace, ref: lit.peace_be_unto_all, performer: priest, voice: aloud}
+      - {id: li_and_with_thy_spirit, ref: lit.response.and_with_thy_spirit, performer: choir}
+      - {id: li_bow, ref: lit.bow_your_heads, performer: litanist, voice: aloud}
+      - {id: li_to_thee, ref: lit.response.to_thee_o_lord, performer: choir}
+      - {id: li_prayer, ref: sl.litiya.prayer, performer: priest, voice: aloud}
+      - {id: li_prayer_amen, ref: common.amen, performer: choir}
+
+  # --- Стиховна, «Ныне отпущаеши», тропари ---
+  - {id: aposticha_rubric, rubric: aposticha_great, audience: kliros}
+  - {id: aposticha, slot: aposticha, performer: choir}
+  - {id: nunc_dimittis, ref: ch.vespers.nunc_dimittis, performer: reader}
+  - {id: trisagion, include: trisagion_to_our_father}
+  - {id: troparia, slot: troparia, performer: choir}
+
+  # --- Благословение хлебов (на бдении) ---
+  - id: loaves
+    if_slot: loaves
+    children:
+      - {id: loaves_rubric, rubric: blessing_of_loaves, audience: laity}
+      - {id: loaves_pray, ref: lit.let_us_pray_to_the_lord, performer: litanist, voice: aloud}
+      - {id: loaves_r, ref: common.lord_have_mercy, performer: choir}
+      - {id: loaves_prayer, slot: loaves, performer: priest, voice: aloud}
+      - {id: loaves_amen, ref: common.amen, performer: choir}
+      - {id: blessed_be_the_name, ref: ch.typika.blessed_be_the_name, performer: choir, repeat: 3}
+      - {id: psalm_33, ref: ch.vigil.psalm_33, performer: choir}
+      - {id: blessing, ref: sl.lit.blessing_of_the_lord, performer: priest, voice: aloud}
+      - {id: blessing_amen, ref: common.amen, performer: choir}
+      - {id: matins_follows, rubric: matins_follows}
+
+  # --- Окончание великой вечерни без бдения ---
+  - id: ending
+    if_slot: plain_beginning
+    children:
+      - {id: wisdom_2, ref: lit.wisdom, performer: litanist, voice: aloud}
+      - {id: bless_2, ref: common.bless, performer: choir}
+      - {id: he_who_is, ref: sl.matins.he_who_is, performer: priest, voice: aloud}
+      - {id: he_who_is_amen, ref: common.amen, performer: choir}
+      - {id: confirm, ref: lit.confirm_the_faith, performer: choir}
+      - {id: theotokos_save_us, ref: sl.vespers.most_holy_theotokos_save_us, performer: priest, voice: aloud}
+      - {id: more_honorable, ref: common.more_honorable, performer: choir}
+      - {id: dismissal, include: dismissal}
