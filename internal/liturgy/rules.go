@@ -158,6 +158,12 @@ type Facts struct {
 	// Of: whose a Menaion troparion or kontakion is, from its heading
 	// («праздника», «апсла», …); only when the corpus provides it.
 	Of map[string]string
+	// Katavasia: the irmos sung as katavasia after each ode (Sunday matins).
+	Katavasia map[int]string
+	// KatavasiaSeasonal: Katavasia is of a season (data/calendar/katavasia.yaml periods).
+	KatavasiaSeasonal bool
+	// Eothinon: the number of the Sunday matins Gospel (1..11), 0 if none.
+	Eothinon int
 	// FeastMenaion: the Menaion units of the day of the feast (f.Feast), in
 	// its afterfeast (the zadostoinik of the feast).
 	FeastMenaion map[string][]string
@@ -430,6 +436,21 @@ func (sel SlotSelector) resolve(name string, f Facts, service string) ([]SlotIte
 				return nil, fmt.Errorf("slot %s: %w", name, err)
 			}
 			items = append(items, ms...)
+		case "sm_troparia", "sm_sedalny", "sm_evlogitaria", "sm_hypakoe", "sm_stepenna", "sm_prokeimenon", "sm_gospel",
+			"sm_after_gospel", "sm_ps50", "sm_canon", "sm_sedalen", "sm_kontakion", "sm_exapostilaria", "sm_praises",
+			"sm_end_troparion":
+			ms, err := sundayMatinsSlot(sel, f)
+			if err != nil {
+				return nil, fmt.Errorf("slot %s: %w", name, err)
+			}
+			items = append(items, ms...)
+		case "sv_combined_lic", "sv_combined_glory_now", "sv_combined_aposticha", "sv_combined_troparia",
+			"sv_combined_paremias", "sv_combined_litiya", "sv_combined_loaves":
+			ss, err := sundayCombinedSlot(sel, f)
+			if err != nil {
+				return nil, fmt.Errorf("slot %s: %w", name, err)
+			}
+			items = append(items, ss...)
 		case "sv_lic", "sv_glory_now", "sv_prokeimenon_verses", "sv_aposticha":
 			ss, err := sundayVespersSlot(sel, f)
 			if err != nil {

@@ -90,6 +90,12 @@ type DayContext struct {
 	// of the Publican.
 	PentecostWeek int
 
+	// Eothinon is the number (1..11) of the Sunday matins Gospel and of its
+	// exapostilarion and Gospel sticheron: the cycle of eleven begins on the
+	// Sunday of All Saints and runs through the year until Palm Sunday. Zero
+	// on other days and before All Saints (the Pentecostarion has its own).
+	Eothinon int
+
 	// LectionaryWeek is the week index before any jump or otstupka (see
 	// Lection for the numbering).
 	LectionaryWeek int
@@ -136,6 +142,9 @@ func NewDayContext(d JDate) DayContext {
 	ctx.BrightWeek = off >= 0 && off < 7
 
 	ctx.Tone = toneOf(d, p, off)
+	if ctx.Weekday == time.Sunday && ctx.CycleOffset >= AllSaintsOffset {
+		ctx.Eothinon = (ctx.CycleOffset-AllSaintsOffset)/7%11 + 1
+	}
 
 	triodionWeek := 0
 	if inTriodion {

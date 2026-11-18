@@ -3,6 +3,7 @@ package liturgy
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/n0where3an/orthodoxy-liturgical-service/calendar"
 )
@@ -60,16 +61,23 @@ type DaySummary struct {
 
 // Planner builds plans.
 type Planner struct {
-	Rules   *Rules
-	Feasts  *Feasts
-	Temples *Temples
-	Menaion MenaionLister
+	Rules     *Rules
+	Feasts    *Feasts
+	Temples   *Temples
+	Katavasia *Katavasia
+	Menaion   MenaionLister
 }
 
 // UnsupportedError reports a recognised case that is not implemented yet.
 type UnsupportedError struct{ Rule, Reason string }
 
 func (e *UnsupportedError) Error() string { return fmt.Sprintf("%s (rule %s)", e.Reason, e.Rule) }
+
+// toneKinds: the Menaion units whose tones the selectors need (theotokia
+// by the tone of «Слава», prokeimena).
+var toneKinds = []string{"gvespers.lic.glory", "gvespers.lic.now", "gvespers.litiya.glory", "gvespers.aposticha.glory", "gvespers.lic.sticheron",
+	"gvespers.litiya.sticheron", "gvespers.aposticha.sticheron", "lit.prokeimenon", "lit.alleluia.verse", "matins.prokeimenon",
+	"vespers.lic.glory", "vespers.lic.glory_now", "vespers.aposticha.glory"}
 
 // Plan resolves service on liturgical day d.
 func (p *Planner) Plan(ctx context.Context, d calendar.JDate, service string, params Params) (*Plan, error) {
@@ -84,9 +92,7 @@ func (p *Planner) Plan(ctx context.Context, d calendar.JDate, service string, pa
 	}
 	f := Facts{Day: day, Menaion: men, Octoechos: oct}
 	toneIDs := append([]string{}, men["troparion"]...)
-	for _, k := range []string{"gvespers.lic.glory", "gvespers.lic.now", "gvespers.litiya.glory", "gvespers.aposticha.glory", "gvespers.lic.sticheron",
-		"gvespers.litiya.sticheron", "gvespers.aposticha.sticheron", "lit.prokeimenon", "lit.alleluia.verse", "matins.prokeimenon",
-		"vespers.lic.glory", "vespers.lic.glory_now", "vespers.aposticha.glory"} {
+	for _, k := range toneKinds {
 		toneIDs = append(toneIDs, men[k]...)
 	}
 	if tones, err := p.Menaion.UnitTones(ctx, toneIDs); err == nil {
@@ -107,9 +113,33 @@ func (p *Planner) Plan(ctx context.Context, d calendar.JDate, service string, pa
 		if f.FeastMenaion, err = MenaionFacts(ctx, p.Menaion, f.Feast.from); err != nil {
 			return nil, err
 		}
+		var ids []string
+		for _, k := range toneKinds {
+			ids = append(ids, f.FeastMenaion[k]...)
+		}
+		tones, err := p.Menaion.UnitTones(ctx, ids)
+		if err != nil {
+			return nil, err
+		}
+		for id, t := range tones {
+			f.Tones[id] = t
+		}
 	}
 	if f.Temple, err = p.Temples.Find(params.Temple); err != nil {
 		return nil, err
+	}
+	if service == "matins" && day.Weekday == time.Sunday {
+		if f.Katavasia, f.KatavasiaSeasonal, err = p.Katavasia.ForSeason(ctx, p.Menaion, day.Menaion); err != nil {
+			return nil, err
+		}
+		if f.Eothinon = day.Eothinon; f.Eothinon > 0 {
+			ids := []string{fmt.Sprintf("oc.eothinon.%d.sticheron", f.Eothinon)}
+			if tones, err := p.Menaion.UnitTones(ctx, ids); err == nil {
+				for id, t := range tones {
+					f.Tones[id] = t
+				}
+			}
+		}
 	}
 	r, err := p.Rules.Match(service, f)
 	if err != nil {

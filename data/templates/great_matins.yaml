@@ -129,19 +129,38 @@ nodes:
   - {id: polyeleos_134, ref: ps.psalm.134, performer: choir}
   - {id: polyeleos_135, ref: ps.psalm.135, performer: choir}
   - {id: magnification, slot: magnification, performer: choir}
+  # В воскресенье — «Ангельский собор» (тропари по непорочнах).
+  - id: evlogitaria_group
+    if_slot: evlogitaria
+    children:
+      - {id: evlogitaria, slot: evlogitaria, performer: choir}
   - {id: poly_small_litany, include: small_litany_open}
   - {id: poly_exclamation, ref: sl.matins.exclamation.polyeleos, performer: priest, voice: aloud}
   - {id: poly_amen, ref: common.amen, performer: choir}
+  # В воскресенье — ипакои гласа.
+  - id: hypakoe_group
+    if_slot: hypakoe
+    children:
+      - {id: hypakoe, slot: hypakoe, performer: reader}
   - {id: sedalny_poly, slot: sedalny_p, performer: choir}
 
   # --- Степенна, прокимен, Евангелие ---
-  - {id: stepenna_rubric, rubric: stepenna, audience: kliros}
-  - {id: stepenna_1, ref: oc.stepenna.4.1.1, performer: choir}
-  - {id: stepenna_2, ref: oc.stepenna.4.1.2, performer: choir}
-  - {id: stepenna_glory, ref: common.glory, performer: choir}
-  - {id: stepenna_3, ref: oc.stepenna.4.1.glory, performer: choir}
-  - {id: stepenna_now, ref: common.and_now, performer: choir}
-  - {id: stepenna_4, ref: oc.stepenna.4.1.glory, performer: choir}
+  # В воскресенье — степенны гласа (антифоны); иначе — первый антифон 4-го гласа.
+  - id: stepenna_tone
+    if_slot: stepenna
+    children:
+      - {id: stepenna_tone_rubric, rubric: stepenna_sunday, audience: kliros}
+      - {id: stepenna_tone_hymns, slot: stepenna, performer: choir}
+  - id: stepenna_fixed
+    unless_slot: stepenna
+    children:
+      - {id: stepenna_rubric, rubric: stepenna, audience: kliros}
+      - {id: stepenna_1, ref: oc.stepenna.4.1.1, performer: choir}
+      - {id: stepenna_2, ref: oc.stepenna.4.1.2, performer: choir}
+      - {id: stepenna_glory, ref: common.glory, performer: choir}
+      - {id: stepenna_3, ref: oc.stepenna.4.1.glory, performer: choir}
+      - {id: stepenna_now, ref: common.and_now, performer: choir}
+      - {id: stepenna_4, ref: oc.stepenna.4.1.glory, performer: choir}
   - {id: pk_attend, ref: lit.let_us_attend, performer: litanist, voice: aloud}
   - {id: pk_peace, ref: lit.peace_be_unto_all, performer: priest, voice: aloud}
   - {id: pk_and_with_thy_spirit, ref: lit.response.and_with_thy_spirit, performer: choir}
@@ -161,6 +180,11 @@ nodes:
   - {id: gospel_peace, ref: lit.peace_be_unto_all, performer: priest, voice: aloud}
   - {id: gospel_and_with_thy_spirit, ref: lit.response.and_with_thy_spirit, performer: choir}
   - {id: gospel, slot: gospel, performer: priest, title: gospel}
+  # В воскресенье — «Воскресение Христово видевше».
+  - id: after_gospel_group
+    if_slot: after_gospel
+    children:
+      - {id: after_gospel, slot: after_gospel, performer: choir}
 
   # --- Псалом 50, «Спаси, Боже, люди Твоя» ---
   - {id: ps50, slot: ps50, performer: choir}

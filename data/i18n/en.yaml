@@ -61,6 +61,7 @@ rubrics:
   matins_follows: "And straightway Matins begins with the Six Psalms."
   polyeleos: "The Polyeleos: Psalms 134 and 135 with Alleluia. The Magnification."
   stepenna: "The Hymns of Ascent: the first antiphon of Tone 4."
+  stepenna_sunday: "The Hymns of Ascent (antiphons) of the tone."
   matins_canon_festal: "The canon of the Menaion; katavasia."
 titles:
   lamp_prayers: "the prayers of the lamp-lighting"

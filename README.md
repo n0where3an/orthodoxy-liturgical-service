@@ -61,18 +61,21 @@ Vespers is listed under the day it belongs to: it is served the evening before.
 | Weekday in an afterfeast or on the apodosis | ✅ daily | ❌ | ✅ | ❌ |
 | Fixed twelve feast on a weekday | ✅ vigil | ✅ festal | ✅ | ✅ |
 | Saturday (any) | ✅ daily or vigil (Friday evening) | ❌ | ✅ | ❌ |
-| Sunday, saint without a sign | ✅ vigil, without litiya | ❌ | ❌ | ✅ |
-| Sunday, saint with a sign | ❌ | ❌ | ❌ | ✅ |
-| Sunday in an afterfeast or on the apodosis | ❌ | ❌ | ❌ | ✅ |
-| Sunday with its own readings (before/after the Nativity, the Theophany, before the Exaltation) | ✅ | ❌ | ❌ | ❌ |
+| Sunday, saint without a sign | ✅ vigil, without litiya | ✅ ³ | ❌ | ✅ |
+| Sunday, saint with a sign | ✅ vigil (litiya if the Menaion has one) | ✅ ³ | ❌ | ✅ |
+| Sunday in an afterfeast or on the apodosis | ✅ vigil | ✅ ³ | ❌ | ✅ |
+| Sunday with its own readings (before/after the Nativity, the Theophany, before the Exaltation) | ⚠️ not before the Exaltation (forefeast with the Renewal) | ⚠️ not before the Exaltation | ❌ | ❌ |
 | Feast of the Lord on Sunday (Exaltation, Meeting, Transfiguration) | ✅ vigil | ✅ festal | ✅ | ✅ |
-| Feast of the Theotokos on Sunday | ❌ | ❌ | ⚠️ no resurrectional troparion | ✅ |
+| Feast of the Theotokos on Sunday | ✅ vigil | ✅ ³ | ⚠️ no resurrectional troparion | ✅ |
 | Nativity of Christ, Theophany and their eves (Royal Hours) | ❌ | ❌ | ❌ | ❌ |
 | Saint with a sign whose readings the Menaion does not give (≈10 days) | ❌ | ❌ | ✅ | ❌ |
 
 ¹ Readings missing in the Menaion are taken from the General Menaion by the
 saint's rank. ² Needs the matins Gospel in the Menaion (or «евангелие
 святительское / преподобническое»).
+³ The Octoechos with the Menaion: eothinon Gospel (the cycle of eleven from
+All Saints), evlogitaria, hypakoe, antiphons and prokeimenon of the tone; the
+katavasia by season from `data/calendar/katavasia.yaml`.
 A few days still fail where the Menaion import misses a troparion or a canon.
 
 ### Triodion and Pentecostarion

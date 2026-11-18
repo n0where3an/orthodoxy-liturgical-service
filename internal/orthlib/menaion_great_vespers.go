@@ -197,6 +197,21 @@ func parseMenaionGreatVespers(d *Doc, prefix, path string) []corpus.Unit {
 			if t := toneOf(text); t > 0 {
 				lastTone = t
 			}
+			// «Слава, и ныне, первую стихиру: Днесь иже на разумных…:» — the
+			// cited sticheron of the section (the cue may begin with a red
+			// drop cap, so it is read from the whole paragraph).
+			if part == "now" || part == "glory_now" {
+				if i := strings.Index(text, ":"); i >= 0 {
+					if orig := citedSticheron(units, prefix+".gvespers."+section+".sticheron.", text[i+1:]); orig != nil {
+						if u := add(section+".now", "sticheron", heading, orig.Body, map[string]any{"repeat_of": orig.ID,
+							"glory_now": part == "glory_now"}); u != nil {
+							u.Tone = orig.Tone
+						}
+						part = ""
+						continue
+					}
+				}
+			}
 			if _, inline := splitHeading(p, text, true); inline == "" {
 				continue
 			} else {
@@ -223,6 +238,16 @@ func parseMenaionGreatVespers(d *Doc, prefix, path string) []corpus.Unit {
 			add(section+".glory", "sticheron", heading, text, nil)
 			part = ""
 		case "now", "glory_now":
+			// «Слава, и ныне, первую стихиру: Днесь иже на разумных…:» —
+			// the cited sticheron of the section.
+			if orig := citedSticheron(units, prefix+".gvespers."+section+".sticheron.", text); orig != nil {
+				if u := add(section+".now", "sticheron", heading, orig.Body, map[string]any{"repeat_of": orig.ID,
+					"glory_now": part == "glory_now"}); u != nil {
+					u.Tone = orig.Tone
+				}
+				part = ""
+				continue
+			}
 			kind := "sticheron"
 			if strings.Contains(hip.PlainString(heading), "бгородичен") {
 				kind = "theotokion"
@@ -239,4 +264,20 @@ done:
 		return nil // not a great vespers
 	}
 	return units
+}
+
+// citedSticheron: the sticheron (id prefix) a short cue ending with ":"
+// cites by its first words; nil when the text is not such a cue.
+func citedSticheron(units []corpus.Unit, idPrefix, text string) *corpus.Unit {
+	plain := strings.TrimSpace(strings.ToLower(hip.PlainString(text)))
+	if !strings.HasSuffix(plain, ":") || len(strings.Fields(plain)) > 10 {
+		return nil
+	}
+	cue := hip.Fold(strings.TrimRight(plain, ": "))
+	for i := range units {
+		if strings.HasPrefix(units[i].ID, idPrefix) && strings.HasPrefix(hip.Fold(strings.ToLower(hip.PlainString(units[i].Body))), cue) {
+			return &units[i]
+		}
+	}
+	return nil
 }

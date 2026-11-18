@@ -202,3 +202,25 @@ func TestCompleteCueTroparion(t *testing.T) {
 	}
 	t.Error("no me.08.15.troparion.1")
 }
+
+// «Слава, и ныне, первую стихиру: Днесь иже на разумных престолех:» — the
+// cited sticheron (09.08, great vespers).
+func TestGreatVespersCitedGlory(t *testing.T) {
+	matches, _ := filepath.Glob(filepath.Join(extractedRoot(t), "mineya", "sep", "sep", "*", "08.hip"))
+	if len(matches) != 1 {
+		t.Fatalf("09.08: %v", matches)
+	}
+	us, err := parseServiceFile(matches[0], "me.09.08", "")
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, u := range us {
+		if u.ID == "me.09.08.gvespers.lic.now" {
+			if u.Meta["repeat_of"] != "me.09.08.gvespers.lic.sticheron.1" || u.Meta["glory_now"] != true || u.Tone != 6 {
+				t.Errorf("lic.now meta %v tone %d", u.Meta, u.Tone)
+			}
+			return
+		}
+	}
+	t.Error("no me.09.08.gvespers.lic.now")
+}

@@ -34,11 +34,142 @@
     end_troparia: {from: gm_end_troparia, part: feast}
     plain_beginning: {from: none}
 
+# --- Sunday matins (the vigil after Sunday vespers): the Octoechos with the
+# Menaion (sm_*). See internal/liturgy/sunday_matins.go for the order.
+
+- id: matins.sunday.theotokos_feast
+  service: matins
+  priority: 315
+  when: >-
+    weekday == 0 && feast_day && period == "ordinary" && menaion_paremias &&
+    feast in ["nativity_of_theotokos", "entry_of_theotokos", "annunciation", "dormition"]
+  template: great_matins
+  slots:
+    troparia: {from: sm_troparia, part: feast}
+    sedalny_1: {from: sm_sedalny, section: "1"}
+    sedalny_2: {from: sm_sedalny, section: "2"}
+    sedalny_3: {from: none}
+    magnification: {from: gm_magnification}
+    evlogitaria: {from: sm_evlogitaria}
+    hypakoe: {from: sm_hypakoe}
+    sedalny_p: {from: gm_sedalny, section: "p"}
+    stepenna: {from: sm_stepenna}
+    prokeimenon: {from: sm_prokeimenon}
+    gospel: {from: sm_gospel}
+    after_gospel: {from: sm_after_gospel}
+    ps50: {from: sm_ps50}
+    canon_1_3: {from: sm_canon, section: "1-3", part: feast}
+    sedalen: {from: sm_sedalen, part: feast}
+    canon_4_6: {from: sm_canon, section: "4-6", part: feast}
+    kontakion: {from: sm_kontakion, part: feast}
+    canon_7_8: {from: sm_canon, section: "7-8", part: feast}
+    magnificat: {from: none}
+    canon_9: {from: sm_canon, section: "9", part: feast}
+    exapostilaria: {from: sm_exapostilaria, part: feast}
+    praises: {from: sm_praises, part: feast}
+    end_troparia: {from: sm_end_troparion}
+    plain_beginning: {from: none}
+
+- id: matins.sunday.afterfeast
+  service: matins
+  priority: 305
+  when: weekday == 0 && period == "ordinary" && feast != "" && !feast_day
+  template: great_matins
+  slots:
+    troparia: {from: sm_troparia, part: afterfeast}
+    sedalny_1: {from: sm_sedalny, section: "1"}
+    sedalny_2: {from: sm_sedalny, section: "2"}
+    sedalny_3: {from: none}
+    magnification: {from: none}
+    evlogitaria: {from: sm_evlogitaria}
+    hypakoe: {from: sm_hypakoe}
+    sedalny_p: {from: none}
+    stepenna: {from: sm_stepenna}
+    prokeimenon: {from: sm_prokeimenon}
+    gospel: {from: sm_gospel}
+    after_gospel: {from: sm_after_gospel}
+    ps50: {from: sm_ps50}
+    canon_1_3: {from: sm_canon, section: "1-3", part: afterfeast}
+    sedalen: {from: sm_sedalen, part: afterfeast}
+    canon_4_6: {from: sm_canon, section: "4-6", part: afterfeast}
+    kontakion: {from: sm_kontakion, part: afterfeast}
+    canon_7_8: {from: sm_canon, section: "7-8", part: afterfeast}
+    magnificat: {from: unit, refs: [ch.matins.magnificat.1]}
+    canon_9: {from: sm_canon, section: "9", part: afterfeast}
+    exapostilaria: {from: sm_exapostilaria, part: afterfeast}
+    praises: {from: sm_praises, part: afterfeast}
+    end_troparia: {from: sm_end_troparion}
+    plain_beginning: {from: none}
+
+- id: matins.sunday.saint
+  service: matins
+  priority: 302
+  # A saint with a sign whose readings the Menaion (or the General Menaion) gives.
+  when: weekday == 0 && period == "ordinary" && feast == "" && menaion_great_vespers && menaion_paremias
+  template: great_matins
+  slots:
+    troparia: {from: sm_troparia, part: saint}
+    sedalny_1: {from: sm_sedalny, section: "1"}
+    sedalny_2: {from: sm_sedalny, section: "2"}
+    sedalny_3: {from: none}
+    magnification: {from: gm_magnification}
+    evlogitaria: {from: sm_evlogitaria}
+    hypakoe: {from: sm_hypakoe}
+    sedalny_p: {from: gm_sedalny, section: "p"}
+    stepenna: {from: sm_stepenna}
+    prokeimenon: {from: sm_prokeimenon}
+    gospel: {from: sm_gospel}
+    after_gospel: {from: sm_after_gospel}
+    ps50: {from: sm_ps50}
+    canon_1_3: {from: sm_canon, section: "1-3", part: saint}
+    sedalen: {from: sm_sedalen, part: saint}
+    canon_4_6: {from: sm_canon, section: "4-6", part: saint}
+    kontakion: {from: sm_kontakion, part: saint}
+    canon_7_8: {from: sm_canon, section: "7-8", part: saint}
+    magnificat: {from: unit, refs: [ch.matins.magnificat.1]}
+    canon_9: {from: sm_canon, section: "9", part: saint}
+    exapostilaria: {from: sm_exapostilaria, part: saint}
+    praises: {from: sm_praises, part: saint}
+    end_troparia: {from: sm_end_troparion}
+    plain_beginning: {from: none}
+
 - id: matins.sunday
   service: matins
   priority: 300
+  # A saint without a sign (or no Menaion service).
+  when: weekday == 0 && period == "ordinary" && feast == "" && !menaion_great_vespers
+  template: great_matins
+  slots:
+    troparia: {from: sm_troparia, part: sunday}
+    sedalny_1: {from: sm_sedalny, section: "1"}
+    sedalny_2: {from: sm_sedalny, section: "2"}
+    sedalny_3: {from: none}
+    magnification: {from: none}
+    evlogitaria: {from: sm_evlogitaria}
+    hypakoe: {from: sm_hypakoe}
+    sedalny_p: {from: none}
+    stepenna: {from: sm_stepenna}
+    prokeimenon: {from: sm_prokeimenon}
+    gospel: {from: sm_gospel}
+    after_gospel: {from: sm_after_gospel}
+    ps50: {from: sm_ps50}
+    canon_1_3: {from: sm_canon, section: "1-3", part: sunday}
+    sedalen: {from: sm_sedalen, part: sunday}
+    canon_4_6: {from: sm_canon, section: "4-6", part: sunday}
+    kontakion: {from: sm_kontakion, part: sunday}
+    canon_7_8: {from: sm_canon, section: "7-8", part: sunday}
+    magnificat: {from: unit, refs: [ch.matins.magnificat.1]}
+    canon_9: {from: sm_canon, section: "9", part: sunday}
+    exapostilaria: {from: sm_exapostilaria, part: sunday}
+    praises: {from: sm_praises, part: sunday}
+    end_troparia: {from: sm_end_troparion}
+    plain_beginning: {from: none}
+
+- id: matins.sunday.unsupported
+  service: matins
+  priority: 299
   when: weekday == 0
-  unsupported: "Воскресная утреня (полиелей, воскресные тропари, евангелие, канон воскресный) ещё не реализована"
+  unsupported: "Воскресная утреня в дни Триоди, с Рождеством или Богоявлением, со святым со знаком без чтений ещё не реализована"
 
 - id: matins.nativity_theophany
   service: matins

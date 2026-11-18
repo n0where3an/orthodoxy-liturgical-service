@@ -110,3 +110,100 @@ func check(t *testing.T, plan *Plan, want map[string]string) {
 		}
 	}
 }
+
+func TestSundayVespersCombined(t *testing.T) {
+	plan := func(t *testing.T, c mapCorpus, d calendar.JDate) *Plan {
+		t.Helper()
+		p, err := planVespers(t, c, d)
+		if err != nil {
+			t.Fatal(err)
+		}
+		return p
+	}
+	verses := func(refs ...string) string {
+		var out []string
+		for i, r := range refs {
+			out = append(out, fmt.Sprintf("ch.vespers.lic.verse.%d", 21+i), r)
+		}
+		return strings.Join(out, ",")
+	}
+	oct := func(d calendar.JDate, n int) []string {
+		oc := "oc." + itoa(calendar.NewDayContext(d).Tone) + ".sun.gvespers.lic.sticheron."
+		var out []string
+		for i := 1; i <= n; i++ {
+			out = append(out, oc+itoa(i))
+		}
+		return out
+	}
+
+	t.Run("saint with a sign", func(t *testing.T) {
+		d := calendar.MustJDate(2026, time.October, 26) // Sunday, St Demetrius
+		oc := "oc." + itoa(calendar.NewDayContext(d).Tone) + ".sun.gvespers."
+		me := "me.10.26."
+		c := sundayFeastCorpus(d, map[string][]string{"me.10.26": {"troparion.1", "vespers.great", "gvespers.lic.sticheron.1",
+			"gvespers.lic.sticheron.2", "gvespers.lic.sticheron.3", "gvespers.lic.glory", "gvespers.paremia.1",
+			"gvespers.paremia.2", "gvespers.paremia.3", "gvespers.litiya.sticheron.1", "gvespers.litiya.glory",
+			"gvespers.litiya.now", "gvespers.aposticha.glory"}}, nil)
+		c.tones[me+"gvespers.aposticha.glory"] = 8
+		p := plan(t, c, d)
+		if p.Rule != "vespers.sunday.saint" {
+			t.Fatalf("rule %s", p.Rule)
+		}
+		g := me + "gvespers."
+		check(t, p, map[string]string{
+			// The Octoechos 6 (3 + 3 of Anatolius), the saint's 4.
+			"lord_i_call":           verses(append(oct(d, 6), g+"lic.sticheron.1", g+"lic.sticheron.2", g+"lic.sticheron.3", g+"lic.sticheron.1")...),
+			"lord_i_call_glory_now": "common.glory," + g + "lic.glory,common.and_now," + oc + "lic.dogmatikon",
+			"aposticha": oc + "aposticha.sticheron.1," + oc + "aposticha.verse.2," + oc + "aposticha.sticheron.2," + oc + "aposticha.verse.3," +
+				oc + "aposticha.sticheron.3," + oc + "aposticha.verse.4," + oc + "aposticha.sticheron.4,common.glory," + g +
+				"aposticha.glory,common.and_now,me.bogor.8.aposticha",
+			"troparia": "ch.theotokos_rejoicex2," + me + "troparion.1",
+			"loaves":   "sl.vespers.loaves_prayer",
+		})
+		if !strings.Contains(refs(p.Slots["paremias"]), g+"paremia.3") {
+			t.Errorf("paremias %s", refs(p.Slots["paremias"]))
+		}
+	})
+	t.Run("apodosis: the feast's stichera", func(t *testing.T) {
+		d := calendar.MustJDate(2026, time.September, 21)
+		c := sundayFeastCorpus(d, map[string][]string{
+			"me.09.14": {"troparion.1", "kontakion.1", "gvespers.lic.sticheron.1", "gvespers.lic.sticheron.2", "gvespers.lic.now",
+				"gvespers.aposticha.now", "gvespers.litiya.sticheron.1"},
+			"me.09.21": {"troparion.1"},
+		}, map[string]string{"me.09.21.troparion.1": "праздника,"})
+		p := plan(t, c, d)
+		if p.Rule != "vespers.sunday.afterfeast" {
+			t.Fatalf("rule %s", p.Rule)
+		}
+		g := "me.09.14.gvespers."
+		check(t, p, map[string]string{
+			"lord_i_call": verses(append(oct(d, 4), g+"lic.sticheron.1", g+"lic.sticheron.2", g+"lic.sticheron.1",
+				g+"lic.sticheron.2", g+"lic.sticheron.1", g+"lic.sticheron.2")...),
+			"lord_i_call_glory_now": "common.glory_now," + g + "lic.now",
+			// No litiya on the apodosis's own day: «Богородице Дево» thrice.
+			"troparia": "ch.theotokos_rejoicex3",
+			"loaves":   "",
+		})
+	})
+	t.Run("feast of the Theotokos", func(t *testing.T) {
+		d := calendar.MustJDate(2031, time.September, 8)
+		c := sundayFeastCorpus(d, map[string][]string{"me.09.08": {"troparion.1", "kontakion.1", "gvespers.lic.sticheron.1",
+			"gvespers.lic.now", "gvespers.paremia.1", "gvespers.paremia.2", "gvespers.paremia.3", "gvespers.litiya.sticheron.1",
+			"gvespers.litiya.now", "gvespers.aposticha.now"}}, nil)
+		p := plan(t, c, d)
+		if p.Rule != "vespers.sunday.theotokos_feast" {
+			t.Fatalf("rule %s", p.Rule)
+		}
+		g := "me.09.08.gvespers."
+		st := g + "lic.sticheron.1"
+		check(t, p, map[string]string{
+			"lord_i_call":           verses(append(oct(d, 4), st, st, st, st, st, st)...),
+			"lord_i_call_glory_now": "common.glory_now," + g + "lic.now",
+			"troparia":              "me.09.08.troparion.1x3",
+			"loaves":                "sl.vespers.loaves_prayer",
+		})
+		if a := refs(p.Slots["aposticha"]); !strings.HasSuffix(a, "common.glory_now,"+g+"aposticha.now") {
+			t.Errorf("aposticha %s", a)
+		}
+	})
+}

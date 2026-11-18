@@ -516,3 +516,20 @@ func TestInvalidDates(t *testing.T) {
 		t.Error("KeyLetter(36) accepted")
 	}
 }
+
+func TestEothinon(t *testing.T) {
+	// All Saints 2026 (Pascha 2026-03-30 O.S. + 56) is the 1st; every week the next, of eleven.
+	allSaints := Pascha(2026).AddDays(AllSaintsOffset)
+	for w, want := range map[int]int{0: 1, 1: 2, 10: 11, 11: 1, 23: 2} {
+		d := allSaints.AddDays(7 * w)
+		if got := NewDayContext(d).Eothinon; got != want {
+			t.Errorf("All Saints + %d weeks (%v): eothinon %d, want %d", w, d, got, want)
+		}
+	}
+	if got := NewDayContext(allSaints.AddDays(1)).Eothinon; got != 0 {
+		t.Errorf("Monday: eothinon %d", got)
+	}
+	if got := NewDayContext(Pascha(2026).AddDays(7)).Eothinon; got != 0 {
+		t.Errorf("Thomas Sunday: eothinon %d", got)
+	}
+}

@@ -74,10 +74,15 @@ func newGenerator(ctx context.Context, dataDir string) (*liturgy.Generator, func
 		pool.Close()
 		return nil, nil, err
 	}
+	katavasia, err := liturgy.LoadKatavasia(dataDir)
+	if err != nil {
+		pool.Close()
+		return nil, nil, err
+	}
 	st := &corpus.Store{Pool: pool}
 	return &liturgy.Generator{
 		DataDir: dataDir,
-		Planner: &liturgy.Planner{Rules: rules, Feasts: feasts, Temples: temples, Menaion: st},
+		Planner: &liturgy.Planner{Rules: rules, Feasts: feasts, Temples: temples, Katavasia: katavasia, Menaion: st},
 		Texts:   st,
 	}, pool.Close, nil
 }

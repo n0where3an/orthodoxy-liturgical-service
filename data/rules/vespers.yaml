@@ -26,6 +26,55 @@
     aposticha: {from: sv_aposticha}
     troparia: {from: gv_troparia, part: theotokos}
 
+# Saturday evening with a feast of the Theotokos, a saint with a sign, or in
+# an afterfeast: the Octoechos and the Menaion together (sv_combined_*).
+- id: vespers.sunday.theotokos_feast
+  service: vespers
+  priority: 315
+  when: >-
+    weekday == 0 && feast_day && period == "ordinary" && menaion_litiya && menaion_paremias &&
+    feast in ["nativity_of_theotokos", "entry_of_theotokos", "annunciation", "dormition"]
+  template: great_vespers
+  slots: &sunday_combined_slots
+    title: {from: unit, refs: [ch.vigil.title]}
+    vigil: {from: unit, refs: [lit.vigil.arise]}
+    kathisma: {from: unit, refs: [ps.kathisma.1.1]}
+    lord_i_call: {from: sv_combined_lic, part: feast}
+    lord_i_call_glory_now: {from: sv_combined_glory_now, part: feast}
+    prokeimenon: {from: unit, refs: [ch.vespers.prokeimenon.sun]}
+    prokeimenon_verse: {from: sv_prokeimenon_verses}
+    paremias: {from: sv_combined_paremias}
+    litiya: {from: sv_combined_litiya}
+    aposticha: {from: sv_combined_aposticha, part: feast}
+    troparia: {from: sv_combined_troparia, part: feast}
+    loaves: {from: sv_combined_loaves}
+
+- id: vespers.sunday.afterfeast
+  service: vespers
+  priority: 305
+  when: weekday == 0 && period == "ordinary" && feast != "" && !feast_day
+  template: great_vespers
+  slots:
+    <<: *sunday_combined_slots
+    lord_i_call: {from: sv_combined_lic, part: afterfeast}
+    lord_i_call_glory_now: {from: sv_combined_glory_now, part: afterfeast}
+    aposticha: {from: sv_combined_aposticha, part: afterfeast}
+    troparia: {from: sv_combined_troparia, part: afterfeast}
+
+- id: vespers.sunday.saint
+  service: vespers
+  priority: 302
+  # A saint with a sign (polyeleos, vigil) whose readings the Menaion (or the
+  # General Menaion) gives.
+  when: weekday == 0 && period == "ordinary" && feast == "" && menaion_great_vespers && menaion_paremias
+  template: great_vespers
+  slots:
+    <<: *sunday_combined_slots
+    lord_i_call: {from: sv_combined_lic, part: saint}
+    lord_i_call_glory_now: {from: sv_combined_glory_now, part: saint}
+    aposticha: {from: sv_combined_aposticha, part: saint}
+    troparia: {from: sv_combined_troparia, part: saint}
+
 - id: vespers.sunday.unsupported
   service: vespers
   priority: 299
