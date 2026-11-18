@@ -25,6 +25,7 @@ type commonFlags struct {
 	standalone, typikon bool
 	deacon              bool
 	temple              string
+	psalmody            string
 }
 
 func (c *commonFlags) register(fs *flag.FlagSet) {
@@ -37,10 +38,12 @@ func (c *commonFlags) register(fs *flag.FlagSet) {
 	fs.BoolVar(&c.typikon, "typikon", false, "follow the Typikon where parish practice differs")
 	fs.BoolVar(&c.deacon, "deacon", false, "served with a deacon")
 	fs.StringVar(&c.temple, "temple", "", "dedication of the church: an id from 'liturgy temples', or me.MM.DD")
+	fs.StringVar(&c.psalmody, "psalmody", "short", "psalm verses before the stichera where the beginning is sung: short, sung, read")
 }
 
 func (c *commonFlags) params() liturgy.Params {
-	return liturgy.Params{Priest: !c.reader, Standalone: c.standalone, Typikon: c.typikon, Deacon: c.deacon, Temple: c.temple}
+	return liturgy.Params{Priest: !c.reader, Standalone: c.standalone, Typikon: c.typikon, Deacon: c.deacon, Temple: c.temple,
+		Psalmody: c.psalmody}
 }
 
 func parseDate(s string, julian bool) (calendar.JDate, error) {
@@ -183,7 +186,7 @@ func cmdServe(ctx context.Context, args []string) error {
 		_, err = g.Generate(r.Context(), liturgy.Request{
 			Date: d, Service: service, Lang: lang, Lang2: q.Get("lang2"), Mode: q.Get("mode"),
 			Params: liturgy.Params{Priest: !reader, Standalone: standalone, Typikon: typikon, Deacon: deacon,
-				Temple: q.Get("temple")},
+				Temple: q.Get("temple"), Psalmody: q.Get("psalmody")},
 		}, &buf)
 		if err != nil {
 			status := http.StatusInternalServerError

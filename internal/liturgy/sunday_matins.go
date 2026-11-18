@@ -264,6 +264,18 @@ func smCanon(f Facts, section, part string) ([]SlotItem, error) {
 	var items []SlotItem
 	for _, o := range odes {
 		items = append(items, reader(fmt.Sprintf("ch.canon.ode.%d", o)))
+		start := len(items)
+		if o == 9 && part == "feast" {
+			// The resurrectional canon, then the feast's with its refrains.
+			if r, k, ok := odeNineRefrains(f, festalOdeCanons(f, o, false)); ok {
+				b := "matins.canon.1.ode.9"
+				items = append(items, odeOn(first(f.Octoechos, b+".irmos"), f.Octoechos[b+".troparion"],
+					first(f.Octoechos, b+".theotokion"), 4)...)
+				items = append(append(items, r...), reader("ch.canon.katavasia"))
+				items = append(items, k...)
+				continue
+			}
+		}
 		for _, p := range parts {
 			b := fmt.Sprintf("%s.ode.%d", p.prefix, o)
 			var trop []string
@@ -282,6 +294,11 @@ func smCanon(f Facts, section, part string) ([]SlotItem, error) {
 				continue
 			}
 			items = append(items, odeOn(irmos, trop, theot, p.on)...)
+		}
+		if len(f.OdeVerses) > 0 { // -typikon: the verses of the biblical ode
+			if o != 9 || f.Refrains == nil {
+				items = append(items[:start], withOdeVerses(f, "sunday", o, append([]SlotItem(nil), items[start:]...))...)
+			}
 		}
 		k := smKatavasia(f, part, o)
 		if k == "" {

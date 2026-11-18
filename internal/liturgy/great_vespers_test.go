@@ -51,9 +51,8 @@ func TestVigilVespersPlan(t *testing.T) {
 	g := "me.11.13.gvespers."
 	want := map[string]string{
 		// 5 stichera on 8: the first three are repeated.
-		// On 8: verses 21–22 first, then verses 23–30 before each sticheron.
-		"lord_i_call": strings.Join([]string{"ch.vespers.lic.verse.21", "ch.vespers.lic.verse.22",
-			"ch.vespers.lic.verse.23", g + "lic.sticheron.1", "ch.vespers.lic.verse.24", g + "lic.sticheron.2",
+		// On 8, shortened (-psalmody short): from the verse of the first sticheron (23).
+		"lord_i_call": strings.Join([]string{"ch.vespers.lic.verse.23", g + "lic.sticheron.1", "ch.vespers.lic.verse.24", g + "lic.sticheron.2",
 			"ch.vespers.lic.verse.25", g + "lic.sticheron.3", "ch.vespers.lic.verse.26", g + "lic.sticheron.4",
 			"ch.vespers.lic.verse.27", g + "lic.sticheron.5", "ch.vespers.lic.verse.28", g + "lic.sticheron.1",
 			"ch.vespers.lic.verse.29", g + "lic.sticheron.2", "ch.vespers.lic.verse.30", g + "lic.sticheron.3"}, ","),

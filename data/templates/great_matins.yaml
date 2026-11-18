@@ -125,9 +125,22 @@ nodes:
       - {id: k3_sedalny, slot: sedalny_3, performer: choir}
 
   # --- Полиелей, величание ---
-  - {id: polyeleos_rubric, rubric: polyeleos, audience: laity}
-  - {id: polyeleos_134, ref: ps.psalm.134, performer: choir}
-  - {id: polyeleos_135, ref: ps.psalm.135, performer: choir}
+  # По Уставу летом в воскресенье полиелей не поётся: кафисма 17-я
+  # («Непорочны»), по ней тропари «Ангельский собор» (Устав о Псалтири).
+  - id: kathisma_17
+    if_slot: kathisma_17
+    children:
+      - {id: k17_stasis_1, slot: kathisma_17, index: 1, performer: reader}
+      - {id: k17_doxology_1, include: stasis_doxology}
+      - {id: k17_stasis_2, slot: kathisma_17, index: 2, performer: reader}
+      - {id: k17_doxology_2, include: stasis_doxology}
+      - {id: k17_stasis_3, slot: kathisma_17, index: 3, performer: reader}
+  - id: polyeleos
+    unless_slot: kathisma_17
+    children:
+      - {id: polyeleos_rubric, rubric: polyeleos, audience: laity}
+      - {id: polyeleos_134, ref: ps.psalm.134, performer: choir}
+      - {id: polyeleos_135, ref: ps.psalm.135, performer: choir}
   - {id: magnification, slot: magnification, performer: choir}
   # В воскресенье — «Ангельский собор» (тропари по непорочнах).
   - id: evlogitaria_group
@@ -233,8 +246,12 @@ nodes:
   - {id: praises_r1, ref: ch.matins.praises.refrain, performer: choir}
   - {id: praises_2, ref: ch.matins.praises.2, performer: choir}
   - {id: praises_r2, ref: ch.matins.praises.refrain, performer: choir}
-  - {id: praises_148, ref: ch.matins.praises.148, performer: reader}
-  - {id: praises_149, ref: ch.matins.praises.149, performer: reader}
+  # Начало хвалитных поётся; далее по практике (-psalmody): сокращается до
+  # стиха первой стихиры (short), поётся (sung) или читается (read).
+  - {id: praises_148_sung, ref: ch.matins.praises.148, performer: choir, when: psalmody == "sung"}
+  - {id: praises_149_sung, ref: ch.matins.praises.149, performer: choir, when: psalmody == "sung"}
+  - {id: praises_148, ref: ch.matins.praises.148, performer: reader, when: psalmody == "read"}
+  - {id: praises_149, ref: ch.matins.praises.149, performer: reader, when: psalmody == "read"}
   - {id: praises, slot: praises, performer: choir}
   - {id: who_showed_light, ref: ch.matins.glory_to_thee_who_showed, performer: priest, voice: aloud}
   - {id: great_doxology_1, ref: ch.matins.great_doxology.1, performer: choir}

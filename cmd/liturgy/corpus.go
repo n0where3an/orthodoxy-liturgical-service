@@ -74,6 +74,14 @@ func cmdImport(ctx context.Context, args []string) error {
 	octSunMatins, w := orthlib.ImportOctoechosSundayMatins(*root)
 	warnings = append(warnings, w...)
 	oct = append(oct, octSunMatins...)
+	irmologion, w := orthlib.ImportIrmologionOdes(*root)
+	warnings = append(warnings, w...)
+	oct = append(oct, irmologion...)
+	if refrains, err := orthlib.ImportOdeNineRefrains(*root); err == nil {
+		oct = append(oct, refrains...)
+	} else {
+		warnings = append(warnings, err.Error())
+	}
 	if app, err := orthlib.ImportOctoechosSundayAppendix(*root); err == nil {
 		oct = append(oct, app...)
 	} else {

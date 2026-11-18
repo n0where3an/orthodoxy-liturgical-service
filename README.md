@@ -28,15 +28,32 @@ Chrysostom). What is covered is in [Coverage](#coverage) below.
 | `-reader` | reader's order, without a priest |
 | `-deacon` | litanies by a deacon |
 | `-standalone` | the hour on its own (usual beginning, dismissal); by default hours are joined as in parish practice |
-| `-typikon` | the Typikon instead of parish practice where they differ |
+| `-typikon` | the Typikon instead of parish practice where they differ: the canon of matins sung with the verses of the biblical odes; on summer Sundays the 17th kathisma instead of the polyeleos |
+| `-psalmody short\|sung\|read` | the psalm verses before the stichera where the beginning is sung: at «Господи, воззвах» from «Положи, Господи, хранение», at the praises when the doxology is sung — `short` (default: straight to the verse of the first sticheron), `sung` or `read`. With the doxology read the praises are read |
 | `-temple <id>` | dedication of the church: an id from `liturgy temples` (`data/calendar/temples.yaml`) or a Menaion day `me.MM.DD`; the temple's troparion and kontakion at the liturgy |
 | `-lang cu\|en`, `-lang2 en` | language, parallel second language (untranslated texts fall back to Slavonic) |
 | `-mode laity\|kliros` | display mode (`render`, `serve`) |
 
 The web server takes the same options as query parameters
-(`?date=…&service=…&mode=…&temple=…`).
+(`?date=…&service=…&mode=…&temple=…&psalmody=…`).
 
 Church Slavonic text is Unicode; install the Ponomar Unicode or Monomakh fonts.
+
+The Irmologion (`orthlib.irmologion`) gives the biblical odes in three sets —
+weekdays, Sundays and feasts, Great Lent — as `ir.ode.<ode>.<set>.<n>` with
+the places «на 14 / 8 / 6 / 4» marked, and the refrains of the 9th ode at the
+feasts (`ir.pripev.<feast>.*`: on the feast day instead of «Честнейшую», each
+troparion with its refrain). The set follows the sign of the saint in the
+Typikon: black (six-fold) and none — the weekday odes, katavasia after the
+3rd, 6th, 8th and 9th odes, the doxology read; red (the great doxology sung,
+polyeleos, vigil), Sundays, feasts, fore- and afterfeasts — the festal odes,
+katavasia after every ode. The red doxology days are those whose Menaion says
+«славословие великое» (`me.<day>.matins.great_doxology`): at weekday matins
+«Свят Господь Бог наш» after the 9th ode, the praises with the saint's
+stichera, the great doxology sung, no aposticha. The kathismata follow the «Устав о
+Псалтири» of the Following Psalter (summer and winter order; on a feast day of
+the winter order two kathismata at matins and the third at the vespers that
+evening).
 
 The General Menaion (`orthlib.obschminea`, keys `om.<rank>.*`) supplies what a
 Menaion day with a sign leaves to it: the common paremias (ch. 39), the
@@ -96,7 +113,9 @@ The Triodion is not imported yet; this is the largest remaining part.
 
 | Item | Status |
 |---|---|
-| Compline, Midnight Office, Typika without the liturgy | ❌ |
+| Compline, Midnight Office (kathisma 17, on Saturday 9), Typika without the liturgy | ❌ |
+| Irmologion: the irmoi by tone (to complete the irmoi cited by their first words); the 9th-ode refrains in the afterfeast and on the apodosis | ❌ |
+| Psalter in the Triodion: Meatfare and Cheesefare weeks, Great Lent, its 5th week, Holy Week («Устав о Псалтири») | ❌ |
 | Liturgy of St Basil, Presanctified Liturgy | ❌ |
 | Patronal feast (`temple_feast`): vigil «аще храм» | ❌ (the flag is available to the rules) |
 | Litiya with the temple's stichera at the Sunday vigil (`-typikon`) | ❌ |

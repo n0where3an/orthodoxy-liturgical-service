@@ -55,20 +55,23 @@ func gvLIC(f Facts) ([]SlotItem, error) {
 	for i := 0; len(refs) < places; i++ { // fewer stichera: repeated from the first
 		refs = append(refs, men[i%len(men)])
 	}
-	return licWithVerses(refs), nil
+	return licWithVerses(f, refs), nil
 }
 
 // licWithVerses puts the verses of «Господи, воззвах» from the 21st (the
 // first twenty are in the template) before the stichera: on 10 each of the
 // ten has its verse, on 8 verses 21 and 22 come first.
-func licWithVerses(stichera []string) []SlotItem {
+func licWithVerses(f Facts, stichera []string) []SlotItem {
 	if len(stichera) > 10 {
 		stichera = stichera[:10]
 	}
 	var items []SlotItem
 	first := 30 - len(stichera) + 1
+	// The verses without stichera: by the practice (Facts.Psalmody).
 	for v := 21; v < first; v++ {
-		items = append(items, reader(fmt.Sprintf("ch.vespers.lic.verse.%d", v)))
+		if it, ok := f.psalmVerse(fmt.Sprintf("ch.vespers.lic.verse.%d", v)); ok {
+			items = append(items, it)
+		}
 	}
 	for i, st := range stichera {
 		items = append(items, reader(fmt.Sprintf("ch.vespers.lic.verse.%d", first+i)), SlotItem{Ref: st})

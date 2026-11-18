@@ -48,6 +48,12 @@ sources:
     url: http://orthlib.ru/worship/triodion/
     license: unknown
     note: "Electronic text by orthlib.ru (HIP); terms of use to be verified."
+  - id: orthlib.irmologion
+    title: Ирмологий
+    edition: "Ирмологий (orthlib.ru, irmologij)"
+    url: http://orthlib.ru/worship/irmologij/
+    license: unknown
+    note: "Electronic text by orthlib.ru (HIP); terms of use to be verified."
   - id: orthlib.obschminea
     title: Минея общая
     edition: "Минея общая. М.: Издательский Совет Русской Православной Церкви, 2002"

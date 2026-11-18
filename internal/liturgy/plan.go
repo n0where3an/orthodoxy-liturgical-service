@@ -3,6 +3,7 @@ package liturgy
 import (
 	"context"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/n0where3an/orthodoxy-liturgical-service/calendar"
@@ -26,6 +27,20 @@ type Params struct {
 	// Temple: the dedication of the church (an id of data/calendar/temples.yaml
 	// or a Menaion day me.MM.DD); "" when not given.
 	Temple string `json:"temple,omitempty"`
+	// Psalmody: how the psalm verses before the stichera are done where the
+	// beginning is sung («Господи, воззвах» from «Положи, Господи»; the
+	// praises when the doxology is sung): "short" (straight to the verse of
+	// the first sticheron; the default), "sung" or "read".
+	Psalmody string `json:"psalmody,omitempty"`
+}
+
+// PsalmodyOrDefault returns Psalmody, "short" when not given.
+func (p Params) PsalmodyOrDefault() string {
+	switch p.Psalmody {
+	case "sung", "read", "short":
+		return p.Psalmody
+	}
+	return "short"
 }
 
 // SlotItem references one text unit placed into a slot.
@@ -127,6 +142,58 @@ func (p *Planner) Plan(ctx context.Context, d calendar.JDate, service string, pa
 	}
 	if f.Temple, err = p.Temples.Find(params.Temple); err != nil {
 		return nil, err
+	}
+	f.Typikon = params.Typikon
+	f.Psalmody = params.PsalmodyOrDefault()
+	if service == "vespers" {
+		// «Егда прилучится празднество… глаголем на утрени две кафисмы, а
+		// третию рядовую на вечерни» (Устав о Псалтири).
+		eve := calendar.NewDayContext(d.Eve())
+		evm, err := MenaionFacts(ctx, p.Menaion, eve.Menaion)
+		if err != nil {
+			return nil, err
+		}
+		prefix := fmt.Sprintf("me.%02d.%02d.", int(eve.Menaion.Month), eve.Menaion.Day)
+		for _, kind := range []string{"vespers.great", "gvespers.paremia"} {
+			for _, id := range evm[kind] {
+				if strings.HasPrefix(id, prefix) {
+					f.EveFestal = true
+				}
+			}
+		}
+		if ef := p.Feasts.At(eve); ef != nil && ef.IsFeastDay(eve) {
+			f.EveFestal = true
+		}
+	}
+	if service == "matins" {
+		f.OdeSet = "weekday"
+		switch {
+		case day.Weekday == time.Sunday:
+			f.OdeSet = "sunday"
+		case f.festalOdes():
+			f.OdeSet = "feast"
+		}
+		if params.Typikon {
+			set := f.OdeSet
+			if set == "feast" {
+				set = "sunday" // «песней стихи, поемии в недели и праздники»
+			}
+			if f.OdeVerses, err = odeVerses(ctx, p.Menaion, set); err != nil {
+				return nil, err
+			}
+		}
+		if f.Feast != nil && f.Feast.IsFeastDay(day) {
+			ids, err := p.Menaion.ListIDs(ctx, "ir.pripev."+f.Feast.ID+".")
+			if err != nil {
+				return nil, err
+			}
+			if len(ids) > 0 {
+				f.Refrains = map[string]bool{}
+				for _, id := range ids {
+					f.Refrains[id] = true
+				}
+			}
+		}
 	}
 	if service == "matins" && day.Weekday == time.Sunday {
 		if f.Katavasia, f.KatavasiaSeasonal, err = p.Katavasia.ForSeason(ctx, p.Menaion, day.Menaion); err != nil {

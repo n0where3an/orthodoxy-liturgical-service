@@ -157,6 +157,13 @@ func festalCanon(f Facts, section string, feast bool) ([]SlotItem, error) {
 	var items []SlotItem
 	for _, o := range odes {
 		items = append(items, reader(fmt.Sprintf("ch.canon.ode.%d", o)))
+		if o == 9 {
+			if r, k, ok := odeNineRefrains(f, festalOdeCanons(f, o, cross)); ok {
+				items = append(append(items, r...), reader("ch.canon.katavasia"))
+				items = append(items, k...)
+				continue
+			}
+		}
 		last := ""
 		for c := 1; c <= 3; c++ {
 			b := fmt.Sprintf("matins.canon.%d.ode.%d", c, o)
@@ -233,8 +240,19 @@ func gmPraises(f Facts) ([]SlotItem, error) {
 	if places < 4 || places > 8 {
 		places = 4
 	}
-	verses := praisesVerses[len(praisesVerses)-places:]
+	start := len(praisesVerses) - places
+	verses := praisesVerses[start:]
 	var items []SlotItem
+	// The verses before the stichera that the reading of Ps 149 (to verse 8)
+	// leaves out: «Сотворити в них суд», «Хвалите Бога во святых Его» —
+	// read with the doxology read, else by the practice.
+	for i := 2; i < start; i++ {
+		if !f.praisesSung() {
+			items = append(items, reader(praisesVerses[i]))
+		} else if it, ok := f.psalmVerse(praisesVerses[i]); ok {
+			items = append(items, it)
+		}
+	}
 	for i, v := range verses {
 		items = append(items, reader(v), choir(st[i%len(st)]))
 	}
@@ -248,4 +266,33 @@ func gmPraises(f Facts) ([]SlotItem, error) {
 		items = append(items, reader("common.glory"), choir(g))
 	}
 	return items, nil
+}
+
+// festalOdeCanons: the Menaion's canons in an ode, each with its irmos.
+func festalOdeCanons(f Facts, o int, cross bool) []odeCanon {
+	var out []odeCanon
+	for c := 1; c <= 3; c++ {
+		b := fmt.Sprintf("matins.canon.%d.ode.%d", c, o)
+		trop := mainMenaion(f, b+".troparion")
+		if len(trop) == 0 {
+			continue
+		}
+		cn := odeCanon{irmos: firstMain(f, b+".irmos"), troparia: append([]string(nil), trop...)}
+		th := firstMain(f, b+".theotokion")
+		if cross {
+			if x := firstMain(f, b+".cross_theotokion"); x != "" {
+				th = x
+			}
+		}
+		if th != "" {
+			cn.troparia = append(cn.troparia, th)
+		}
+		if cn.irmos == "" && len(out) > 0 {
+			// A «canon» without its irmos is the rest of the one before.
+			out[len(out)-1].troparia = append(out[len(out)-1].troparia, cn.troparia...)
+			continue
+		}
+		out = append(out, cn)
+	}
+	return out
 }

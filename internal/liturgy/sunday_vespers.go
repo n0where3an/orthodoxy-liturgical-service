@@ -50,12 +50,12 @@ func svLIC(f Facts) ([]SlotItem, error) {
 		if len(th) != sundayMenaionStichera {
 			return nil, fmt.Errorf("Octoechos tone %d: no stichera of the Theotokos", f.Day.Tone)
 		}
-		return licWithVerses(append(refs, th...)), nil
+		return licWithVerses(f, append(refs, th...)), nil
 	}
 	for i := 0; i < sundayMenaionStichera; i++ { // fewer: repeated from the first
 		refs = append(refs, men[i%len(men)])
 	}
-	return licWithVerses(refs), nil
+	return licWithVerses(f, refs), nil
 }
 
 func svGloryNow(f Facts) ([]SlotItem, error) {
@@ -196,7 +196,7 @@ func svCombinedLIC(f Facts, part string) ([]SlotItem, error) {
 	for i := 0; i < nMen; i++ { // fewer: repeated from the first
 		refs = append(refs, men[i%len(men)])
 	}
-	return licWithVerses(refs), nil
+	return licWithVerses(f, refs), nil
 }
 
 // menGloryNow: «Слава» and «И ныне» of a section of the Menaion's vespers

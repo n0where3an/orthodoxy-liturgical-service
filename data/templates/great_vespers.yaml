@@ -56,23 +56,48 @@ nodes:
   - {id: lic_verse_1, ref: ch.vespers.lic.verse.1, performer: choir}
   - {id: lic_verse_2, ref: ch.vespers.lic.verse.2, performer: choir}
   - {id: lic_verse_3, ref: ch.vespers.lic.verse.3, performer: choir}
-  - {id: lic_verse_4, ref: ch.vespers.lic.verse.4, performer: reader}
-  - {id: lic_verse_5, ref: ch.vespers.lic.verse.5, performer: reader}
-  - {id: lic_verse_6, ref: ch.vespers.lic.verse.6, performer: reader}
-  - {id: lic_verse_7, ref: ch.vespers.lic.verse.7, performer: reader}
-  - {id: lic_verse_8, ref: ch.vespers.lic.verse.8, performer: reader}
-  - {id: lic_verse_9, ref: ch.vespers.lic.verse.9, performer: reader}
-  - {id: lic_verse_10, ref: ch.vespers.lic.verse.10, performer: reader}
-  - {id: lic_verse_11, ref: ch.vespers.lic.verse.11, performer: reader}
-  - {id: lic_verse_12, ref: ch.vespers.lic.verse.12, performer: reader}
-  - {id: lic_verse_13, ref: ch.vespers.lic.verse.13, performer: reader}
-  - {id: lic_verse_14, ref: ch.vespers.lic.verse.14, performer: reader}
-  - {id: lic_verse_15, ref: ch.vespers.lic.verse.15, performer: reader}
-  - {id: lic_verse_16, ref: ch.vespers.lic.verse.16, performer: reader}
-  - {id: lic_verse_17, ref: ch.vespers.lic.verse.17, performer: reader}
-  - {id: lic_verse_18, ref: ch.vespers.lic.verse.18, performer: reader}
-  - {id: lic_verse_19, ref: ch.vespers.lic.verse.19, performer: reader}
-  - {id: lic_verse_20, ref: ch.vespers.lic.verse.20, performer: reader}
+  # От «Положи, Господи, хранение» до стиха первой стихиры — по практике
+  # (-psalmody): сокращается (short), поётся (sung) или читается (read).
+  - id: lic_verses_sung
+    when: psalmody == "sung"
+    children:
+      - {id: lic_verses_4_c, ref: ch.vespers.lic.verse.4, performer: choir}
+      - {id: lic_verses_5_c, ref: ch.vespers.lic.verse.5, performer: choir}
+      - {id: lic_verses_6_c, ref: ch.vespers.lic.verse.6, performer: choir}
+      - {id: lic_verses_7_c, ref: ch.vespers.lic.verse.7, performer: choir}
+      - {id: lic_verses_8_c, ref: ch.vespers.lic.verse.8, performer: choir}
+      - {id: lic_verses_9_c, ref: ch.vespers.lic.verse.9, performer: choir}
+      - {id: lic_verses_10_c, ref: ch.vespers.lic.verse.10, performer: choir}
+      - {id: lic_verses_11_c, ref: ch.vespers.lic.verse.11, performer: choir}
+      - {id: lic_verses_12_c, ref: ch.vespers.lic.verse.12, performer: choir}
+      - {id: lic_verses_13_c, ref: ch.vespers.lic.verse.13, performer: choir}
+      - {id: lic_verses_14_c, ref: ch.vespers.lic.verse.14, performer: choir}
+      - {id: lic_verses_15_c, ref: ch.vespers.lic.verse.15, performer: choir}
+      - {id: lic_verses_16_c, ref: ch.vespers.lic.verse.16, performer: choir}
+      - {id: lic_verses_17_c, ref: ch.vespers.lic.verse.17, performer: choir}
+      - {id: lic_verses_18_c, ref: ch.vespers.lic.verse.18, performer: choir}
+      - {id: lic_verses_19_c, ref: ch.vespers.lic.verse.19, performer: choir}
+      - {id: lic_verses_20_c, ref: ch.vespers.lic.verse.20, performer: choir}
+  - id: lic_verses_read
+    when: psalmody == "read"
+    children:
+      - {id: lic_verses_4_r, ref: ch.vespers.lic.verse.4, performer: reader}
+      - {id: lic_verses_5_r, ref: ch.vespers.lic.verse.5, performer: reader}
+      - {id: lic_verses_6_r, ref: ch.vespers.lic.verse.6, performer: reader}
+      - {id: lic_verses_7_r, ref: ch.vespers.lic.verse.7, performer: reader}
+      - {id: lic_verses_8_r, ref: ch.vespers.lic.verse.8, performer: reader}
+      - {id: lic_verses_9_r, ref: ch.vespers.lic.verse.9, performer: reader}
+      - {id: lic_verses_10_r, ref: ch.vespers.lic.verse.10, performer: reader}
+      - {id: lic_verses_11_r, ref: ch.vespers.lic.verse.11, performer: reader}
+      - {id: lic_verses_12_r, ref: ch.vespers.lic.verse.12, performer: reader}
+      - {id: lic_verses_13_r, ref: ch.vespers.lic.verse.13, performer: reader}
+      - {id: lic_verses_14_r, ref: ch.vespers.lic.verse.14, performer: reader}
+      - {id: lic_verses_15_r, ref: ch.vespers.lic.verse.15, performer: reader}
+      - {id: lic_verses_16_r, ref: ch.vespers.lic.verse.16, performer: reader}
+      - {id: lic_verses_17_r, ref: ch.vespers.lic.verse.17, performer: reader}
+      - {id: lic_verses_18_r, ref: ch.vespers.lic.verse.18, performer: reader}
+      - {id: lic_verses_19_r, ref: ch.vespers.lic.verse.19, performer: reader}
+      - {id: lic_verses_20_r, ref: ch.vespers.lic.verse.20, performer: reader}
   # Стихи 21–30 — в слоте, перед каждой стихирой (на 8, на 10…).
   - {id: lic_stichera, slot: lord_i_call, performer: choir}
   - {id: entrance_prayer, ref: sl.vespers.entrance_prayer, performer: priest, voice: secret, title: vespers_entrance_prayer, during: lic_glory_now}

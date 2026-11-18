@@ -78,10 +78,13 @@ func dayEnv() (*cel.Env, error) {
 		cel.Variable("eve_month", cel.IntType),
 		cel.Variable("eve_day", cel.IntType),
 		cel.Variable("menaion_great_vespers", cel.BoolType),
-		cel.Variable("temple", cel.StringType),         // the -temple id, or ""
-		cel.Variable("temple_kind", cel.StringType),    // lord, theotokos, saint, or ""
-		cel.Variable("temple_feast", cel.BoolType),     // the patronal feast is today
-		cel.Variable("lections_omitted", cel.BoolType), // no ordinary Apostle and Gospel
+		cel.Variable("typikon", cel.BoolType),                // -typikon: the Typikon instead of parish practice
+		cel.Variable("eve_festal", cel.BoolType),             // the day before had a polyeleos/vigil or a twelve feast (vespers)
+		cel.Variable("menaion_great_doxology", cel.BoolType), // «славословие великое» (the red sign)
+		cel.Variable("temple", cel.StringType),               // the -temple id, or ""
+		cel.Variable("temple_kind", cel.StringType),          // lord, theotokos, saint, or ""
+		cel.Variable("temple_feast", cel.BoolType),           // the patronal feast is today
+		cel.Variable("lections_omitted", cel.BoolType),       // no ordinary Apostle and Gospel
 		// The day's main Menaion service has great vespers with readings
 		// (polyeleos, vigil, feast) / a litiya (vigil).
 		cel.Variable("menaion_paremias", cel.BoolType),
@@ -158,6 +161,22 @@ type Facts struct {
 	// Of: whose a Menaion troparion or kontakion is, from its heading
 	// («праздника», «апсла», …); only when the corpus provides it.
 	Of map[string]string
+	// EveFestal: the day before has a polyeleos or vigil, or is a twelve
+	// feast (vespers: the third kathisma of its matins is read at them).
+	EveFestal bool
+	// Typikon: follow the Typikon where parish practice differs (-typikon).
+	Typikon bool
+	// Psalmody: "short", "sung" or "read" (Params.Psalmody).
+	Psalmody string
+	// OdeVerses: the verses of the biblical odes by ode (matins with -typikon).
+	OdeVerses map[int][]string
+	// OdeSet: the set of the biblical odes the day takes: "weekday" (six-fold
+	// rank and lower), "feast" (doxology and higher, feasts, fore- and
+	// afterfeasts) or "sunday".
+	OdeSet string
+	// Refrains: the refrains of the 9th ode of the day's feast
+	// (ir.pripev.<feast>.*), when it has them.
+	Refrains map[string]bool
 	// Katavasia: the irmos sung as katavasia after each ode (Sunday matins).
 	Katavasia map[int]string
 	// KatavasiaSeasonal: Katavasia is of a season (data/calendar/katavasia.yaml periods).
@@ -186,26 +205,29 @@ func (f Facts) vars() map[string]any {
 		temple, templeKind = f.Temple.ID, string(f.Temple.Kind)
 	}
 	return map[string]any{
-		"temple":                temple,
-		"temple_kind":           templeKind,
-		"temple_feast":          f.Temple.IsFeastDay(int(f.Day.Menaion.Month), f.Day.Menaion.Day),
-		"feast":                 feast,
-		"feast_day":             feastDay,
-		"eve_month":             int64(eve.Month()),
-		"eve_day":               int64(eve.Day()),
-		"menaion_great_vespers": len(mainMenaion(f, "vespers.great")) > 0,
-		"lections_omitted":      f.Day.Lections.Omitted,
-		"menaion_paremias":      len(mainMenaion(f, "gvespers.paremia")) >= 3,
-		"menaion_litiya":        len(mainMenaion(f, "gvespers.litiya.sticheron")) > 0,
-		"weekday":               int64(f.Day.Weekday),
-		"period":                f.Day.Period.String(),
-		"pascha_offset":         int64(f.Day.PaschaOffset),
-		"bright_week":           f.Day.BrightWeek,
-		"tone":                  int64(f.Day.Tone),
-		"month":                 int64(f.Day.Menaion.Month),
-		"day":                   int64(f.Day.Menaion.Day),
-		"menaion_troparia":      int64(len(f.Menaion["troparion"])),
-		"menaion_kontakia":      int64(len(f.Menaion["kontakion"])),
+		"typikon":                f.Typikon,
+		"eve_festal":             f.EveFestal,
+		"menaion_great_doxology": f.greatDoxology(),
+		"temple":                 temple,
+		"temple_kind":            templeKind,
+		"temple_feast":           f.Temple.IsFeastDay(int(f.Day.Menaion.Month), f.Day.Menaion.Day),
+		"feast":                  feast,
+		"feast_day":              feastDay,
+		"eve_month":              int64(eve.Month()),
+		"eve_day":                int64(eve.Day()),
+		"menaion_great_vespers":  len(mainMenaion(f, "vespers.great")) > 0,
+		"lections_omitted":       f.Day.Lections.Omitted,
+		"menaion_paremias":       len(mainMenaion(f, "gvespers.paremia")) >= 3,
+		"menaion_litiya":         len(mainMenaion(f, "gvespers.litiya.sticheron")) > 0,
+		"weekday":                int64(f.Day.Weekday),
+		"period":                 f.Day.Period.String(),
+		"pascha_offset":          int64(f.Day.PaschaOffset),
+		"bright_week":            f.Day.BrightWeek,
+		"tone":                   int64(f.Day.Tone),
+		"month":                  int64(f.Day.Menaion.Month),
+		"day":                    int64(f.Day.Menaion.Day),
+		"menaion_troparia":       int64(len(f.Menaion["troparion"])),
+		"menaion_kontakia":       int64(len(f.Menaion["kontakion"])),
 	}
 }
 
@@ -510,4 +532,47 @@ func lection(f Facts, part string) (calendar.Lection, error) {
 		return f.Day.Lections.Gospel, nil
 	}
 	return calendar.Lection{}, fmt.Errorf("lection part %q (apostle, gospel)", part)
+}
+
+// festalOdes: the odes are sung «в недели и праздники» (the Irmologion):
+// on Sunday, at a feast of the Lord or of the Theotokos, in its forefeast and
+// afterfeast, at a saint whose sign in the Typikon is red (polyeleos, vigil,
+// the great doxology sung) — the katavasia after every ode; with the black
+// sign (six-fold: the doxology read) and lower after the 3rd, 6th, 8th, 9th.
+func (f Facts) festalOdes() bool {
+	if f.Day.Weekday == time.Sunday || f.Feast != nil {
+		return true
+	}
+	for _, of := range f.Of {
+		if strings.HasPrefix(of, "предпразднств") {
+			return true
+		}
+	}
+	// A polyeleos or vigil (great vespers), or the great doxology sung (the
+	// red sign); the six-fold service (the black sign) reads the doxology.
+	return len(mainMenaion(f, "gvespers.paremia")) > 0 || len(mainMenaion(f, "vespers.great")) > 0 ||
+		f.greatDoxology()
+}
+
+// greatDoxology: the Menaion appoints «славословие великое» (the red sign).
+func (f Facts) greatDoxology() bool { return firstMain(f, "matins.great_doxology") != "" }
+
+// praisesSung: the praises begin sung when the great doxology is sung
+// (Sunday, a twelve feast, a polyeleos or vigil, the red sign); with the
+// doxology read they are read.
+func (f Facts) praisesSung() bool {
+	return f.Day.Weekday == time.Sunday || f.Feast != nil && f.Feast.IsFeastDay(f.Day) ||
+		len(mainMenaion(f, "gvespers.paremia")) > 0 || len(mainMenaion(f, "vespers.great")) > 0 || f.greatDoxology()
+}
+
+// psalmVerse: a psalm verse before the stichera, by the practice; ok is false
+// when it is left out («сразу переходят к стиху предваряющему первую стихиру»).
+func (f Facts) psalmVerse(ref string) (SlotItem, bool) {
+	switch f.Psalmody {
+	case "sung":
+		return choir(ref), true
+	case "read":
+		return reader(ref), true
+	}
+	return SlotItem{}, false
 }

@@ -260,6 +260,7 @@
     canon_7_8: {from: matins_canon, section: "7-8"}
     canon_9: {from: matins_canon, section: "9"}
     exapostilaria: {from: matins_exapostilaria}
+    praises: {from: gm_praises}
     aposticha: {from: matins_aposticha}
     end_troparia: {from: vespers_troparia}
 
@@ -270,6 +271,20 @@
 # three — Mon 4, 5, 6; Tue 7, 8, 9; Wed 10, 11, 12; Thu 13, 14, 15;
 # Fri 19, 20 (the 18th is read at vespers). The sessional hymns after the
 # third kathisma are the Octoechos's «иные седальны» (sedalen.3).
+# Sunday in summer by the Typikon: «от сырныя недели даже до воздвижения
+# упраждняется полиелей» — the 17th kathisma instead (parish practice keeps
+# the polyeleos all year). Not with a feast or a saint with a sign.
+- {id: matins.kathisma_17.sunday_summer, slot: kathisma_17, service: matins, priority: 50, when: "weekday == 0 && typikon && period == \"ordinary\" && feast == \"\" && !menaion_great_vespers && ((month >= 5 && month <= 8) || (month == 9 && day <= 21))", fill: {from: unit, refs: [ps.kathisma.17.1, ps.kathisma.17.2, ps.kathisma.17.3]}}
+# The sign of the saint in the Typikon: red — the great doxology sung (and
+# the katavasia after every ode), black (six-fold) — the doxology read. The
+# Menaion says «славословие великое» on the red days.
+- {id: matins.great_doxology, slot: great_doxology, service: matins, priority: 50, when: "menaion_great_doxology", fill: {from: unit, refs: [ch.matins.great_doxology.1]}}
+- {id: matins.great_doxology.none, slot: great_doxology, service: matins, priority: 10, when: "true", fill: {from: none}}
+# «Егда же прилучится в те дни празднество, в нихже глаголется на утрени по
+# три кафисмы, и тогда глаголем на утрени две кафисмы, а третию рядовую на
+# вечерни» (Устав о Псалтири): at a polyeleos, vigil or twelve feast.
+- {id: matins.kathisma_3.feast, slot: kathisma_3, service: matins, priority: 70, when: "menaion_paremias || menaion_great_vespers || feast_day", fill: {from: none}}
+- {id: matins.sedalny_3.feast, slot: sedalny_3, service: matins, priority: 70, when: "menaion_paremias || menaion_great_vespers || feast_day", fill: {from: none}}
 - {id: matins.kathisma_1.mon.winter, slot: kathisma_1, service: matins, priority: 60, when: "weekday == 1 && ((month == 9 && day >= 22) || month == 10 || month == 11 || (month == 12 && day <= 19) || (month == 1 && day >= 15) || month == 2)", fill: {from: unit, refs: [ps.kathisma.4.1, ps.kathisma.4.2, ps.kathisma.4.3]}}
 - {id: matins.kathisma_2.mon.winter, slot: kathisma_2, service: matins, priority: 60, when: "weekday == 1 && ((month == 9 && day >= 22) || month == 10 || month == 11 || (month == 12 && day <= 19) || (month == 1 && day >= 15) || month == 2)", fill: {from: unit, refs: [ps.kathisma.5.1, ps.kathisma.5.2, ps.kathisma.5.3]}}
 - {id: matins.kathisma_3.mon.winter, slot: kathisma_3, service: matins, priority: 60, when: "weekday == 1 && ((month == 9 && day >= 22) || month == 10 || month == 11 || (month == 12 && day <= 19) || (month == 1 && day >= 15) || month == 2)", fill: {from: unit, refs: [ps.kathisma.6.1, ps.kathisma.6.2, ps.kathisma.6.3]}}

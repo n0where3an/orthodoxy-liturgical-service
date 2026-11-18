@@ -252,6 +252,16 @@ func parseServiceFile(path, prefix, service string) ([]corpus.Unit, error) {
 	units = append(units, parseMenaionLiturgy(d, prefix, path, strings.TrimPrefix(prefix, "me."))...)
 	if strings.HasPrefix(prefix, "me.") {
 		units = append(units, parseCommonRefs(d, prefix, path)...)
+		// The great doxology sung at matins: the red sign of the Typikon
+		// (the six-fold service, with the black sign, reads it).
+		for _, p := range d.Paras {
+			if reGreatDoxology.MatchString(strings.ToLower(hip.PlainString(p.Text()))) {
+				units = append(units, corpus.Unit{ID: prefix + ".matins.great_doxology", Book: "menaion", Kind: "marker",
+					Lang: "cu", Body: CleanText(p.Text()), SourceID: "orthlib.mineya",
+					Meta: map[string]any{"file": filepath.Base(path)}})
+				break
+			}
+		}
 	}
 	if hasRed {
 		units = append(units, parseMenaionVespers(d, prefix, path)...)
@@ -536,3 +546,7 @@ func completeCue(d *Doc, body string) string {
 	}
 	return ""
 }
+
+// reGreatDoxology: «славословие великое» (also «славословии великое»,
+// «славословие велие», «на велицем славословии»).
+var reGreatDoxology = regexp.MustCompile(`славослови[еи] велик|славословие велие|велие славословие|на велицем славословии`)

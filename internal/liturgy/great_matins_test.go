@@ -56,6 +56,7 @@ func TestFestalMatinsPlan(t *testing.T) {
 		"sedalny_p": me + "matins.k_sedalen.p.1,common.glory," + me + "matins.k_sedalen.p.glory",
 		"prokeimenon": "lit.prokeimenon.tone.4," + me + "matins.prokeimenon," + me + "matins.prokeimenon," + me + "matins.prokeimenon.verse," +
 			me + "matins.prokeimenon," + me + "matins.prokeimenon," + me + "matins.prokeimenon",
+		// On 4, the praises sung and shortened (-psalmody short): from the verse of the first sticheron.
 		"praises": "ch.matins.praises.150.2," + me + "matins.praises.sticheron.1,ch.matins.praises.150.3," + me + "matins.praises.sticheron.2," +
 			"ch.matins.praises.150.4," + me + "matins.praises.sticheron.3,ch.matins.praises.150.5," + me + "matins.praises.sticheron.1," +
 			"common.glory," + me + "matins.praises.glory,common.and_now," + me + "matins.praises.now",

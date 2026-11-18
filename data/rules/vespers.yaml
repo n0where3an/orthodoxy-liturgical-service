@@ -212,6 +212,49 @@
   priority: 100
   when: weekday == 1
   fill: {from: none}
+# After a feast on a winter weekday its matins had two kathismata: the
+# third is read at the vespers that evening instead of the 18th (Устав о
+# Псалтири). Vespers of Tuesday..Friday are on the evenings of Monday..Thursday.
+- id: vespers.kathisma.after_feast.tue
+  slot: kathisma
+  service: vespers
+  priority: 95
+  when: >-
+    eve_festal && (
+      (eve_month == 9 && eve_day >= 22) || eve_month == 10 || eve_month == 11 ||
+      (eve_month == 12 && eve_day <= 19) || (eve_month == 1 && eve_day >= 15) || eve_month == 2)
+    && weekday == 2
+  fill: {from: unit, refs: [ps.kathisma.6.1, ps.kathisma.6.2, ps.kathisma.6.3]}
+- id: vespers.kathisma.after_feast.wed
+  slot: kathisma
+  service: vespers
+  priority: 95
+  when: >-
+    eve_festal && (
+      (eve_month == 9 && eve_day >= 22) || eve_month == 10 || eve_month == 11 ||
+      (eve_month == 12 && eve_day <= 19) || (eve_month == 1 && eve_day >= 15) || eve_month == 2)
+    && weekday == 3
+  fill: {from: unit, refs: [ps.kathisma.9.1, ps.kathisma.9.2, ps.kathisma.9.3]}
+- id: vespers.kathisma.after_feast.thu
+  slot: kathisma
+  service: vespers
+  priority: 95
+  when: >-
+    eve_festal && (
+      (eve_month == 9 && eve_day >= 22) || eve_month == 10 || eve_month == 11 ||
+      (eve_month == 12 && eve_day <= 19) || (eve_month == 1 && eve_day >= 15) || eve_month == 2)
+    && weekday == 4
+  fill: {from: unit, refs: [ps.kathisma.12.1, ps.kathisma.12.2, ps.kathisma.12.3]}
+- id: vespers.kathisma.after_feast.fri
+  slot: kathisma
+  service: vespers
+  priority: 95
+  when: >-
+    eve_festal && (
+      (eve_month == 9 && eve_day >= 22) || eve_month == 10 || eve_month == 11 ||
+      (eve_month == 12 && eve_day <= 19) || (eve_month == 1 && eve_day >= 15) || eve_month == 2)
+    && weekday == 5
+  fill: {from: unit, refs: [ps.kathisma.15.1, ps.kathisma.15.2, ps.kathisma.15.3]}
 - id: vespers.kathisma.winter
   slot: kathisma
   service: vespers

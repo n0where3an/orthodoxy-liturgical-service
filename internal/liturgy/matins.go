@@ -124,6 +124,7 @@ func matinsCanon(f Facts, section string) ([]SlotItem, error) {
 	var items []SlotItem
 	for _, o := range odes {
 		items = append(items, reader(fmt.Sprintf("ch.canon.ode.%d", o)))
+		start := len(items)
 		var lastIrmos string
 		part := func(src map[string][]string, base string, withIrmos bool, main bool) error {
 			get := func(kind string) []string {
@@ -167,7 +168,12 @@ func matinsCanon(f Facts, section string) ([]SlotItem, error) {
 				return nil, fmt.Errorf("Menaion %02d.%02d: %w", int(f.Day.Menaion.Month), f.Day.Menaion.Day, err)
 			}
 		}
-		if (o == 3 || o == 6 || o == 8 || o == 9) && lastIrmos != "" {
+		if len(f.OdeVerses) > 0 { // -typikon: the verses of the biblical ode
+			items = append(items[:start], withOdeVerses(f, f.OdeSet, o, append([]SlotItem(nil), items[start:]...))...)
+		}
+		// The katavasia: after every ode «в недели и праздники» (doxology and
+		// higher), after the 3rd, 6th, 8th and 9th otherwise (Ирмологий).
+		if (f.OdeSet == "feast" || o == 3 || o == 6 || o == 8 || o == 9) && lastIrmos != "" {
 			items = append(items, reader("ch.canon.katavasia"), SlotItem{Ref: lastIrmos})
 		}
 	}
