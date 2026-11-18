@@ -227,3 +227,36 @@ func TestGreatDoxologyByRank(t *testing.T) {
 		}
 	}
 }
+
+// The great doxology by the sign of the Typikon: red (doxology and higher)
+// sung, black or none read; the Menaion's «славословие великое» counts only
+// in a fore- or afterfeast (no sign of its own) or without the Typikon.
+func TestRedSign(t *testing.T) {
+	me := func(ids ...string) map[string][]string {
+		m := map[string][]string{}
+		for _, id := range ids {
+			m["matins.great_doxology"] = append(m["matins.great_doxology"], id)
+		}
+		return m
+	}
+	day := calendar.NewDayContext(calendar.MustJDate(2026, time.October, 14))
+	marker := "me.10.14.matins.great_doxology"
+	for _, c := range []struct {
+		name string
+		f    Facts
+		want bool
+	}{
+		{"doxology sign", Facts{Day: day, Sign: "doxology"}, true},
+		{"polyeleos sign", Facts{Day: day, Sign: "polyeleos"}, true},
+		{"six-fold sign, the Menaion says great", Facts{Day: day, Sign: "six_fold", Menaion: me(marker)}, false},
+		{"no sign", Facts{Day: day, Sign: "none"}, false},
+		{"no Typikon, the Menaion says great", Facts{Day: day, Menaion: me(marker)}, true},
+		{"afterfeast, the Menaion says great", Facts{Day: day, Sign: "none", Menaion: me(marker), Feast: &Feast{ID: "x"}}, true},
+		{"forefeast, the Menaion says great", Facts{Day: day, Sign: "none", Menaion: me(marker),
+			Of: map[string]string{"me.10.14.troparion.1": "предпразднства,"}}, true},
+	} {
+		if got := c.f.greatDoxology(); got != c.want {
+			t.Errorf("%s: %v, want %v", c.name, got, c.want)
+		}
+	}
+}

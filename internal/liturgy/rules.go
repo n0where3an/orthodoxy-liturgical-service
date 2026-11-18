@@ -80,7 +80,8 @@ func dayEnv() (*cel.Env, error) {
 		cel.Variable("menaion_great_vespers", cel.BoolType),
 		cel.Variable("typikon", cel.BoolType),                // -typikon: the Typikon instead of parish practice
 		cel.Variable("eve_festal", cel.BoolType),             // the day before had a polyeleos/vigil or a twelve feast (vespers)
-		cel.Variable("menaion_great_doxology", cel.BoolType), // «славословие великое» (the red sign)
+		cel.Variable("menaion_great_doxology", cel.BoolType), // the great doxology sung (the red sign)
+		cel.Variable("typikon_sign", cel.StringType),         // none, six_fold, doxology, polyeleos, saint_vigil, vigil; "" without the Typikon
 		cel.Variable("temple", cel.StringType),               // the -temple id, or ""
 		cel.Variable("temple_kind", cel.StringType),          // lord, theotokos, saint, or ""
 		cel.Variable("temple_feast", cel.BoolType),           // the patronal feast is today
@@ -168,6 +169,10 @@ type Facts struct {
 	Typikon bool
 	// Psalmody: "short", "sung" or "read" (Params.Psalmody).
 	Psalmody string
+	// Sign: the highest sign of the day in the Typikon's calendar (ch. 48):
+	// none, six_fold, doxology, polyeleos, saint_vigil, vigil; "" when the
+	// Typikon is not in the corpus.
+	Sign string
 	// OdeVerses: the verses of the biblical odes by ode (matins with -typikon).
 	OdeVerses map[int][]string
 	// OdeSet: the set of the biblical odes the day takes: "weekday" (six-fold
@@ -208,6 +213,7 @@ func (f Facts) vars() map[string]any {
 		"typikon":                f.Typikon,
 		"eve_festal":             f.EveFestal,
 		"menaion_great_doxology": f.greatDoxology(),
+		"typikon_sign":           f.Sign,
 		"temple":                 temple,
 		"temple_kind":            templeKind,
 		"temple_feast":           f.Temple.IsFeastDay(int(f.Day.Menaion.Month), f.Day.Menaion.Day),
@@ -536,9 +542,10 @@ func lection(f Facts, part string) (calendar.Lection, error) {
 
 // festalOdes: the odes are sung «в недели и праздники» (the Irmologion):
 // on Sunday, at a feast of the Lord or of the Theotokos, in its forefeast and
-// afterfeast, at a saint whose sign in the Typikon is red (polyeleos, vigil,
-// the great doxology sung) — the katavasia after every ode; with the black
-// sign (six-fold: the doxology read) and lower after the 3rd, 6th, 8th, 9th.
+// afterfeast, at a saint whose sign in the Typikon is red (the doxology,
+// polyeleos, small vigil, vigil: the great doxology sung) — the katavasia
+// after every ode; with the black sign (six-fold: the doxology read) and
+// without a sign after the 3rd, 6th, 8th, 9th.
 func (f Facts) festalOdes() bool {
 	if f.Day.Weekday == time.Sunday || f.Feast != nil {
 		return true
@@ -554,8 +561,40 @@ func (f Facts) festalOdes() bool {
 		f.greatDoxology()
 }
 
-// greatDoxology: the Menaion appoints «славословие великое» (the red sign).
-func (f Facts) greatDoxology() bool { return firstMain(f, "matins.great_doxology") != "" }
+// signRank orders the signs of the Typikon.
+var signRank = map[string]int{"none": 0, "six_fold": 1, "doxology": 2, "polyeleos": 3, "saint_vigil": 4, "vigil": 5}
+
+// redSign: the sign of the day is red (the doxology, polyeleos, small vigil,
+// vigil); without the Typikon, the Menaion's «славословие великое».
+func (f Facts) redSign() bool {
+	menaion := firstMain(f, "matins.great_doxology") != ""
+	if f.Sign == "" {
+		return menaion
+	}
+	if signRank[f.Sign] >= signRank["doxology"] {
+		return true
+	}
+	// A fore- or afterfeast has no sign of its own in the calendar: the
+	// Menaion's «славословие великое» there.
+	return menaion && f.inFeastPeriod()
+}
+
+// inFeastPeriod: the day is in the forefeast, afterfeast or apodosis of a
+// twelve feast.
+func (f Facts) inFeastPeriod() bool {
+	if f.Feast != nil {
+		return true
+	}
+	for _, of := range f.Of {
+		if strings.HasPrefix(of, "предпразднств") || strings.HasPrefix(of, "попразднств") {
+			return true
+		}
+	}
+	return false
+}
+
+// greatDoxology: the great doxology is sung at matins (the red sign).
+func (f Facts) greatDoxology() bool { return f.redSign() }
 
 // praisesSung: the praises begin sung when the great doxology is sung
 // (Sunday, a twelve feast, a polyeleos or vigil, the red sign); with the

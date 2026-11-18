@@ -48,6 +48,12 @@ sources:
     url: http://orthlib.ru/worship/triodion/
     license: unknown
     note: "Electronic text by orthlib.ru (HIP); terms of use to be verified."
+  - id: orthlib.tipikon
+    title: Типикон
+    edition: "Типикон, сиесть Устав (orthlib.ru, tipikon)"
+    url: http://orthlib.ru/worship/tipikon/
+    license: unknown
+    note: "Electronic text by orthlib.ru (HIP); the signs of the services from the calendar (ch. 48)."
   - id: orthlib.irmologion
     title: Ирмологий
     edition: "Ирмологий (orthlib.ru, irmologij)"

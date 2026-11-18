@@ -143,6 +143,26 @@ func (p *Planner) Plan(ctx context.Context, d calendar.JDate, service string, pa
 	if f.Temple, err = p.Temples.Find(params.Temple); err != nil {
 		return nil, err
 	}
+	// The sign of the day in the Typikon's calendar (the highest of its
+	// commemorations).
+	if ml, ok := p.Menaion.(metaLister); ok {
+		ids, err := p.Menaion.ListIDs(ctx, fmt.Sprintf("ty.%02d.%02d.sign.", int(day.Menaion.Month), day.Menaion.Day))
+		if err != nil {
+			return nil, err
+		}
+		if len(ids) > 0 {
+			signs, err := ml.UnitMeta(ctx, ids, "sign")
+			if err != nil {
+				return nil, err
+			}
+			f.Sign = "none"
+			for _, s := range signs {
+				if signRank[s] > signRank[f.Sign] {
+					f.Sign = s
+				}
+			}
+		}
+	}
 	f.Typikon = params.Typikon
 	f.Psalmody = params.PsalmodyOrDefault()
 	if service == "vespers" {
