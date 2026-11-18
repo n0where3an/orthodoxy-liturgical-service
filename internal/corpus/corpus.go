@@ -178,6 +178,27 @@ func (s *Store) UnitTones(ctx context.Context, ids []string) (map[string]int, er
 	return out, rows.Err()
 }
 
+// UnitMeta returns a string field of the meta of the given units (absent
+// units and empty values are left out).
+func (s *Store) UnitMeta(ctx context.Context, ids []string, key string) (map[string]string, error) {
+	rows, err := s.Pool.Query(ctx, `SELECT id, coalesce(meta->>$2, '') FROM text_unit WHERE id = ANY($1)`, ids, key)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	out := map[string]string{}
+	for rows.Next() {
+		var id, v string
+		if err := rows.Scan(&id, &v); err != nil {
+			return nil, err
+		}
+		if v != "" {
+			out[id] = v
+		}
+	}
+	return out, rows.Err()
+}
+
 // UpsertTranslations stores translations of existing units (Book/Kind of the
 // given units are ignored). Units unknown to the corpus are skipped and
 // returned.

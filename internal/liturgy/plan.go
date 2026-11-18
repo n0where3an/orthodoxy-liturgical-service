@@ -97,6 +97,17 @@ func (p *Planner) Plan(ctx context.Context, d calendar.JDate, service string, pa
 	if p.Feasts != nil {
 		f.Feast = p.Feasts.At(day)
 	}
+	if ml, ok := p.Menaion.(metaLister); ok {
+		ids := append(append([]string{}, men["troparion"]...), men["kontakion"]...)
+		if f.Of, err = ml.UnitMeta(ctx, ids, "of"); err != nil {
+			return nil, err
+		}
+	}
+	if f.Feast != nil && f.Feast.Offset == nil && !f.Feast.IsFeastDay(day) {
+		if f.FeastMenaion, err = MenaionFacts(ctx, p.Menaion, f.Feast.from); err != nil {
+			return nil, err
+		}
+	}
 	if f.Temple, err = p.Temples.Find(params.Temple); err != nil {
 		return nil, err
 	}

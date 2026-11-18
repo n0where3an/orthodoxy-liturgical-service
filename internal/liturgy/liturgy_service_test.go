@@ -102,7 +102,7 @@ func TestLiturgyUnsupported(t *testing.T) {
 		d    calendar.JDate
 		rule string
 	}{
-		{calendar.MustJDate(2026, time.November, 2), "liturgy.sunday"},
+		{calendar.MustJDate(2027, time.March, 8), "liturgy.sunday.unsupported"}, // a Sunday of Great Lent
 		{calendar.MustJDate(2026, time.November, 8), "liturgy.saturday"},
 		{calendar.MustJDate(2027, time.January, 7), "liturgy.afterfeast"},   // afterfeast of the Theophany
 		{calendar.MustJDate(2027, time.March, 3), "liturgy.lenten_weekday"}, // Wednesday of Great Lent

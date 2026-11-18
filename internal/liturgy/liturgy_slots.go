@@ -2,6 +2,7 @@ package liturgy
 
 import (
 	"fmt"
+	"strings"
 	"time"
 )
 
@@ -42,6 +43,11 @@ func litanist(ref string) SlotItem { return SlotItem{Ref: ref, Performer: Litani
 func priest(ref string) SlotItem   { return SlotItem{Ref: ref, Performer: Priest} }
 
 func liturgySlot(sel SlotSelector, f Facts) ([]SlotItem, error) {
+	if strings.HasPrefix(sel.Part, "sunday") {
+		if items, ok, err := sundayLiturgySlot(sel, f); ok || err != nil {
+			return items, err
+		}
+	}
 	feast := sel.Part == "feast"
 	switch sel.From {
 	case "lit_antiphon":

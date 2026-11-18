@@ -155,6 +155,18 @@ type Facts struct {
 	Tones map[string]int
 	// Temple: the dedication of the church, nil when not given.
 	Temple *Temple
+	// Of: whose a Menaion troparion or kontakion is, from its heading
+	// («праздника», «апсла», …); only when the corpus provides it.
+	Of map[string]string
+	// FeastMenaion: the Menaion units of the day of the feast (f.Feast), in
+	// its afterfeast (the zadostoinik of the feast).
+	FeastMenaion map[string][]string
+}
+
+// ofFeast: a hymn of the (fore-, after-) feast, not of the saint.
+func (f Facts) ofFeast(id string) bool {
+	of := f.Of[id]
+	return strings.HasPrefix(of, "праздн") || strings.HasPrefix(of, "предпразднств") || strings.HasPrefix(of, "попразднств")
 }
 
 func (f Facts) vars() map[string]any {
@@ -231,6 +243,11 @@ func HourPosition(service string) int {
 type MenaionLister interface {
 	ListIDs(ctx context.Context, prefix string) ([]string, error)
 	UnitTones(ctx context.Context, ids []string) (map[string]int, error)
+}
+
+// metaLister reads a meta field of units (corpus.Store); optional.
+type metaLister interface {
+	UnitMeta(ctx context.Context, ids []string, key string) (map[string]string, error)
 }
 
 // MenaionFacts collects the Menaion troparia/kontakia of the day. Services of

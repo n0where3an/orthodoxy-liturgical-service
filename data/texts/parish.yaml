@@ -157,6 +157,19 @@ units:
     book: sluzhebnik
     kind: announcement
     hip: "А=ллилу'iа, гла'съ и~:"
+  # Воскресные: причастен (Часослов, хвалите), входное (Служебник), начало отпуста.
+  - key: sl.kinonik.sun
+    book: sluzhebnik
+    kind: kinonik
+    text: "Хвали́те гдⷭ҇а съ нб҃съ, хвали́те є҆го̀ въ вы́шнихъ."
+  - key: ch.lit.come_let_us_worship.sunday
+    book: sluzhebnik
+    kind: hymn
+    text: "Прїиди́те, поклони́мсѧ и҆ припаде́мъ ко хрⷭ҇тꙋ̀. спаси́ ны сн҃е бж҃їй, воскресы́й и҆з̾ ме́ртвыхъ, пою́щыѧ тѝ, а҆ллилꙋ́їа."
+  - key: sl.dismissal.prefix.sunday
+    book: sluzhebnik
+    kind: exclamation
+    text: "Воскресы́й и҆з̾ ме́ртвыхъ,"
   - key: sl.kinonik.tue
     book: sluzhebnik
     kind: kinonik

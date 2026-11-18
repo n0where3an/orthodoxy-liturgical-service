@@ -91,6 +91,11 @@ func (f *Feast) IsFeastDay(day calendar.DayContext) bool {
 	return day.Menaion == f.from
 }
 
+// IsApodosis reports whether day is the apodosis of a fixed feast.
+func (f *Feast) IsApodosis(day calendar.DayContext) bool {
+	return f.Offset == nil && day.Menaion == f.to
+}
+
 // At returns the twelve feast whose period contains day, or nil.
 func (fs *Feasts) At(day calendar.DayContext) *Feast {
 	if fs == nil {

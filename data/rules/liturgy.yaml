@@ -14,7 +14,12 @@
 #     hymn instead of the Trisagion, the feast's prokeimenon, readings,
 #     alleluia, zadostoinik and communion verse.
 #
-# Recognised but not yet implemented: Sundays and Saturdays, the afterfeast
+#   - an ordinary Sunday: the Octoechos (the beatitudes, the resurrectional
+#     troparion and kontakion, the prokeimenon and alleluia of the tone), the
+#     Sunday readings, «Хвалите Господа»; with a saint (with or without a
+#     sign), a twelve feast of the Theotokos, or in an afterfeast.
+#
+# Recognised but not yet implemented: Saturdays, the afterfeast
 # and forefeast days, the Triodion, the Nativity and the Theophany.
 
 - id: liturgy.annunciation_in_lent
@@ -53,11 +58,59 @@
     truly_meet: {from: lit_truly_meet, part: feast}
     kinonik: {from: lit_kinonik, part: feast}
 
+- id: liturgy.sunday.theotokos_feast
+  service: liturgy
+  priority: 315
+  # A twelve feast of the Theotokos on Sunday: the Octoechos with the feast
+  # (beatitudes 4 + 4, troparia, prokeimena, readings «дне и праздника»,
+  # the feast's zadostoinik).
+  when: >-
+    weekday == 0 && feast_day && period == "ordinary" && menaion_paremias &&
+    feast in ["nativity_of_theotokos", "entry_of_theotokos", "annunciation", "dormition"]
+  slots:
+    <<: &sunday_slots
+      antiphon_1: {from: lit_antiphon, section: "1", part: sunday}
+      antiphon_2: {from: lit_antiphon, section: "2", part: sunday}
+      antiphon_3: {from: lit_antiphon, section: "3", part: sunday}
+      entrance: {from: lit_entrance, part: sunday}
+      troparia: {from: lit_troparia, part: sunday}
+      trisagion: {from: lit_trisagion}
+      prokeimena: {from: lit_prokeimena, part: sunday}
+      apostles: {from: lit_apostles}
+      alleluia: {from: lit_alleluia, part: sunday}
+      gospels: {from: lit_gospels}
+      truly_meet: {from: lit_truly_meet}
+      kinonik: {from: lit_kinonik, part: sunday}
+    troparia: {from: lit_troparia, part: sunday_feast}
+    truly_meet: {from: lit_truly_meet, part: feast}
+
+- id: liturgy.sunday.afterfeast
+  service: liturgy
+  priority: 305
+  # Sunday in the afterfeast (and on the apodosis) of a fixed twelve feast:
+  # the Octoechos, the feast's troparion and kontakion, its zadostoinik.
+  when: weekday == 0 && period == "ordinary" && feast != "" && !feast_day && !lections_omitted
+  slots:
+    <<: *sunday_slots
+    troparia: {from: lit_troparia, part: sunday_afterfeast}
+    trisagion: {from: lit_trisagion, part: sunday_afterfeast}
+    truly_meet: {from: lit_truly_meet, part: sunday_afterfeast}
+
 - id: liturgy.sunday
   service: liturgy
   priority: 300
+  # An ordinary Sunday with a saint, without a sign or with one (then his
+  # readings, prokeimenon, alleluia and communion verse follow the Sunday's).
+  when: >-
+    weekday == 0 && period == "ordinary" && feast == "" && !lections_omitted &&
+    (!menaion_great_vespers || menaion_paremias)
+  slots: *sunday_slots
+
+- id: liturgy.sunday.unsupported
+  service: liturgy
+  priority: 299
   when: weekday == 0
-  unsupported: "Воскресная литургия (изобразительны с блаженнами на 8, воскресные тропари, прокимен гласа) ещё не реализована"
+  unsupported: "Воскресная литургия с праздником, попразднством, святым со знаком или в дни Триоди ещё не реализована"
 
 - id: liturgy.feast
   service: liturgy
@@ -135,4 +188,6 @@
 # --- The beginning of the dismissal of the feasts of the Lord ---
 - {id: liturgy.dismissal_prefix.meeting, slot: dismissal_prefix, service: liturgy, priority: 50, when: feast == "meeting", fill: {from: unit, refs: [sl.dismissal.prefix.meeting]}}
 - {id: liturgy.dismissal_prefix.transfiguration, slot: dismissal_prefix, service: liturgy, priority: 50, when: feast == "transfiguration", fill: {from: unit, refs: [sl.dismissal.prefix.transfiguration]}}
+# On Sunday «Воскресый из мертвых» (with a feast of the Lord on Sunday only the feast's).
+- {id: liturgy.dismissal_prefix.sunday, slot: dismissal_prefix, service: liturgy, priority: 60, when: "weekday == 0 && !(feast_day && feast in ['exaltation', 'meeting', 'transfiguration'])", fill: {from: unit, refs: [sl.dismissal.prefix.sunday]}}
 - {id: liturgy.dismissal_prefix.none, slot: dismissal_prefix, service: liturgy, priority: 10, when: "true", fill: {from: none}}

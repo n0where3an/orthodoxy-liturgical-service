@@ -18,6 +18,17 @@ import (
 type mapCorpus struct {
 	ids   []string
 	tones map[string]int
+	of    map[string]string // meta "of" (whose hymn)
+}
+
+func (c mapCorpus) UnitMeta(_ context.Context, ids []string, key string) (map[string]string, error) {
+	out := map[string]string{}
+	for _, id := range ids {
+		if v := c.of[id]; key == "of" && v != "" {
+			out[id] = v
+		}
+	}
+	return out, nil
 }
 
 func (c mapCorpus) ListIDs(_ context.Context, prefix string) ([]string, error) {

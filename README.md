@@ -17,26 +17,25 @@ var/liturgy render -date 2026-11-12 -service third_hour -mode kliros -o terce.ht
 var/liturgy serve                                   # http://127.0.0.1:8080/?date=2026-11-12&service=sixth_hour&mode=laity
 ```
 
-Services: `liturgy` (St John Chrysostom: weekdays Mon–Fri of the ordinary
-period, saints with a sign, fixed twelve feasts), `matins` (daily Mon–Fri; festal: saints with a sign and fixed twelve
-feasts; joined to the first hour unless
-`-standalone`), `vespers` (daily; Sunday great vespers at the Saturday-evening vigil with a saint
-without a sign; great vespers and all-night vigil of Menaion saints with readings and of the
-fixed twelve feasts), `first_hour`, `third_hour`, `sixth_hour`, `ninth_hour`.
-Dates are civil (Gregorian); add `-julian` for old style. Options: `-reader`
-(reader's order, no priest), `-standalone` (the hour on its own: usual
-beginning and dismissal; by default hours are joined as in parish practice),
-`-typikon` (Typikon instead of parish practice where they differ), `-deacon`
-(litanies by a deacon).
-`-temple <id>`: the dedication of the church where the service is held — an id
-listed by `liturgy temples` (feasts of the Lord, of the Theotokos, patron saints;
-`data/calendar/temples.yaml`) or a Menaion day `me.MM.DD`. At the liturgy the
-temple's troparion and kontakion are sung after the entrance in the Typikon's
-order for a church of the Lord, of the Theotokos or of a saint; rules can test
-`temple`, `temple_kind` and `temple_feast` (the patronal feast is today).
-In the web server: `&temple=<id>`.
-Languages: `-lang cu|en`, `-lang2 en` for parallel output. Texts not yet
-translated fall back to Church Slavonic (marked on the page).
+Services: `vespers`, `matins` (joined to the first hour unless `-standalone`),
+`first_hour`, `third_hour`, `sixth_hour`, `ninth_hour`, `liturgy` (St John
+Chrysostom). What is covered is in [Coverage](#coverage) below.
+
+| Option | Meaning |
+|---|---|
+| `-date YYYY-MM-DD` | civil (Gregorian) date; `-julian` for old style |
+| `-service` | `vespers`, `matins`, `first_hour` … `ninth_hour`, `liturgy` |
+| `-reader` | reader's order, without a priest |
+| `-deacon` | litanies by a deacon |
+| `-standalone` | the hour on its own (usual beginning, dismissal); by default hours are joined as in parish practice |
+| `-typikon` | the Typikon instead of parish practice where they differ |
+| `-temple <id>` | dedication of the church: an id from `liturgy temples` (`data/calendar/temples.yaml`) or a Menaion day `me.MM.DD`; the temple's troparion and kontakion at the liturgy |
+| `-lang cu\|en`, `-lang2 en` | language, parallel second language (untranslated texts fall back to Slavonic) |
+| `-mode laity\|kliros` | display mode (`render`, `serve`) |
+
+The web server takes the same options as query parameters
+(`?date=…&service=…&mode=…&temple=…`).
+
 Church Slavonic text is Unicode; install the Ponomar Unicode or Monomakh fonts.
 
 The General Menaion (`orthlib.obschminea`, keys `om.<rank>.*`) supplies what a
@@ -46,6 +45,61 @@ communion verse of the liturgy (ch. 40). The rank comes from the day's own
 reference («на литургии служба преподобническая», «чтения три стительская»,
 «евангелие стительское»), else from its Apostle and Gospel, else from its title;
 copies carry `copied_from` (and `rank_from_title` when guessed).
+
+## Coverage
+
+✅ supported · ⚠️ partly (see the note) · ❌ not yet (the service reports
+«ещё не реализовано») · — not served that day.
+Vespers is listed under the day it belongs to: it is served the evening before.
+
+### Ordinary year (Menaion + Octoechos)
+
+| Day | Vespers | Matins | Hours | Liturgy |
+|---|---|---|---|---|
+| Weekday (Mon–Fri), saint without a sign | ✅ daily | ✅ daily | ✅ | ✅ |
+| Weekday, saint with a sign (polyeleos, vigil) | ✅ great / vigil ¹ | ✅ festal ² | ✅ | ✅ |
+| Weekday in an afterfeast or on the apodosis | ✅ daily | ❌ | ✅ | ❌ |
+| Fixed twelve feast on a weekday | ✅ vigil | ✅ festal | ✅ | ✅ |
+| Saturday (any) | ✅ daily or vigil (Friday evening) | ❌ | ✅ | ❌ |
+| Sunday, saint without a sign | ✅ vigil, without litiya | ❌ | ❌ | ✅ |
+| Sunday, saint with a sign | ❌ | ❌ | ❌ | ✅ |
+| Sunday in an afterfeast or on the apodosis | ❌ | ❌ | ❌ | ✅ |
+| Sunday with its own readings (before/after the Nativity, the Theophany, before the Exaltation) | ✅ | ❌ | ❌ | ❌ |
+| Feast of the Lord on Sunday (Exaltation, Meeting, Transfiguration) | ✅ vigil | ✅ festal | ✅ | ✅ |
+| Feast of the Theotokos on Sunday | ❌ | ❌ | ⚠️ no resurrectional troparion | ✅ |
+| Nativity of Christ, Theophany and their eves (Royal Hours) | ❌ | ❌ | ❌ | ❌ |
+| Saint with a sign whose readings the Menaion does not give (≈10 days) | ❌ | ❌ | ✅ | ❌ |
+
+¹ Readings missing in the Menaion are taken from the General Menaion by the
+saint's rank. ² Needs the matins Gospel in the Menaion (or «евангелие
+святительское / преподобническое»).
+A few days still fail where the Menaion import misses a troparion or a canon.
+
+### Triodion and Pentecostarion
+
+| Period | Vespers | Matins | Hours | Liturgy |
+|---|---|---|---|---|
+| Preparatory weeks (Publican and Pharisee … Cheesefare) | ❌ | ❌ | ❌ | ❌ |
+| Great Lent, weekdays | ❌ | ❌ | ❌ Lenten hours | — (Presanctified ❌ Wed, Fri) |
+| Great Lent, Saturdays and Sundays (St Basil's liturgy on Sundays) | ❌ | ❌ | ❌ | ❌ |
+| Annunciation in Lent | ❌ | ❌ | ❌ | ❌ |
+| Palm Sunday, Holy Week | ❌ | ❌ | ❌ | ❌ |
+| Pascha and Bright Week (Paschal hours) | ❌ | ❌ | ❌ | ❌ |
+| Pentecostarion (Thomas Sunday … All Saints), with Ascension and Pentecost | ❌ | ❌ | ❌ | ❌ |
+
+The Triodion is not imported yet; this is the largest remaining part.
+
+### Still to do outside the calendar
+
+| Item | Status |
+|---|---|
+| Compline, Midnight Office, Typika without the liturgy | ❌ |
+| Liturgy of St Basil, Presanctified Liturgy | ❌ |
+| Patronal feast (`temple_feast`): vigil «аще храм» | ❌ (the flag is available to the rules) |
+| Litiya with the temple's stichera at the Sunday vigil (`-typikon`) | ❌ |
+| Dismissal of an afterfeast of the Lord on Sunday («Воскресый из мертвых» + the feast's) | ⚠️ only «Воскресый из мертвых» |
+| Choice of Church Slavonic fonts | ❌ |
+| English texts | ⚠️ fixed texts and the Menaion where translated; the rest falls back to Slavonic |
 
 Layout: `calendar/` (Julian dates, paschalion, day context), `internal/hip`
 (HIP → Unicode), `internal/orthlib` (import), `internal/corpus` (storage),

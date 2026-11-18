@@ -28,6 +28,11 @@ func sundayCorpus(d calendar.JDate, tones map[string]int, menaion ...string) map
 			ids = append(ids, oc+"gvespers.aposticha.verse."+itoa(i))
 		}
 	}
+	ids = append(ids, oc+"kontakion", oc+"lit.beatitudes.glory", oc+"lit.beatitudes.now", oc+"lit.prokeimenon",
+		oc+"lit.prokeimenon.verse", oc+"lit.alleluia.verse.1", oc+"lit.alleluia.verse.2")
+	for i := 1; i <= 6; i++ {
+		ids = append(ids, oc+"lit.beatitudes."+itoa(i))
+	}
 	for _, m := range menaion {
 		ids = append(ids, me+m)
 	}
