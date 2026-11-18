@@ -102,6 +102,13 @@ type DayContext struct {
 	// Lections are the ordinary Apostle and Gospel readings at the Liturgy.
 	Lections Lections
 
+	// Departed is the parental Saturday (родительская суббота), the
+	// commemoration of the departed: DepartedMeatfare, DepartedTrinity,
+	// DepartedDemetrius; "" on other days. Dimitrievskaya here is the
+	// calendar's Saturday; the planner moves it a week earlier when it falls
+	// on a great feast (it needs the corpus to know that).
+	Departed string
+
 	// Transfers lists Menaion services moved to this day, e.g. St John
 	// Cassian (29 February) is sung at compline on 28 February in common years.
 	Transfers []Transfer
@@ -158,6 +165,8 @@ func NewDayContext(d JDate) DayContext {
 	}
 	ctx.Lections = computeLections(d, cyc, inTriodion, triodionWeek)
 
+	ctx.Departed = departedSaturday(ctx.Weekday, m, dd, off)
+
 	if m == time.February && dd == 28 && !IsLeap(y) {
 		ctx.Transfers = append(ctx.Transfers, Transfer{
 			From:    MonthDay{Month: time.February, Day: 29},
@@ -165,6 +174,32 @@ func NewDayContext(d JDate) DayContext {
 		})
 	}
 	return ctx
+}
+
+// The parental Saturdays.
+const (
+	DepartedMeatfare  = "meatfare"  // the Saturday before the Sunday of the Last Judgement (Triodion)
+	DepartedTrinity   = "trinity"   // the Saturday before Pentecost (Pentecostarion)
+	DepartedDemetrius = "demetrius" // Dimitrievskaya, the Saturday before St Demetrius (26 October)
+)
+
+// departedSaturday: the Meatfare Saturday (Pascha − 57) and the Trinity
+// Saturday (Pascha + 48) of the Triodion; Dimitrievskaya — the Russian
+// custom, the last Saturday before 26 October (when the 26th itself is a
+// Saturday, the 19th).
+func departedSaturday(wd time.Weekday, m time.Month, d, off int) string {
+	if wd != time.Saturday {
+		return ""
+	}
+	switch {
+	case off == -57:
+		return DepartedMeatfare
+	case off == 48:
+		return DepartedTrinity
+	case m == time.October && d >= 19 && d <= 25:
+		return DepartedDemetrius
+	}
+	return ""
 }
 
 // brightWeekTones are the tones of Bright Week by weekday (Sunday = Pascha).

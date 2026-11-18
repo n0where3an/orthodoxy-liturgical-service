@@ -180,6 +180,60 @@ func TestSupplementFromGeneralMenaion(t *testing.T) {
 	}
 }
 
+// The hymns a day lacks: the troparion, the kontakion, the sessional hymn;
+// with a sign the aposticha. Not in a forefeast or afterfeast («тропарь
+// праздника»), nor for an additional service (me.MM.DDp).
+func TestSupplementHymnsFromGeneralMenaion(t *testing.T) {
+	u := func(id string, meta map[string]any) corpus.Unit {
+		return corpus.Unit{ID: id, Book: "menaion", Kind: "x", Lang: "cu", Body: id, Tone: 4, Meta: meta}
+	}
+	var units []corpus.Unit
+	for _, id := range []string{"troparion.1", "kontakion.1", "matins.sedalen.1", "matins.sedalen.theotokion",
+		"gvespers.aposticha.sticheron.1", "gvespers.aposticha.verse.1", "gvespers.aposticha.glory", "gvespers.aposticha.now"} {
+		units = append(units, u("om.martyr."+id, nil))
+	}
+	martyr := map[string]any{"title": "Стаго мученика вонифатиа"}
+	units = append(units,
+		// 12.19: a martyr without a troparion and sessional hymn.
+		u("me.12.19.kontakion.1", martyr),
+		// 05.27: a martyr with a sign, neither troparion nor kontakion nor aposticha.
+		u("me.05.27.gvespers.lic.sticheron.1", map[string]any{"title": "Стаго сщенномученика ферапонта"}),
+		u("me.05.27.matins.sedalen.1", nil),
+		// 09.10: an afterfeast, «тропарь праздника».
+		u("me.09.10.feast_troparion", martyr),
+		// 07.23p: an additional service.
+		u("me.07.23p.kontakion.1", martyr),
+	)
+	units = append(units, u("om.hieromartyr.troparion.1", nil))
+	out, _ := SupplementFromGeneralMenaion(units)
+	got := map[string]string{}
+	for _, x := range out[len(units):] {
+		got[x.ID], _ = x.Meta["copied_from"].(string)
+		if x.Tone != 4 || x.Meta["rank_from_title"] != true {
+			t.Errorf("%s: tone %d, meta %v", x.ID, x.Tone, x.Meta)
+		}
+	}
+	want := map[string]string{
+		"me.12.19.troparion.1":               "om.martyr.troparion.1",
+		"me.12.19.matins.sedalen.1":          "om.martyr.matins.sedalen.1",
+		"me.12.19.matins.sedalen.theotokion": "om.martyr.matins.sedalen.theotokion",
+		"me.05.27.troparion.1":               "om.hieromartyr.troparion.1",
+		"me.05.27.gvespers.paremia.1":        "",
+	}
+	for id, src := range want {
+		if got[id] != src {
+			t.Errorf("%s copied from %q, want %q", id, got[id], src)
+		}
+	}
+	for id := range got {
+		switch {
+		case id == "me.12.19.kontakion.1", strings.HasPrefix(id, "me.05.27.matins.sedalen"),
+			strings.HasPrefix(id, "me.09.10."), strings.HasPrefix(id, "me.07.23p."):
+			t.Errorf("%s: must not be copied", id)
+		}
+	}
+}
+
 // A troparion cited by its first words («…: трижды») gets its full text.
 func TestCompleteCueTroparion(t *testing.T) {
 	root := extractedRoot(t)

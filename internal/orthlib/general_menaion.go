@@ -345,11 +345,19 @@ func parseCommonRefs(d *Doc, prefix, path string) []corpus.Unit {
 var commonLitParts = []string{"prokeimenon", "prokeimenon.verse", "apostle", "apostle.announce", "alleluia.verse.1",
 	"alleluia.verse.2", "gospel", "gospel.announce", "kinonik"}
 
-// SupplementFromGeneralMenaion copies the common paremias, the prokeimenon
-// of matins and the readings of the liturgy into the Menaion days that have
-// a service with a sign (great vespers) but not these parts. The rank of
-// the saint comes from the day's reference to the General Menaion, else
-// from its own Apostle and Gospel, else from its title. Run it after
+// SupplementFromGeneralMenaion: what a day of the Menaion lacks is taken
+// from the General Menaion, by the rank of the saint:
+//
+//   - every day: the troparion and the kontakion (not where the Menaion
+//     says «тропарь праздника»: a forefeast or afterfeast), the sessional
+//     hymn after the 3rd ode;
+//   - a service with a sign (great vespers): the paremias, the aposticha,
+//     the prokeimenon of matins;
+//   - the readings of the liturgy and the matins Gospel where the day refers
+//     to the General Menaion.
+//
+// The rank comes from the day's reference to the General Menaion, else from
+// its own Apostle and Gospel, else from its title. Run it after
 // ResolveLiturgy.
 func SupplementFromGeneralMenaion(units []corpus.Unit) ([]corpus.Unit, []string) {
 	byID := map[string]int{}
@@ -357,9 +365,10 @@ func SupplementFromGeneralMenaion(units []corpus.Unit) ([]corpus.Unit, []string)
 		byID[u.ID] = i
 	}
 	type day struct {
-		gvespers, paremias, matinsProk, matinsGospel, litProk bool
-		ref, refParemias, refGospel, title                    string
-		lit                                                   map[string]any
+		gvespers, paremias, matinsProk, matinsGospel, litProk    bool
+		troparion, kontakion, feastTroparion, sedalen, aposticha bool
+		ref, refParemias, refGospel, title                       string
+		lit                                                      map[string]any
 	}
 	days := map[string]*day{}
 	var order []string
@@ -380,10 +389,20 @@ func SupplementFromGeneralMenaion(units []corpus.Unit) ([]corpus.Unit, []string)
 		}
 		rest := parts[3]
 		switch {
+		case rest == "troparion.1":
+			dd.troparion = true
+		case rest == "kontakion.1":
+			dd.kontakion = true
+		case rest == "feast_troparion":
+			dd.feastTroparion = true
+		case strings.HasPrefix(rest, "matins.sedalen."):
+			dd.sedalen = true
 		case strings.HasPrefix(rest, "gvespers.paremia."):
 			dd.paremias = true
-		case strings.HasPrefix(rest, "gvespers.lic.") || strings.HasPrefix(rest, "gvespers.aposticha."):
+		case strings.HasPrefix(rest, "gvespers.lic."):
 			dd.gvespers = true
+		case strings.HasPrefix(rest, "gvespers.aposticha."):
+			dd.gvespers, dd.aposticha = true, true
 		case rest == "matins.prokeimenon":
 			dd.matinsProk = true
 		case rest == "matins.gospel":
@@ -443,6 +462,28 @@ func SupplementFromGeneralMenaion(units []corpus.Unit) ([]corpus.Unit, []string)
 			add[len(add)-1].Meta["rank_from_title"] = true
 		}
 	}
+	// The General Menaion's units by their parent («om.martyr.matins.sedalen»).
+	omParts := map[string][]string{}
+	for _, u := range units {
+		if strings.HasPrefix(u.ID, "om.") {
+			if k := strings.LastIndex(u.ID, "."); k > 0 {
+				omParts[u.ID[:k]] = append(omParts[u.ID[:k]], u.ID)
+			}
+		}
+	}
+	// copyAll copies the units under om.<cat>.<part> (and one level deeper:
+	// gvespers.aposticha.sticheron.N) into the day.
+	copyAll := func(p, cat, part string) {
+		src := "om." + cat + "." + part
+		for parent, ids := range omParts {
+			if parent != src && !strings.HasPrefix(parent, src+".") {
+				continue
+			}
+			for _, id := range ids {
+				copyGuess(p+strings.TrimPrefix(id, "om."+cat), id)
+			}
+		}
+	}
 	for _, p := range order {
 		dd := days[p]
 		cat := dd.ref
@@ -461,6 +502,25 @@ func SupplementFromGeneralMenaion(units []corpus.Unit) ([]corpus.Unit, []string)
 		if dd.ref != "" && !dd.litProk {
 			for _, part := range commonLitParts {
 				copyUnit(p+".lit."+part, "om."+dd.ref+".lit."+part)
+			}
+		}
+		// The troparion, kontakion and sessional hymn of the rank (the main
+		// service of the day only, not the additional ones, «me.MM.DDp»).
+		// In a forefeast or afterfeast («тропарь праздника») the feast's
+		// hymns stand for them.
+		main := len(p) == len("me.MM.DD")
+		if main && cat != "" && !dd.feastTroparion {
+			if !dd.troparion {
+				copyGuess(p+".troparion.1", "om."+cat+".troparion.1")
+			}
+			if !dd.kontakion {
+				copyGuess(p+".kontakion.1", "om."+cat+".kontakion.1")
+			}
+			if !dd.sedalen {
+				copyAll(p, cat, "matins.sedalen")
+			}
+			if dd.gvespers && !dd.aposticha {
+				copyAll(p, cat, "gvespers.aposticha")
 			}
 		}
 		// The matins Gospel of the rank, which is that of its liturgy.

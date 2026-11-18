@@ -36,7 +36,23 @@ var weekdayLiturgy = map[time.Weekday]dayLiturgy{
 	time.Wednesday: {[]string{"ch.troparion.day.wed"}, []string{"ch.kontakion.day.wed"}, 3, 8},
 	time.Thursday:  {[]string{"ch.troparion.day.thu", "ch.troparion.day.thu.2"}, []string{"ch.kontakion.day.thu", "ch.kontakion.day.thu.2"}, 8, 1},
 	time.Friday:    {[]string{"ch.troparion.day.wed"}, []string{"ch.kontakion.day.wed"}, 7, 1},
+	time.Saturday:  {[]string{"ch.troparion.day.sat"}, []string{"ch.kontakion.day.sat"}, 8, 4},
 }
+
+// saintFirst: on Saturday the saint's prokeimenon, Apostle, alleluia, Gospel
+// and communion verse come before the day's (Типикон, гл. 12: «прежде стаго,
+// таже дне: предваряет бо всегда рядоваго апостола и еиглиа»); on the other
+// weekdays after them.
+func saintFirst(f Facts) bool { return f.Day.Weekday == time.Saturday }
+
+// departed: a parental Saturday (Dimitrievskaya; the Triodion's are not yet
+// sung). After the day's, «и другий за упокой» (Типикон, гл. 13): the
+// prokeimenon «Души их во благих водворятся» (once), the Apostle (1 Thess,
+// зач. 270) and the Gospel (John, зач. 16), the alleluia verse and the
+// communion verse «Блажени, яже избрал».
+func departed(f Facts) bool { return f.Day.Weekday == time.Saturday && f.Day.Departed != "" }
+
+const departedApostle, departedGospel = "lect.zach.ap.270", "lect.zach.jn.16"
 
 func choir(ref string) SlotItem    { return SlotItem{Ref: ref, Performer: Choir} }
 func litanist(ref string) SlotItem { return SlotItem{Ref: ref, Performer: Litanist} }
@@ -230,6 +246,9 @@ func litTroparia(f Facts, part string) ([]SlotItem, error) {
 		}
 		return append(items, choir("common.glory"), choir(kontakia[0]), choir("common.and_now"), choir(now)), nil
 	}
+	if f.Day.Weekday == time.Saturday {
+		return saturdayTroparia(f, troparia, kontakia), nil
+	}
 	d, err := dayOf(f)
 	if err != nil {
 		return nil, err
@@ -238,6 +257,7 @@ func litTroparia(f Facts, part string) ([]SlotItem, error) {
 		return nil, fmt.Errorf("no Menaion troparion or kontakion for %02d.%02d", int(f.Day.Menaion.Month), f.Day.Menaion.Day)
 	}
 	t := litTemple(f, troparia)
+	doxology := f.greatDoxology()
 	var items []SlotItem
 	if t != nil && t.Kind == TempleLord {
 		items = append(items, choir(t.Troparion))
@@ -249,7 +269,7 @@ func litTroparia(f Facts, part string) ([]SlotItem, error) {
 		items = append(items, choir(t.Troparion))
 	}
 	items = append(items, choir(troparia[0]))
-	if t != nil && t.Kind == TempleLord {
+	if t != nil && t.Kind == TempleLord && !doxology {
 		items = append(items, choir(t.Kontakion))
 	}
 	for _, k := range d.kontakia {
@@ -259,18 +279,68 @@ func litTroparia(f Facts, part string) ([]SlotItem, error) {
 		items = append(items, choir(t.Kontakion))
 	}
 	now := "ch.kontakion.protection"
-	if t != nil && t.Kind == TempleTheotokos {
+	if t != nil && (t.Kind == TempleTheotokos || t.Kind == TempleLord && doxology) {
 		now = t.Kontakion
+	}
+	if doxology {
+		// A saint whose great doxology is sung: not «Со святыми упокой»,
+		// «Слава» the saint's kontakion (Типикон, гл. 52).
+		return append(items, choir("common.glory"), choir(kontakia[0]), choir("common.and_now"), choir(now)), nil
 	}
 	return append(items, choir(kontakia[0]), choir("common.glory"), choir("ch.kontakion.with_the_saints"),
 		choir("common.and_now"), choir(now)), nil
 }
 
+// saturdayTroparia (Типикон, гл. 12; гл. 52): the troparion of a church of
+// the Lord or of the Theotokos, «Апостоли, мученицы и пророцы», the saint's
+// troparion and kontakion — without them «Помяни, Господи»; «Слава» «Со
+// святыми упокой», «И ныне» «Яко начатки». The kontakia of the temple are
+// not sung on Saturday, nor the hymns of a saint's church («вси стии
+// именовани суть в дневном тропаре»). A saint whose great doxology is sung:
+// «Слава» his kontakion, «И ныне» the kontakion of a church of the Lord or
+// of the Theotokos, else «Предстательство».
+func saturdayTroparia(f Facts, troparia, kontakia []string) []SlotItem {
+	t := litTemple(f, troparia)
+	if t != nil && t.Kind == TempleSaint {
+		t = nil
+	}
+	var items []SlotItem
+	if t != nil {
+		items = append(items, choir(t.Troparion))
+	}
+	items = append(items, choir("ch.troparion.day.sat"))
+	if len(troparia) == 0 {
+		items = append(items, choir("ch.troparion.day.sat.2"))
+	} else {
+		items = append(items, choir(troparia[0]))
+	}
+	if f.greatDoxology() && len(kontakia) > 0 {
+		now := "ch.kontakion.protection"
+		if t != nil {
+			now = t.Kontakion
+		}
+		return append(items, choir("common.glory"), choir(kontakia[0]), choir("common.and_now"), choir(now))
+	}
+	if len(kontakia) > 0 {
+		items = append(items, choir(kontakia[0]))
+	}
+	return append(items, choir("common.glory"), choir("ch.kontakion.with_the_saints"),
+		choir("common.and_now"), choir("ch.kontakion.day.sat"))
+}
+
 // prokeimenon sung with its verse: the reader announces the tone and says it,
 // the choir sings it, the verse, the choir, the first half, the choir.
 func prokeimenonBlock(tone int, prok, verse string) []SlotItem {
-	return []SlotItem{reader(fmt.Sprintf("lit.prokeimenon.tone.%d", tone)), reader(prok), choir(prok),
-		reader(verse), choir(prok), reader(prok), choir(prok)}
+	items := []SlotItem{reader(fmt.Sprintf("lit.prokeimenon.tone.%d", tone)), reader(prok), choir(prok)}
+	if verse != "" {
+		items = append(items, reader(verse), choir(prok))
+	}
+	return append(items, reader(prok), choir(prok))
+}
+
+// prokeimenonOnce: a second prokeimenon, once, without its verse.
+func prokeimenonOnce(tone int, prok string) []SlotItem {
+	return []SlotItem{reader(fmt.Sprintf("lit.prokeimenon.tone.%d", tone)), reader(prok), choir(prok)}
 }
 
 func litProkeimena(f Facts, feast bool) ([]SlotItem, error) {
@@ -286,11 +356,19 @@ func litProkeimena(f Facts, feast bool) ([]SlotItem, error) {
 	if err != nil {
 		return nil, err
 	}
-	day := WeekdayKey(f.Day.Weekday)
-	items := prokeimenonBlock(d.prokTone, "sl.prokeimenon."+day, "sl.prokeimenon."+day+".verse")
-	if men != "" && f.Tones[men] > 0 {
+	day := "sl.prokeimenon." + WeekdayKey(f.Day.Weekday)
+	var items []SlotItem
+	switch {
+	case men == "" || f.Tones[men] == 0:
+		items = prokeimenonBlock(d.prokTone, day, day+".verse")
+	case saintFirst(f):
+		items = append(prokeimenonBlock(f.Tones[men], men, menVerse), prokeimenonOnce(d.prokTone, day)...)
+	default:
 		// The saint's prokeimenon: once, without its verse.
-		items = append(items, reader(fmt.Sprintf("lit.prokeimenon.tone.%d", f.Tones[men])), reader(men), choir(men))
+		items = append(prokeimenonBlock(d.prokTone, day, day+".verse"), prokeimenonOnce(f.Tones[men], men)...)
+	}
+	if departed(f) {
+		items = append(items, prokeimenonOnce(7, "sl.prokeimenon.sat.dead")...)
 	}
 	return items, nil
 }
@@ -311,7 +389,15 @@ func litReadings(f Facts, feast bool, which string) ([]SlotItem, error) {
 		list = append(list, reading{ref, ref + ".announce"})
 	}
 	if men != "" {
-		list = append(list, reading{men, men + ".announce"})
+		if saintFirst(f) {
+			list = append([]reading{{men, men + ".announce"}}, list...)
+		} else {
+			list = append(list, reading{men, men + ".announce"})
+		}
+	}
+	if !feast && departed(f) {
+		ref := map[string]string{"apostle": departedApostle, "gospel": departedGospel}[which]
+		list = append(list, reading{ref, ref + ".announce"})
 	}
 	if len(list) == 0 {
 		return nil, fmt.Errorf("no %s of the feast", which)
@@ -359,9 +445,19 @@ func litAlleluia(f Facts, feast bool) ([]SlotItem, error) {
 		return nil, err
 	}
 	day := WeekdayKey(f.Day.Weekday)
-	items := block(d.alTone, "sl.alleluia."+day+".verse.1", "sl.alleluia."+day+".verse.2")
-	if men != "" {
-		items = append(items, reader(men), choir("common.alleluia.thrice")) // the saint's verse
+	var items []SlotItem
+	switch {
+	case men != "" && f.Tones[men] > 0 && saintFirst(f):
+		// The saint's alleluia, then the day's first verse.
+		items = append(block(f.Tones[men], men, menV2), reader("sl.alleluia."+day+".verse.1"), choir("common.alleluia.thrice"))
+	default:
+		items = block(d.alTone, "sl.alleluia."+day+".verse.1", "sl.alleluia."+day+".verse.2")
+		if men != "" {
+			items = append(items, reader(men), choir("common.alleluia.thrice")) // the saint's verse
+		}
+	}
+	if departed(f) {
+		items = append(items, reader("sl.alleluia.sat.dead.verse"), choir("common.alleluia.thrice"))
 	}
 	return items, nil
 }
@@ -374,9 +470,17 @@ func litKinonik(f Facts, feast bool) ([]SlotItem, error) {
 		}
 		return []SlotItem{choir(men), choir("common.alleluia.thrice")}, nil
 	}
-	items := []SlotItem{choir("sl.kinonik." + WeekdayKey(f.Day.Weekday))}
-	if men != "" && men != items[0].Ref {
-		items = append(items, choir(men))
+	day := "sl.kinonik." + WeekdayKey(f.Day.Weekday)
+	items := []SlotItem{choir(day)}
+	if men != "" && men != day {
+		if saintFirst(f) {
+			items = []SlotItem{choir(men), choir(day)}
+		} else {
+			items = append(items, choir(men))
+		}
+	}
+	if departed(f) {
+		items = append(items, choir("sl.kinonik.sat.dead"))
 	}
 	return append(items, choir("common.alleluia.thrice")), nil
 }

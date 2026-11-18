@@ -172,7 +172,13 @@ func parseServiceFile(path, prefix, service string) ([]corpus.Unit, error) {
 		// troparion ("на утрени … тропарь воскресен гласа, дважды …").
 		const maxHeading = 160
 		long := len([]rune(plain)) > maxHeading && !hasInlineHymn(p, text, hasRed)
+		trailHeading := ""
 		switch {
+		case !reTroparion.MatchString(plain) && !reKontakion.MatchString(plain) && trailingHymn(text) != nil:
+			// «…и ныне, праздника. тропарь, глас г:» — the heading ends a
+			// paragraph of rubrics, the hymn is the next paragraph.
+			t := trailingHymn(text)
+			kind, of, trailHeading = t[0], t[1], t[2]
 		case long:
 			if isHeading(p) {
 				prevKind = ""
@@ -193,6 +199,16 @@ func parseServiceFile(path, prefix, service string) ([]corpus.Unit, error) {
 			continue
 		}
 		heading, inline := splitHeading(p, text, hasRed)
+		if trailHeading != "" {
+			heading, inline = trailHeading, ""
+		}
+		// «…кондак, глас в.» | «подобен: вышних ищя:» | the hymn.
+		if j := i + 1; inline == "" && j < len(d.Paras) && strings.HasPrefix(hip.PlainString(d.Paras[j].Text()), "подобен:") {
+			ph, pin := splitHeading(d.Paras[j], pageRef.ReplaceAllString(d.Paras[j].Text(), ""), hasRed)
+			heading += " " + ph
+			inline = pin
+			i = j
+		}
 		tone := toneOf(heading)
 		if tone == 0 && strings.Contains(hip.PlainString(heading), "тойже") {
 			tone = lastTone
@@ -252,6 +268,16 @@ func parseServiceFile(path, prefix, service string) ([]corpus.Unit, error) {
 	units = append(units, parseMenaionLiturgy(d, prefix, path, strings.TrimPrefix(prefix, "me."))...)
 	if strings.HasPrefix(prefix, "me.") {
 		units = append(units, parseCommonRefs(d, prefix, path)...)
+		// «Тропарь праздника»: in a forefeast or afterfeast the saint without a
+		// troparion of his own takes none (not the General Menaion's).
+		for _, p := range d.Paras {
+			if strings.Contains(hip.PlainString(p.Text()), "тропарь праздника") {
+				units = append(units, corpus.Unit{ID: prefix + ".feast_troparion", Book: "menaion", Kind: "marker",
+					Lang: "cu", Body: CleanText(p.Text()), SourceID: "orthlib.mineya",
+					Meta: map[string]any{"file": filepath.Base(path)}})
+				break
+			}
+		}
 		// The great doxology sung at matins: the red sign of the Typikon
 		// (the six-fold service, with the black sign, reads it).
 		for _, p := range d.Paras {
@@ -438,6 +464,27 @@ func incipitKey(body string) string {
 func hasInlineHymn(p hip.Paragraph, text string, hasRed bool) bool {
 	_, inline := splitHeading(p, text, hasRed)
 	return inline != ""
+}
+
+var reTrailingHymn = regexp.MustCompile(`(?:^|[.:;]\s+|\sсей\s+)((?:и\s+|ин\s+)*(тропарь|кондак)([^:.]*?)глас\s+[^:.\s]+(?:\.?\s*подобен:\s*[^:]+:|[.:]))\s*$`)
+
+// trailingHymn: a troparion or kontakion heading at the end of a paragraph
+// («…на стиховне октоиха. тропарь, глас а:»; the General Menaion: «аще ли
+// несть устава, глаголи сей кондак, глас в.» — its podoben the next
+// paragraph): its kind, whose («праздника»),
+// and the heading itself (from text); nil when there is none.
+func trailingHymn(text string) []string {
+	plain, pos := hip.Plain(text)
+	m := reTrailingHymn.FindStringSubmatchIndex(plain)
+	if m == nil {
+		return nil
+	}
+	start := len([]rune(plain[:m[2]]))
+	if start >= len(pos) {
+		return nil
+	}
+	kind := map[string]string{"тропарь": "troparion", "кондак": "kontakion"}[plain[m[4]:m[5]]]
+	return []string{kind, strings.Trim(strings.TrimSpace(plain[m[6]:m[7]]), ","), string([]rune(text)[pos[start]:])}
 }
 
 // splitHeading separates the rubric of a heading paragraph from text that

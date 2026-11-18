@@ -1,7 +1,7 @@
 # Rules for the Divine Liturgy of St John Chrysostom.
 #
 # Implemented:
-#   - a weekday (Monday..Friday) of the ordinary period: typical antiphons,
+#   - a weekday (Monday..Saturday) of the ordinary period: typical antiphons,
 #     troparia and kontakia of the day and of the saint, the prokeimenon,
 #     alleluia, readings and communion verse of the day, with the saint's own
 #     ones when the Menaion gives them;
@@ -19,8 +19,19 @@
 #     Sunday readings, «Хвалите Господа»; with a saint (with or without a
 #     sign), a twelve feast of the Theotokos, or in an afterfeast.
 #
-# Recognised but not yet implemented: Saturdays, the afterfeast
-# and forefeast days, the Triodion, the Nativity and the Theophany.
+#   - Saturday (Typikon, ch. 12, «Бог Господь»): the weekday rules with the
+#     Saturday's hymns — «Апостоли, мученицы», the saint's troparion and
+#     kontakion or «Помяни, Господи», «Со святыми упокой», «Яко начатки»;
+#     the saint's prokeimenon, readings, alleluia and communion verse before
+#     the day's;
+#   - Dimitrievskaya Saturday (calendar: departed == "demetrius"): the same,
+#     and after the day's «за упокой» (ch. 13): the prokeimenon «Души их»,
+#     the Apostle (зач. 270), the Gospel (John, зач. 16), the alleluia verse
+#     and the communion verse «Блажени, яже избрал».
+#
+# Recognised but not yet implemented: the Meatfare and the Trinity parental
+# Saturdays (the Triodion), Saturday with «Аллилуиа» (ch. 13), the afterfeast and forefeast days, the
+# Triodion, the Nativity and the Theophany.
 
 - id: liturgy.annunciation_in_lent
   service: liturgy
@@ -119,11 +130,11 @@
   when: feast_day && period == "ordinary" && menaion_paremias
   slots: *feast_slots
 
-- id: liturgy.saturday
+- id: liturgy.departed_triodion
   service: liturgy
-  priority: 290
-  when: weekday == 6
-  unsupported: "Субботняя литургия (тропари «Апостоли, мученицы», «Помяни, Господи», прокимен и чтения за упокой) ещё не реализована"
+  priority: 260
+  when: departed in ["meatfare", "trinity"]
+  unsupported: "Вселенская родительская суббота (мясопустная, Троицкая) — служба Триоди ещё не реализована"
 
 - id: liturgy.triodion
   service: liturgy

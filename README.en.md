@@ -86,7 +86,7 @@ Vespers is listed under the day it belongs to: it is served the evening before.
 | Weekday, saint with a sign (polyeleos, vigil) | ✅ great / vigil ¹ | ✅ festal ² | ✅ | ✅ |
 | Weekday in an afterfeast or on the apodosis | ✅ daily | ❌ | ✅ | ❌ |
 | Fixed twelve feast on a weekday | ✅ vigil | ✅ festal | ✅ | ✅ |
-| Saturday (any) | ✅ daily or vigil (Friday evening) | ❌ | ✅ | ❌ |
+| Saturday (any) | ✅ daily or vigil (Friday evening) | ❌ | ✅ | ⚠️ ⁴ |
 | Sunday, saint without a sign | ✅ vigil, without litiya | ✅ ³ | ❌ | ✅ |
 | Sunday, saint with a sign | ✅ vigil (litiya if the Menaion has one) | ✅ ³ | ❌ | ✅ |
 | Sunday in an afterfeast or on the apodosis | ✅ vigil | ✅ ³ | ❌ | ✅ |
@@ -102,6 +102,17 @@ saint's rank. ² Needs the matins Gospel in the Menaion (or «евангелие
 ³ The Octoechos with the Menaion: eothinon Gospel (the cycle of eleven from
 All Saints), evlogitaria, hypakoe, antiphons and prokeimenon of the tone; the
 katavasia by season from `data/calendar/katavasia.yaml`.
+⁴ By the Typikon, ch. 12 («Бог Господь»): «Апостоли, мученицы», the saint's
+troparion and kontakion or «Помяни, Господи», «Со святыми упокой», «Яко
+начатки»; the saint's prokeimenon, Apostle, alleluia, Gospel and communion
+verse before the day's. On Dimitrievskaya parental Saturday (the last
+Saturday before 26 October; a Saturday earlier when it falls on a great feast —
+polyeleos or higher in the Typikon, great vespers in the Menaion), after the day's, for the departed: the
+prokeimenon «Души их», the Apostle (1 Thess, зач. 270), the Gospel (John,
+зач. 16), the alleluia verse and communion verse «Блажени, яже избрал». Not
+yet: the Octoechos troparia at the beatitudes (in the corpus for tones 2 and
+8 only), the Meatfare and Trinity parental Saturdays (the Triodion), Saturday
+in an afterfeast.
 A few days still fail where the Menaion import misses a troparion or a canon.
 
 ### Triodion and Pentecostarion

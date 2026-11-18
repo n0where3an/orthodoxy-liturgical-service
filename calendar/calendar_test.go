@@ -533,3 +533,33 @@ func TestEothinon(t *testing.T) {
 		t.Errorf("Thomas Sunday: eothinon %d", got)
 	}
 }
+
+func TestDepartedSaturday(t *testing.T) {
+	for _, c := range []struct {
+		d    JDate
+		want string
+	}{
+		{MustJDate(2026, time.October, 25), DepartedDemetrius}, // Saturday; 26 October is the Sunday
+		{MustJDate(2026, time.October, 24), ""},
+		{MustJDate(2026, time.October, 18), ""},
+		{Pascha(2027).AddDays(-57), DepartedMeatfare},
+		{Pascha(2027).AddDays(48), DepartedTrinity},
+		{Pascha(2027).AddDays(-56), ""}, // the Sunday
+	} {
+		if got := NewDayContext(c.d).Departed; got != c.want {
+			t.Errorf("%v (%v): %q, want %q", c.d, c.d.Weekday(), got, c.want)
+		}
+	}
+	// Every year has exactly one Dimitrievskaya, a Saturday from 19 to 25 October.
+	for y := 2020; y < 2040; y++ {
+		n := 0
+		for d := 1; d <= 31; d++ {
+			if NewDayContext(MustJDate(y, time.October, d)).Departed == DepartedDemetrius {
+				n++
+			}
+		}
+		if n != 1 {
+			t.Errorf("%d: %d Dimitrievskaya Saturdays", y, n)
+		}
+	}
+}

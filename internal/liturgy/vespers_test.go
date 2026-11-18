@@ -19,12 +19,16 @@ type mapCorpus struct {
 	ids   []string
 	tones map[string]int
 	of    map[string]string // meta "of" (whose hymn)
+	signs map[string]string // meta "sign" of ty.MM.DD.sign.N
 }
 
 func (c mapCorpus) UnitMeta(_ context.Context, ids []string, key string) (map[string]string, error) {
 	out := map[string]string{}
 	for _, id := range ids {
 		if v := c.of[id]; key == "of" && v != "" {
+			out[id] = v
+		}
+		if v := c.signs[id]; key == "sign" && v != "" {
 			out[id] = v
 		}
 	}

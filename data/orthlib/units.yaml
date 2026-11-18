@@ -2496,6 +2496,68 @@ units:
     file: sluzhebnik/sl/17prok_dnevn.hip
     from: "спасение соделал еси посреде"
     to: "бже."
+  # Суббота: дне и «за упокой» (Типикон, гл. 12, 13).
+  - key: sl.prokeimenon.sat
+    book: sluzhebnik
+    kind: prokeimenon
+    tone: 8
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/17prok_dnevn.hip
+    from: "веселитеся о гдсе и радуйтеся"
+    to: "праведнии."
+  - key: sl.prokeimenon.sat.verse
+    book: sluzhebnik
+    kind: verse
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/17prok_dnevn.hip
+    from: "блжени, ихже оставишася беззакония"
+    to: ""
+  - key: sl.prokeimenon.sat.dead
+    book: sluzhebnik
+    kind: prokeimenon
+    tone: 7
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/17prok_dnevn.hip
+    from: "душы их во блгих водворятся"
+    to: ""
+  - key: sl.alleluia.sat.verse.1
+    book: sluzhebnik
+    kind: verse
+    tone: 4
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/17prok_dnevn.hip
+    from: "воззваша праведнии, и гдсь услыша"
+    to: "избави их."
+  - key: sl.alleluia.sat.verse.2
+    book: sluzhebnik
+    kind: verse
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/17prok_dnevn.hip
+    from: "многи скорби праведным"
+    to: "избавит я гдсь."
+  - key: sl.alleluia.sat.dead.verse
+    book: sluzhebnik
+    kind: verse
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/17prok_dnevn.hip
+    after: "многи скорби праведным"
+    from: "блжени, яже избрал и приял"
+    to: "в род и род."
+  - key: sl.kinonik.sat
+    book: sluzhebnik
+    kind: kinonik
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/18prok_obsch.hip
+    from: "радуйтеся праведнии о гдсе, правым"
+    to: "похвала."
+  - key: sl.kinonik.sat.dead
+    book: sluzhebnik
+    kind: kinonik
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/17prok_dnevn.hip
+    after: "другий"
+    from: "блжени, яже избрал и приял"
+    to: "в род и род."
 
   # === Утреня вседневная (Часослов, Служебник, Октоих) ===
   - key: ch.matins.psalm.19

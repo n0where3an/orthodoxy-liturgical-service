@@ -143,25 +143,11 @@ func (p *Planner) Plan(ctx context.Context, d calendar.JDate, service string, pa
 	if f.Temple, err = p.Temples.Find(params.Temple); err != nil {
 		return nil, err
 	}
-	// The sign of the day in the Typikon's calendar (the highest of its
-	// commemorations).
-	if ml, ok := p.Menaion.(metaLister); ok {
-		ids, err := p.Menaion.ListIDs(ctx, fmt.Sprintf("ty.%02d.%02d.sign.", int(day.Menaion.Month), day.Menaion.Day))
-		if err != nil {
-			return nil, err
-		}
-		if len(ids) > 0 {
-			signs, err := ml.UnitMeta(ctx, ids, "sign")
-			if err != nil {
-				return nil, err
-			}
-			f.Sign = "none"
-			for _, s := range signs {
-				if signRank[s] > signRank[f.Sign] {
-					f.Sign = s
-				}
-			}
-		}
+	if f.Sign, err = p.daySign(ctx, day.Menaion); err != nil {
+		return nil, err
+	}
+	if f.Day.Departed, err = p.departed(ctx, d); err != nil {
+		return nil, err
 	}
 	f.Typikon = params.Typikon
 	f.Psalmody = params.PsalmodyOrDefault()
@@ -256,4 +242,85 @@ func (p *Planner) Plan(ctx context.Context, d calendar.JDate, service string, pa
 		},
 		Slots: slots,
 	}, nil
+}
+
+// daySign: the sign of the day in the Typikon's calendar (the highest of its
+// commemorations); "" without the Typikon in the corpus.
+func (p *Planner) daySign(ctx context.Context, md calendar.MonthDay) (string, error) {
+	ml, ok := p.Menaion.(metaLister)
+	if !ok {
+		return "", nil
+	}
+	ids, err := p.Menaion.ListIDs(ctx, fmt.Sprintf("ty.%02d.%02d.sign.", int(md.Month), md.Day))
+	if err != nil || len(ids) == 0 {
+		return "", err
+	}
+	signs, err := ml.UnitMeta(ctx, ids, "sign")
+	if err != nil {
+		return "", err
+	}
+	sign := "none"
+	for _, s := range signs {
+		if signRank[s] > signRank[sign] {
+			sign = s
+		}
+	}
+	return sign, nil
+}
+
+// greatFeast: a twelve feast, a sign of the polyeleos or higher in the
+// Typikon, or great vespers in the Menaion (feasts added after the Typikon,
+// as «Всех скорбящих Радость», 24 October).
+func (p *Planner) greatFeast(ctx context.Context, d calendar.JDate) (bool, error) {
+	day := calendar.NewDayContext(d)
+	if p.Feasts != nil {
+		if fe := p.Feasts.At(day); fe != nil && fe.IsFeastDay(day) {
+			return true, nil
+		}
+	}
+	sign, err := p.daySign(ctx, day.Menaion)
+	if err != nil || signRank[sign] >= signRank["polyeleos"] {
+		return err == nil, err
+	}
+	ids, err := p.Menaion.ListIDs(ctx, fmt.Sprintf("me.%02d.%02d", int(day.Menaion.Month), day.Menaion.Day))
+	if err != nil {
+		return false, err
+	}
+	for _, id := range ids {
+		if strings.HasSuffix(id, ".vespers.great") || strings.HasSuffix(id, ".gvespers.paremia.1") {
+			return true, nil
+		}
+	}
+	return false, nil
+}
+
+// departed: the parental Saturday on d. Dimitrievskaya, when it falls on a
+// great feast, is moved a Saturday earlier (and again, while that one is a
+// great feast too).
+func (p *Planner) departed(ctx context.Context, d calendar.JDate) (string, error) {
+	day := calendar.NewDayContext(d)
+	if day.Weekday != time.Saturday || day.Departed != "" && day.Departed != calendar.DepartedDemetrius {
+		return day.Departed, nil
+	}
+	for k := 0; k <= 3; k++ {
+		c := d.AddDays(7 * k)
+		if calendar.NewDayContext(c).Departed != calendar.DepartedDemetrius {
+			continue
+		}
+		for i := 0; i < 4; i++ {
+			great, err := p.greatFeast(ctx, c)
+			if err != nil {
+				return "", err
+			}
+			if !great {
+				break
+			}
+			c = c.AddDays(-7)
+		}
+		if c == d {
+			return calendar.DepartedDemetrius, nil
+		}
+		return "", nil
+	}
+	return "", nil
 }

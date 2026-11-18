@@ -66,6 +66,7 @@ func dayEnv() (*cel.Env, error) {
 		cel.Variable("weekday", cel.IntType), // 0 = Sunday
 		cel.Variable("period", cel.StringType),
 		cel.Variable("pascha_offset", cel.IntType),
+		cel.Variable("departed", cel.StringType), // the parental Saturday: meatfare, trinity, demetrius; ""
 		cel.Variable("bright_week", cel.BoolType),
 		cel.Variable("tone", cel.IntType),
 		cel.Variable("month", cel.IntType),
@@ -228,6 +229,7 @@ func (f Facts) vars() map[string]any {
 		"weekday":                int64(f.Day.Weekday),
 		"period":                 f.Day.Period.String(),
 		"pascha_offset":          int64(f.Day.PaschaOffset),
+		"departed":               f.Day.Departed,
 		"bright_week":            f.Day.BrightWeek,
 		"tone":                   int64(f.Day.Tone),
 		"month":                  int64(f.Day.Menaion.Month),
@@ -543,7 +545,7 @@ func lection(f Facts, part string) (calendar.Lection, error) {
 // festalOdes: the odes are sung «в недели и праздники» (the Irmologion):
 // on Sunday, at a feast of the Lord or of the Theotokos, in its forefeast and
 // afterfeast, at a saint whose sign in the Typikon is red (the doxology,
-// polyeleos, small vigil, vigil: the great doxology sung) — the katavasia
+// polyeleos, a saint's vigil, vigil: the great doxology sung) — the katavasia
 // after every ode; with the black sign (six-fold: the doxology read) and
 // without a sign after the 3rd, 6th, 8th, 9th.
 func (f Facts) festalOdes() bool {
@@ -564,7 +566,7 @@ func (f Facts) festalOdes() bool {
 // signRank orders the signs of the Typikon.
 var signRank = map[string]int{"none": 0, "six_fold": 1, "doxology": 2, "polyeleos": 3, "saint_vigil": 4, "vigil": 5}
 
-// redSign: the sign of the day is red (the doxology, polyeleos, small vigil,
+// redSign: the sign of the day is red (the doxology, polyeleos, saint's vigil,
 // vigil); without the Typikon, the Menaion's «славословие великое».
 func (f Facts) redSign() bool {
 	menaion := firstMain(f, "matins.great_doxology") != ""
