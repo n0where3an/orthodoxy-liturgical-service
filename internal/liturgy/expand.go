@@ -42,6 +42,8 @@ type RNode struct {
 	DuringTitle string
 	// Lang of the text (differs from the requested one on fallback).
 	Lang string
+	// Book the text is taken from (see SourceBook).
+	Book string
 }
 
 // Lang holds the localised strings of one language. Strings in the YAML
@@ -56,6 +58,8 @@ type Lang struct {
 	Repeat     map[int]string       `yaml:"repeat"`
 	Rubrics    map[string]string    `yaml:"rubrics"`
 	UI         map[string]string    `yaml:"ui"`
+	// Books: the names of the source books, shown in the margin (plain text).
+	Books map[string]string `yaml:"books"`
 	// Titles of prayers and parts (HIP, kept raw), and placeholder rubrics
 	// with "TITLE" / "DURING" to substitute before conversion.
 	Titles       map[string]string `yaml:"titles"`
@@ -173,7 +177,7 @@ func Expand(t *Template, plan *Plan, texts map[string]corpus.Text, lang *Lang) (
 		out = append(out, RNode{
 			ID: n.ID, Kind: kind, Performer: performer(perf), Voice: n.Voice, Title: n.Title,
 			During: n.During, DuringTitle: titles[n.During], UnitID: ref, Body: tx.Body, Incipit: tx.Incipit, Repeat: repeat,
-			Lang: tx.Lang,
+			Lang: tx.Lang, Book: marginBook(tx, repeat, plan.Service),
 		})
 	}
 

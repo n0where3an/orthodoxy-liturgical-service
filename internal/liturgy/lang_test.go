@@ -40,8 +40,16 @@ func TestFallbackAndParallel(t *testing.T) {
 	if !strings.Contains(en, "EN ch.none.psalm.83") {
 		t.Error("English psalm missing")
 	}
-	if !strings.Contains(en, `fallback" lang="cu"><p>`) || !strings.Contains(en, "CU common.trisagion") {
+	// The Church Slavonic block is marked and not offered for machine translation.
+	if !strings.Contains(en, `fallback notranslate" lang="cu" translate="no"><p>`) || !strings.Contains(en, "CU common.trisagion") {
 		t.Error("untranslated texts must fall back to Church Slavonic, marked")
+	}
+	if strings.Contains(en, `<html lang="en" translate="no"`) {
+		t.Error("an English page may be translated")
+	}
+	if cu := gen("cu", ""); !strings.Contains(cu, `<html lang="cu" translate="no" class="notranslate">`) ||
+		!strings.Contains(cu, `<meta name="google" content="notranslate">`) {
+		t.Error("a Church Slavonic page must not be offered for translation")
 	}
 	if !strings.Contains(en, "Reader:") {
 		t.Error("English performer labels")

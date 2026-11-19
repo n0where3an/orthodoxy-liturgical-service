@@ -132,3 +132,17 @@ ui:
   tone: "глас"
   mode: "режим"
   rule: "правило"
+
+# Книги, из которых взят текст (на полях).
+books:
+  chasoslov: "Часослов"
+  menaion: "Минея"
+  general_menaion: "Общая минея"
+  octoechos: "Октоих"
+  sluzhebnik: "Служебник"
+  psalter: "Псалтирь"
+  irmologion: "Ирмологий"
+  apostle: "Апостол"
+  gospel: "Евангелие"
+  triodion: "Триодь"
+  typikon: "Типикон"

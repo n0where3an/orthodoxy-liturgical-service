@@ -129,3 +129,17 @@ ui:
   tone: "Tone"
   mode: "mode"
   rule: "rule"
+
+# Source books, shown in the margin.
+books:
+  chasoslov: "Horologion"
+  menaion: "Menaion"
+  general_menaion: "General Menaion"
+  octoechos: "Octoechos"
+  sluzhebnik: "Hieratikon"
+  psalter: "Psalter"
+  irmologion: "Irmologion"
+  apostle: "Apostle"
+  gospel: "Gospel"
+  triodion: "Triodion"
+  typikon: "Typikon"

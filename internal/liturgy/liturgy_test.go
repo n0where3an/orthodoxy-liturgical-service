@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"regexp"
 	"runtime"
 	"strings"
 	"testing"
@@ -132,8 +133,11 @@ func generateService(t *testing.T, service string, params Params, mode string) s
 	}, &buf); err != nil {
 		t.Fatal(err)
 	}
-	return buf.String()
+	// The source books in the margin are checked in source_book_test.go.
+	return reSourceBook.ReplaceAllString(buf.String(), "")
 }
+
+var reSourceBook = regexp.MustCompile(`<span class="src">[^<]*</span>`)
 
 func TestGenerateVariants(t *testing.T) {
 	laity := generate(t, Params{Priest: true}, "laity")

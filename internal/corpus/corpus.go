@@ -35,6 +35,7 @@ type Unit struct {
 // Text is a translation loaded for rendering.
 type Text struct {
 	UnitID  string
+	Book    string // the book of the unit (chasoslov, menaion, octoechos, …)
 	Kind    string
 	Tone    int
 	Lang    string
@@ -105,7 +106,7 @@ func (s *Store) DeleteBook(ctx context.Context, book string) (int64, error) {
 // Load returns translations of the given units in lang (version 'default').
 // Missing units are simply absent from the map.
 func (s *Store) Load(ctx context.Context, lang string, ids []string) (map[string]Text, error) {
-	rows, err := s.Pool.Query(ctx, `SELECT u.id, u.kind, coalesce(u.tone, 0), t.lang, t.body, t.incipit, u.meta
+	rows, err := s.Pool.Query(ctx, `SELECT u.id, u.book, u.kind, coalesce(u.tone, 0), t.lang, t.body, t.incipit, u.meta
 		FROM text_unit u JOIN text_translation t ON t.unit_id = u.id
 		WHERE u.id = ANY($1) AND t.lang = $2 AND t.version = 'default'`, ids, lang)
 	if err != nil {
@@ -116,7 +117,7 @@ func (s *Store) Load(ctx context.Context, lang string, ids []string) (map[string
 	for rows.Next() {
 		var t Text
 		var tone int16
-		if err := rows.Scan(&t.UnitID, &t.Kind, &tone, &t.Lang, &t.Body, &t.Incipit, &t.Meta); err != nil {
+		if err := rows.Scan(&t.UnitID, &t.Book, &t.Kind, &tone, &t.Lang, &t.Body, &t.Incipit, &t.Meta); err != nil {
 			return nil, err
 		}
 		t.Tone = int(tone)

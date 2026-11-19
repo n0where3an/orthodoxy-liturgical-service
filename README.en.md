@@ -44,6 +44,15 @@ The web server takes the same options as query parameters
 
 Church Slavonic text is Unicode; install the Ponomar Unicode or Monomakh fonts.
 
+The margin names the book each text is taken from (Horologion, Menaion,
+General Menaion, Octoechos, Hieratikon, Psalter, Irmologion, Apostle, Gospel),
+where it changes; the short connecting formulas («Слава», «И ныне», «Аминь»,
+«Господи, помилуй» thrice, exclamations, refrains, the verses before the
+stichera) do not interrupt it. The common texts (the Trisagion, «Приидите»,
+the Creed, «Господи, помилуй» 12 and 40) are marked as the book of the
+service itself: the Hieratikon at the liturgy, the Horologion otherwise. On a
+narrow screen it stands above the text.
+
 ## Sources and rules
 
 The Irmologion (`orthlib.irmologion`) gives the biblical odes in three sets —

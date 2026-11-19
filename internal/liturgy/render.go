@@ -25,12 +25,14 @@ type ViewItem struct {
 	Paras  []string // paragraphs of the text
 	Repeat string   // repetition rubric, cinnabar, after the last paragraph
 	Cue    bool
+	Source string // the book the text is taken from, in the margin (when it changes)
 }
 
 // BuildView applies the mode to the expanded nodes.
 func BuildView(nodes []RNode, plan *Plan, mode Mode, lang *Lang) View {
 	v := View{Lang: lang.Code, Mode: mode.Name(), Plan: plan, UI: lang.UI}
 	prevWho := Performer("")
+	prevBook := ""
 	for i := 0; i < len(nodes); i++ {
 		n := &nodes[i]
 		d := mode.Detail(n)
@@ -65,6 +67,17 @@ func BuildView(nodes []RNode, plan *Plan, mode Mode, lang *Lang) View {
 			it.Who = lang.Performers[n.Performer]
 		}
 		prevWho = n.Performer
+		// The book in the margin, where it changes (the fixed formulas have
+		// none and do not interrupt it).
+		if n.Book != "" {
+			if n.Book != prevBook {
+				it.Source = lang.Books[n.Book]
+				if it.Source == "" {
+					it.Source = n.Book
+				}
+			}
+			prevBook = n.Book
+		}
 		switch d {
 		case Cue:
 			it.Cue = true
@@ -103,7 +116,9 @@ func NewParallelView(left, right View) (ParallelView, error) {
 	}
 	pv := ParallelView{Left: left, Right: right}
 	for i := range left.Items {
-		pv.Rows = append(pv.Rows, ParallelRow{left.Items[i], right.Items[i]})
+		r := right.Items[i]
+		r.Source = "" // the book once, in the left margin
+		pv.Rows = append(pv.Rows, ParallelRow{left.Items[i], r})
 	}
 	return pv, nil
 }
@@ -129,19 +144,32 @@ h1 { color: var(--cinnabar); text-align: center; font-weight: normal; font-size:
 .cue { color: var(--muted); }
 .fallback { border-left: 3px solid var(--line); padding-left: .5rem; }
 .fallback-note { font-family: system-ui, sans-serif; font-size: .7rem; color: var(--muted); }
+/* The source book in the margin (left of the text; above it on narrow screens). */
+.item { position: relative; }
+.src { position: absolute; right: 100%; top: .35rem; margin-right: .9rem; width: 7rem; text-align: right;
+  font: .68rem/1.2 system-ui, sans-serif; color: var(--muted); letter-spacing: .02em; }
+body.parallel .src { width: 5.5rem; }
+@media (max-width: 62rem) { .src { position: static; display: block; width: auto; text-align: left; margin: .6rem 0 .1rem; } }
+@media print { .src { color: #777; } }
 :lang(en) { font-family: Georgia, "Times New Roman", serif; }
 .row { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; border-top: 1px solid var(--line); }
 @media (max-width: 48rem) { .row { grid-template-columns: 1fr; gap: .25rem; } }
 `
 
 // itemTmpl renders one block.
-const itemTmpl = `{{define "item"}}<div class="item {{.Class}}{{if .Cue}} cue{{end}}"{{if .Lang}} lang="{{.Lang}}"{{end}}>
+const itemTmpl = `{{define "item"}}<div class="item {{.Class}}{{if .Cue}} cue{{end}}{{if notr .Lang}} notranslate{{end}}"{{if .Lang}} lang="{{.Lang}}"{{end}}{{if notr .Lang}} translate="no"{{end}}>
+{{- if .Source}}<span class="src">{{.Source}}</span>{{end}}
 {{- $it := .}}{{range $i, $p := .Paras}}<p>
 {{- if and (eq $i 0) $it.Who}}<span class="who">{{$it.Who}}</span>{{end}}{{$p}}
 {{- if and $it.Repeat (last $i (len $it.Paras))}}<span class="repeat">{{$it.Repeat}}</span>{{end}}</p>{{end}}
 {{- if .Lang}}<div class="fallback-note">{{.Lang}}</div>{{end}}</div>{{end}}`
 
-var funcs = template.FuncMap{"last": func(i, n int) bool { return i == n-1 }}
+// notr: Church Slavonic is not offered for machine translation — the
+// browsers do not know "cu" and take the text for another language (Edge:
+// Vietnamese, from the diacritics); a translation would be meaningless.
+func notr(lang string) bool { return lang == "cu" }
+
+var funcs = template.FuncMap{"last": func(i, n int) bool { return i == n-1 }, "notr": notr}
 
 var parallelTmpl = template.Must(template.New("parallel").Funcs(funcs).Parse(itemTmpl + `<!doctype html>
 <html lang="{{.Left.Lang}}">
@@ -153,16 +181,18 @@ var parallelTmpl = template.Must(template.New("parallel").Funcs(funcs).Parse(ite
 </head>
 <body class="parallel">
 <header>{{.Left.Plan.Civil}} · {{.Left.UI.julian}} {{.Left.Plan.Date}} · {{.Left.UI.tone}} {{.Left.Plan.Day.Tone}} · {{.Left.UI.mode}}: {{.Left.Mode}} · {{.Left.UI.rule}}: {{.Left.Plan.Rule}}</header>
-<div class="row"><h1 lang="{{.Left.Lang}}">{{.Left.Title}}</h1><h1 lang="{{.Right.Lang}}">{{.Right.Title}}</h1></div>
-{{range .Rows}}<div class="row"><div lang="{{$.Left.Lang}}">{{template "item" .Left}}</div><div lang="{{$.Right.Lang}}">{{template "item" .Right}}</div></div>
+<div class="row"><h1 lang="{{.Left.Lang}}"{{if notr .Left.Lang}} translate="no" class="notranslate"{{end}}>{{.Left.Title}}</h1><h1 lang="{{.Right.Lang}}"{{if notr .Right.Lang}} translate="no" class="notranslate"{{end}}>{{.Right.Title}}</h1></div>
+{{range .Rows}}<div class="row"><div lang="{{$.Left.Lang}}"{{if notr $.Left.Lang}} translate="no" class="notranslate"{{end}}>{{template "item" .Left}}</div><div lang="{{$.Right.Lang}}"{{if notr $.Right.Lang}} translate="no" class="notranslate"{{end}}>{{template "item" .Right}}</div></div>
 {{end}}</body>
 </html>
 `))
 
 var pageTmpl = template.Must(template.New("page").Funcs(funcs).Parse(itemTmpl + `<!doctype html>
-<html lang="{{.Lang}}">
+<html lang="{{.Lang}}"{{if notr .Lang}} translate="no" class="notranslate"{{end}}>
 <head>
 <meta charset="utf-8">
+{{- if notr .Lang}}
+<meta name="google" content="notranslate">{{end}}
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{{.Title}} — {{.Plan.Civil}}</title>
 <style>` + pageStyle + `</style>
