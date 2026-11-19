@@ -268,6 +268,12 @@ func parseServiceFile(path, prefix, service string) ([]corpus.Unit, error) {
 	units = append(units, parseMenaionLiturgy(d, prefix, path, strings.TrimPrefix(prefix, "me."))...)
 	if strings.HasPrefix(prefix, "me.") {
 		units = append(units, parseCommonRefs(d, prefix, path)...)
+		// The title of the day: the rank of the saint for the General Menaion
+		// when the day has neither troparion nor kontakion to carry it.
+		if title != "" {
+			units = append(units, corpus.Unit{ID: prefix + ".title", Book: "menaion", Kind: "title", Lang: "cu",
+				Body: title, SourceID: "orthlib.mineya", Meta: map[string]any{"title": title, "file": filepath.Base(path)}})
+		}
 		// «Тропарь праздника»: in a forefeast or afterfeast the saint without a
 		// troparion of his own takes none (not the General Menaion's).
 		for _, p := range d.Paras {

@@ -73,7 +73,8 @@ func dayEnv() (*cel.Env, error) {
 		cel.Variable("day", cel.IntType),
 		cel.Variable("menaion_troparia", cel.IntType),
 		cel.Variable("menaion_kontakia", cel.IntType),
-		cel.Variable("feast", cel.StringType), // twelve-feast id from the feast to its apodosis, or ""
+		cel.Variable("feast", cel.StringType),  // twelve-feast id from the feast to its apodosis, or ""
+		cel.Variable("apodosis", cel.BoolType), // the apodosis (отдание) of the feast
 		cel.Variable("feast_day", cel.BoolType),
 		// civil evening on which the vespers of the day are served (day − 1)
 		cel.Variable("eve_month", cel.IntType),
@@ -202,9 +203,9 @@ func (f Facts) ofFeast(id string) bool {
 
 func (f Facts) vars() map[string]any {
 	eve := f.Day.Date.Eve()
-	feast, feastDay := "", false
+	feast, feastDay, apodosis := "", false, false
 	if f.Feast != nil {
-		feast, feastDay = f.Feast.ID, f.Feast.IsFeastDay(f.Day)
+		feast, feastDay, apodosis = f.Feast.ID, f.Feast.IsFeastDay(f.Day), f.Feast.IsApodosis(f.Day)
 	}
 	temple, templeKind := "", ""
 	if f.Temple != nil {
@@ -219,6 +220,7 @@ func (f Facts) vars() map[string]any {
 		"temple_kind":            templeKind,
 		"temple_feast":           f.Temple.IsFeastDay(int(f.Day.Menaion.Month), f.Day.Menaion.Day),
 		"feast":                  feast,
+		"apodosis":               apodosis,
 		"feast_day":              feastDay,
 		"eve_month":              int64(eve.Month()),
 		"eve_day":                int64(eve.Day()),
@@ -466,6 +468,18 @@ func (sel SlotSelector) resolve(name string, f Facts, service string) ([]SlotIte
 				return nil, fmt.Errorf("slot %s: %w", name, err)
 			}
 			items = append(items, ms...)
+		case "compline_canon", "compline_troparia":
+			cs, err := complineSlot(sel, f)
+			if err != nil {
+				return nil, fmt.Errorf("slot %s: %w", name, err)
+			}
+			items = append(items, cs...)
+		case "af_troparia", "af_sedalny", "af_canon", "af_sedalen", "af_kontakion", "af_exapostilaria":
+			as, err := afterfeastMatinsSlot(sel, f)
+			if err != nil {
+				return nil, fmt.Errorf("slot %s: %w", name, err)
+			}
+			items = append(items, as...)
 		case "sm_troparia", "sm_sedalny", "sm_evlogitaria", "sm_hypakoe", "sm_stepenna", "sm_prokeimenon", "sm_gospel",
 			"sm_after_gospel", "sm_ps50", "sm_canon", "sm_sedalen", "sm_kontakion", "sm_exapostilaria", "sm_praises",
 			"sm_end_troparion":

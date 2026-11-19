@@ -106,6 +106,13 @@ func TestRankOfTitle(t *testing.T) {
 		"стых мчник, тимофеа и маиры: и успение прпдбнаго оца нашего феодосиа, игумена": "monk",
 		// «архиепскопа» is misprinted: the martyr's rank.
 		"стыя мученицы татианы: в тойже день стаго оца саввы, архиепскопа сербскаго": "woman_martyr",
+		"пренесение мощей, иже во стых, оца нашего никифора, патриарха царяграда.":   "hierarch",
+		"иже во стых, оца нашего кирилла, архиепскопа иерусалимскаго.":               "hierarch",
+		"преподобных оц наших, во обители святаго саввы убиенных.":                   "monks",
+		"собор архаггла гавриила.":              "angels",
+		"стыя матере нашея матроны селунския.":  "nun",
+		"стых апсл, аристарха, пуда и трофима.": "apostles",
+		"стых мчниц, агапии, ирины и хионии.":   "women_martyrs",
 	} {
 		if got := rankOfTitle(in); got != want {
 			t.Errorf("rankOfTitle(%q) = %q, want %q", in, got, want)
@@ -199,6 +206,8 @@ func TestSupplementHymnsFromGeneralMenaion(t *testing.T) {
 		// 05.27: a martyr with a sign, neither troparion nor kontakion nor aposticha.
 		u("me.05.27.gvespers.lic.sticheron.1", map[string]any{"title": "Стаго сщенномученика ферапонта"}),
 		u("me.05.27.matins.sedalen.1", nil),
+		// 06.27: without a sign the first saint's rank, not the last's.
+		u("me.06.27.title", map[string]any{"title": "Стаго сщенномученика ферапонта: и обретение мощей прпдбнаго оца нашего нила"}),
 		// 09.10: an afterfeast, «тропарь праздника».
 		u("me.09.10.feast_troparion", martyr),
 		// 07.23p: an additional service.
@@ -218,6 +227,7 @@ func TestSupplementHymnsFromGeneralMenaion(t *testing.T) {
 		"me.12.19.matins.sedalen.1":          "om.martyr.matins.sedalen.1",
 		"me.12.19.matins.sedalen.theotokion": "om.martyr.matins.sedalen.theotokion",
 		"me.05.27.troparion.1":               "om.hieromartyr.troparion.1",
+		"me.06.27.troparion.1":               "om.hieromartyr.troparion.1",
 		"me.05.27.gvespers.paremia.1":        "",
 	}
 	for id, src := range want {

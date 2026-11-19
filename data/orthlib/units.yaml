@@ -3418,3 +3418,122 @@ units:
     after: "степенна, глас д. антифон а"
     from: "стым дхом всяка душа живится"
     to: ""
+
+  # === Повечерие малое (Часослов) ===
+  # Пс 50 — ch.psalm.50 (из начала полунощницы: «молитвословия начальныя зри
+  # в начале полунощницы»). Молитвы в конце даны в малом повечерии начальными
+  # словами («сия вся ищи в конце великаго повечерия») — из великого.
+  - key: ch.compline.title
+    book: chasoslov
+    kind: title
+    source: orthlib.chasoslov
+    file: chasoslov/ch/12mpovech.hip
+    from: "начало с бгом малаго повечерия"
+    to: ""
+  - key: ch.compline.psalm.69
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/12mpovech.hip
+    from: "бже, в помощь мою вонми, гдси, помощи ми потщися"
+    to: ""
+  - key: ch.compline.psalm.101
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/12mpovech.hip
+    from: "гдси, услыши молитву мою, и вопль мой к тебе да приидет"
+    to: ""
+  - key: ch.compline.doxology.1
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/12mpovech.hip
+    from: "слава в вышних бгу, и на земли мир"
+    to: ""
+  - key: ch.compline.doxology.2
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/12mpovech.hip
+    from: "на всяку нощь блгословлю тя"
+    to: ""
+  - key: ch.compline.doxology.3
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/12mpovech.hip
+    from: "гдси, прибежище был еси нам в род и род"
+    to: ""
+  - key: ch.compline.vouchsafe
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/12mpovech.hip
+    from: "сподоби гдси в нощь сию без греха"
+    to: ""
+  - key: ch.compline.doxology.5
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/12mpovech.hip
+    from: "буди гдси, млсть твоя на нас, якоже уповахом"
+    to: ""
+  - key: ch.compline.doxology.6
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/12mpovech.hip
+    from: "гдси, милость твоя во век, дел руку твоею не презри"
+    to: ""
+  - key: ch.compline.troparion.fathers
+    book: chasoslov
+    kind: troparion
+    tone: 4
+    source: orthlib.chasoslov
+    file: chasoslov/ch/12mpovech.hip
+    from: "бже отец наших, творяй присно с нами"
+    to: ""
+  - key: ch.compline.troparion.martyrs
+    book: chasoslov
+    kind: troparion
+    tone: 8
+    source: orthlib.chasoslov
+    file: chasoslov/ch/12mpovech.hip
+    from: "иже во всем мире мученик твоих"
+    to: ""
+  - key: ch.compline.theotokion
+    book: chasoslov
+    kind: theotokion
+    source: orthlib.chasoslov
+    file: chasoslov/ch/12mpovech.hip
+    from: "млтвами гдси всех стых, и бцды"
+    to: ""
+  - key: ch.compline.prayer.undefiled
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "нескверная, неблазная, нетленная, пречстая"
+    to: ""
+  - key: ch.compline.prayer.grant_us
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "и даждь нам влдко, на сон грядущым покой тела и души, и сохрани"
+    to: ""
+  - key: ch.compline.prayer.most_glorious
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "преславная приснодво, мти хрста бга, принеси"
+    to: ""
+  - key: ch.compline.prayer.my_hope
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "упование мое оц, прибежище мое сн"
+    to: ""

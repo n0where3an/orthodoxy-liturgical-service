@@ -1,0 +1,52 @@
+# Повечерие малое — по Часослову (М., 1980). Служится вечером накануне дня.
+#
+# Обычное начало, «Приидите, поклонимся», Пс 50 («молитвословия начальныя
+# зри в начале полунощницы»), 69 и 101 (так в Часослове), «Слава в вышних
+# Богу», «Сподоби, Господи», «Верую», канон Богородице Октоиха, «Достойно
+# есть», Трисвятое, тропари (или кондак) дня, «Господи, помилуй» 40, «Иже на
+# всякое время», «Честнейшую», молитвы «Нескверная», «И даждь нам», «Преславная
+# Приснодево», «Упование мое», отпуст.
+
+service: compline
+nodes:
+  - {id: title, ref: ch.compline.title, heading: true}
+  - {id: beginning, include: usual_beginning}
+
+  - {id: psalms_rubric, rubric: psalms}
+  - {id: psalm_50, ref: ch.psalm.50, performer: reader}
+  - {id: psalm_69, ref: ch.compline.psalm.69, performer: reader}
+  - {id: psalm_101, ref: ch.compline.psalm.101, performer: reader}
+
+  - {id: doxology_1, ref: ch.compline.doxology.1, performer: reader}
+  - {id: doxology_2, ref: ch.compline.doxology.2, performer: reader}
+  - {id: doxology_3, ref: ch.compline.doxology.3, performer: reader}
+  - {id: vouchsafe, ref: ch.compline.vouchsafe, performer: reader}
+  - {id: doxology_5, ref: ch.compline.doxology.5, performer: reader}
+  - {id: doxology_6, ref: ch.compline.doxology.6, performer: reader}
+  - {id: creed, ref: common.creed, performer: reader}
+
+  - {id: canon_rubric, rubric: compline_canon, audience: kliros}
+  - {id: canon, slot: canon, performer: reader}
+  - {id: truly_meet, ref: ch.lit.it_is_truly_meet, performer: reader}
+  - {id: trisagion, include: trisagion_to_our_father}
+
+  - {id: troparia_rubric, rubric: compline_troparia, audience: kliros}
+  - {id: troparia, slot: troparia, performer: reader}
+  - {id: lhm_40, ref: common.lord_have_mercy, performer: reader, repeat: 40}
+  - {id: prayer_of_hours, ref: common.prayer_of_the_hours, performer: reader}
+  - {id: glory_now, ref: common.glory_now, performer: reader}
+  - {id: more_honorable, ref: common.more_honorable, performer: reader}
+  - {id: in_the_name, ref: common.in_the_name_of_the_lord_bless, performer: reader, when: priest}
+  - {id: holy_fathers, ref: common.prayers_of_holy_fathers, performer: priest, voice: aloud, when: priest}
+  - {id: holy_fathers_reader, ref: common.prayers_of_holy_fathers, performer: reader, when: "!priest"}
+  - {id: amen, ref: common.amen, performer: reader}
+
+  - {id: prayer_undefiled, ref: ch.compline.prayer.undefiled, performer: reader}
+  - {id: prayer_grant_us, ref: ch.compline.prayer.grant_us, performer: reader}
+  - {id: prayer_most_glorious, ref: ch.compline.prayer.most_glorious, performer: reader}
+  - {id: prayer_my_hope, ref: ch.compline.prayer.my_hope, performer: reader}
+
+  # «Слава, и ныне: Господи, помилуй, трижды. И бывает отпуст».
+  - {id: end_glory_now, ref: common.glory_now, performer: reader, when: "!priest"}
+  - {id: end_lhm_3, ref: common.lord_have_mercy, performer: reader, repeat: 3, when: "!priest"}
+  - {id: dismissal, include: dismissal}

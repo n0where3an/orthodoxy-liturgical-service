@@ -18,7 +18,10 @@ import (
 //	    (the sessional hymn after the 3rd ode)
 //	ikos.<N>                                       (after the 6th ode)
 //	exapostilarion.<N>, exapostilarion.theotokion  (after the 9th ode)
-//	aposticha.glory, aposticha.theotokion          (when the Menaion has them)
+//	aposticha.sticheron.<N>, aposticha.verse.<N> (the verse before
+//	    sticheron N), aposticha.glory | aposticha.glory_now, aposticha.now
+//	    (the feast's at «И ныне»), aposticha.theotokion                       (when the Menaion has them:
+//	    an afterfeast sings the feast's stichera instead of the Octoechos's)
 //
 // The kontakia are imported with the troparia (me.….kontakion.N).
 var (
@@ -38,10 +41,11 @@ var (
 	reMHeadText   = regexp.MustCompile(`^(глас \S+ )?песнь \S+ ирмос:?$|^(ин\.? )?ирмос( тойже)?[.:]?$|^глас \S+ ирмос:?$`)
 	reMSame       = regexp.MustCompile(`ирмос тойже`)
 	reMIrmosOnly  = regexp.MustCompile(`^(глас \S+ )?ирмос:?$`)
-	reMCompline   = regexp.MustCompile(`^на повечерии`)
+	reMCompline   = regexp.MustCompile(`^на повечерии|поется на повечерии`) // «…поется на повечерии»: the canon of compline
 	reMMatinsNote = regexp.MustCompile(`^на утрени`)
 	reMOtherSaint = regexp.MustCompile(`^\S+( \S+)?:$`)
-	reMStop       = regexp.MustCompile(`^(на хвалитех|на литургии|на велицем славословии|на 1-м часе|конец|на утрени|на вечерни|на малей вечерни|на велицей вечерни|месяца|в тойже день)`)
+	reMPraises    = regexp.MustCompile(`^на хвалитех`)
+	reMStop       = regexp.MustCompile(`^(на литургии|на велицем славословии|на 1-м часе|конец|на утрени|на вечерни|на малей вечерни|на велицей вечерни|месяца|в тойже день)`)
 )
 
 func parseMenaionMatins(d *Doc, prefix, path string) []corpus.Unit {
@@ -67,7 +71,7 @@ func parseMenaionMatins(d *Doc, prefix, path string) []corpus.Unit {
 	expect, heading := "", "" // what the next body paragraph is
 	canon, canons, ode := 0, 0, 0
 	nTrop := map[string]int{}
-	nSed, nIkos, nSvet := 0, 0, 0
+	nSed, nIkos, nSvet, nApost := 0, 0, 0, 0
 	irmos := map[int]string{}
 	sequential := false
 	compline := false
@@ -81,6 +85,9 @@ func parseMenaionMatins(d *Doc, prefix, path string) []corpus.Unit {
 			isCanon := reMCanon.MatchString(plain) && !strings.Contains(plain, "октоиха") &&
 				!strings.Contains(plain, "со ирмосом") && strings.Count(plain, "канон") == 1 &&
 				!strings.HasPrefix(plain, "канона ")
+			if isCanon && compline && !started {
+				isCanon = false // the canon of compline, before matins
+			}
 			if isCanon {
 				started, section, expect = true, "canon", ""
 				switch {
@@ -103,6 +110,13 @@ func parseMenaionMatins(d *Doc, prefix, path string) []corpus.Unit {
 				}
 				continue
 			case reMStop.MatchString(plain):
+				return units
+			case started && reMPraises.MatchString(plain):
+				// The praises (imported with the festal matins); the aposticha
+				// may follow them (an afterfeast).
+				section, expect = "praises", ""
+				continue
+			case !started && reMPraises.MatchString(plain):
 				return units
 			case section == "canon" && reMSame.MatchString(plain):
 				// "Ин. Ирмос тойже": the irmos of the first canon.
@@ -161,9 +175,26 @@ func parseMenaionMatins(d *Doc, prefix, path string) []corpus.Unit {
 			case reMAposticha.MatchString(plain):
 				section, heading = "aposticha", text
 				expect = ""
-				if strings.Contains(plain, "слава") {
+				switch {
+				case strings.Contains(plain, "слава"):
 					expect = "glory"
+				case !strings.Contains(plain, "октоиха"):
+					expect = "sticheron" // «на стиховне стихиры, глас в. подобен: …»
 				}
+				continue
+			case section == "aposticha" && strings.HasPrefix(plain, "стих"):
+				// «Стих: Твоя суть небеса…» — the verse before the next sticheron.
+				if k := strings.Index(text, ":"); k >= 0 && nApost > 0 {
+					add(fmt.Sprintf("aposticha.verse.%d", nApost+1), "verse", text, text[k+1:], nil)
+				}
+				expect = "sticheron"
+				continue
+			case section == "aposticha" && reMGlory.MatchString(plain) && strings.Contains(plain, "и ныне"):
+				expect, heading = "glory_now", text
+				continue
+			case section == "aposticha" && reMAndNow.MatchString(plain) && !strings.Contains(plain, "бгородичен"):
+				// «И ныне, праздника:» — the feast's sticheron, not a theotokion.
+				expect, heading = "now", text
 				continue
 			case reMTheot.MatchString(plain) || reMAndNow.MatchString(plain) && strings.Contains(plain, "бгородичен"):
 				expect, heading = "theotokion", text
@@ -237,8 +268,11 @@ func parseMenaionMatins(d *Doc, prefix, path string) []corpus.Unit {
 			expect = ""
 		case "aposticha":
 			switch expect {
-			case "glory":
-				add("aposticha.glory", "sticheron", heading, text, nil)
+			case "sticheron":
+				nApost++
+				add(fmt.Sprintf("aposticha.sticheron.%d", nApost), "sticheron", heading, text, nil)
+			case "glory", "glory_now", "now":
+				add("aposticha."+expect, "sticheron", heading, text, nil)
 			case "theotokion", "cross_theotokion":
 				add("aposticha."+expect, "theotokion", heading, text, nil)
 			}

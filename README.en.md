@@ -21,14 +21,15 @@ var/liturgy serve                                   # http://127.0.0.1:8080/?dat
 
 ## Services and options
 
-Services: `vespers`, `matins` (joined to the first hour unless `-standalone`),
-`first_hour`, `third_hour`, `sixth_hour`, `ninth_hour`, `liturgy` (St John
-Chrysostom). What is covered is in [Coverage](#coverage) below.
+Services: `vespers`, `compline` (small compline), `matins` (joined to the
+first hour unless `-standalone`), `first_hour`, `third_hour`, `sixth_hour`,
+`ninth_hour`, `liturgy` (St John Chrysostom). Vespers and compline are dated
+by the day they belong to: they are served the evening before. What is covered is in [Coverage](#coverage) below.
 
 | Option | Meaning |
 |---|---|
 | `-date YYYY-MM-DD` | civil (Gregorian) date; `-julian` for old style |
-| `-service` | `vespers`, `matins`, `first_hour` … `ninth_hour`, `liturgy` |
+| `-service` | `vespers`, `compline`, `matins`, `first_hour` … `ninth_hour`, `liturgy` |
 | `-reader` | reader's order, without a priest |
 | `-deacon` | litanies by a deacon |
 | `-standalone` | the hour on its own (usual beginning, dismissal); by default hours are joined as in parish practice |
@@ -65,12 +66,17 @@ the winter order two kathismata at matins and the third at the vespers that
 evening).
 
 The General Menaion (`orthlib.obschminea`, keys `om.<rank>.*`) supplies what a
-Menaion day with a sign leaves to it: the common paremias (ch. 39), the
-prokeimenon of matins, and the prokeimenon, Apostle, alleluia, Gospel and
-communion verse of the liturgy (ch. 40). The rank comes from the day's own
-reference («на литургии служба преподобническая», «чтения три стительская»,
-«евангелие стительское»), else from its Apostle and Gospel, else from its title;
-copies carry `copied_from` (and `rank_from_title` when guessed).
+Menaion day lacks, from the common service of the saint's rank: on any day the
+troparion, kontakion and the sessional hymn after the 3rd ode (not where the
+Menaion says «тропарь праздника» — a forefeast or afterfeast — nor for
+additional services `me.MM.DDp`); with a sign (great vespers) also the common
+paremias (ch. 39), the aposticha, the prokeimenon of matins, and the
+prokeimenon, Apostle, alleluia, Gospel and communion verse of the liturgy
+(ch. 40). The rank comes from the day's own reference («на литургии служба
+преподобническая», «чтения три стительская», «евангелие стительское»), else
+from its Apostle and Gospel, else from its title (with a sign the last
+commemoration, the Russian saint added after the Greek ones; without, the
+first); copies carry `copied_from` (and `rank_from_title` when guessed).
 
 ## Coverage
 
@@ -84,7 +90,7 @@ Vespers is listed under the day it belongs to: it is served the evening before.
 |---|---|---|---|---|
 | Weekday (Mon–Fri), saint without a sign | ✅ daily | ✅ daily | ✅ | ✅ |
 | Weekday, saint with a sign (polyeleos, vigil) | ✅ great / vigil ¹ | ✅ festal ² | ✅ | ✅ |
-| Weekday in an afterfeast or on the apodosis | ✅ daily | ❌ | ✅ | ❌ |
+| Weekday in an afterfeast or on the apodosis | ✅ daily | ⚠️ afterfeast ⁵; not the apodosis yet | ✅ | ❌ |
 | Fixed twelve feast on a weekday | ✅ vigil | ✅ festal | ✅ | ✅ |
 | Saturday (any) | ✅ daily or vigil (Friday evening) | ❌ | ✅ | ⚠️ ⁴ |
 | Sunday, saint without a sign | ✅ vigil, without litiya | ✅ ³ | ❌ | ✅ |
@@ -113,7 +119,17 @@ prokeimenon «Души их», the Apostle (1 Thess, зач. 270), the Gospel (J
 yet: the Octoechos troparia at the beatitudes (in the corpus for tones 2 and
 8 only), the Meatfare and Trinity parental Saturdays (the Triodion), Saturday
 in an afterfeast.
-A few days still fail where the Menaion import misses a troparion or a canon.
+⁵ As the Menaion of the afterfeast day gives it: at «Бог Господь» the feast's
+troparion twice, «Слава» the saint's, «И ныне» the feast's (thrice the
+feast's without the saint's); the feast's sessional hymns; the feast's canon
+with its irmos on 8 and the saint's on 4, no Octoechos; the katavasia after
+every ode, by the season or the feast's irmoi; after the 3rd ode the saint's
+kontakion and sessional hymn, after the 6th the feast's kontakion and ikos;
+the exapostilarion, «Слава, и ныне» the feast's; the feast's aposticha;
+«Честнейшую» is sung (ch. 20). Not yet with a saint with a sign.
+A few days still fail: 16 January (the source gives the service as one run
+of text), days whose Menaion canon lacks the troparia of an ode, and vigils
+without a matins Gospel (the corpus has no matins Gospels by rank).
 
 ### Triodion and Pentecostarion
 
@@ -133,7 +149,9 @@ The Triodion is not imported yet; this is the largest remaining part.
 
 | Item | Status |
 |---|---|
-| Compline, Midnight Office (kathisma 17, on Saturday 9), Typika without the liturgy | ❌ |
+| Small compline on the days of the Octoechos ⁶ | ✅ |
+| Great compline (Great Lent, the eves of the Nativity and the Theophany); a Menaion canon at compline (forefeasts, a saint's service moved to compline) | ❌ |
+| Midnight Office (kathisma 17, on Saturday 9), Typika without the liturgy | ❌ |
 | Irmologion: the irmoi by tone (to complete the irmoi cited by their first words); the 9th-ode refrains in the afterfeast and on the apodosis | ❌ |
 | Psalter in the Triodion: Meatfare and Cheesefare weeks, Great Lent, its 5th week, Holy Week («Устав о Псалтири») | ❌ |
 | Liturgy of St Basil, Presanctified Liturgy | ❌ |
@@ -142,6 +160,15 @@ The Triodion is not imported yet; this is the largest remaining part.
 | Dismissal of an afterfeast of the Lord on Sunday («Воскресый из мертвых» + the feast's) | ⚠️ only «Воскресый из мертвых» |
 | Choice of Church Slavonic fonts | ❌ |
 | English texts | ⚠️ fixed texts and the Menaion where translated; the rest falls back to Slavonic |
+
+⁶ By the Horologion: Pss 50, 69 and 101 (so in the Moscow 1980 Horologion),
+«Слава в вышних», «Сподоби, Господи», the Creed, the Octoechos canon of
+supplication to the Theotokos (Typikon ch. 9) with «Пресвятая Богородице,
+спаси нас» and the sessional hymn after the 6th ode, «Достойно есть», the
+Trisagion; the troparia by the weekday and the church (ch. 52); on Friday
+evening «Апостоли, мученицы», «Помяни, Господи», «Яко начатки»; on Saturday
+evening the kontakion of the tone; a saint with a sign — his kontakion; a
+forefeast or afterfeast — the feast's kontakion. Not served before a vigil.
 
 ## Layout
 

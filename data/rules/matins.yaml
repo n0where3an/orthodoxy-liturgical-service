@@ -3,8 +3,9 @@
 # canons and aposticha of the Octoechos, the Menaion canon, sessional hymn,
 # kontakion with ikos and exapostilarion.
 #
-# Recognised but not yet implemented: Sunday and Saturday matins, feasts and
-# afterfeasts, saints with a sign (polyeleos, great doxology), the Triodion
+# Also: a weekday of the afterfeast (matins.afterfeast).
+#
+# Recognised but not yet implemented: Saturday matins, the apodosis, saints with a sign (polyeleos, great doxology), the Triodion
 # periods (Lenten matins with «Аллилуиа», Paschal matins).
 
 - id: matins.lord_feast_on_sunday
@@ -197,11 +198,43 @@
   when: period != "ordinary"
   unsupported: "Утреня в дни Триоди (в Великий пост — «Аллилуиа», трипеснцы) ещё не реализована"
 
+- id: matins.apodosis
+  service: matins
+  priority: 205
+  when: feast != "" && apodosis
+  unsupported: "Утреня на отдание праздника (поется вся служба праздника) ещё не реализована"
+
+- id: matins.afterfeast.saint_unsupported
+  service: matins
+  priority: 202
+  when: feast != "" && !feast_day && menaion_great_vespers
+  unsupported: "Утреня попразднства со святым со знаком (полиелей, бдение) ещё не реализована"
+
 - id: matins.afterfeast
+  service: matins
+  priority: 201
+  # A weekday of the afterfeast: the Menaion's own order (internal/liturgy/afterfeast_matins.go).
+  when: feast != "" && !feast_day
+  slots:
+    troparia: {from: af_troparia}
+    sedalny_1: {from: af_sedalny, section: "1"}
+    sedalny_2: {from: af_sedalny, section: "2"}
+    canon_1_3: {from: af_canon, section: "1-3"}
+    sedalen: {from: af_sedalen}
+    canon_4_6: {from: af_canon, section: "4-6"}
+    kontakion: {from: af_kontakion}
+    canon_7_8: {from: af_canon, section: "7-8"}
+    canon_9: {from: af_canon, section: "9"}
+    exapostilaria: {from: af_exapostilaria}
+    praises: {from: gm_praises}
+    aposticha: {from: matins_aposticha}
+    end_troparia: {from: vespers_troparia}
+
+- id: matins.afterfeast.unsupported
   service: matins
   priority: 200
   when: feast != ""
-  unsupported: "Утреня попразднства и отдания, праздника без своей службы в Минее ещё не реализована"
+  unsupported: "Утреня праздника без своей службы в Минее ещё не реализована"
 
 - id: matins.vigil
   service: matins
@@ -315,6 +348,8 @@
 - {id: matins.kathisma_1.fri.ordinary, slot: kathisma_1, service: matins, priority: 50, when: "weekday == 5", fill: {from: unit, refs: [ps.kathisma.19.1, ps.kathisma.19.2, ps.kathisma.19.3]}}
 - {id: matins.kathisma_2.fri.ordinary, slot: kathisma_2, service: matins, priority: 50, when: "weekday == 5", fill: {from: unit, refs: [ps.kathisma.20.1, ps.kathisma.20.2, ps.kathisma.20.3]}}
 - {id: matins.kathisma_3.fri.ordinary, slot: kathisma_3, service: matins, priority: 50, when: "weekday == 5", fill: {from: none}}
+# In the afterfeast the feast's (the Menaion's), else the Octoechos's.
+- {id: matins.sedalny_3.winter.afterfeast, slot: sedalny_3, service: matins, priority: 65, when: "feast != \"\" && !feast_day && weekday >= 1 && weekday <= 4 && ((month == 9 && day >= 22) || month == 10 || month == 11 || (month == 12 && day <= 19) || (month == 1 && day >= 15) || month == 2)", fill: {from: af_sedalny, section: "3"}}
 - {id: matins.sedalny_3.winter, slot: sedalny_3, service: matins, priority: 60, when: "weekday >= 1 && weekday <= 4 && ((month == 9 && day >= 22) || month == 10 || month == 11 || (month == 12 && day <= 19) || (month == 1 && day >= 15) || month == 2)", fill: {from: matins_sedalny, section: "3"}}
 - {id: matins.sedalny_3.none, slot: sedalny_3, service: matins, priority: 10, when: "true", fill: {from: none}}
 # Sunday (a feast of the Lord on Sunday): kathismata 2 and 3.

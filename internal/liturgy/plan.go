@@ -201,10 +201,15 @@ func (p *Planner) Plan(ctx context.Context, d calendar.JDate, service string, pa
 			}
 		}
 	}
-	if service == "matins" && day.Weekday == time.Sunday {
+	afterfeast := f.Feast != nil && !f.Feast.IsFeastDay(day)
+	if service == "matins" && (day.Weekday == time.Sunday || afterfeast) {
+		// The seasonal katavasia: on Sunday, and in the afterfeast (sung
+		// after every ode).
 		if f.Katavasia, f.KatavasiaSeasonal, err = p.Katavasia.ForSeason(ctx, p.Menaion, day.Menaion); err != nil {
 			return nil, err
 		}
+	}
+	if service == "matins" && day.Weekday == time.Sunday {
 		if f.Eothinon = day.Eothinon; f.Eothinon > 0 {
 			ids := []string{fmt.Sprintf("oc.eothinon.%d.sticheron", f.Eothinon)}
 			if tones, err := p.Menaion.UnitTones(ctx, ids); err == nil {

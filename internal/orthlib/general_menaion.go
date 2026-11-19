@@ -498,6 +498,10 @@ func SupplementFromGeneralMenaion(units []corpus.Unit) ([]corpus.Unit, []string)
 		feastDay := strings.Contains(dd.title, "бцды") || strings.Contains(dd.title, "гдса нашего")
 		if cat == "" && !feastDay {
 			cat, guessed = rankOfTitle(dd.title), true
+			if !dd.gvespers {
+				// A day without a sign: the service is the first saint's.
+				cat = rankOfFirst(dd.title)
+			}
 		}
 		if dd.ref != "" && !dd.litProk {
 			for _, part := range commonLitParts {
@@ -572,19 +576,33 @@ func rankOfTitle(title string) string {
 	return ""
 }
 
+// rankOfFirst: the rank of the first commemoration of the title that names
+// one — a day without a sign, whose service is the first saint's.
+func rankOfFirst(title string) string {
+	for _, seg := range strings.FieldsFunc(title, func(r rune) bool { return r == ':' || r == ';' }) {
+		if r := rankOfSegment(seg); r != "" {
+			return r
+		}
+	}
+	return ""
+}
+
 func rankOfSegment(title string) string {
 	ranks := []struct{ word, cat string }{
 		{"прпдбномученицы", "nun_martyr"}, {"прпдбномчницы", "nun_martyr"},
 		{"прпдбномученик", "monk_martyr"}, {"прпдбномчник", "monk_martyr"},
 		{"сщенномученик", "hieromartyr"}, {"священномученик", "hieromartyr"}, {"сщенномчник", "hieromartyr"},
 		{"мученицы", "woman_martyr"}, {"мчницы", "woman_martyr"}, {"мучениц ", "women_martyrs"}, {"мчниц ", "women_martyrs"},
+		{"мучениц,", "women_martyrs"}, {"мчниц,", "women_martyrs"},
 		{"мучеников", "martyrs"}, {"мученик ", "martyrs"}, {"мученик,", "martyrs"}, {"мчник ", "martyrs"}, {"мчник,", "martyrs"},
 		{"мученик", "martyr"}, {"мчник", "martyr"},
 		{"безмездник", "unmercenaries"}, {"юродив", "fools"}, {"исповедник", "confessor"},
-		{"апсла", "apostle"}, {"апслов", "apostles"}, {"пророка", "prophet"},
+		{"апсла", "apostle"}, {"апслов", "apostles"}, {"апсл ", "apostles"}, {"апсл,", "apostles"}, {"апсл:", "apostles"},
+		{"пророка", "prophet"}, {"архаггла", "angels"}, {"архистратига", "angels"}, {"безплотных", "angels"},
 		{"архиепископа", "hierarch"}, {"епископа", "hierarch"}, {"митрополита", "hierarch"}, {"стителя", "hierarch"},
-		{"прпдбныя", "nun"}, {"преподобныя", "nun"},
-		{"прпдбнаго", "monk"}, {"преподобнаго", "monk"}, {"прпдбных", "monks"},
+		{"патриарха", "hierarch"}, {"иже во стых", "hierarch"},
+		{"прпдбныя", "nun"}, {"преподобныя", "nun"}, {"матере нашея", "nun"},
+		{"прпдбнаго", "monk"}, {"преподобнаго", "monk"}, {"прпдбных", "monks"}, {"преподобных", "monks"},
 	}
 	best, at := "", len(title)+1
 	for _, r := range ranks {

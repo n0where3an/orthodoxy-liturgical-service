@@ -1,0 +1,37 @@
+# Rules for small compline (малое повечерие), served the evening before the
+# liturgical day (like vespers, it is planned for the day it begins).
+#
+# Implemented: the days of the Octoechos (the ordinary period): the canon of
+# the Theotokos of the Octoechos (Типикон, гл. 9), the troparia or kontakia
+# of the day after the Trisagion (гл. 52) — internal/liturgy/compline.go.
+#
+# Not served: on the eve of a vigil (a twelve feast, a saint with a vigil) —
+# compline is not sung before the all-night vigil. Recognised but not yet
+# implemented: the Triodion (great compline in Lent), the eves of the
+# Nativity and the Theophany (great compline), a canon of the Menaion sung at
+# compline (forefeasts, a saint's service moved there).
+
+- id: compline.triodion
+  service: compline
+  priority: 300
+  when: period != "ordinary"
+  unsupported: "Повечерие в дни Триоди (великое повечерие Великого поста) ещё не реализовано"
+
+- id: compline.great
+  service: compline
+  priority: 290
+  when: (month == 12 && day == 24) || (month == 1 && day == 5)
+  unsupported: "Великое повечерие навечерий Рождества Христова и Богоявления ещё не реализовано"
+
+- id: compline.vigil
+  service: compline
+  priority: 280
+  when: feast_day || menaion_litiya
+  unsupported: "Под праздник со всенощным бдением повечерие не совершается"
+
+- id: compline.daily
+  service: compline
+  priority: 10
+  slots:
+    canon: {from: compline_canon}
+    troparia: {from: compline_troparia}

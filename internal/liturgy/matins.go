@@ -287,14 +287,21 @@ func matinsExapostilaria(f Facts) ([]SlotItem, error) {
 	return append(items, reader("common.glory_now"), SlotItem{Ref: th}), nil
 }
 
+// matinsAposticha: the Octoechos's stichera — the Menaion's when it gives
+// its own (the feast's in an afterfeast) — with their verses; «Слава» (and
+// «И ныне») of the Menaion.
 func matinsAposticha(f Facts) ([]SlotItem, error) {
 	k := "matins.aposticha."
 	stichera := f.Octoechos[k+"sticheron"]
+	verseIDs := f.Octoechos[k+"verse"]
+	if men := mainMenaion(f, k+"sticheron"); len(men) > 0 {
+		stichera, verseIDs = men, mainMenaion(f, k+"verse")
+	}
 	if len(stichera) == 0 {
 		return nil, fmt.Errorf("no Octoechos aposticha at matins (tone %d, %v)", f.Day.Tone, f.Day.Weekday)
 	}
 	verses := map[string]string{}
-	for _, id := range f.Octoechos[k+"verse"] {
+	for _, id := range verseIDs {
 		verses[id[strings.LastIndex(id, ".")+1:]] = id
 	}
 	var items []SlotItem
@@ -311,7 +318,13 @@ func matinsAposticha(f Facts) ([]SlotItem, error) {
 		}
 		items = append(items, SlotItem{Ref: id})
 	}
-	th := theotokionFor(f, "matins.aposticha")
+	if g := firstMain(f, k+"glory_now"); g != "" {
+		return append(items, reader("common.glory_now"), SlotItem{Ref: g}), nil
+	}
+	th := firstMain(f, k+"now") // «И ныне, праздника»
+	if th == "" {
+		th = theotokionFor(f, "matins.aposticha")
+	}
 	if th == "" {
 		th = first(f.Octoechos, k+"theotokion")
 	}
