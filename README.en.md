@@ -96,7 +96,7 @@ evening before. Typika: the service in place of the liturgy on days without one.
 
 ### Ordinary year (Menaion + Octoechos)
 
-| Day | Vespers | Compline ⁶ | Midnight Office ⁷ | Matins | Hours | Typika | Liturgy |
+| Day | Vespers | Compline ⁶ | Midnight<br>Office ⁷ | Matins | Hours | Typika | Liturgy |
 |---|---|---|---|---|---|---|---|
 | Weekday (Mon–Fri), saint without a sign | ✅ daily | ✅ small | ✅ daily | ✅ daily | ✅ | ❌ | ✅ |
 | Weekday, saint with a sign (polyeleos, vigil) | ✅ great / vigil ¹ | ✅ / — before a vigil | ✅ / — before a vigil | ✅ festal ² | ✅ | ❌ | ✅ |
@@ -156,7 +156,7 @@ Sunday) is given by its first words only, as in the Horologion.
 
 ### Triodion and Pentecostarion
 
-| Period | Vespers | Compline | Midnight Office | Matins | Hours | Typika | Liturgy |
+| Period | Vespers | Compline | Midnight<br>Office | Matins | Hours | Typika | Liturgy |
 |---|---|---|---|---|---|---|---|
 | Preparatory weeks (Publican and Pharisee … Cheesefare) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Great Lent, weekdays | ❌ | ❌ | ❌ | ❌ | ❌ Lenten hours | ❌ | — (Presanctified ❌ Wed, Fri) |
