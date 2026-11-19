@@ -45,6 +45,10 @@ func LoadDoc(path string) (*Doc, error) {
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", path, err)
 	}
+	return newDoc(path, paras), nil
+}
+
+func newDoc(path string, paras []hip.Paragraph) *Doc {
 	d := &Doc{Path: path, Paras: paras}
 	lines := make([]string, len(paras))
 	for i, p := range paras {
@@ -53,8 +57,11 @@ func LoadDoc(path string) (*Doc, error) {
 	d.text = []rune(strings.Join(lines, "\n"))
 	d.plain, d.pos = hip.Plain(string(d.text))
 	d.prs = []rune(d.plain)
-	return d, nil
+	return d
 }
+
+// head returns the document of the first n paragraphs.
+func (d *Doc) head(n int) *Doc { return newDoc(d.Path, d.Paras[:n]) }
 
 func (d *Doc) indexFrom(needle string, from int) int {
 	if from > len(d.prs) {

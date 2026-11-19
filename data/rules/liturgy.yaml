@@ -14,6 +14,8 @@
 #     hymn instead of the Trisagion, the feast's prokeimenon, readings,
 #     alleluia, zadostoinik and communion verse.
 #
+#   - a Sunday with readings of its own (before and after the Exaltation,
+#     the Nativity — of the Fathers —, the Theophany): liturgy.sunday.special;
 #   - an ordinary Sunday: the Octoechos (the beatitudes, the resurrectional
 #     troparion and kontakion, the prokeimenon and alleluia of the tone), the
 #     Sunday readings, «Хвалите Господа»; with a saint (with or without a
@@ -97,6 +99,28 @@
       kinonik: {from: lit_kinonik, part: sunday}
     troparia: {from: lit_troparia, part: sunday_feast}
     truly_meet: {from: lit_truly_meet, part: feast}
+
+- id: liturgy.sunday.special
+  service: liturgy
+  priority: 306
+  # A Sunday with readings of its own: before and after the Exaltation, of
+  # the Fathers before the Nativity, after the Nativity, before and after the
+  # Theophany (internal/liturgy/special_sunday.go). Not on the feast itself,
+  # its eve (liturgy.nativity_theophany) or the Circumcision (the liturgy of
+  # St Basil).
+  when: >-
+    weekday == 0 && period == "ordinary" && special_sunday != "" && !feast_day &&
+    !(month == 1 && day == 1)
+  slots:
+    <<: *sunday_slots
+    troparia: {from: lit_troparia, part: sunday_special}
+    trisagion: {from: lit_trisagion, part: sunday_afterfeast}
+    prokeimena: {from: lit_prokeimena, part: sunday_special}
+    apostles: {from: lit_apostles, part: sunday_special}
+    alleluia: {from: lit_alleluia, part: sunday_special}
+    gospels: {from: lit_gospels, part: sunday_special}
+    truly_meet: {from: lit_truly_meet, part: sunday_special}
+    kinonik: {from: lit_kinonik, part: sunday_special}
 
 - id: liturgy.sunday.afterfeast
   service: liturgy

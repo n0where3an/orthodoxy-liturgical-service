@@ -1,10 +1,24 @@
 # Псалмы окончены: «Слава, и ныне», аллилуия, «Господи, помилуй» трижды;
-# «Слава» — тропарь дне. (Богородичен часа и стихи следуют в шаблоне часа.)
+# «Слава» — тропарь дне; в воскресенье прежде — воскресный. (Богородичен
+# часа и стихи следуют в шаблоне часа.)
 nodes:
   - {id: glory_now, ref: common.glory_now, performer: reader}
   - {id: alleluia, ref: common.alleluia_glory_to_thee, performer: reader, repeat: 3}
   - {id: lhm, ref: common.lord_have_mercy, performer: reader, repeat: 3}
   - {id: troparion_rubric, rubric: troparion_of_day, audience: kliros}
-  - {id: glory, ref: common.glory, performer: reader}
-  - {id: troparion, slot: troparion, performer: reader}
-  - {id: and_now, ref: common.and_now, performer: reader}
+  # Sunday: the resurrectional troparion before «Слава».
+  - id: troparion_first_group
+    if_slot: troparion_first
+    children:
+      - {id: troparion_first, slot: troparion_first, performer: reader}
+  - id: troparion_group
+    if_slot: troparion
+    children:
+      - {id: glory, ref: common.glory, performer: reader}
+      - {id: troparion, slot: troparion, performer: reader}
+      - {id: and_now, ref: common.and_now, performer: reader}
+  # No troparion at «Слава» (Sunday without a saint's): «Слава, и ныне».
+  - id: no_troparion_group
+    unless_slot: troparion
+    children:
+      - {id: glory_now_theotokion, ref: common.glory_now, performer: reader}

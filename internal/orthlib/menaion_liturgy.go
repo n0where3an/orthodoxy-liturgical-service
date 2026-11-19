@@ -30,6 +30,10 @@ var (
 	reLitBeat      = regexp.MustCompile(`бла?женна[^.]*`)
 	reLitBeatOde   = regexp.MustCompile(`(?:(а|в|г)-го (?:канона )?)?песнь (\S+?)(?:-я|-ю)?[ ,.:]`)
 	reLitProk      = regexp.MustCompile(`прокимен,?\s*(?:песнь бцды,? |стаго,?\s*)?(?:глас (\S+?)[.:,]\s*|:\s*)(?:песнь бцды:\s*)?(.+?)\s*стих:\s*(.+?)\s*(?:всякое дыхание|апсл|апостол|еиглие|евангелие)`)
+	// The special Sundays (ImportSpecialDays): also «прокимен, глас д, песнь
+	// оцев: …», «прокимен гласа: и стых, глас д: …» (the tone's, then the
+	// saints'). Not for the days, whose rubrics only mention such a Sunday.
+	reSpecProk     = regexp.MustCompile(`прокимен,?\s*(?:гласа:?\s*и (?:стаго|стых),?\s*)?(?:песнь (?:бцды|оцев),? |стаго,?\s*)?(?:глас (\S+?)[.:,]\s*|:\s*)(?:песнь (?:бцды|оцев):\s*)?(.+?)\s*стих:\s*(.+?)\s*(?:всякое дыхание|апсл|апостол|еиглие|евангелие)`)
 	reLitApostle   = regexp.MustCompile(`(?:апсл|апостол)[^.]*?зачало (\S+?)(\s+от полу)?[.,:]`)
 	reLitAlleluia  = regexp.MustCompile(`аллилуиа,? глас (\S+?)[.:]\s*(.+?)\s*(?:стих:\s*(.+?)\s*)?(?:еиглие|евангелие)`)
 	reLitGospel    = regexp.MustCompile(`(?:еиглие|евангелие) (?:от )?(матфеа|марка|луки|иоанна)[^.]*?зачало (\S+?)(\s+от полу)?[.,:]`)
@@ -200,6 +204,10 @@ func parseMenaionLiturgy(d *Doc, prefix, path, day string) []corpus.Unit {
 
 // parseLiturgyRubric reads the citations of «На литургии…».
 func parseLiturgyRubric(text, plain string, pos []int, add func(key, kind, body string, meta map[string]any)) {
+	parseLiturgyRubricWith(reLitProk, text, plain, pos, add)
+}
+
+func parseLiturgyRubricWith(prokRe *regexp.Regexp, text, plain string, pos []int, add func(key, kind, body string, meta map[string]any)) {
 	meta := map[string]any{}
 	if m := reLitBeat.FindStringIndex(plain); m != nil {
 		var odes [][2]int
@@ -227,7 +235,7 @@ func parseLiturgyRubric(text, plain string, pos []int, add func(key, kind, body 
 			meta["beatitudes"] = odes
 		}
 	}
-	if m := reLitProk.FindStringSubmatchIndex(plain); m != nil {
+	if m := prokRe.FindStringSubmatchIndex(plain); m != nil {
 		if m[2] >= 0 { // else the tone of the cited prokeimenon (ResolveLiturgy)
 			meta["prok_tone"] = uniNumeral(text, pos, plain, m[2], m[3])
 		}

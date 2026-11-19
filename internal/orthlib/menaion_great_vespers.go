@@ -42,8 +42,14 @@ var (
 )
 
 func parseMenaionGreatVespers(d *Doc, prefix, path string) []corpus.Unit {
+	return parseMenaionGreatVespersOf(d, d, prefix, path)
+}
+
+// parseMenaionGreatVespersOf parses d; whether small vespers precedes great
+// vespers is told by the whole file (d may be its day's part only).
+func parseMenaionGreatVespersOf(d, whole *Doc, prefix, path string) []corpus.Unit {
 	hasSmall, hasGreat := false, false
-	for _, p := range d.Paras {
+	for _, p := range whole.Paras {
 		plain := hip.PlainString(p.Text())
 		if reGVSmall.MatchString(plain) {
 			hasSmall = true

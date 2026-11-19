@@ -25,6 +25,11 @@ import (
 //   - the prokeimenon and alleluia of the tone (and the saint's if he has
 //     them), the Sunday readings of the week, «Хвалите Господа с небес».
 func sundayLiturgySlot(sel SlotSelector, f Facts) ([]SlotItem, bool, error) {
+	if sel.Part == "sunday_special" {
+		if items, ok, err := specialSundayLiturgySlot(sel, f); ok || err != nil {
+			return items, ok, err
+		}
+	}
 	oc := func(k string) string { return first(f.Octoechos, k) }
 	switch sel.From {
 	case "lit_antiphon":
@@ -137,12 +142,20 @@ func sundayAfterfeastTroparia(f Facts) ([]SlotItem, error) {
 	return append(items, choir("common.glory_now"), choir(f.Feast.Kontakion)), nil
 }
 
+var nativityTheophanyZadostoinik = map[string]string{"nativity": "lit.zadostoinik.nativity", "theophany": "lit.zadostoinik.theophany"}
+
 // afterfeastZadostoinik: in the afterfeast, the zadostoinik of the feast
 // (the day's own if its Menaion names one): the feast's refrain and the
 // irmos of the 9th ode of its first canon.
 func afterfeastZadostoinik(f Facts) ([]SlotItem, error) {
 	if f.Feast == nil {
 		return nil, fmt.Errorf("no feast")
+	}
+	// The Nativity and the Theophany: «Величай, душе моя, честнейшую…» (the
+	// Irmologion's refrain) and the irmos of the 9th ode of the second
+	// canon («Любити убо нам», «Недоумеет всяк язык»).
+	if z, ok := nativityTheophanyZadostoinik[f.Feast.ID]; ok {
+		return []SlotItem{choir("ir.pripev." + f.Feast.ID + ".1.irmos"), choir(z)}, nil
 	}
 	z := firstMain(f, "lit.zadostoinik")
 	if z == "" {

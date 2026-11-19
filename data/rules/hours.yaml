@@ -3,7 +3,7 @@
 # "lenten-triodion", "pentecostarion"), pascha_offset, bright_week, tone,
 # month, day, menaion_troparia, menaion_kontakia.
 #
-# Implemented so far: ordinary days (Menaion troparion and kontakion).
+# Implemented so far: ordinary days (Menaion troparion and kontakion), Sundays.
 # Recognised but not yet implemented cases are marked "unsupported".
 
 - id: hours.bright_week
@@ -42,8 +42,7 @@
   priority: 110
   # Afterfeast up to the apodosis: the feast's troparion and kontakion
   # alternate at the hours with those of the saint of the day (feast first).
-  # Sundays of the afterfeast also need the resurrection troparion, so they
-  # stay with hours.sunday until the Octoechos is imported.
+  # Sundays of the afterfeast: hours.sunday.
   when: feast != "" && weekday != 0
   slots:
     troparion: {from: feast_and_menaion, part: troparion, kind: troparion, alternate_by_hour: true}
@@ -52,8 +51,22 @@
 - id: hours.sunday
   services: [first_hour, third_hour, sixth_hour, ninth_hour]
   priority: 100
+  # Sunday (Типикон, гл. 52; гл. 3–5 for a saint with a sign): the
+  # resurrectional troparion, «Слава» the saint's (the feast's in a forefeast
+  # or afterfeast, the Fathers' before the Nativity), «И ныне» the theotokion
+  # of the hour; the resurrectional kontakion, or the saint's, the feast's,
+  # alternating by the hour (internal/liturgy/sunday_hours.go).
+  when: weekday == 0 && period == "ordinary"
+  slots:
+    troparion_first: {from: sunday_hours, part: troparion_first}
+    troparion: {from: sunday_hours, part: troparion}
+    kontakion: {from: sunday_hours, part: kontakion}
+
+- id: hours.sunday.unsupported
+  services: [first_hour, third_hour, sixth_hour, ninth_hour]
+  priority: 99
   when: weekday == 0
-  unsupported: "Воскресные часы (тропарь Октоиха по гласу, на 1-м часе — ипакои) ещё не реализованы"
+  unsupported: "Воскресные часы в дни Триоди ещё не реализованы"
 
 - id: hours.ordinary
   services: [first_hour, third_hour, sixth_hour, ninth_hour]

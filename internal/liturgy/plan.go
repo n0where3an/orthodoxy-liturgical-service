@@ -140,6 +140,23 @@ func (p *Planner) Plan(ctx context.Context, d calendar.JDate, service string, pa
 			f.Tones[id] = t
 		}
 	}
+	if f.Special = specialSunday(day); f.Special != "" {
+		ids, err := p.Menaion.ListIDs(ctx, "ms."+f.Special+".")
+		if err != nil {
+			return nil, err
+		}
+		f.SpecialUnits = map[string]string{}
+		for _, id := range ids {
+			f.SpecialUnits[strings.TrimPrefix(id, "ms."+f.Special+".")] = id
+		}
+		tones, err := p.Menaion.UnitTones(ctx, ids)
+		if err != nil {
+			return nil, err
+		}
+		for id, t := range tones {
+			f.Tones[id] = t
+		}
+	}
 	if f.Temple, err = p.Temples.Find(params.Temple); err != nil {
 		return nil, err
 	}

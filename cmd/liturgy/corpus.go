@@ -59,6 +59,9 @@ func cmdImport(ctx context.Context, args []string) error {
 		warnings = append(warnings, err.Error())
 	}
 	men = append(men, bogor...)
+	special, w := orthlib.ImportSpecialDays(*root)
+	warnings = append(warnings, w...)
+	men = append(men, special...)
 	om, w := orthlib.ImportGeneralMenaion(*root)
 	warnings = append(warnings, w...)
 	men = append(men, om...)

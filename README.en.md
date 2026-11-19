@@ -103,10 +103,10 @@ evening before. Typika: the service in place of the liturgy on days without one.
 | Weekday in an afterfeast or on the apodosis | ✅ daily | ✅ the feast's kontakion | ✅ daily | ⚠️ afterfeast ⁵; not the apodosis yet | ✅ | ❌ | ⚠️ ⁸ |
 | Fixed twelve feast on a weekday | ✅ vigil | — | — | ✅ festal | ✅ | ❌ | ✅ |
 | Saturday (any) | ✅ daily or vigil (Friday evening) | ✅ (Friday evening) | ✅ Saturday | ⚠️ ⁹ | ✅ | ❌ | ⚠️ ⁴ |
-| Sunday, saint without a sign | ✅ vigil, without litiya | ✅ (where there is no vigil) | ✅ Sunday | ✅ ³ | ❌ | ❌ | ✅ |
-| Sunday, saint with a sign | ✅ vigil (litiya if the Menaion has one) | ✅ / — before a vigil | ✅ Sunday / — after a saint's vigil | ✅ ³ | ❌ | ❌ | ✅ |
-| Sunday in an afterfeast or on the apodosis | ✅ vigil | ✅ the feast's kontakion | ✅ Sunday | ✅ ³ | ❌ | ❌ | ✅ |
-| Sunday with its own readings (before/after the Nativity, the Theophany, before the Exaltation) | ⚠️ not before the Exaltation (forefeast with the Renewal) | ✅ | ✅ Sunday | ⚠️ not before the Exaltation | ❌ | ❌ | ❌ |
+| Sunday, saint without a sign | ✅ vigil, without litiya | ✅ (where there is no vigil) | ✅ Sunday | ✅ ³ | ✅ ¹⁰ | ❌ | ✅ |
+| Sunday, saint with a sign | ✅ vigil (litiya if the Menaion has one) | ✅ / — before a vigil | ✅ Sunday / — after a saint's vigil | ✅ ³ | ✅ ¹⁰ | ❌ | ✅ |
+| Sunday in an afterfeast or on the apodosis | ✅ vigil | ✅ the feast's kontakion | ✅ Sunday | ✅ ³ | ✅ ¹⁰ | ❌ | ✅ |
+| Sunday with its own readings (before/after the Exaltation, the Nativity — of the Fathers —, the Theophany) | ⚠️ not before the Exaltation (forefeast with the Renewal) | ✅ | ✅ Sunday | ⚠️ not before the Exaltation | ✅ ¹⁰ | ❌ | ⚠️ ¹¹ |
 | Feast of the Lord on Sunday (Exaltation, Meeting, Transfiguration) | ✅ vigil | — | — | ✅ festal | ✅ | ❌ | ✅ |
 | Feast of the Theotokos on Sunday | ✅ vigil | — | — | ✅ ³ | ⚠️ no resurrectional troparion | ❌ | ✅ |
 | Nativity of Christ, Theophany and their eves (Royal Hours) | ❌ | ❌ great | — on the feast | ❌ | ❌ | ❌ | ❌ |
@@ -181,6 +181,31 @@ before the Theotokos's, Saturdays with «Аллилуиа» (a saint without a
 troparion, ch. 13), parental Saturdays, Saturdays of a forefeast or
 afterfeast; days whose Menaion lacks the matins Gospel (the vigils of 08.01,
 08.02, 08.29, 11.14) or the sessional hymn after the 3rd ode (08.30) fail.
+¹⁰ Typikon, ch. 52: the resurrectional troparion, «Слава» the saint's
+(without one «Слава, и ныне»), «И ныне» the theotokion of the hour; the
+resurrectional kontakion. A saint with a sign (doxology and higher, ch. 3–5):
+the saint's kontakion at the 1st hour, at the others the resurrectional and the saint's
+alternately. In a forefeast or afterfeast «Слава» the feast's, the kontakion
+the feast's and the resurrectional alternately (with a great saint, the
+feast's and the saint's). The Sunday of the Fathers: «Слава» theirs, their kontakion
+and the forefeast's alternately («Рукописаннаго образа», in the forefeast
+«Веселися, Вифлееме»); after the Nativity the troparia and kontakia of the
+feast and of the saints (David, Joseph, James) alternately.
+¹¹ By the rubrics of the Menaion (09.08, 09.15, 12.18, 12.26, 01.01, 01.07;
+in the corpus `ms.<sunday>.*`): the Sunday's prokeimenon, Apostle, alleluia,
+Gospel and communion verse — the tone's prokeimenon left out (except after
+the Nativity: «прокимен гласа: и стых»); its readings before the ordinary
+ones, these when the table of readings appoints them (the Fathers': «ряд
+оставляется»), then the saint's. The Fathers: the resurrectional troparion
+and theirs (in the forefeast also the forefeast's), «Слава» their kontakion,
+«И ныне» the forefeast's. After the Nativity: the resurrectional troparion,
+the feast's and the saints', «Слава» the saints' kontakion, «И ныне» the
+feast's. In the afterfeast of the Nativity and the Theophany their
+zadostoiniks («Любити убо нам», «Недоумеет всяк язык»). Not yet: the
+beatitudes from the canon of the Fathers and of the saints (the Octoechos's
+are sung with the canon of the saint of the day), the Sunday before the
+Theophany on the Circumcision (1 January: St Basil's liturgy) and on the
+eves, the Saturdays before and after these feasts.
 ⁶ By the Horologion: Pss 50, 69 and 101 (so in the Moscow 1980 Horologion),
 «Слава в вышних», «Сподоби, Господи», the Creed, the Octoechos canon of
 supplication to the Theotokos (Typikon ch. 9) with «Пресвятая Богородице,

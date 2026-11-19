@@ -3762,3 +3762,63 @@ units:
     after: "лучезарныя твоя молния возсияй ми"
     from: "егоже трепещут и трясутся херувими"
     to: ""
+  # --- Недели со своими песнопениями (Минея, 18 и 26 декабря) и задостойники
+  # Рождества и Богоявления (в попразднство) ---
+  - key: ms.fathers.troparion
+    book: menaion
+    kind: troparion
+    tone: 2
+    source: orthlib.mineya
+    file: mineya/dec/dec/Декабрь/18.hip
+    after: "и оцев тропарь, глас в:"
+    from: "велия веры исправления"
+    to: ""
+  - key: ms.fathers.kontakion
+    book: menaion
+    kind: kontakion
+    tone: 6
+    source: orthlib.mineya
+    file: mineya/dec/dec/Декабрь/18.hip
+    from: "рукописаннаго образа не почетше"
+    to: ""
+  - key: ms.fathers.kontakion.forefeast
+    book: menaion
+    kind: kontakion
+    tone: 1
+    source: orthlib.mineya
+    file: mineya/dec/dec/Декабрь/18.hip
+    after: "аще же внутрь предпразднства, кондак, глас а."
+    from: "веселися, вифлееме"
+    to: ""
+  - key: ms.after_nativity.troparion
+    book: menaion
+    kind: troparion
+    tone: 2
+    source: orthlib.mineya
+    file: mineya/dec/dec/Декабрь/26.hip
+    from: "благовествуй, иосифе, двду"
+    to: ""
+  - key: ms.after_nativity.kontakion
+    book: menaion
+    kind: kontakion
+    tone: 3
+    source: orthlib.mineya
+    file: mineya/dec/dec/Декабрь/26.hip
+    from: "веселия днесь двд исполняется"
+    to: ""
+  - key: lit.zadostoinik.nativity
+    book: menaion
+    kind: irmos
+    tone: 1
+    source: orthlib.mineya
+    file: mineya/dec/dec/Декабрь/25.hip
+    from: "любити убо нам, яко безбедное"
+    to: ""
+  - key: lit.zadostoinik.theophany
+    book: menaion
+    kind: irmos
+    tone: 2
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    from: "недоумеет всяк язык блгохвалити"
+    to: ""

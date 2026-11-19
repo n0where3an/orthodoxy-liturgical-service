@@ -66,8 +66,9 @@ func dayEnv() (*cel.Env, error) {
 		cel.Variable("weekday", cel.IntType), // 0 = Sunday
 		cel.Variable("period", cel.StringType),
 		cel.Variable("pascha_offset", cel.IntType),
-		cel.Variable("departed", cel.StringType),   // the parental Saturday: meatfare, trinity, demetrius; ""
-		cel.Variable("feast_period", cel.BoolType), // in a forefeast, afterfeast or apodosis of a twelve feast
+		cel.Variable("departed", cel.StringType),       // the parental Saturday: meatfare, trinity, demetrius; ""
+		cel.Variable("feast_period", cel.BoolType),     // in a forefeast, afterfeast or apodosis of a twelve feast
+		cel.Variable("special_sunday", cel.StringType), // a Sunday with readings of its own (specialSunday), ""
 		cel.Variable("bright_week", cel.BoolType),
 		cel.Variable("tone", cel.IntType),
 		cel.Variable("month", cel.IntType),
@@ -161,6 +162,10 @@ type Facts struct {
 	// SundayOctoechos: the Sunday matins of the tone, for the canon of the
 	// Theotokos of a saint with a sign (Типикон, гл. 11; theotokosCanon).
 	SundayOctoechos map[string][]string
+	// Special: a Sunday with readings of its own (specialSunday), and its
+	// units ms.<id>.<suffix> by suffix («troparion», «lit.apostle»).
+	Special      string
+	SpecialUnits map[string]string
 	// Tones of Menaion troparia (for the dismissal theotokion).
 	Tones map[string]int
 	// Temple: the dedication of the church, nil when not given.
@@ -237,6 +242,7 @@ func (f Facts) vars() map[string]any {
 		"pascha_offset":          int64(f.Day.PaschaOffset),
 		"departed":               f.Day.Departed,
 		"feast_period":           f.inFeastPeriod(),
+		"special_sunday":         f.Special,
 		"bright_week":            f.Day.BrightWeek,
 		"tone":                   int64(f.Day.Tone),
 		"month":                  int64(f.Day.Menaion.Month),
@@ -431,6 +437,12 @@ func (sel SlotSelector) resolve(name string, f Facts, service string) ([]SlotIte
 				k = HourPosition(service)
 			}
 			items = append(items, SlotItem{Ref: avail[(k-1)%len(avail)], Repeat: sel.Repeat})
+		case "sunday_hours":
+			hs, err := sundayHours(f, sel.Part, HourPosition(service))
+			if err != nil {
+				return nil, fmt.Errorf("slot %s: %w", name, err)
+			}
+			items = append(items, hs...)
 		case "unit":
 			for _, ref := range sel.Refs {
 				ref = strings.NewReplacer("{day}", WeekdayKey(f.Day.Weekday), "{tone}", fmt.Sprint(f.Day.Tone)).Replace(ref)

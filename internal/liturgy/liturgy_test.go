@@ -68,9 +68,9 @@ func TestRuleSelection(t *testing.T) {
 		rule        string
 		unsupported bool
 	}{
-		{civil(2026, time.November, 12), "hours.ordinary", false}, // Thursday
-		{civil(2026, time.November, 14), "hours.ordinary", false}, // Saturday
-		{civil(2026, time.November, 15), "hours.sunday", true},
+		{civil(2026, time.November, 12), "hours.ordinary", false},        // Thursday
+		{civil(2026, time.November, 14), "hours.ordinary", false},        // Saturday
+		{calendar.Pascha(2027).AddDays(-42), "hours.triodion_day", true}, // Sunday of Lent
 		{calendar.Pascha(2027).AddDays(3), "hours.bright_week", true},
 		{calendar.Pascha(2027).AddDays(-40), "hours.lenten_weekday", true}, // Wednesday of Lent
 		{calendar.Pascha(2027).AddDays(-43), "hours.triodion_day", true},   // Saturday of Lent

@@ -141,6 +141,15 @@ func parseServiceFile(path, prefix, service string) ([]corpus.Unit, error) {
 	if err != nil {
 		return nil, err
 	}
+	whole := d
+	if strings.HasPrefix(prefix, "me.") {
+		// The services of a Saturday or Sunday printed after the day's
+		// («неделя пред ржством хрстовым стых отец») are not the day's:
+		// ImportSpecialDays.
+		if n := specialDayStart(d); n > 0 {
+			d = d.head(n)
+		}
+	}
 	hasRed := false
 	for _, p := range d.Paras {
 		for _, s := range p {
@@ -298,7 +307,7 @@ func parseServiceFile(path, prefix, service string) ([]corpus.Unit, error) {
 	if hasRed {
 		units = append(units, parseMenaionVespers(d, prefix, path)...)
 		units = append(units, parseMenaionMatins(d, prefix, path)...)
-		units = append(units, parseMenaionGreatVespers(d, prefix, path)...)
+		units = append(units, parseMenaionGreatVespersOf(d, whole, prefix, path)...)
 		units = append(units, parseMenaionFeastMatins(d, prefix, path)...)
 	}
 	return units, nil
