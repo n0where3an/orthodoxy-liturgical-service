@@ -32,4 +32,3 @@ Orthodox liturgical sequence generator (Russian Typikon).
 6. [License](README.en.md#license)
 
 Лицензия / License: GNU AGPL v3.0 — [LICENSE](LICENSE).
-    

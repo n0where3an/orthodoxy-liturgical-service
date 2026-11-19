@@ -1,0 +1,31 @@
+# Полунощница субботняя — по Часослову: кафизма 9, тропари «Несозданное
+# естество», «Вышния силы подражающе», «От одра и сна», молитва
+# свт. Евстратия; далее как во вседневной.
+
+service: midnight_office
+nodes:
+  - {id: title, ref: ch.midnight.saturday.title, heading: true}
+  - {id: beginning, include: usual_beginning}
+  - {id: psalms_rubric, rubric: psalms}
+  - {id: psalm_50, ref: ch.psalm.50, performer: reader}
+
+  - {id: kathisma_rubric, rubric: kathisma, audience: kliros}
+  - {id: k_stasis_1, slot: kathisma, index: 1, performer: reader}
+  - {id: k_doxology_1, include: stasis_doxology}
+  - {id: k_stasis_2, slot: kathisma, index: 2, performer: reader}
+  - {id: k_doxology_2, include: stasis_doxology}
+  - {id: k_stasis_3, slot: kathisma, index: 3, performer: reader}
+  - {id: k_doxology_3, include: stasis_doxology}
+  - {id: creed, ref: common.creed, performer: reader}
+  - {id: trisagion, include: trisagion_to_our_father}
+
+  - {id: troparion_1, ref: ch.midnight.saturday.troparion.1, performer: reader}
+  - {id: glory, ref: common.glory, performer: reader}
+  - {id: troparion_2, ref: ch.midnight.saturday.troparion.2, performer: reader}
+  - {id: and_now, ref: common.and_now, performer: reader}
+  - {id: troparion_3, ref: ch.midnight.saturday.troparion.3, performer: reader}
+  - {id: prayers, include: midnight_prayers}
+  - {id: master, ref: ch.midnight.prayer.master, performer: reader}
+  - {id: eustratius, ref: ch.midnight.prayer.eustratius, performer: reader}
+
+  - {id: end, include: midnight_end}

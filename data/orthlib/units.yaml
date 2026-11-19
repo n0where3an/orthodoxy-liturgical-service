@@ -3537,3 +3537,214 @@ units:
     file: chasoslov/ch/11vpovech.hip
     from: "упование мое оц, прибежище мое сн"
     to: ""
+
+  # === Полунощница (Часослов): вседневная, субботняя, воскресная ===
+  # Пс 50 — ch.psalm.50; кафизма 17 (суббота — 9) — ps.kathisma.N.K;
+  # «Иже на всякое время» — common.prayer_of_the_hours; «Помяни, Господи,
+  # яко благ» — ch.troparion.day.sat.2; «Со святыми упокой» —
+  # ch.kontakion.with_the_saints; «Преславная Приснодево», «Упование мое» —
+  # ch.compline.prayer.*.
+  - key: ch.midnight.title
+    book: chasoslov
+    kind: title
+    source: orthlib.chasoslov
+    file: chasoslov/ch/01polunosch.hip
+    from: "начало полунощницы"
+    to: ""
+  - key: ch.midnight.saturday.title
+    book: chasoslov
+    kind: title
+    source: orthlib.chasoslov
+    file: chasoslov/ch/01polunosch.hip
+    from: "начало с бгом полунощницы субботныя"
+    to: "субботныя"
+  - key: ch.midnight.sunday.title
+    book: chasoslov
+    kind: title
+    source: orthlib.chasoslov
+    file: chasoslov/ch/01polunosch.hip
+    from: "полунощница воскрсная"
+    to: ""
+  - key: ch.midnight.troparion.bridegroom
+    book: chasoslov
+    kind: troparion
+    tone: 8
+    source: orthlib.chasoslov
+    file: chasoslov/ch/01polunosch.hip
+    from: "се жених грядет в полунощи"
+    to: ""
+  - key: ch.midnight.troparion.that_day
+    book: chasoslov
+    kind: troparion
+    tone: 8
+    source: orthlib.chasoslov
+    file: chasoslov/ch/01polunosch.hip
+    from: "день он страшный помышляющи"
+    to: ""
+  - key: ch.midnight.theotokion
+    book: chasoslov
+    kind: theotokion
+    tone: 8
+    source: orthlib.chasoslov
+    file: chasoslov/ch/01polunosch.hip
+    from: "тебе необоримую стену, спсения утверждение"
+    to: ""
+  - key: ch.midnight.prayer.master
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/01polunosch.hip
+    from: "влдко бже оче вседержителю, гдси сне единородный"
+    to: ""
+  - key: ch.midnight.prayer.basil
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/01polunosch.hip
+    from: "гдси вседержителю, бже сил и всякия плоти"
+    to: ""
+  - key: ch.midnight.prayer.we_bless
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/01polunosch.hip
+    from: "тя блгословим вышний бже"
+    to: ""
+  - key: ch.midnight.psalm.120
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/01polunosch.hip
+    from: "возведох очи мои в горы, отнюдуже приидет помощь моя"
+    to: ""
+  - key: ch.midnight.psalm.133
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/01polunosch.hip
+    from: "се, ныне благословите гдса, вси раби гдсни"
+    to: ""
+  - key: ch.midnight.troparion.depth
+    book: chasoslov
+    kind: troparion
+    tone: 2
+    source: orthlib.chasoslov
+    file: chasoslov/ch/01polunosch.hip
+    from: "глубиною мудрости члвеколюбно вся строяй"
+    to: ""
+  - key: ch.midnight.theotokion.departed
+    book: chasoslov
+    kind: theotokion
+    source: orthlib.chasoslov
+    file: chasoslov/ch/01polunosch.hip
+    from: "блжим тя вси роди, бцде дво: в тя бо невместимый"
+    to: ""
+  - key: ch.midnight.prayer.remember
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/01polunosch.hip
+    from: "помяни гдси, в надежди воскрсния жизни вечныя"
+    to: ""
+  - key: ch.midnight.litany.country
+    book: chasoslov
+    kind: petition
+    source: orthlib.chasoslov
+    file: chasoslov/ch/01polunosch.hip
+    from: "о богохранимей стране нашей, властех и воинстве ея"
+    to: ""
+  - key: ch.midnight.litany.brethren
+    book: chasoslov
+    kind: petition
+    source: orthlib.chasoslov
+    file: chasoslov/ch/01polunosch.hip
+    from: "о отце нашем, имрк, и всей во хрсте братии нашей"
+    to: ""
+  # «Рцем и о них и о себе самех» — data/texts/parish.yaml (в источнике опечатка).
+  - key: oc.midnight.refrain
+    book: octoechos
+    kind: refrain
+    source: orthlib.octoechos
+    file: octoih/oc/1_1nd.hip
+    from: "престая троце бже наш, слава тебе"
+    to: "слава тебе."
+  - key: ch.midnight.saturday.troparion.1
+    book: chasoslov
+    kind: troparion
+    tone: 2
+    source: orthlib.chasoslov
+    file: chasoslov/ch/01polunosch.hip
+    from: "несозданное естество, всех зиждителю"
+    to: ""
+  - key: ch.midnight.saturday.troparion.2
+    book: chasoslov
+    kind: troparion
+    source: orthlib.chasoslov
+    file: chasoslov/ch/01polunosch.hip
+    from: "вышния силы подражающе на земли"
+    to: ""
+  - key: ch.midnight.saturday.troparion.3
+    book: chasoslov
+    kind: troparion
+    source: orthlib.chasoslov
+    file: chasoslov/ch/01polunosch.hip
+    after: "вышния силы подражающе на земли"
+    from: "от одра и сна воздвигл мя еси гдси"
+    to: ""
+  - key: ch.midnight.prayer.eustratius
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/01polunosch.hip
+    from: "величая величаю тя гдси, яко призрел еси"
+    to: ""
+  - key: ch.midnight.sunday.triadicon.1
+    book: chasoslov
+    kind: troparion
+    source: orthlib.chasoslov
+    file: chasoslov/ch/01polunosch.hip
+    from: "достойно есть яко воистинну, славити тя бга слова"
+    to: ""
+  - key: ch.midnight.sunday.triadicon.2
+    book: chasoslov
+    kind: troparion
+    source: orthlib.chasoslov
+    file: chasoslov/ch/01polunosch.hip
+    from: "воспоим вси бголепно песньми бжественными"
+    to: ""
+  - key: ch.midnight.sunday.triadicon.3
+    book: chasoslov
+    kind: troparion
+    source: orthlib.chasoslov
+    file: chasoslov/ch/01polunosch.hip
+    from: "юже поют вси земнороднии, и славословят"
+    to: ""
+  - key: ch.midnight.sunday.triadicon.4
+    book: chasoslov
+    kind: troparion
+    source: orthlib.chasoslov
+    file: chasoslov/ch/01polunosch.hip
+    from: "гдсоначальную херувим, и бгоначальную"
+    to: ""
+  - key: ch.midnight.sunday.triadicon.5
+    book: chasoslov
+    kind: troparion
+    source: orthlib.chasoslov
+    file: chasoslov/ch/01polunosch.hip
+    from: "оцу безначальному и бгу, собезначальному слову"
+    to: ""
+  - key: ch.midnight.sunday.triadicon.6
+    book: chasoslov
+    kind: troparion
+    source: orthlib.chasoslov
+    file: chasoslov/ch/01polunosch.hip
+    from: "лучезарныя твоя молния возсияй ми"
+    to: ""
+  - key: ch.midnight.sunday.triadicon.7
+    book: chasoslov
+    kind: troparion
+    source: orthlib.chasoslov
+    file: chasoslov/ch/01polunosch.hip
+    after: "лучезарныя твоя молния возсияй ми"
+    from: "егоже трепещут и трясутся херувими"
+    to: ""

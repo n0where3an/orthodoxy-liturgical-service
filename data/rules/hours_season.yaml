@@ -23,7 +23,7 @@
   fill: {from: none}
 - id: hours.opening.ordinary
   slot: opening_prayers
-  services: [first_hour, third_hour, sixth_hour, ninth_hour, matins, compline]
+  services: [first_hour, third_hour, sixth_hour, ninth_hour, matins, compline, midnight_office]
   priority: 0
   fill: {from: unit, refs: [common.glory_to_thee_our_god, common.heavenly_king]}
 

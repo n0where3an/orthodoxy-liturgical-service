@@ -1,0 +1,27 @@
+# Вторая часть вседневной и субботней полунощницы (Часослов): «Приидите,
+# поклонимся», Пс 120 и 133, Трисвятое, тропари за усопших, молитва «Помяни,
+# Господи, в надежди воскресения», «Преславная Приснодево», «Упование мое»,
+# отпуст, ектения.
+nodes:
+  - {id: come, include: come_let_us_worship}
+  - {id: psalms_rubric_2, rubric: psalms}
+  - {id: psalm_120, ref: ch.midnight.psalm.120, performer: reader}
+  - {id: psalm_133, ref: ch.midnight.psalm.133, performer: reader}
+  - {id: glory_now_ps, ref: common.glory_now, performer: reader}
+  - {id: trisagion_2, include: trisagion_to_our_father}
+  - {id: remember_trop, ref: ch.troparion.day.sat.2, performer: reader}
+  - {id: depth, ref: ch.midnight.troparion.depth, performer: reader}
+  - {id: glory_d, ref: common.glory, performer: reader}
+  - {id: with_the_saints, ref: ch.kontakion.with_the_saints, performer: reader}
+  - {id: and_now_d, ref: common.and_now, performer: reader}
+  - {id: theotokion_d, ref: ch.midnight.theotokion.departed, performer: reader}
+  - {id: lhm_12, ref: common.lord_have_mercy, performer: reader, repeat: 12}
+  - {id: remember_priest, ref: ch.midnight.prayer.remember, performer: priest, when: priest}
+  - {id: remember_reader, ref: ch.midnight.prayer.remember, performer: reader, when: "!priest"}
+  - {id: most_glorious, ref: ch.compline.prayer.most_glorious, performer: reader}
+  - {id: my_hope, ref: ch.compline.prayer.my_hope, performer: reader}
+  # «Слава, и ныне: Господи, помилуй, трижды. Благослови» — и отпуст.
+  - {id: end_glory_now, ref: common.glory_now, performer: reader, when: "!priest"}
+  - {id: end_lhm_3, ref: common.lord_have_mercy, performer: reader, repeat: 3, when: "!priest"}
+  - {id: dismissal, include: dismissal}
+  - {id: litany, include: midnight_litany, when: priest}

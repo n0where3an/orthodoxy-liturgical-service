@@ -18,7 +18,7 @@ func complineCorpus(d calendar.JDate, extra ...string) mapCorpus {
 	day := calendar.NewDayContext(d)
 	oc := fmt.Sprintf("oc.%d.%s.compline.", day.Tone, WeekdayKey(day.Weekday))
 	me := "me." + pad(int(day.Menaion.Month)) + "." + pad(day.Menaion.Day) + "."
-	ids := []string{me + "troparion.1", me + "kontakion.1", oc + "sedalen",
+	ids := []string{me + "troparion.1", me + "kontakion.1", oc + "sedalen.6",
 		fmt.Sprintf("oc.%d.%s.kontakion", day.Tone, WeekdayKey(day.Weekday))}
 	for _, o := range odeOrder {
 		b := fmt.Sprintf("%scanon.ode.%d.", oc, o)
@@ -57,7 +57,7 @@ func TestComplineCanon(t *testing.T) {
 	if !strings.HasPrefix(c, ode1) {
 		t.Errorf("ode 1:\n got %s\nwant %s…", c, ode1)
 	}
-	if !strings.Contains(c, b+"canon.ode.6.theotokion,common.lord_have_mercyx3,common.glory_now,"+b+"sedalen,ch.canon.ode.7") {
+	if !strings.Contains(c, b+"canon.ode.6.theotokion,common.lord_have_mercyx3,common.glory_now,"+b+"sedalen.6,ch.canon.ode.7") {
 		t.Errorf("no sessional hymn after the 6th ode: %s", c)
 	}
 }

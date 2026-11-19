@@ -1,0 +1,40 @@
+# Полунощница вседневная (пн–пт) — по Часослову (М., 1980).
+#
+# Обычное начало, «Приидите, поклонимся», Пс 50, кафизма 17, «Верую»,
+# Трисвятое, тропари «Се Жених грядет», «День оный страшный», «Тебе
+# необоримую стену», молитвы, с 22 сентября до Недели ваий — молитвы свт.
+# Василия Великого; «Приидите», Пс 120 и 133, тропари за усопших, отпуст.
+
+service: midnight_office
+nodes:
+  - {id: title, ref: ch.midnight.title, heading: true}
+  - {id: beginning, include: usual_beginning}
+  - {id: psalms_rubric, rubric: psalms}
+  - {id: psalm_50, ref: ch.psalm.50, performer: reader}
+
+  - {id: kathisma_rubric, rubric: kathisma, audience: kliros}
+  - {id: k_stasis_1, slot: kathisma, index: 1, performer: reader}
+  - {id: k_doxology_1, include: stasis_doxology}
+  - {id: k_stasis_2, slot: kathisma, index: 2, performer: reader}
+  - {id: k_doxology_2, include: stasis_doxology}
+  - {id: k_stasis_3, slot: kathisma, index: 3, performer: reader}
+  - {id: k_doxology_3, include: stasis_doxology}
+  - {id: creed, ref: common.creed, performer: reader}
+  - {id: trisagion, include: trisagion_to_our_father}
+
+  - {id: bridegroom, ref: ch.midnight.troparion.bridegroom, performer: reader}
+  - {id: glory, ref: common.glory, performer: reader}
+  - {id: that_day, ref: ch.midnight.troparion.that_day, performer: reader}
+  - {id: and_now, ref: common.and_now, performer: reader}
+  - {id: theotokion, ref: ch.midnight.theotokion, performer: reader}
+  - {id: prayers, include: midnight_prayers}
+  - {id: master, ref: ch.midnight.prayer.master, performer: reader}
+  - id: basil
+    if_slot: basil_prayers
+    children:
+      - {id: basil_1, slot: basil_prayers, index: 1, performer: priest, when: priest}
+      - {id: basil_1_reader, slot: basil_prayers, index: 1, performer: reader, when: "!priest"}
+      - {id: basil_2, slot: basil_prayers, index: 2, performer: priest, voice: aloud, when: priest}
+      - {id: basil_2_reader, slot: basil_prayers, index: 2, performer: reader, when: "!priest"}
+
+  - {id: end, include: midnight_end}

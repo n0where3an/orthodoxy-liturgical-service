@@ -23,6 +23,17 @@ units:
     kind: petition
     hip: "W= богохрани'мjьй странjь` на'шей, властjь'хъ и= во'инствjь _е=я`, гд\\су помо'лимся."
 
+  # --- Полунощница: ектения по отпусте («помолимся о великом господине…») ---
+  - key: lit.midnight.hierarchy
+    book: chasoslov
+    kind: petition
+    hip: "Помо'лимся w= вели'комъ господи'нjь и= _о=тцjь` на'шемъ ст~jь'йшемъ патрiа'рсjь Кvрi'ллjь, и= w= господи'нjь на'шемъ преwсвяще'ннjьйшемъ митрополi'тjь (и=ли` а=рхiепi'скопjь, и=ли` _е=пi'скопjь) (и='м\\ркъ)."
+
+  - key: lit.midnight.ourselves
+    book: chasoslov
+    kind: petition
+    hip: "Рце'мъ и= w= ни'хъ и= w= себjь` самjь'хъ."
+
   # --- Сугубая ектения ---
   - key: lit.augmented.hierarchy
     book: sluzhebnik

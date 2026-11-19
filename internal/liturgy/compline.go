@@ -2,6 +2,8 @@ package liturgy
 
 import (
 	"fmt"
+	"strconv"
+	"strings"
 	"time"
 )
 
@@ -27,11 +29,24 @@ func complineSlot(sel SlotSelector, f Facts) ([]SlotItem, error) {
 }
 
 func complineCanon(f Facts) ([]SlotItem, error) {
-	const p = "compline.canon.ode."
+	return octoechosReadCanon(f, "compline", "sl.vespers.most_holy_theotokos_save_us")
+}
+
+// octoechosReadCanon: a canon of the Octoechos read at compline or at the
+// midnight office (oc.<tone>.<day>.<sub>.canon), the refrain before each
+// troparion; after an ode with a sessional hymn «Господи, помилуй» thrice and
+// the hymn — at «Слава, и ныне», or followed by «Слава, и ныне» and its
+// theotokion.
+func octoechosReadCanon(f Facts, sub, refrainRef string) ([]SlotItem, error) {
+	p := sub + ".canon.ode."
 	if len(f.Octoechos[p+"1.troparion"]) == 0 {
-		return nil, fmt.Errorf("Octoechos tone %d, %v: no canon of compline", f.Day.Tone, f.Day.Weekday)
+		return nil, fmt.Errorf("Octoechos tone %d, %v: no canon (%s)", f.Day.Tone, f.Day.Weekday, sub)
 	}
-	refrain := reader("sl.vespers.most_holy_theotokos_save_us")
+	refrain := reader(refrainRef)
+	sedalny := map[string]string{} // ode → id
+	for _, id := range f.Octoechos[sub+".sedalen"] {
+		sedalny[id[strings.LastIndex(id, ".")+1:]] = id
+	}
 	var items []SlotItem
 	for _, o := range odeOrder {
 		b := fmt.Sprintf("%s%d.", p, o)
@@ -48,10 +63,12 @@ func complineCanon(f Facts) ([]SlotItem, error) {
 		if th := first(f.Octoechos, b+"theotokion"); th != "" {
 			items = append(items, reader("common.and_now"), reader(th))
 		}
-		if o == 6 {
-			if s := first(f.Octoechos, "compline.sedalen"); s != "" {
-				items = append(items, SlotItem{Ref: "common.lord_have_mercy", Repeat: 3, Performer: Reader},
-					reader("common.glory_now"), reader(s))
+		if s := sedalny[strconv.Itoa(o)]; s != "" {
+			items = append(items, SlotItem{Ref: "common.lord_have_mercy", Repeat: 3, Performer: Reader})
+			if th := first(f.Octoechos, fmt.Sprintf("%s.sedalen.%d.theotokion", sub, o)); th != "" {
+				items = append(items, reader(s), reader("common.glory_now"), reader(th))
+			} else {
+				items = append(items, reader("common.glory_now"), reader(s))
 			}
 		}
 	}

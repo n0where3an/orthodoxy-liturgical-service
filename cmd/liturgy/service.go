@@ -31,7 +31,7 @@ type commonFlags struct {
 func (c *commonFlags) register(fs *flag.FlagSet) {
 	fs.StringVar(&c.date, "date", time.Now().Format("2006-01-02"), "date YYYY-MM-DD (civil unless -julian)")
 	fs.BoolVar(&c.julian, "julian", false, "-date is a Julian (old style) date")
-	fs.StringVar(&c.service, "service", "ninth_hour", "service: liturgy, matins, vespers, compline, first_hour, third_hour, sixth_hour, ninth_hour")
+	fs.StringVar(&c.service, "service", "ninth_hour", "service: liturgy, matins, vespers, compline, midnight_office, first_hour, third_hour, sixth_hour, ninth_hour")
 	fs.StringVar(&c.data, "data", "data", "data directory (templates, rules, i18n)")
 	fs.BoolVar(&c.reader, "reader", false, "reader's order, without a priest")
 	fs.BoolVar(&c.standalone, "standalone", false, "serve the hour on its own: usual beginning and dismissal")
@@ -207,7 +207,7 @@ func cmdServe(ctx context.Context, args []string) error {
 		<-ctx.Done()
 		srv.Shutdown(context.Background())
 	}()
-	fmt.Printf("listening on http://%s/?date=YYYY-MM-DD&service=liturgy|matins|vespers|compline|first_hour|third_hour|sixth_hour|ninth_hour&mode=laity|kliros\n", *addr)
+	fmt.Printf("listening on http://%s/?date=YYYY-MM-DD&service=liturgy|matins|vespers|compline|midnight_office|first_hour|third_hour|sixth_hour|ninth_hour&mode=laity|kliros\n", *addr)
 	if err := srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 		return err
 	}

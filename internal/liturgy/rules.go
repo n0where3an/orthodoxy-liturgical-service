@@ -468,6 +468,12 @@ func (sel SlotSelector) resolve(name string, f Facts, service string) ([]SlotIte
 				return nil, fmt.Errorf("slot %s: %w", name, err)
 			}
 			items = append(items, ms...)
+		case "midnight_canon", "midnight_hypakoe":
+			ms, err := midnightSlot(sel, f)
+			if err != nil {
+				return nil, fmt.Errorf("slot %s: %w", name, err)
+			}
+			items = append(items, ms...)
 		case "compline_canon", "compline_troparia":
 			cs, err := complineSlot(sel, f)
 			if err != nil {

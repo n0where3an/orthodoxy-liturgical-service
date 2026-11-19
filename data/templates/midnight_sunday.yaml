@@ -1,0 +1,38 @@
+# Полунощница воскресная — по Часослову: Пс 50, канон Троице гласа
+# (Октоих), троичны свт. Григория Синаита («Достойно есть яко воистинну,
+# славити Тя Бога Слова»…), Трисвятое, ипакои гласа, «Господи, помилуй» 40,
+# «Честнейшую», «Боже, ущедри ны», молитва Пресвятей Троице, отпуст, ектения.
+
+service: midnight_office
+nodes:
+  - {id: title, ref: ch.midnight.sunday.title, heading: true}
+  - {id: beginning, include: usual_beginning}
+  - {id: psalms_rubric, rubric: psalms}
+  - {id: psalm_50, ref: ch.psalm.50, performer: reader}
+
+  - {id: canon_rubric, rubric: midnight_canon, audience: kliros}
+  - {id: canon, slot: canon, performer: reader}
+  - {id: triadicon_1, ref: ch.midnight.sunday.triadicon.1, performer: reader}
+  - {id: triadicon_2, ref: ch.midnight.sunday.triadicon.2, performer: reader}
+  - {id: triadicon_3, ref: ch.midnight.sunday.triadicon.3, performer: reader}
+  - {id: triadicon_4, ref: ch.midnight.sunday.triadicon.4, performer: reader}
+  - {id: triadicon_5, ref: ch.midnight.sunday.triadicon.5, performer: reader}
+  - {id: triadicon_6, ref: ch.midnight.sunday.triadicon.6, performer: reader}
+  - {id: triadicon_7, ref: ch.midnight.sunday.triadicon.7, performer: reader}
+  - {id: trisagion, include: trisagion_to_our_father}
+  - {id: hypakoe, slot: hypakoe, performer: reader}
+
+  - {id: lhm_40, ref: common.lord_have_mercy, performer: reader, repeat: 40}
+  - {id: glory_now, ref: common.glory_now, performer: reader}
+  - {id: more_honorable, ref: common.more_honorable, performer: reader}
+  - {id: god_be_merciful, ref: sl.exclamation.god_be_merciful, performer: priest, voice: aloud, when: priest}
+  - {id: god_be_merciful_reader, ref: common.prayers_of_holy_fathers, performer: reader, when: "!priest"}
+  - {id: amen, ref: common.amen, performer: reader}
+  # «И молитва Пресвятей Троице: Всемогущая и животворящая» — полного текста
+  # в Часослове нет (только начальные слова).
+  - {id: trinity_prayer, rubric: midnight_trinity_prayer}
+
+  - {id: end_glory_now, ref: common.glory_now, performer: reader, when: "!priest"}
+  - {id: end_lhm_3, ref: common.lord_have_mercy, performer: reader, repeat: 3, when: "!priest"}
+  - {id: dismissal, include: dismissal}
+  - {id: litany, include: midnight_litany, when: priest}

@@ -1,0 +1,52 @@
+# Rules for the midnight office (полунощница), the service of the morning of
+# its day (Часослов; Типикон, гл. 9, 17).
+#
+# Implemented: the days of the Octoechos (the ordinary period) — daily
+# (Monday..Friday, kathisma 17), Saturday (kathisma 9), Sunday (the Trinity
+# canon of the tone). In an afterfeast «полунощницу поем по обычаю, с тропари
+# дневными» (the Typikon's calendar).
+#
+# Not served after an all-night vigil (a twelve feast, a saint with a vigil).
+# Recognised but not yet implemented: the Triodion (Lent, the Pentecostarion).
+
+- id: midnight.triodion
+  service: midnight_office
+  priority: 300
+  when: period != "ordinary"
+  unsupported: "Полунощница в дни Триоди ещё не реализована"
+
+- id: midnight.vigil
+  service: midnight_office
+  priority: 280
+  when: feast_day || menaion_litiya
+  unsupported: "После всенощного бдения полунощница не совершается"
+
+- id: midnight.sunday
+  service: midnight_office
+  priority: 30
+  when: weekday == 0
+  template: midnight_sunday
+  slots:
+    canon: {from: midnight_canon}
+    hypakoe: {from: midnight_hypakoe}
+
+- id: midnight.saturday
+  service: midnight_office
+  priority: 20
+  when: weekday == 6
+  template: midnight_saturday
+  slots:
+    # «В субботу же на полунощнице, всегда глаголем кафисму 9-ю» (гл. 17).
+    kathisma: {from: unit, refs: [ps.kathisma.9.1, ps.kathisma.9.2, ps.kathisma.9.3]}
+
+- id: midnight.daily
+  service: midnight_office
+  priority: 10
+  slots:
+    # «На полунощнице же в понедельник… в пяток, во весь год глаголем кафисму 17».
+    kathisma: {from: unit, refs: [ps.kathisma.17.1, ps.kathisma.17.2, ps.kathisma.17.3]}
+
+# «Молитвы сия глаголются от 22-го септемвриа мцса, до недели ваий» (Часослов):
+# the prayers of St Basil, «Господи Вседержителю» and «Тя благословим».
+- {id: midnight.basil_prayers, slot: basil_prayers, service: midnight_office, priority: 50, when: "(month == 9 && day >= 22) || month >= 10 || month <= 4", fill: {from: unit, refs: [ch.midnight.prayer.basil, ch.midnight.prayer.we_bless]}}
+- {id: midnight.basil_prayers.none, slot: basil_prayers, service: midnight_office, priority: 10, when: "true", fill: {from: none}}
