@@ -19,7 +19,7 @@ var/liturgy migrate
 scripts/extract-english.sh      # Coverdale PDF -> var/english/coverdale.txt (необязательно)
 var/liturgy import -v           # церковнославянский корпус (чтения — если задан PONOMAR_DIR); английский — если ENGLISH_MD_DIR / coverdale.txt
 var/liturgy plan   -date 2026-11-12 -service first_hour      # план службы в JSON
-var/liturgy render -date 2026-11-12 -service third_hour -mode kliros -o terce.html
+var/liturgy render -date 2026-11-18 -service third_hour -mode kliros -o var/third_hour-2026-11-18-kliros.html
 var/liturgy serve                                   # http://127.0.0.1:8080/?date=2026-11-12&service=sixth_hour&mode=laity
 var/liturgy temples                                 # список посвящений храмов для -temple
 ```
