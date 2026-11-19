@@ -121,8 +121,8 @@ func TestMatinsUnsupported(t *testing.T) {
 		d    calendar.JDate
 		rule string
 	}{
-		{calendar.MustJDate(2027, time.March, 8), "matins.sunday.unsupported"}, // a Sunday of Great Lent
-		{calendar.MustJDate(2026, time.November, 8), "matins.saturday"},
+		{calendar.MustJDate(2027, time.March, 8), "matins.sunday.unsupported"},      // a Sunday of Great Lent
+		{calendar.MustJDate(2026, time.October, 25), "matins.saturday.unsupported"}, // Dimitrievskaya
 		{calendar.MustJDate(2027, time.January, 14), "matins.apodosis"},
 		{calendar.MustJDate(2027, time.March, 3), "matins.triodion"},
 	} {

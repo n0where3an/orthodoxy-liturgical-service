@@ -121,6 +121,9 @@ func gmSedalny(f Facts, k string) ([]SlotItem, error) {
 			return nil, nil
 		}
 		n, _ := strconv.Atoi(k)
+		if n == 1 && f.Day.Weekday == time.Saturday {
+			return saturdaySedalny(f) // the martyrs' two after the 16th
+		}
 		items, err := matinsSedalny(f, n)
 		if err != nil {
 			return nil, nil // no Octoechos sessional hymns (Sunday): the kathisma has none here
@@ -200,7 +203,7 @@ func festalCanon(f Facts, section string, feast bool) ([]SlotItem, error) {
 
 func gmExapostilaria(f Facts, feast bool) ([]SlotItem, error) {
 	ex := mainMenaion(f, "matins.exapostilarion")
-	if len(ex) == 0 {
+	if len(ex) == 0 || !feast && f.Day.Weekday == time.Saturday {
 		return matinsExapostilaria(f)
 	}
 	var items []SlotItem

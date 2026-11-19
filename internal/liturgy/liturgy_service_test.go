@@ -106,7 +106,6 @@ func TestLiturgyUnsupported(t *testing.T) {
 		{calendar.MustJDate(2027, time.March, 7), "liturgy.triodion"},
 		{calendar.Pascha(2027).AddDays(-57), "liturgy.departed_triodion"},   // the Meatfare Saturday
 		{calendar.Pascha(2027).AddDays(48), "liturgy.departed_triodion"},    // the Trinity Saturday           // a Saturday of Great Lent
-		{calendar.MustJDate(2027, time.January, 7), "liturgy.afterfeast"},   // afterfeast of the Theophany
 		{calendar.MustJDate(2027, time.March, 3), "liturgy.lenten_weekday"}, // Wednesday of Great Lent
 	} {
 		_, err := planLiturgy(t, menaionDay(c.d), c.d)

@@ -36,6 +36,9 @@ func festalMatinsCorpus(d calendar.JDate, vigil bool) mapCorpus {
 			ob := fmt.Sprintf("%scanon.%d.ode.%d.", oc, c, o)
 			ids = append(ids, ob+"irmos", ob+"troparion.1", ob+"theotokion")
 		}
+		// The canon of the Theotokos of Sunday matins (a saint's polyeleos).
+		sb := fmt.Sprintf("oc.%d.sun.matins.canon.3.ode.%d.", day.Tone, o)
+		ids = append(ids, sb+"irmos", sb+"troparion.1", sb+"troparion.2")
 	}
 	return mapCorpus{ids: ids, tones: map[string]int{me + "troparion.1": 4, me + "matins.prokeimenon": 4}}
 }
@@ -97,6 +100,17 @@ func TestSaintMatins(t *testing.T) {
 		}
 		if (len(plan.Slots["plain_beginning"]) == 0) != c.vigil {
 			t.Errorf("%s: the beginning of matins", c.rule)
+		}
+		// «Аще ли поется стаго полиелей: тогда не поется октоих: но поем
+		// канон бцде… со ирмосом на 6: и стаго на 8» (Типикон, гл. 11).
+		sun := fmt.Sprintf("oc.%d.sun.matins.canon.3.ode.4.", calendar.NewDayContext(d).Tone)
+		me := "me.11.13.matins.canon."
+		want := "ch.canon.ode.4," + sun + "irmos," + sun + "troparion.1," + sun + "troparion.2," +
+			me + "1.ode.4.troparion.1," + me + "1.ode.4.troparion.2," + me + "1.ode.4.theotokion," +
+			me + "2.ode.4.troparion.1," + me + "2.ode.4.troparion.2," + me + "2.ode.4.theotokion," +
+			"ch.canon.katavasia," + me + "2.ode.4.irmos,"
+		if got := refs(plan.Slots["canon_4_6"]); !strings.HasPrefix(got, want) {
+			t.Errorf("%s: canon:\n got %s\nwant %s…", c.rule, got, want)
 		}
 	}
 }

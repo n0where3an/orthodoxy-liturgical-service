@@ -122,6 +122,7 @@ func paramEnv() (*cel.Env, error) {
 	return cel.NewEnv(cel.Variable("priest", cel.BoolType), cel.Variable("standalone", cel.BoolType),
 		cel.Variable("typikon", cel.BoolType), cel.Variable("deacon", cel.BoolType),
 		cel.Variable("sunday", cel.BoolType),         // the liturgical day is a Sunday (its vespers: Saturday evening)
+		cel.Variable("saturday", cel.BoolType),       // the liturgical day is a Saturday
 		cel.Variable("great_doxology", cel.BoolType), // the great doxology is sung (the red sign; slot great_doxology)
 		cel.Variable("psalmody", cel.StringType))     // short | sung | read (Params.Psalmody)
 }
@@ -134,6 +135,7 @@ func Expand(t *Template, plan *Plan, texts map[string]corpus.Text, lang *Lang) (
 	}
 	vars := map[string]any{"priest": plan.Params.Priest, "standalone": plan.Params.Standalone, "typikon": plan.Params.Typikon,
 		"deacon": plan.Params.Deacon, "sunday": plan.Day.Weekday == time.Sunday.String(),
+		"saturday":       plan.Day.Weekday == time.Saturday.String(),
 		"great_doxology": len(plan.Slots["great_doxology"]) > 0, "psalmody": plan.Params.PsalmodyOrDefault()}
 	var out []RNode
 	missing := map[string]bool{}

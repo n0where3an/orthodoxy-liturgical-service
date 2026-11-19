@@ -171,6 +171,11 @@ func (p *Planner) Plan(ctx context.Context, d calendar.JDate, service string, pa
 			f.EveFestal = true
 		}
 	}
+	if service == "matins" && day.Weekday != time.Sunday { // the canon of the Theotokos
+		if f.SundayOctoechos, err = OctoechosFacts(ctx, p.Menaion, day.Tone, time.Sunday); err != nil {
+			return nil, err
+		}
+	}
 	if service == "matins" {
 		f.OdeSet = "weekday"
 		switch {

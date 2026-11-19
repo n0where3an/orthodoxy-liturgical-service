@@ -14,6 +14,8 @@ import (
 // me.<MM>.<DD>.matins:
 //
 //	canon.<C>.ode.<O>.irmos | .troparion.<N> | .theotokion | .cross_theotokion
+//	canon.<C>.theotokos (a marker: the canon of the Theotokos the Menaion
+//	    gives before the saint's, «канон бцды со ирмосом на 6, и стаго на 8»)
 //	sedalen.<N>, sedalen.glory, sedalen.theotokion, sedalen.cross_theotokion
 //	    (the sessional hymn after the 3rd ode)
 //	ikos.<N>                                       (after the 6th ode)
@@ -26,6 +28,7 @@ import (
 // The kontakia are imported with the troparia (me.….kontakion.N).
 var (
 	reMCanon      = regexp.MustCompile(`^(иный |ин |другий )?канон`)
+	reMTheotCanon = regexp.MustCompile(`^канон (бцды|бгородицы|престей бцде|пресвятей бгородице)([,.:]|$| кир| глас| егоже)`)
 	reMOde        = regexp.MustCompile(`песнь\s`)
 	reMOther      = regexp.MustCompile(`^(ин|иный)\.?\s*ирмос`)
 	reMTheot      = regexp.MustCompile(`^(слава,?\s*)?(и ныне,?\s*)?(крсто?)?бгородичен`)
@@ -99,6 +102,9 @@ func parseMenaionMatins(d *Doc, prefix, path string) []corpus.Unit {
 					canons++
 					canon, ode, sequential = canons, 0, true
 				}
+				if reMTheotCanon.MatchString(plain) {
+					add(fmt.Sprintf("canon.%d.theotokos", canon), "marker", "", text, nil)
+				}
 			}
 			switch {
 			case reMCompline.MatchString(plain):
@@ -131,8 +137,8 @@ func parseMenaionMatins(d *Doc, prefix, path string) []corpus.Unit {
 			case reMOde.MatchString(plain) && (section == "canon" || strings.Contains(plain, "ирмос")):
 				started = true
 				n := odeNumber(text)
-				if n == 0 {
-					n = nextOde(ode)
+				if n == 0 || canons <= 1 && n > 1 && n < ode && ode < 9 {
+					n = nextOde(ode) // no number, or a misprint («песнь д.» after the 6th)
 				}
 				if n != ode {
 					ode = n

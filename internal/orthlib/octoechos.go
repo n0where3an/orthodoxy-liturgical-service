@@ -27,7 +27,7 @@ var (
 	reEndVesp  = regexp.MustCompile(`ныне отпущаеши|на повечерии`)
 	reSkipPara = regexp.MustCompile(`^(подобен|ины стихиры|таже|глас |аще [^:]*минеи)`)
 	// a label before a sticheron: "мчнчен:", "мертвен:", "подобен, мчнчен:"
-	reLabel = regexp.MustCompile(`^((?:подобен|мчнчен|мученичен|мертвен|покаянен)(?:,\s*\S+)?):\s*`)
+	reLabel = regexp.MustCompile(`^((?:подобен|мчнчен|мученичен|мертвен|покоин|покаянен)(?:,\s*\S+)?):\s*`)
 )
 
 // ImportOctoechosVespers parses the daily vespers of all tones (weekdays only;

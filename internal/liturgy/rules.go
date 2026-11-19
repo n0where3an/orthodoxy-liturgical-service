@@ -66,7 +66,8 @@ func dayEnv() (*cel.Env, error) {
 		cel.Variable("weekday", cel.IntType), // 0 = Sunday
 		cel.Variable("period", cel.StringType),
 		cel.Variable("pascha_offset", cel.IntType),
-		cel.Variable("departed", cel.StringType), // the parental Saturday: meatfare, trinity, demetrius; ""
+		cel.Variable("departed", cel.StringType),   // the parental Saturday: meatfare, trinity, demetrius; ""
+		cel.Variable("feast_period", cel.BoolType), // in a forefeast, afterfeast or apodosis of a twelve feast
 		cel.Variable("bright_week", cel.BoolType),
 		cel.Variable("tone", cel.IntType),
 		cel.Variable("month", cel.IntType),
@@ -157,6 +158,9 @@ type Facts struct {
 	Feast   *Feast              // twelve feast whose period (feast..apodosis) contains the day
 	// Octoechos daily-vespers units of the day's tone and weekday.
 	Octoechos map[string][]string
+	// SundayOctoechos: the Sunday matins of the tone, for the canon of the
+	// Theotokos of a saint with a sign (Типикон, гл. 11; theotokosCanon).
+	SundayOctoechos map[string][]string
 	// Tones of Menaion troparia (for the dismissal theotokion).
 	Tones map[string]int
 	// Temple: the dedication of the church, nil when not given.
@@ -232,6 +236,7 @@ func (f Facts) vars() map[string]any {
 		"period":                 f.Day.Period.String(),
 		"pascha_offset":          int64(f.Day.PaschaOffset),
 		"departed":               f.Day.Departed,
+		"feast_period":           f.inFeastPeriod(),
 		"bright_week":            f.Day.BrightWeek,
 		"tone":                   int64(f.Day.Tone),
 		"month":                  int64(f.Day.Menaion.Month),
@@ -462,7 +467,7 @@ func (sel SlotSelector) resolve(name string, f Facts, service string) ([]SlotIte
 			}
 			items = append(items, SlotItem{Ref: avail[(k-1)%len(avail)], Repeat: sel.Repeat})
 		case "matins_troparia", "matins_sedalny", "matins_canon", "matins_sedalen", "matins_kontakion",
-			"matins_exapostilaria", "matins_aposticha":
+			"matins_exapostilaria", "matins_aposticha", "sat_sedalny", "sat_aposticha":
 			ms, err := matinsSlot(sel, f)
 			if err != nil {
 				return nil, fmt.Errorf("slot %s: %w", name, err)

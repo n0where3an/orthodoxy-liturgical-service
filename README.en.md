@@ -100,9 +100,9 @@ evening before. Typika: the service in place of the liturgy on days without one.
 |---|---|---|---|---|---|---|---|
 | Weekday (Mon–Fri), saint without a sign | ✅ daily | ✅ small | ✅ daily | ✅ daily | ✅ | ❌ | ✅ |
 | Weekday, saint with a sign (polyeleos, vigil) | ✅ great / vigil ¹ | ✅ / — before a vigil | ✅ / — before a vigil | ✅ festal ² | ✅ | ❌ | ✅ |
-| Weekday in an afterfeast or on the apodosis | ✅ daily | ✅ the feast's kontakion | ✅ daily | ⚠️ afterfeast ⁵; not the apodosis yet | ✅ | ❌ | ❌ |
+| Weekday in an afterfeast or on the apodosis | ✅ daily | ✅ the feast's kontakion | ✅ daily | ⚠️ afterfeast ⁵; not the apodosis yet | ✅ | ❌ | ⚠️ ⁸ |
 | Fixed twelve feast on a weekday | ✅ vigil | — | — | ✅ festal | ✅ | ❌ | ✅ |
-| Saturday (any) | ✅ daily or vigil (Friday evening) | ✅ (Friday evening) | ✅ Saturday | ❌ | ✅ | ❌ | ⚠️ ⁴ |
+| Saturday (any) | ✅ daily or vigil (Friday evening) | ✅ (Friday evening) | ✅ Saturday | ⚠️ ⁹ | ✅ | ❌ | ⚠️ ⁴ |
 | Sunday, saint without a sign | ✅ vigil, without litiya | ✅ (where there is no vigil) | ✅ Sunday | ✅ ³ | ❌ | ❌ | ✅ |
 | Sunday, saint with a sign | ✅ vigil (litiya if the Menaion has one) | ✅ / — before a vigil | ✅ Sunday / — after a saint's vigil | ✅ ³ | ❌ | ❌ | ✅ |
 | Sunday in an afterfeast or on the apodosis | ✅ vigil | ✅ the feast's kontakion | ✅ Sunday | ✅ ³ | ❌ | ❌ | ✅ |
@@ -114,7 +114,12 @@ evening before. Typika: the service in place of the liturgy on days without one.
 
 ¹ Readings missing in the Menaion are taken from the General Menaion by the
 saint's rank. ² Needs the matins Gospel in the Menaion (or «евангелие
-святительское / преподобническое»).
+святительское / преподобническое»). The canon by the Typikon, ch. 11 («аще ли
+поется стаго полиелей: тогда не поется октоих»): the canon of the Theotokos
+(the third canon of the tone's Sunday matins) with its irmos, then the
+saint's; the Menaion's own canon of the Theotokos (a vigil, ch. 47) or of the
+forefeast where it gives one; the katavasia after every ode, the irmos of
+the last canon.
 ³ The Octoechos with the Menaion: eothinon Gospel (the cycle of eleven from
 All Saints), evlogitaria, hypakoe, antiphons and prokeimenon of the tone; the
 katavasia by season from `data/calendar/katavasia.yaml`.
@@ -141,6 +146,41 @@ A few days still fail: 16 January (the source gives the service as one run
 of text), days whose Menaion canon lacks the troparia of an ode, and vigils
 without a matins Gospel (the corpus has no matins Gospels by rank).
 
+⁸ Weekdays and Saturday of the afterfeast and the apodosis: the beatitudes from
+the feast's canon (3rd ode) and the saint's (6th), or by the Menaion; at a
+feast of the Lord the entrance «Спаси ны, Сыне Божий, [the feast's refrain]»;
+the troparion of the feast, of the church and of the saint, «Слава» the
+saint's kontakion, «И ныне» the feast's (Typikon ch. 52: no hymns of a church
+of the Lord in an afterfeast of the Lord, of the Theotokos in hers); the
+prokeimenon, alleluia and communion verse of the feast and of the saint, the
+day's and the saint's Apostle and Gospel (on Saturday too the day's first:
+«апостол и еиглие прежде субботы…, таже праздника»; no Saturday hymns — the
+Octoechos is not sung); the feast's zadostoinik. Not yet: the afterfeasts of
+the Nativity and the Theophany (their own services are not done), afterfeast
+days with their own readings (the Saturday after the Exaltation).
+⁹ Saturday with «Бог Господь» (Typikon ch. 12), a saint without a sign: the
+saint's troparion twice, «Слава, и ныне» the theotokion; kathismata 16 and 17,
+the small litany after each; after the 16th the Octoechos's martyrs' sessional
+hymns — two, after the 17th two and the one for the departed; the saint's canon
+with its irmos, then the Octoechos's of the martyrs (the canon for the departed
+is sung at compline on Friday), the katavasia the irmos of the last canon; the
+saint's exapostilarion, «Слава» the Octoechos's «Иже и мертвыми и живыми», «И
+ныне» the theotokion; the Octoechos's stichera of the praises are sung at the
+aposticha — the martyrs' three with «Исполнихомся заутра», «И буди светлость»,
+«Слава» the saint's idiomelon or «Слава, и ныне» their theotokion. A saint
+with a sign (ch. 11) has the saint's own order — of the doxology (kathismata
+16 and 17, the Menaion's sessional hymns where it gives them, else the
+Octoechos's martyrs'; the saint's stichera at the praises, the great
+doxology, no aposticha) or of the polyeleos and vigil, as on a weekday; no
+Saturday canon of the Octoechos: «канон бцды прешедшия недели утренний» (the
+third canon of the tone's Sunday matins) with its irmos, then the saint's,
+or the Menaion's own canon of the Theotokos where it gives one («прилагается
+же и канон бцды», ch. 47); the saint's exapostilarion twice, «Слава, и ныне»
+the theotokion. Not yet: the canon of a church of the Lord or the Theotokos
+before the Theotokos's, Saturdays with «Аллилуиа» (a saint without a
+troparion, ch. 13), parental Saturdays, Saturdays of a forefeast or
+afterfeast; days whose Menaion lacks the matins Gospel (the vigils of 08.01,
+08.02, 08.29, 11.14) or the sessional hymn after the 3rd ode (08.30) fail.
 ⁶ By the Horologion: Pss 50, 69 and 101 (so in the Moscow 1980 Horologion),
 «Слава в вышних», «Сподоби, Господи», the Creed, the Octoechos canon of
 supplication to the Theotokos (Typikon ch. 9) with «Пресвятая Богородице,

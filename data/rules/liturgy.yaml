@@ -24,14 +24,17 @@
 #     kontakion or «Помяни, Господи», «Со святыми упокой», «Яко начатки»;
 #     the saint's prokeimenon, readings, alleluia and communion verse before
 #     the day's;
+#   - a weekday (Monday..Saturday) of the afterfeast of a fixed twelve feast,
+#     or its apodosis: the feast's prokeimenon, alleluia, communion verse and
+#     zadostoinik, the day's readings, the troparia by ch. 52;
 #   - Dimitrievskaya Saturday (calendar: departed == "demetrius"): the same,
 #     and after the day's «за упокой» (ch. 13): the prokeimenon «Души их»,
 #     the Apostle (зач. 270), the Gospel (John, зач. 16), the alleluia verse
 #     and the communion verse «Блажени, яже избрал».
 #
 # Recognised but not yet implemented: the Meatfare and the Trinity parental
-# Saturdays (the Triodion), Saturday with «Аллилуиа» (ch. 13), the afterfeast and forefeast days, the
-# Triodion, the Nativity and the Theophany.
+# Saturdays (the Triodion), Saturday with «Аллилуиа» (ch. 13), the forefeast
+# days, the Triodion, the Nativity and the Theophany.
 
 - id: liturgy.annunciation_in_lent
   service: liturgy
@@ -142,11 +145,43 @@
   when: period != "ordinary"
   unsupported: "Литургия в дни Триоди ещё не реализована"
 
-- id: liturgy.afterfeast
+- id: liturgy.afterfeast.weekday
+  service: liturgy
+  priority: 201
+  # A weekday (Monday..Saturday) of the afterfeast, or the apodosis:
+  # internal/liturgy/afterfeast_liturgy.go. On Saturday the same («прокимен,
+  # аллилуиа, и причастен праздника. апостол и еиглие прежде субботы…, таже
+  # праздника»): not the Saturday's hymns, the Octoechos is not sung.
+  when: >-
+    feast != "" && !feast_day && weekday >= 1 && weekday <= 6 && !lections_omitted &&
+    !(feast in ["nativity", "theophany"])
+  slots:
+    antiphon_1: {from: lit_antiphon, section: "1", part: afterfeast}
+    antiphon_2: {from: lit_antiphon, section: "2", part: afterfeast}
+    antiphon_3: {from: lit_antiphon, section: "3", part: afterfeast}
+    entrance: {from: lit_entrance, part: afterfeast}
+    troparia: {from: lit_troparia, part: afterfeast}
+    trisagion: {from: lit_trisagion, part: afterfeast}
+    prokeimena: {from: lit_prokeimena, part: afterfeast}
+    apostles: {from: lit_apostles, part: afterfeast}
+    alleluia: {from: lit_alleluia, part: afterfeast}
+    gospels: {from: lit_gospels, part: afterfeast}
+    truly_meet: {from: lit_truly_meet, part: afterfeast}
+    kinonik: {from: lit_kinonik, part: afterfeast}
+
+- id: liturgy.afterfeast.nativity_theophany
   service: liturgy
   priority: 200
+  # The liturgy of the Nativity and the Theophany themselves is not done yet
+  # (their prokeimena, alleluia, communion verses and zadostoinik).
+  when: feast in ["nativity", "theophany"]
+  unsupported: "Литургия в попразднство Рождества Христова и Богоявления ещё не реализована (нет службы самого праздника)"
+
+- id: liturgy.afterfeast
+  service: liturgy
+  priority: 199
   when: feast != ""
-  unsupported: "Литургия праздника без своей службы в Минее, попразднства и отдания ещё не реализована"
+  unsupported: "Литургия праздника без своей службы в Минее и дней попразднства со своими чтениями ещё не реализована"
 
 - id: liturgy.great_saint
   service: liturgy

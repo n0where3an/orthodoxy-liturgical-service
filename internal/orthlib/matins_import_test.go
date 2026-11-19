@@ -91,4 +91,17 @@ func TestMenaionMatins(t *testing.T) {
 	} else if _, ok := dec15["canon.1.ode.1.troparion.4"]; ok {
 		t.Error("12.15: troparia of another service added to the first canon")
 	}
+	// Dec 6: «канон бцды со ирмосом на 6» (a rubric), then the canon itself.
+	dec6 := menaionMatins(t, "dec", "06")
+	if _, ok := dec6["canon.1.theotokos"]; !ok {
+		t.Error("12.06: the first canon not marked as the Theotokos's")
+	}
+	for k := range dec6 {
+		if strings.HasSuffix(k, ".theotokos") && k != "canon.1.theotokos" {
+			t.Errorf("12.06: %s", k)
+		}
+	}
+	if _, ok := nov4["canon.1.theotokos"]; ok {
+		t.Error("11.04: no canon of the Theotokos")
+	}
 }

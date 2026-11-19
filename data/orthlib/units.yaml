@@ -2977,6 +2977,20 @@ units:
     file: octoih/oc/exapsedm.hip
     from: "мрие чистейшая, златая кадильнице"
     to: ""
+  - key: oc.exapostilarion.sat
+    book: octoechos
+    kind: exapostilarion
+    source: orthlib.octoechos
+    file: octoih/oc/exapsedm.hip
+    from: "иже и мертвыми и живыми"
+    to: ""
+  - key: oc.exapostilarion.sat.theotokion
+    book: octoechos
+    kind: theotokion
+    source: orthlib.octoechos
+    file: octoih/oc/exapsedm.hip
+    from: "мы о тебе хвалимся"
+    to: ""
   - key: ch.matins.praises.1
     book: chasoslov
     kind: psalm

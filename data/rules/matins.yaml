@@ -5,7 +5,9 @@
 #
 # Also: a weekday of the afterfeast (matins.afterfeast).
 #
-# Recognised but not yet implemented: Saturday matins, the apodosis, saints with a sign (polyeleos, great doxology), the Triodion
+# Also: Saturday (matins.saturday*).
+#
+# Recognised but not yet implemented: the apodosis, the Triodion
 # periods (Lenten matins with «Аллилуиа», Paschal matins).
 
 - id: matins.lord_feast_on_sunday
@@ -188,9 +190,32 @@
 
 - id: matins.saturday
   service: matins
+  priority: 291
+  # Saturday with «Бог Господь» (Типикон, гл. 12): a saint of the Menaion
+  # with a troparion, without a sign (internal/liturgy/saturday_matins.go).
+  when: >-
+    weekday == 6 && period == "ordinary" && feast == "" && departed == "" &&
+    !menaion_great_vespers && !menaion_great_doxology && menaion_troparia > 0
+  slots:
+    troparia: {from: matins_troparia}
+    sedalny_1: {from: sat_sedalny}
+    sedalny_2: {from: matins_sedalny, section: "2"}
+    canon_1_3: {from: matins_canon, section: "1-3"}
+    sedalen: {from: matins_sedalen}
+    canon_4_6: {from: matins_canon, section: "4-6"}
+    kontakion: {from: matins_kontakion}
+    canon_7_8: {from: matins_canon, section: "7-8"}
+    canon_9: {from: matins_canon, section: "9"}
+    exapostilaria: {from: matins_exapostilaria}
+    praises: {from: gm_praises}
+    aposticha: {from: sat_aposticha}
+    end_troparia: {from: vespers_troparia}
+
+- id: matins.saturday.unsupported
+  service: matins
   priority: 290
   when: weekday == 6
-  unsupported: "Субботняя утреня (кафизмы 16 и 17, каноны Октоиха мученикам и усопшим) ещё не реализована"
+  unsupported: "Субботняя утреня с «Аллилуиа», родительская, в предпразднство и попразднство, со святым со знаком без паремий в Минее ещё не реализована"
 
 - id: matins.triodion
   service: matins
@@ -273,6 +298,55 @@
     <<: *saint_slots
     plain_beginning: {from: unit, refs: [sl.exclamation.blessed_is_our_god]}
 
+# --- Saturday with a saint with a sign (Типикон, гл. 11): the saint's order
+# on kathismata 16 and 17; the canon of the Theotokos of the past Sunday on
+# 6 and the saint's on 8 instead of the Octoechos's (matinsCanon). Not in a
+# forefeast or afterfeast (the canon of the feast instead).
+
+- id: matins.saturday.vigil
+  service: matins
+  priority: 294
+  when: >-
+    weekday == 6 && period == "ordinary" && feast == "" && !feast_period && departed == "" &&
+    menaion_great_doxology && menaion_litiya && menaion_paremias
+  template: great_matins
+  slots: *saint_slots
+
+- id: matins.saturday.polyeleos
+  service: matins
+  priority: 293
+  when: >-
+    weekday == 6 && period == "ordinary" && feast == "" && !feast_period && departed == "" &&
+    menaion_great_doxology && menaion_paremias
+  template: great_matins
+  slots:
+    <<: *saint_slots
+    plain_beginning: {from: unit, refs: [sl.exclamation.blessed_is_our_god]}
+
+- id: matins.saturday.doxology
+  service: matins
+  priority: 292
+  # «В куюлибо субботу славословие прилучится»: daily matins with the great
+  # doxology; the Menaion's sessional hymns after the kathismata where it
+  # gives them, the saint's stichera at the praises, no aposticha.
+  when: >-
+    weekday == 6 && period == "ordinary" && feast == "" && !feast_period && departed == "" &&
+    menaion_great_doxology && !menaion_great_vespers && !menaion_paremias && menaion_troparia > 0
+  slots:
+    troparia: {from: matins_troparia}
+    sedalny_1: {from: gm_sedalny, section: "1"}
+    sedalny_2: {from: gm_sedalny, section: "2"}
+    canon_1_3: {from: matins_canon, section: "1-3"}
+    sedalen: {from: matins_sedalen}
+    canon_4_6: {from: matins_canon, section: "4-6"}
+    kontakion: {from: matins_kontakion}
+    canon_7_8: {from: matins_canon, section: "7-8"}
+    canon_9: {from: matins_canon, section: "9"}
+    exapostilaria: {from: matins_exapostilaria}
+    praises: {from: gm_praises}
+    aposticha: {from: none}
+    end_troparia: {from: vespers_troparia}
+
 - id: matins.great_saint
   service: matins
   priority: 150
@@ -352,6 +426,10 @@
 - {id: matins.sedalny_3.winter.afterfeast, slot: sedalny_3, service: matins, priority: 65, when: "feast != \"\" && !feast_day && weekday >= 1 && weekday <= 4 && ((month == 9 && day >= 22) || month == 10 || month == 11 || (month == 12 && day <= 19) || (month == 1 && day >= 15) || month == 2)", fill: {from: af_sedalny, section: "3"}}
 - {id: matins.sedalny_3.winter, slot: sedalny_3, service: matins, priority: 60, when: "weekday >= 1 && weekday <= 4 && ((month == 9 && day >= 22) || month == 10 || month == 11 || (month == 12 && day <= 19) || (month == 1 && day >= 15) || month == 2)", fill: {from: matins_sedalny, section: "3"}}
 - {id: matins.sedalny_3.none, slot: sedalny_3, service: matins, priority: 10, when: "true", fill: {from: none}}
+# Saturday: kathismata 16 and 17 all the year (Устав о Псалтири).
+- {id: matins.kathisma_1.sat, slot: kathisma_1, service: matins, priority: 50, when: "weekday == 6", fill: {from: unit, refs: [ps.kathisma.16.1, ps.kathisma.16.2, ps.kathisma.16.3]}}
+- {id: matins.kathisma_2.sat, slot: kathisma_2, service: matins, priority: 50, when: "weekday == 6", fill: {from: unit, refs: [ps.kathisma.17.1, ps.kathisma.17.2, ps.kathisma.17.3]}}
+- {id: matins.kathisma_3.sat, slot: kathisma_3, service: matins, priority: 50, when: "weekday == 6", fill: {from: none}}
 # Sunday (a feast of the Lord on Sunday): kathismata 2 and 3.
 - {id: matins.kathisma_1.sun, slot: kathisma_1, service: matins, priority: 50, when: "weekday == 0", fill: {from: unit, refs: [ps.kathisma.2.1, ps.kathisma.2.2, ps.kathisma.2.3]}}
 - {id: matins.kathisma_2.sun, slot: kathisma_2, service: matins, priority: 50, when: "weekday == 0", fill: {from: unit, refs: [ps.kathisma.3.1, ps.kathisma.3.2, ps.kathisma.3.3]}}

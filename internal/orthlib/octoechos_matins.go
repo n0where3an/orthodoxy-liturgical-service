@@ -33,10 +33,45 @@ var (
 	reOdeTheot     = regexp.MustCompile(`^(крсто?)?бгородичен:`)
 	reTrinity      = regexp.MustCompile(`^тр(о|ои)?и?чен:`)
 	reMatinsAposti = regexp.MustCompile(`^на стиховне`)
-	reOcMatinsEnd  = regexp.MustCompile(`^(таже[,:]? бла?го есть|в \S+ бла?женны|в \S+ вечера)`)
+	reOcMatinsEnd  = regexp.MustCompile(`^(таже[,:]? бла?го есть|в \S+ бла?женны|в \S+ вечера|в \S+ на литургии|тропарь,? ектени)`)
 	reTwice        = regexp.MustCompile(`\s*\[?(дважды|трижды)\.?\]?\.?\s*$`)
 	reMatinsSkip   = regexp.MustCompile(`^(подобен|таже|глас |творение|его же краегранесие)`)
+
+	// Saturday matins (Октоих, «в субботу утра»): the hymns of the martyrs,
+	// saints and departed.
+	reSatMatinsStart = regexp.MustCompile(`^в субботу,? (утра|на утрени)`)
+	reMatinsPraises  = regexp.MustCompile(`^на хвалитех`)
+	reCanonOtherIrm  = regexp.MustCompile(`^(ин|иный)[.,]? ирмос:`)
+	reCanonGlory     = regexp.MustCompile(`^слава(,? (мертвен|покоин))?:`)
+	reCanonNow       = regexp.MustCompile(`^и ныне(,? бгородичен)?:`)
+	// «Благословим Отца…» before the troparion at «Слава» of the 8th ode.
+	reCanonTrinity = regexp.MustCompile(`^блгословим оца`)
+	reCanonRefrain = regexp.MustCompile(`^припев:`)
+	// «мчнком:», «стителем:» — whom the troparion praises (not sung).
+	reCanonLabel = regexp.MustCompile(`^(мчнком|мучеником|стителем|прпдбным|пророком|мчнчен|мертвен|покоин):\s*`)
 )
+
+// ImportOctoechosSaturdayMatins parses the Saturday matins of all tones
+// (oc.<tone>.sat.matins): besides the keys of a weekday,
+//
+//	praises.sticheron.<N>, praises.theotokion (the martyrs' stichera «на
+//	    хвалитех», sung at the aposticha), praises.departed (the departed
+//	    one among them, «мертвен», left out)
+//	canon.<C>.ode.<O>.glory (the troparion at «Слава»)
+//	aposticha.* (the stichera of the departed)
+func ImportOctoechosSaturdayMatins(root string) ([]corpus.Unit, []string) {
+	var units []corpus.Unit
+	var warnings []string
+	for tone := 1; tone <= 8; tone++ {
+		path := filepath.Join(root, "octoih", "oc", fmt.Sprintf("%d_%s.hip", tone, octoechosDay[7]))
+		us, err := parseOctoechosMatins(path, tone, 6)
+		if err != nil {
+			warnings = append(warnings, err.Error())
+		}
+		units = append(units, us...)
+	}
+	return units, warnings
+}
 
 // ImportOctoechosMatins parses the weekday matins of all tones.
 func ImportOctoechosMatins(root string) ([]corpus.Unit, []string) {
@@ -89,18 +124,62 @@ func parseOctoechosMatins(path string, tone, weekday int) ([]corpus.Unit, error)
 	nApo := 0
 	pendingVerse := ""
 	wantTheotokion := ""
-	odes := 0
+	odes, nPraises := 0, 0
+	sat := weekday == 6
+	nextGlory := false
+	start := reMatinsStart
+	if sat {
+		start = reSatMatinsStart
+	}
 	for _, p := range d.Paras {
 		text := strings.TrimLeft(CleanText(pageRef.ReplaceAllString(p.Text(), "")), ". ")
 		plain := hip.PlainString(text)
 		if !started {
-			started = reMatinsStart.MatchString(plain)
+			started = start.MatchString(plain)
 			continue
 		}
 		words := strings.Fields(text)
+		if sat && section == "canon" && ode > 0 {
+			switch {
+			case nextGlory:
+				nextGlory = false
+				add(fmt.Sprintf("canon.%d.ode.%d.glory", canon, ode), "canon_troparion", text, nil)
+				continue
+			case reCanonTrinity.MatchString(plain) && len(words) <= 10:
+				nextGlory = true
+				continue
+			case reCanonRefrain.MatchString(plain), strings.Contains(plain, "идеже несть минеи") && !reCanonHead.MatchString(plain):
+				continue // a refrain; the rest of the heading of the departed canon
+			case reCanonOtherIrm.MatchString(plain):
+				canon, nTrop = 2, 0
+				add(fmt.Sprintf("canon.%d.ode.%d.irmos", canon, ode), "irmos", text[strings.Index(text, ":")+1:], nil)
+				continue
+			case reCanonGlory.MatchString(plain) && !reGloryNow.MatchString(plain):
+				add(fmt.Sprintf("canon.%d.ode.%d.glory", canon, ode), "canon_troparion", text[strings.Index(text, ":")+1:], nil)
+				continue
+			case reCanonNow.MatchString(plain):
+				add(fmt.Sprintf("canon.%d.ode.%d.theotokion", canon, ode), "theotokion", text[strings.Index(text, ":")+1:], nil)
+				continue
+			case reCanonLabel.MatchString(plain) && len(words) > 8:
+				m := reCanonLabel.FindStringSubmatch(plain)
+				nTrop++
+				add(fmt.Sprintf("canon.%d.ode.%d.troparion.%d", canon, ode, nTrop), "canon_troparion",
+					strings.TrimSpace(text[strings.Index(text, ":")+1:]), map[string]any{"label": m[1]})
+				continue
+			}
+		}
 		switch {
 		case reOcMatinsEnd.MatchString(plain):
-			return units, checkMatins(path, units, odes, nApo)
+			return units, checkMatinsDay(path, sat, odes, nApo, nPraises)
+		case sat && reMatinsPraises.MatchString(plain):
+			section = "praises"
+			continue
+		case sat && (section == "praises" || section == "aposticha") && reCanonGlory.MatchString(plain) && !reGloryNow.MatchString(plain):
+			add(section+".glory", "sticheron", afterColon(text, 0), nil) // «слава:» without «и ныне»
+			continue
+		case sat && (section == "praises" || section == "aposticha") && strings.HasPrefix(plain, "и ныне"):
+			add(section+".theotokion", "theotokion", afterColon(text, 0), nil)
+			continue
 		case reSedalenSec.MatchString(plain) && len(words) > 1:
 			section, kathisma, nSed = "sedalen", numeralOfWord(words[1]), 0
 			continue
@@ -212,6 +291,13 @@ func parseOctoechosMatins(path string, tone, weekday int) ([]corpus.Unit, error)
 			}
 			nTrop++
 			add(fmt.Sprintf("canon.%d.ode.%d.troparion.%d", canon, ode, nTrop), "canon_troparion", body, meta)
+		case "praises":
+			nPraises++
+			if l, _ := meta["label"].(string); l == "мертвен" || l == "покоин" {
+				add("praises.departed", "sticheron", body, meta) // left out at matins (Типикон, гл. 12)
+				break
+			}
+			add(fmt.Sprintf("praises.sticheron.%d", nPraises), "sticheron", body, meta)
 		case "aposticha":
 			nApo++
 			if pendingVerse != "" && nApo > 1 {
@@ -224,7 +310,14 @@ func parseOctoechosMatins(path string, tone, weekday int) ([]corpus.Unit, error)
 	if !started {
 		return nil, fmt.Errorf("%s: matins not found", filepath.Base(path))
 	}
-	return units, checkMatins(path, units, odes, nApo)
+	return units, checkMatinsDay(path, sat, odes, nApo, nPraises)
+}
+
+func checkMatinsDay(path string, sat bool, odes, nApo, nPraises int) error {
+	if sat && (nPraises < 3 || nPraises > 6) {
+		return fmt.Errorf("%s: matins: %d praises stichera", filepath.Base(path), nPraises)
+	}
+	return checkMatins(path, nil, odes, nApo)
 }
 
 func checkMatins(path string, units []corpus.Unit, odes, nApo int) error {

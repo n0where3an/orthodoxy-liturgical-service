@@ -177,6 +177,28 @@ units:
     book: sluzhebnik
     kind: hymn
     text: "Прїиди́те, поклони́мсѧ и҆ припаде́мъ ко хрⷭ҇тꙋ̀. спаси́ ны сн҃е бж҃їй, воскресы́й и҆з̾ ме́ртвыхъ, пою́щыѧ тѝ, а҆ллилꙋ́їа."
+  # Входное в попразднство Господских праздников («сице поем и до отдания
+  # праздника», Типикон, декабрь, 25).
+  - key: lit.entrance.afterfeast.nativity
+    book: sluzhebnik
+    kind: hymn
+    text: "Прїиди́те, поклони́мсѧ и҆ припаде́мъ ко хрⷭ҇тꙋ̀. спаси́ ны сн҃е бж҃їй, рожде́йсѧ ѿ дв҃ы, пою́щыѧ тѝ, а҆ллилꙋ́їа."
+  - key: lit.entrance.afterfeast.theophany
+    book: sluzhebnik
+    kind: hymn
+    text: "Прїиди́те, поклони́мсѧ и҆ припаде́мъ ко хрⷭ҇тꙋ̀. спаси́ ны сн҃е бж҃їй, во і҆ѻрда́нѣ крести́выйсѧ, пою́щыѧ тѝ, а҆ллилꙋ́їа."
+  - key: lit.entrance.afterfeast.meeting
+    book: sluzhebnik
+    kind: hymn
+    text: "Прїиди́те, поклони́мсѧ и҆ припаде́мъ ко хрⷭ҇тꙋ̀. спаси́ ны сн҃е бж҃їй, на рꙋка́хъ пра́веднагѡ сѷмеѡ́на носи́мый, пою́щыѧ тѝ, а҆ллилꙋ́їа."
+  - key: lit.entrance.afterfeast.transfiguration
+    book: sluzhebnik
+    kind: hymn
+    text: "Прїиди́те, поклони́мсѧ и҆ припаде́мъ ко хрⷭ҇тꙋ̀. спаси́ ны сн҃е бж҃їй, преѡбрази́выйсѧ на горѣ̀, пою́щыѧ тѝ, а҆ллилꙋ́їа."
+  - key: lit.entrance.afterfeast.exaltation
+    book: sluzhebnik
+    kind: hymn
+    text: "Прїиди́те, поклони́мсѧ и҆ припаде́мъ ко хрⷭ҇тꙋ̀. спаси́ ны сн҃е бж҃їй, пло́тїю распны́йсѧ, пою́щыѧ тѝ, а҆ллилꙋ́їа."
   - key: sl.dismissal.prefix.sunday
     book: sluzhebnik
     kind: exclamation

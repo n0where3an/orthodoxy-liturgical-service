@@ -17,7 +17,9 @@ import (
 //     the Menaion has a single canon), the Menaion canon(s); katavasia —
 //     the irmos of the last canon after the 3rd, 6th, 8th and 9th odes.
 //     The troparia are given once each; the Typikon's counts («на 6», «на
-//     4») by repeating them are not applied;
+//     4») by repeating them are not applied. A saint of the polyeleos and
+//     higher: the canon of the Theotokos instead of the Octoechos's
+//     (theotokosCanon);
 //   - after the 3rd ode the Menaion sessional hymn, after the 6th the
 //     kontakion and ikos, after the 9th the exapostilaria (Octoechos, then
 //     the Menaion's, then the theotokion);
@@ -42,6 +44,10 @@ func matinsSlot(sel SlotSelector, f Facts) ([]SlotItem, error) {
 		return matinsExapostilaria(f)
 	case "matins_aposticha":
 		return matinsAposticha(f)
+	case "sat_sedalny":
+		return saturdaySedalny(f)
+	case "sat_aposticha":
+		return saturdayAposticha(f)
 	}
 	return nil, fmt.Errorf("unknown matins selector %q", sel.From)
 }
@@ -107,6 +113,9 @@ func matinsCanon(f Facts, section string) ([]SlotItem, error) {
 	if err != nil {
 		return nil, err
 	}
+	if f.withTheotokosCanon() {
+		return theotokosCanon(f, odes)
+	}
 	menCanons := 0
 	for c := 1; c <= 3; c++ {
 		if firstMain(f, fmt.Sprintf("matins.canon.%d.ode.1.troparion", c)) != "" {
@@ -119,6 +128,12 @@ func matinsCanon(f Facts, section string) ([]SlotItem, error) {
 	octCanons := 2
 	if menCanons >= 2 {
 		octCanons = 1 // «един канон Октоиха»: the first
+	}
+	// Saturday (Типикон, гл. 12): the saint's canon with its irmos, then
+	// the Octoechos's of the martyrs (the departed one is sung at compline).
+	sat := f.Day.Weekday == time.Saturday
+	if sat {
+		octCanons = 1
 	}
 	cross := f.Day.Weekday == time.Wednesday || f.Day.Weekday == time.Friday
 	var items []SlotItem
@@ -153,19 +168,38 @@ func matinsCanon(f Facts, section string) ([]SlotItem, error) {
 					th = c
 				}
 			}
+			if g := get(base + ".glory"); len(g) > 0 && !main { // the Saturday canon
+				items = append(items, reader("common.glory"), SlotItem{Ref: g[0]})
+				if len(th) > 0 {
+					items = append(items, reader("common.and_now"))
+				}
+			}
 			if len(th) > 0 {
 				items = append(items, SlotItem{Ref: th[0]})
 			}
 			return nil
 		}
-		for c := 1; c <= octCanons; c++ {
-			if err := part(f.Octoechos, fmt.Sprintf("matins.canon.%d.ode.%d", c, o), c == 1, false); err != nil {
-				return nil, fmt.Errorf("Octoechos tone %d, %v: %w", f.Day.Tone, f.Day.Weekday, err)
+		octoechos := func() error {
+			for c := 1; c <= octCanons; c++ {
+				if err := part(f.Octoechos, fmt.Sprintf("matins.canon.%d.ode.%d", c, o), c == 1 && !sat, false); err != nil {
+					return fmt.Errorf("Octoechos tone %d, %v: %w", f.Day.Tone, f.Day.Weekday, err)
+				}
+			}
+			return nil
+		}
+		if !sat {
+			if err := octoechos(); err != nil {
+				return nil, err
 			}
 		}
 		for c := 1; c <= menCanons; c++ {
-			if err := part(f.Menaion, fmt.Sprintf("matins.canon.%d.ode.%d", c, o), false, true); err != nil {
+			if err := part(f.Menaion, fmt.Sprintf("matins.canon.%d.ode.%d", c, o), sat && c == 1, true); err != nil {
 				return nil, fmt.Errorf("Menaion %02d.%02d: %w", int(f.Day.Menaion.Month), f.Day.Menaion.Day, err)
+			}
+		}
+		if sat {
+			if err := octoechos(); err != nil {
+				return nil, err
 			}
 		}
 		if len(f.OdeVerses) > 0 { // -typikon: the verses of the biblical ode
@@ -265,6 +299,9 @@ var weekdayExapostilarionTheotokion = map[time.Weekday]string{
 }
 
 func matinsExapostilaria(f Facts) ([]SlotItem, error) {
+	if f.Day.Weekday == time.Saturday {
+		return saturdayExapostilaria(f), nil
+	}
 	oct := weekdayExapostilaria[f.Day.Weekday]
 	if len(oct) == 0 {
 		return nil, fmt.Errorf("no weekday exapostilarion on %v", f.Day.Weekday)
@@ -339,4 +376,98 @@ func matinsAposticha(f Facts) ([]SlotItem, error) {
 		return nil, fmt.Errorf("no theotokion for the aposticha at matins")
 	}
 	return append(items, reader("common.glory_now"), SlotItem{Ref: th}), nil
+}
+
+// withTheotokosCanon: the Octoechos's canons give way to the canon of the
+// Theotokos (Типикон, гл. 11): a saint of the polyeleos and higher on any
+// weekday («аще ли поется стаго полиелей: тогда не поется октоих: но поем
+// канон бцде, или аще предпразднство… со ирмосом на 6: и стаго на 8. сице
+// убо во всю седмицу»), and on Saturday also of the great doxology («в
+// куюлибо субботу славословие прилучится… канон бцды прешедшия недели
+// утренний»). On a weekday of the great doxology the Octoechos stays.
+func (f Facts) withTheotokosCanon() bool {
+	switch {
+	case f.Day.Weekday == time.Sunday:
+		return false
+	case f.Day.Weekday == time.Saturday && f.redSign():
+		return true
+	}
+	// By the Menaion's own service: a day whose sign of the polyeleos is of
+	// a service not imported as the main one (an icon of the Theotokos,
+	// 07.08, 10.22) keeps the Octoechos with its simple saint.
+	return len(mainMenaion(f, "gvespers.paremia")) > 0 || len(mainMenaion(f, "vespers.great")) > 0
+}
+
+// theotokosCanon: the canon of the Theotokos of the past Sunday's matins
+// (the Octoechos's third) with its irmos — the resurrectional canon's where
+// it is «тойже» — then the saint's canon(s) of the Menaion without theirs.
+// The Menaion's own canon of the Theotokos (marked canon.<C>.theotokos) or,
+// in a forefeast, of the forefeast is sung instead, first, with its irmos.
+// Katavasia after every ode, the irmos of the last canon. The troparia are
+// given once each (as in matinsCanon). The canon of a church of the Lord or
+// the Theotokos «прежде» is not supported yet.
+func theotokosCanon(f Facts, odes []int) ([]SlotItem, error) {
+	var men []string
+	for c := 1; c <= 3; c++ {
+		if firstMain(f, fmt.Sprintf("matins.canon.%d.ode.1.troparion", c)) != "" {
+			men = append(men, fmt.Sprintf("matins.canon.%d", c))
+		}
+	}
+	if len(men) == 0 {
+		return nil, fmt.Errorf("no Menaion canon for %02d.%02d in the corpus", int(f.Day.Menaion.Month), f.Day.Menaion.Day)
+	}
+	// The Menaion's own canon of the Theotokos (a vigil, гл. 47: «прилагается
+	// же и канон бцды») or of the forefeast, first with its irmos, instead of
+	// the Octoechos's.
+	menTheotokos := len(men) > 1 && firstMain(f, men[0]+".theotokos") != "" || f.inFeastPeriod()
+	var items []SlotItem
+	for _, o := range odes {
+		items = append(items, reader(fmt.Sprintf("ch.canon.ode.%d", o)))
+		start := len(items)
+		lastIrmos := ""
+		if !menTheotokos {
+			b := fmt.Sprintf("matins.canon.3.ode.%d", o)
+			trop := f.SundayOctoechos[b+".troparion"]
+			if len(trop) == 0 {
+				return nil, fmt.Errorf("Octoechos tone %d: no canon of the Theotokos of Sunday matins, ode %d", f.Day.Tone, o)
+			}
+			irmos := first(f.SundayOctoechos, b+".irmos")
+			if irmos == "" {
+				irmos = first(f.SundayOctoechos, fmt.Sprintf("matins.canon.1.ode.%d.irmos", o))
+			}
+			lastIrmos = irmos
+			if irmos != "" {
+				items = append(items, SlotItem{Ref: irmos})
+			}
+			for _, t := range trop {
+				items = append(items, SlotItem{Ref: t})
+			}
+		}
+		for i, c := range men {
+			mb := fmt.Sprintf("%s.ode.%d", c, o)
+			mt := mainMenaion(f, mb+".troparion")
+			if len(mt) == 0 {
+				return nil, fmt.Errorf("Menaion %02d.%02d: canon %s: no troparia", int(f.Day.Menaion.Month), f.Day.Menaion.Day, mb)
+			}
+			if ir := firstMain(f, mb+".irmos"); ir != "" {
+				lastIrmos = ir
+				if menTheotokos && i == 0 {
+					items = append(items, SlotItem{Ref: ir})
+				}
+			}
+			for _, t := range mt {
+				items = append(items, SlotItem{Ref: t})
+			}
+			if th := firstMain(f, mb+".theotokion"); th != "" {
+				items = append(items, SlotItem{Ref: th})
+			}
+		}
+		if len(f.OdeVerses) > 0 { // -typikon: the verses of the biblical ode
+			items = append(items[:start], withOdeVerses(f, f.OdeSet, o, append([]SlotItem(nil), items[start:]...))...)
+		}
+		if lastIrmos != "" {
+			items = append(items, reader("ch.canon.katavasia"), SlotItem{Ref: lastIrmos})
+		}
+	}
+	return items, nil
 }

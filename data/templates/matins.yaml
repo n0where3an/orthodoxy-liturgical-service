@@ -5,6 +5,8 @@
 # «Приидите, поклонимся», царская часть (псалмы 19 и 20, тропари, краткая
 # сугубая ектения). На кафизмах в будни ектений не бывает; малые ектении —
 # по 3-й, 6-й песни и по «Достойно есть» (Служебник, Устав утрени).
+# В субботу (Типикон, гл. 12) по каждой кафисме малая ектения
+# (Типикон: «и по стихологии ектениа»).
 # В будни по «Утверди, Боже» чтец начинает первый час (в приходской
 # практике час соединён с утреней); отдельно служимая утреня (standalone)
 # оканчивается отпустом.
@@ -99,7 +101,8 @@ nodes:
   - {id: troparia, slot: troparia, performer: choir}
 
   # --- Кафизмы с седальнами ---
-  - {id: kathisma_rubric, rubric: matins_kathismata, audience: kliros}
+  - {id: kathisma_rubric, rubric: matins_kathismata, audience: kliros, when: "!saturday"}
+  - {id: kathisma_rubric_saturday, rubric: matins_kathismata_saturday, audience: kliros, when: saturday}
   - id: kathisma_1
     if_slot: kathisma_1
     children:
@@ -109,6 +112,14 @@ nodes:
       - {id: k1_doxology_2, include: stasis_doxology}
       - {id: k1_stasis_3, slot: kathisma_1, index: 3, performer: reader}
       - {id: k1_doxology_3, include: stasis_doxology}
+      - id: k1_litany
+        when: saturday
+        children:
+          - id: k1_litany_priest
+            when: priest
+            children:
+              - {id: k1_small_litany, include: small_litany}
+          - {id: k1_litany_reader, ref: common.lord_have_mercy, performer: reader, repeat: 3, when: "!priest"}
       - {id: k1_sedalny_rubric, rubric: sedalny, audience: kliros}
       - {id: k1_sedalny, slot: sedalny_1, performer: choir}
   - id: kathisma_2
@@ -120,6 +131,16 @@ nodes:
       - {id: k2_doxology_2, include: stasis_doxology}
       - {id: k2_stasis_3, slot: kathisma_2, index: 3, performer: reader}
       - {id: k2_doxology_3, include: stasis_doxology}
+      - id: k2_litany
+        when: saturday
+        children:
+          - id: k2_litany_priest
+            when: priest
+            children:
+              - {id: k2_small_litany, include: small_litany_open}
+              - {id: k2_exclamation, ref: sl.lit.small.exclamation.2, performer: priest, voice: aloud}
+              - {id: k2_amen, ref: common.amen, performer: choir}
+          - {id: k2_litany_reader, ref: common.lord_have_mercy, performer: reader, repeat: 3, when: "!priest"}
       - {id: k2_sedalny_rubric, rubric: sedalny, audience: kliros}
       - {id: k2_sedalny, slot: sedalny_2, performer: choir}
   - id: kathisma_3

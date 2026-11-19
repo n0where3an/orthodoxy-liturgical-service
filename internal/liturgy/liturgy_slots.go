@@ -41,9 +41,11 @@ var weekdayLiturgy = map[time.Weekday]dayLiturgy{
 
 // saintFirst: on Saturday the saint's prokeimenon, Apostle, alleluia, Gospel
 // and communion verse come before the day's (Типикон, гл. 12: «прежде стаго,
-// таже дне: предваряет бо всегда рядоваго апостола и еиглиа»); on the other
-// weekdays after them.
-func saintFirst(f Facts) bool { return f.Day.Weekday == time.Saturday }
+// таже дне: предваряет бо всегда рядоваго апостола и еиглиа, кроме гдсских
+// праздников»); on the other weekdays, and on Saturday in an afterfeast
+// («апостол и еиглие чтется прежде субботе…, потом прдтечи», 7 January), after
+// them.
+func saintFirst(f Facts) bool { return f.Day.Weekday == time.Saturday && f.Feast == nil }
 
 // departed: a parental Saturday (Dimitrievskaya; the Triodion's are not yet
 // sung). After the day's, «и другий за упокой» (Типикон, гл. 13): the
@@ -59,6 +61,9 @@ func litanist(ref string) SlotItem { return SlotItem{Ref: ref, Performer: Litani
 func priest(ref string) SlotItem   { return SlotItem{Ref: ref, Performer: Priest} }
 
 func liturgySlot(sel SlotSelector, f Facts) ([]SlotItem, error) {
+	if sel.Part == "afterfeast" {
+		return afterfeastLiturgySlot(sel, f)
+	}
 	if strings.HasPrefix(sel.Part, "sunday") {
 		if items, ok, err := sundayLiturgySlot(sel, f); ok || err != nil {
 			return items, err
