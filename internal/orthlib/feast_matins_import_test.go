@@ -36,3 +36,43 @@ func TestPsalmsAndTheotokia(t *testing.T) {
 		t.Errorf("theotokia: %v", err)
 	}
 }
+
+func TestMenaionNativityTheophanyMatins(t *testing.T) {
+	units := func(month, file string) map[string]bool {
+		d, err := LoadDoc(filepath.Join(extractedRoot(t), "mineya", month, month, file))
+		if err != nil {
+			t.Fatal(err)
+		}
+		keys := map[string]bool{}
+		for _, u := range parseMenaionMatins(d, "me.x", file) {
+			keys[strings.TrimPrefix(u.ID, "me.x.matins.")] = true
+		}
+		for _, u := range parseMenaionFeastMatins(d, "me.x", file) {
+			keys[strings.TrimPrefix(u.ID, "me.x.matins.")] = true
+		}
+		return keys
+	}
+	check := func(name string, keys map[string]bool, have, lack []string) {
+		for _, k := range have {
+			if !keys[k] {
+				t.Errorf("%s: missing %s", name, k)
+			}
+		}
+		for _, k := range lack {
+			if keys[k] {
+				t.Errorf("%s: unexpected %s", name, k)
+			}
+		}
+	}
+	// The Nativity: the 7th ode with no heading after the ikos, the ipakoi
+	// after the 3rd ode, the 9th ode's refrains not taken for troparia.
+	check("12.25", units("dec", filepath.Join("Декабрь", "25.hip")),
+		[]string{"canon.1.ode.7.irmos", "canon.2.ode.9.troparion.2", "sedalen.1"},
+		[]string{"canon.3.ode.9.irmos", "canon.1.ode.9.troparion.4"})
+	// The Theophany: begins at the sessional hymn after the hexapsalmos.
+	check("01.06", units("jan", filepath.Join("Январь", "06.hip")),
+		[]string{"k_sedalen.1.1", "ps50.glory", "ps50.now", "ps50.sticheron", "rubric", "praises.glory"}, nil)
+	// The Circumcision: «таже стаго припевы» begins the saint's canon.
+	check("01.01", units("jan", filepath.Join("Январь", "01.hip")),
+		[]string{"canon.2.ode.9.troparion.5"}, []string{"canon.1.ode.9.troparion.3"})
+}

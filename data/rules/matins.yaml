@@ -178,7 +178,8 @@
   service: matins
   priority: 296
   when: (month == 12 && day == 25) || (month == 1 && day == 6)
-  unsupported: "Утреня Рождества Христова и Богоявления (с великим повечерием) ещё не реализована"
+  template: great_matins
+  slots: *feast_slots
 
 - id: matins.feast
   service: matins

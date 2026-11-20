@@ -137,3 +137,37 @@ func TestFestalMatinsRender(t *testing.T) {
 		t.Error("vigil: matins begins with the Six Psalms")
 	}
 }
+
+func TestNativityTheophanyMatins(t *testing.T) {
+	// The Theophany, 2027-01-06 O.S.: its own troparion (the 3rd of the
+	// Menaion, after those of the Royal Hours), «Всяческая днесь» at «Слава»
+	// and «И ныне» after the 50th psalm, two kathismata only.
+	d := calendar.MustJDate(2027, time.January, 6)
+	me := "me.01.06."
+	c := festalMatinsCorpus(d, true)
+	c.ids = append(c.ids, me+"troparion.3", me+"matins.ps50.glory", me+"matins.ps50.now",
+		me+"matins.magnification.verse.1", me+"matins.magnification.verse.2")
+	plan, err := planMatins(t, c, d)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if plan.Rule != "matins.nativity_theophany" || plan.Template != "great_matins" {
+		t.Fatalf("rule %s, template %s", plan.Rule, plan.Template)
+	}
+	want := map[string]string{
+		"troparia":     me + "troparion.3x3",
+		"end_troparia": me + "troparion.3",
+		"sedalny_3":    "",
+		"ps50": "ch.psalm.50,common.glory," + me + "matins.ps50.glory,common.and_now," + me + "matins.ps50.now," +
+			"ch.matins.ps50.verse," + me + "matins.ps50.sticheron",
+		// The selected psalm (the Irmologion): the magnification after each verse.
+		"magnification": me + "matins.magnification," + me + "matins.magnification," + me + "matins.magnification.verse.1," +
+			me + "matins.magnification," + me + "matins.magnification.verse.2," + me + "matins.magnification," +
+			"common.glory_now,ir.magnification.alleluiax3",
+	}
+	for slot, w := range want {
+		if got := refs(plan.Slots[slot]); got != w {
+			t.Errorf("%s:\n got %s\nwant %s", slot, got, w)
+		}
+	}
+}

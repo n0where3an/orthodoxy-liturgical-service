@@ -110,7 +110,7 @@ evening before. Typika: the service in place of the liturgy on days without one
 | Sunday with its own readings (before/after the Exaltation, the Nativity — of the Fathers —, the Theophany) | ⚠️ not before the Exaltation (forefeast with the Renewal) | ✅ | ✅ Sunday | ⚠️ not before the Exaltation | ✅ ¹⁰ | ❌ | ⚠️ ¹¹ |
 | Feast of the Lord on Sunday (Exaltation, Meeting, Transfiguration) | ✅ vigil | — | — | ✅ festal | ✅ | ❌ | ✅ |
 | Feast of the Theotokos on Sunday | ✅ vigil | — | — | ✅ ³ | ⚠️ no resurrectional troparion | ❌ | ✅ |
-| Nativity of Christ, Theophany and their eves (Royal Hours) | ⚠️ the eve: on a weekday with the liturgy, on Saturday and Sunday apart ¹³ | ✅ great, with the litiya ¹⁴ | — on the feast | ❌ | ✅ Royal ¹³ | ✅ after the Royal Hours ¹³ | ⚠️ the feast ¹², the eve ¹³ |
+| Nativity of Christ, Theophany and their eves (Royal Hours) | ⚠️ the eve: on a weekday with the liturgy, on Saturday and Sunday apart ¹³ | ✅ great, with the litiya ¹⁴ | — on the feast | ✅ ¹⁵ | ✅ Royal ¹³ | ✅ after the Royal Hours ¹³ | ⚠️ the feast ¹², the eve ¹³ |
 | Saint with a sign whose readings the Menaion does not give (≈10 days) | ❌ | ✅ | ✅ | ❌ | ✅ | ❌ | ❌ |
 
 ¹ Readings missing in the Menaion are taken from the General Menaion by the
@@ -263,7 +263,8 @@ with its verses (Is 8–9), «День прешед», «Безплотное е
 142, «Слава в вышних Богу». On the Nativity and the Theophany (the Menaion):
 the beginning with the deacon, the feast's troparion instead of «Просвети
 очи моя», its kontakion instead of «Помилуй нас, Господи»; after «Слава в
-вышних» the litiya in the narthex, the stichera of the litiya and the
+вышних» the litiya in the narthex: the stichera of the litiya, the litany
+«Спаси, Боже, люди Твоя» (by the Hieratikon, as at vespers), the
 aposticha, «Ныне отпущаеши», the feast's troparion thrice (on the Theophany
 the blessing of the loaves), «Буди имя Господне», Psalm 33 — and matins. In
 Great Lent, from the 2nd to the 6th week, Monday to Thursday evenings:
@@ -273,6 +274,36 @@ prayer with the prostrations, «Нескверная», «И даждь нам»
 the litany «Помолимся о великом господине». Not yet: the first week (St
 Andrew's canon), Holy Week, the Annunciation in Lent, a Menaion canon at
 compline.
+
+¹⁵ Matins of the Nativity and the Theophany by the Menaion, as festal
+matins: «Бог Господь» and the feast's troparion thrice (on the Theophany its
+own, not the Menaion's first: the Royal Hours' troparia precede it), two
+kathismata with their sessional hymns (no third), the polyeleos and its
+sessional hymn, the anabathmoi, prokeimenon, Gospel, after Psalm 50
+«Всяческая днесь…» at «Слава… И ныне…» instead of «Молитвами апостол /
+Богородицы», and the sticheron; two canons with the katavasia (both irmoi),
+the ipakoi after the 3rd ode, the kontakion and ikos after the 6th, the 9th
+ode with the Irmologion's refrains, the exapostilarion thrice, the praises,
+the great doxology. The Menaion canon parser was fixed: the ipakoi is taken
+as the sessional hymn after the 3rd ode, the 9th ode's refrains and rubrics
+no longer become troparia (this also fixed 06.29, 08.15, 09.14, 01.01), the
+Nativity's 7th ode lacking a heading after the ikos. The magnification with
+the selected psalm comes from the Irmologion («Псалми избраннии») on every
+feast it gives (the Nativity and the Entry of the Theotokos, the Exaltation,
+the Nativity of Christ, the Theophany, the Meeting, the Annunciation, the
+Nativity and the Beheading of the Forerunner, Ss Peter and Paul, the
+Transfiguration, the Dormition): the clergy sing it, the choir repeats it,
+and sings it after each verse of the psalm; «Слава, и ныне: Аллилуиа»
+thrice. Saints with a sign whose Menaion has no magnification get the
+Irmologion's common one of their rank (venerable, hierarch, martyr,
+apostle, the bodiless powers), the saint's name in the vocative in place of
+«имярек» («святителю отче Николае»), with the common selected psalm; the
+rank is the one used for the General Menaion, the name comes from the day's
+title. Several saints («отец наших», «мучеников»), women saints, princes of
+no other rank, or a name not found: no magnification is supplied. The
+Menaion's own magnifications get the common psalm of the rank; those of the
+icons of the Theotokos, the selected psalm of her Nativity. Not yet: exact
+pairing of the 9th-ode refrains with the second canon's troparia.
 ⁶ By the Horologion: Pss 50, 69 and 101 (so in the Moscow 1980 Horologion),
 «Слава в вышних», «Сподоби, Господи», the Creed, the Octoechos canon of
 supplication to the Theotokos (Typikon ch. 9) with «Пресвятая Богородице,

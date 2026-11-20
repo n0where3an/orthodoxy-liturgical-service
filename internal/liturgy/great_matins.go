@@ -28,10 +28,22 @@ func greatMatinsSlot(sel SlotSelector, f Facts) ([]SlotItem, error) {
 	case "gm_sedalny":
 		return gmSedalny(f, sel.Section)
 	case "gm_magnification":
-		if m := firstMain(f, "matins.magnification"); m != "" {
+		// The magnification and the verses of the selected psalm (the
+		// Irmologion), the magnification sung after each; «Слава, и ныне:
+		// Аллилуиа» thrice.
+		m := firstMain(f, "matins.magnification")
+		if m == "" {
+			return nil, nil
+		}
+		verses := mainMenaion(f, "matins.magnification.verse")
+		if len(verses) == 0 {
 			return []SlotItem{{Ref: m, Repeat: 2, Performer: Clergy}, choir(m)}, nil
 		}
-		return nil, nil
+		items := []SlotItem{{Ref: m, Performer: Clergy}, choir(m)}
+		for _, v := range verses {
+			items = append(items, SlotItem{Ref: v, Performer: Clergy}, choir(m))
+		}
+		return append(items, choir("common.glory_now"), SlotItem{Ref: "ir.magnification.alleluia", Repeat: 3, Performer: Choir}), nil
 	case "gm_prokeimenon":
 		p, v := firstMain(f, "matins.prokeimenon"), firstMain(f, "matins.prokeimenon.verse")
 		if p == "" || f.Tones[p] == 0 {
@@ -47,8 +59,17 @@ func greatMatinsSlot(sel SlotSelector, f Facts) ([]SlotItem, error) {
 		return []SlotItem{litanist(g + ".announce"), choir("sl.lit.glory_to_thee_o_lord"), litanist("lit.let_us_attend"),
 			priest(g), choir("sl.lit.glory_to_thee_o_lord")}, nil
 	case "gm_ps50":
-		items := []SlotItem{reader("ch.psalm.50"), choir("common.glory"), choir("ch.matins.ps50.glory"),
-			choir("common.and_now"), choir("ch.matins.ps50.now"), choir("ch.matins.ps50.verse")}
+		// «Слава» and «И ныне»: «Молитвами апостол», «Молитвами Богородицы»,
+		// or the feast's own (the Nativity, the Theophany: «Всяческая днесь…»).
+		g, n := "ch.matins.ps50.glory", "ch.matins.ps50.now"
+		if m := firstMain(f, "matins.ps50.glory"); m != "" {
+			g, n = m, m
+			if mn := firstMain(f, "matins.ps50.now"); mn != "" {
+				n = mn
+			}
+		}
+		items := []SlotItem{reader("ch.psalm.50"), choir("common.glory"), choir(g),
+			choir("common.and_now"), choir(n), choir("ch.matins.ps50.verse")}
 		if s := firstMain(f, "matins.ps50.sticheron"); s != "" {
 			items = append(items, choir(s))
 		}
@@ -71,7 +92,7 @@ func greatMatinsSlot(sel SlotSelector, f Facts) ([]SlotItem, error) {
 			return nil, fmt.Errorf("no troparion")
 		}
 		if feast {
-			return []SlotItem{choir(t[0])}, nil
+			return []SlotItem{choir(feastTroparion(f, t[0]))}, nil
 		}
 		th, err := resurrectionalTheotokion(f, t[len(t)-1])
 		if err != nil {
@@ -96,7 +117,7 @@ func gmTroparia(f Facts, feast bool) ([]SlotItem, error) {
 		return nil, fmt.Errorf("no Menaion troparion for %02d.%02d", int(f.Day.Menaion.Month), f.Day.Menaion.Day)
 	}
 	if feast {
-		return []SlotItem{{Ref: t[0], Repeat: 3, Performer: Choir}}, nil
+		return []SlotItem{{Ref: feastTroparion(f, t[0]), Repeat: 3, Performer: Choir}}, nil
 	}
 	items := []SlotItem{{Ref: t[0], Repeat: 2, Performer: Choir}}
 	if len(t) > 1 {
@@ -111,6 +132,15 @@ func gmTroparia(f Facts, feast bool) ([]SlotItem, error) {
 	return append(items, choir(th)), nil
 }
 
+// feastTroparion: the feast's own troparion (the Theophany's is not the
+// Menaion's first: those of the Royal Hours come before it).
+func feastTroparion(f Facts, first string) string {
+	if f.Feast != nil && f.Feast.IsFeastDay(f.Day) && f.Feast.Troparion != "" {
+		return f.Feast.Troparion
+	}
+	return first
+}
+
 // gmSedalny: the Menaion's sessional hymns after kathisma k ("1".."3") or
 // after the polyeleos ("p"); the Octoechos ones when the Menaion has none.
 func gmSedalny(f Facts, k string) ([]SlotItem, error) {
@@ -121,6 +151,9 @@ func gmSedalny(f Facts, k string) ([]SlotItem, error) {
 			return nil, nil
 		}
 		n, _ := strconv.Atoi(k)
+		if n == 3 {
+			return nil, nil // festal matins has two kathismata
+		}
 		if n == 1 && f.Day.Weekday == time.Saturday {
 			return saturdaySedalny(f) // the martyrs' two after the 16th
 		}

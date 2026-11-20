@@ -34,7 +34,7 @@ var (
 	reMTheot      = regexp.MustCompile(`^(слава,?\s*)?(и ныне,?\s*)?(крсто?)?бгородичен`)
 	reMCross      = regexp.MustCompile(`крстобгородичен`)
 	reMTrinity    = regexp.MustCompile(`^(слава,?\s*)?тр(о|ои)?и?чен`)
-	reMSedalen    = regexp.MustCompile(`^(слава,? и ныне,? |таже,? |ин )?седален`)
+	reMSedalen    = regexp.MustCompile(`^(слава,? и ныне,? |таже,? |ин )?(седален|ипакои)`)
 	reMKontakion  = regexp.MustCompile(`^(таже,? |ин )?кондак`)
 	reMIkos       = regexp.MustCompile(`^икос`)
 	reMSvetilen   = regexp.MustCompile(`^(таже,? |ин )?(светилен|ексапостиларий)`)
@@ -46,6 +46,9 @@ var (
 	reMIrmosOnly  = regexp.MustCompile(`^(глас \S+ )?ирмос:?$`)
 	reMCompline   = regexp.MustCompile(`^на повечерии|поется на повечерии`) // «…поется на повечерии»: the canon of compline
 	reMMatinsNote = regexp.MustCompile(`^на утрени`)
+	reM9Refrains  = regexp.MustCompile(`^на ф-?й песни`)
+	reM9Refrain   = regexp.MustCompile(`^(величай, душе моя|днесь влдка)`)
+	reM9Rubric    = regexp.MustCompile(`^(таже|посем|вместо|и поклон|и вторый|и прочии|прочии)`)
 	reMOtherSaint = regexp.MustCompile(`^\S+( \S+)?:$`)
 	reMPraises    = regexp.MustCompile(`^на хвалитех`)
 	reMStop       = regexp.MustCompile(`^(на литургии|на велицем славословии|на 1-м часе|конец|на утрени|на вечерни|на малей вечерни|на велицей вечерни|месяца|в тойже день)`)
@@ -78,10 +81,45 @@ func parseMenaionMatins(d *Doc, prefix, path string) []corpus.Unit {
 	irmos := map[int]string{}
 	sequential := false
 	compline := false
+	odes9 := false // the feast's 9th ode with its refrains
 	for _, p := range d.Paras {
 		text := CleanText(pageRef.ReplaceAllString(p.Text(), ""))
 		red := hip.PlainString(p.RedPrefix())
 		plain := hip.PlainString(text)
+		// The 9th ode of a twelve feast («на ф-й песни… честнейшую не поем: но
+		// поем припевы праздника»; the Theophany prints no heading after
+		// it): the refrains are the Irmologion's (ir.pripev.*) — the short
+		// lines and the instructions between the troparia are left out;
+		// «…втораго канона припев» passes to the second canon.
+		if started && (section == "canon" || ode == 9 && odes9) {
+			lp := strings.ToLower(plain)
+			words := len(strings.Fields(lp))
+			head := len([]rune(strings.TrimSpace(red))) > 3 || reMHeadText.MatchString(plain)
+			switch {
+			case reM9Refrains.MatchString(lp):
+				if ode != 9 {
+					ode, canon = 9, 1
+					odes9 = true
+				}
+				expect = ""
+				continue
+			case odes9 && ode == 9 && (strings.Contains(lp, "втораго канона") || strings.Contains(lp, "стаго припевы")) && canons >= 2:
+				canon, expect = 2, ""
+				continue
+			case odes9 && ode == 9 && (lp == "и ирмос:" || strings.HasPrefix(lp, "и ирмос:")):
+				expect, heading = "irmos", text
+				if strings.Contains(lp, "тойже") {
+					expect = ""
+				}
+				continue
+			case odes9 && ode == 9 && reM9Rubric.MatchString(lp) && words <= 12:
+				continue // «вместо, славы:», «вместо же, и ныне:» — not another canon
+			case odes9 && ode == 9 && strings.Contains(lp, "припев") && words <= 5:
+				continue // «другий припев:» — not another canon
+			case odes9 && ode == 9 && !head && expect != "irmos" && (words <= 15 || reM9Rubric.MatchString(lp) || reM9Refrain.MatchString(lp)):
+				continue
+			}
+		}
 		if len([]rune(strings.TrimSpace(red))) > 3 || reMHeadText.MatchString(plain) { // a heading
 			// "Канон Октоиха един, на 6: и святых два канона на 8" is the
 			// Typikon's instruction, not a canon of this service.
@@ -153,6 +191,11 @@ func parseMenaionMatins(d *Doc, prefix, path string) []corpus.Unit {
 				if strings.Contains(plain, "ирмос") {
 					expect = "irmos"
 				}
+				continue
+			case (section == "kontakion" || section == "ikos") && ode == 6 && reMOther.MatchString(plain):
+				// «Ин. ирмос:» after the kontakion and ikos of the 6th ode: the
+				// 7th, its heading missing (12.25).
+				section, ode, canon, expect, heading = "canon", 7, 1, "irmos", text
 				continue
 			case section == "canon" && reMOther.MatchString(plain):
 				canon++

@@ -503,6 +503,11 @@ func SupplementFromGeneralMenaion(units []corpus.Unit) ([]corpus.Unit, []string)
 				cat = rankOfFirst(dd.title)
 			}
 		}
+		if dd.gvespers && cat != "" {
+			// The rank of the saint with the sign (its magnification, SupplementMagnifications).
+			add = append(add, corpus.Unit{ID: p + ".common.rank", Book: "menaion", Kind: "marker", Lang: "cu", Body: cat,
+				SourceID: "orthlib.mineya", Meta: map[string]any{"category": cat, "rank_from_title": guessed}})
+		}
 		if dd.ref != "" && !dd.litProk {
 			for _, part := range commonLitParts {
 				copyUnit(p+".lit."+part, "om."+dd.ref+".lit."+part)

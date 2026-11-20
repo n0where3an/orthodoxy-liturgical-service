@@ -108,6 +108,11 @@ func cmdImport(ctx context.Context, args []string) error {
 	} else {
 		warnings = append(warnings, err.Error())
 	}
+	if mag, err := orthlib.ImportMagnifications(*root); err == nil {
+		oct = append(oct, mag...)
+	} else {
+		warnings = append(warnings, err.Error())
+	}
 	if app, err := orthlib.ImportOctoechosSundayAppendix(*root); err == nil {
 		oct = append(oct, app...)
 	} else {
@@ -167,6 +172,8 @@ func cmdImport(ctx context.Context, args []string) error {
 	// The common parts of the General Menaion for the days that lack them.
 	all, w = orthlib.SupplementFromGeneralMenaion(all)
 	warnings = append(warnings, w...)
+	// The magnifications and selected psalms of the Irmologion.
+	all = orthlib.SupplementMagnifications(all)
 	if dup := duplicateIDs(all); len(dup) > 0 {
 		return fmt.Errorf("duplicate unit keys: %v", dup)
 	}

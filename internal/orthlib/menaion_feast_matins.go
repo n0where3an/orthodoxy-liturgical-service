@@ -49,6 +49,7 @@ func parseMenaionFeastMatins(d *Doc, prefix, path string) []corpus.Unit {
 			Podoben: podobenOf(heading), Lang: "cu", Body: body, SourceID: "orthlib.mineya", Meta: m})
 	}
 	phase := "" // pre (before the canon) | praises
+	prevPlain := ""
 	rubric, rubricParas := "", 0
 	section, expect, heading := "", "", ""
 	n := map[string]int{}
@@ -61,6 +62,34 @@ func parseMenaionFeastMatins(d *Doc, prefix, path string) []corpus.Unit {
 		// It may continue over the next paragraphs («прокимен, глас д:» / the
 		// text / the verse / «всякое дыхание…, евангелие…»).
 		hasGospel := strings.Contains(plain, "еиглие") || strings.Contains(plain, "евангелие")
+		// The Theophany's matins has no heading «на утрени»: it begins with
+		// the sessional hymn after the first kathisma.
+		if phase == "" && isHead && reFMSedalen.MatchString(plain) && strings.Contains(plain, "а-й") &&
+			strings.Contains(prevPlain, "по шестопсалмии") {
+			phase = "pre"
+		}
+		prevPlain = plain
+		// After Psalm 50 at the Nativity and the Theophany: «Слава»
+		// «Всяческая днесь…» instead of «Молитвами апостол», «И ныне» the
+		// same (or its own), then the sticheron.
+		if phase == "pre" {
+			switch {
+			case strings.HasPrefix(plain, "всяческая днесь"):
+				if !seen["ps50.glory"] {
+					add("ps50.glory", "hymn", "", text, nil)
+				} else {
+					add("ps50.now", "hymn", "", text, nil)
+				}
+				continue
+			case seen["ps50.glory"] && strings.HasPrefix(plain, "и ныне") && strings.Contains(plain, "тойже"):
+				add("ps50.now", "hymn", "", "-", map[string]any{"copy": prefix + ".matins.ps50.glory"}) // the text: the copy
+				continue
+			case seen["ps50.glory"] && !seen["ps50.sticheron"] && strings.Contains(plain, "стихира") &&
+				len(strings.Fields(plain)) <= 12:
+				section, expect, heading = "ps50", "sticheron", text
+				continue
+			}
+		}
 		if phase == "pre" && rubric == "" && (reFMRubric.MatchString(plain) || strings.Contains(plain, "степенна")) && strings.Contains(plain, "прокимен") &&
 			!strings.HasPrefix(plain, "на литургии") {
 			if hasGospel {

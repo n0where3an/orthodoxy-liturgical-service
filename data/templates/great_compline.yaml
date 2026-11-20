@@ -7,7 +7,8 @@
 # Трисвятое, тропари (troparia_2), молитва «Владыко Боже Отче
 # Вседержителю». Третья: псалмы 69, 142, «Слава в вышних Богу» —
 #   - в великие праздники (Рождество Христово, Богоявление, по Минее) лития в
-#     притворе: стихиры литии и стиховны, «Ныне отпущаеши», тропарь праздника
+#     притворе: стихиры литии, ектения литии (по Служебнику, как на вечерне),
+#     стиховна, «Ныне отпущаеши», тропарь праздника
 #     трижды (на Богоявление — благословение хлебов), «Буди имя Господне»,
 #     псалом 33; далее утреня;
 #   - иначе (Великий пост): «Сподоби, Господи», канон, «Господи сил» со
@@ -127,6 +128,7 @@ nodes:
     children:
       - {id: litiya_rubric, rubric: litiya, audience: laity}
       - {id: litiya, slot: litiya, performer: choir}
+      - {id: litiya_litany, include: litiya_litany}
       - {id: aposticha, slot: aposticha, performer: choir}
       - {id: nunc_dimittis, ref: ch.vespers.nunc_dimittis, performer: reader}
       - {id: trisagion_f, include: trisagion_to_our_father}

@@ -156,6 +156,9 @@ func TestSupplementFromGeneralMenaion(t *testing.T) {
 	out, warnings := SupplementFromGeneralMenaion(units)
 	got := map[string]string{}
 	for _, x := range out[len(units):] {
+		if strings.HasSuffix(x.ID, ".common.rank") {
+			continue // the rank of a saint with the sign (its magnification)
+		}
 		got[x.ID], _ = x.Meta["copied_from"].(string)
 	}
 	want := map[string]string{
@@ -217,6 +220,9 @@ func TestSupplementHymnsFromGeneralMenaion(t *testing.T) {
 	out, _ := SupplementFromGeneralMenaion(units)
 	got := map[string]string{}
 	for _, x := range out[len(units):] {
+		if strings.HasSuffix(x.ID, ".common.rank") {
+			continue
+		}
 		got[x.ID], _ = x.Meta["copied_from"].(string)
 		if x.Tone != 4 || x.Meta["rank_from_title"] != true {
 			t.Errorf("%s: tone %d, meta %v", x.ID, x.Tone, x.Meta)
