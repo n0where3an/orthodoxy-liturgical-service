@@ -59,6 +59,9 @@ func cmdImport(ctx context.Context, args []string) error {
 		warnings = append(warnings, err.Error())
 	}
 	men = append(men, bogor...)
+	gc, w := orthlib.ImportFeastCompline(*root)
+	warnings = append(warnings, w...)
+	men = append(men, gc...)
 	eve, w := orthlib.ImportEveVespers(*root)
 	warnings = append(warnings, w...)
 	men = append(men, eve...)

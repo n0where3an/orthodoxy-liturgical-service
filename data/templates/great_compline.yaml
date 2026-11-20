@@ -1,0 +1,202 @@
+# Повечерие великое — по Часослову (М., 1980). Служится вечером накануне дня.
+#
+# Первая часть: псалмы 4, 6, 12; 24, 30, 90; «С нами Бог» со стихами; «День
+# прешед», «Безплотное естество», «Верую», «Пресвятая Владычице» и прочие
+# моления, Трисвятое, тропари (troparia_1), «Господи, помилуй» 40, молитва
+# «Господи, Господи, избавлей нас». Вторая: псалмы 50, 101, молитва Манассии,
+# Трисвятое, тропари (troparia_2), молитва «Владыко Боже Отче
+# Вседержителю». Третья: псалмы 69, 142, «Слава в вышних Богу» —
+#   - в великие праздники (Рождество Христово, Богоявление, по Минее) лития в
+#     притворе: стихиры литии и стиховны, «Ныне отпущаеши», тропарь праздника
+#     трижды (на Богоявление — благословение хлебов), «Буди имя Господне»,
+#     псалом 33; далее утреня;
+#   - иначе (Великий пост): «Сподоби, Господи», канон, «Господи сил» со
+#     стихами, «Господи, аще не быхом», молитвы, молитва св. Ефрема с
+#     поклонами, «Нескверная», «И даждь нам», прощение, ектения
+#     «Помолимся о великом господине».
+
+service: compline
+nodes:
+  - {id: title, ref: ch.gcompline.title, heading: true}
+  # В праздник — начало с диаконом, «Благословен Бог наш» с каждением.
+  - id: festal_start
+    if_slot: litiya
+    children:
+      - {id: festal_bless, ref: lit.deacon.bless_master, performer: deacon, voice: aloud, when: deacon}
+  - {id: beginning, include: usual_beginning}
+
+  # --- Часть первая ---
+  - {id: psalms_rubric, rubric: psalms}
+  - {id: psalm_4, ref: ch.gcompline.psalm.4, performer: reader}
+  - {id: psalm_6, ref: ch.gcompline.psalm.6, performer: reader}
+  - {id: psalm_12, ref: ch.gcompline.psalm.12, performer: reader}
+  - {id: glory_now_1, ref: common.glory_now, performer: reader}
+  - {id: alleluia_1, ref: common.alleluia_glory_to_thee, performer: reader, repeat: 3}
+  - {id: lhm_1, ref: common.lord_have_mercy, performer: reader, repeat: 3}
+  - {id: glory_now_2, ref: common.glory_now, performer: reader}
+  - {id: psalm_24, ref: ch.gcompline.psalm.24, performer: reader}
+  - {id: psalm_30, ref: ch.gcompline.psalm.30, performer: reader}
+  - {id: psalm_90, ref: ch.sext.psalm.90, performer: reader}
+  - {id: glory_now_3, ref: common.glory_now, performer: reader}
+  - {id: alleluia_2, ref: common.alleluia_glory_to_thee, performer: reader, repeat: 3}
+  - {id: lhm_2, ref: common.lord_have_mercy, performer: reader, repeat: 3}
+  - {id: glory_now_4, ref: common.glory_now, performer: reader}
+
+  - {id: with_us_god, ref: ch.gcompline.with_us_god, performer: choir}
+  - {id: with_us_god_v1, ref: ch.gcompline.with_us_god.verse.1, performer: choir}
+  - {id: with_us_god_v2, ref: ch.gcompline.with_us_god.verse.2, performer: choir}
+  - {id: with_us_god_v3, ref: ch.gcompline.with_us_god.verse.3, performer: choir}
+  - {id: with_us_god_v4, ref: ch.gcompline.with_us_god.verse.4, performer: choir}
+  - {id: with_us_god_v5, ref: ch.gcompline.with_us_god.verse.5, performer: choir}
+  - {id: with_us_god_v6, ref: ch.gcompline.with_us_god.verse.6, performer: choir}
+  - {id: with_us_god_v7, ref: ch.gcompline.with_us_god.verse.7, performer: choir}
+  - {id: with_us_god_v8, ref: ch.gcompline.with_us_god.verse.8, performer: choir}
+  - {id: with_us_god_v9, ref: ch.gcompline.with_us_god.verse.9, performer: choir}
+  - {id: with_us_god_v10, ref: ch.gcompline.with_us_god.verse.10, performer: choir}
+  - {id: with_us_god_v11, ref: ch.gcompline.with_us_god.verse.11, performer: choir}
+  - {id: with_us_god_v12, ref: ch.gcompline.with_us_god.verse.12, performer: choir}
+  - {id: with_us_god_v13, ref: ch.gcompline.with_us_god.verse.13, performer: choir}
+  - {id: with_us_god_v14, ref: ch.gcompline.with_us_god.verse.14, performer: choir}
+  - {id: with_us_god_v15, ref: ch.gcompline.with_us_god.verse.15, performer: choir}
+  - {id: with_us_god_v16, ref: ch.gcompline.with_us_god.verse.16, performer: choir}
+  - {id: with_us_god_v17, ref: ch.gcompline.with_us_god.verse.17, performer: choir}
+  - {id: with_us_god_v18, ref: ch.gcompline.with_us_god.verse.18, performer: choir}
+  - {id: with_us_god_v19, ref: ch.gcompline.with_us_god.verse.19, performer: choir}
+  - {id: with_us_god_again, ref: ch.gcompline.with_us_god, performer: choir}
+  - {id: wug_glory, ref: common.glory, performer: choir}
+  - {id: with_us_god_glory, ref: ch.gcompline.with_us_god, performer: choir}
+  - {id: wug_and_now, ref: common.and_now, performer: choir}
+  - {id: with_us_god_now, ref: ch.gcompline.with_us_god, performer: choir}
+  - {id: with_us_god_end, ref: ch.gcompline.with_us_god.end, performer: choir}
+
+  - {id: day_past_1, ref: ch.gcompline.day_past.1, performer: choir}
+  - {id: dp_glory, ref: common.glory, performer: choir}
+  - {id: day_past_2, ref: ch.gcompline.day_past.2, performer: choir}
+  - {id: dp_and_now, ref: common.and_now, performer: choir}
+  - {id: day_past_3, ref: ch.gcompline.day_past.3, performer: choir}
+  - {id: bodiless, ref: ch.gcompline.bodiless, performer: choir}
+  - {id: creed, ref: common.creed, performer: reader}
+  - {id: intercession_1, ref: ch.gcompline.intercession.1, performer: choir}
+  - {id: intercession_2, ref: ch.gcompline.intercession.2, performer: choir, repeat: 2}
+  - {id: intercession_3, ref: ch.gcompline.intercession.3, performer: choir, repeat: 2}
+  - {id: intercession_4, ref: ch.gcompline.intercession.4, performer: choir, repeat: 2}
+  - {id: intercession_5, ref: ch.gcompline.intercession.5, performer: choir, repeat: 2}
+  - {id: intercession_6, ref: ch.gcompline.intercession.6, performer: choir, repeat: 2}
+  - {id: cleanse_1, ref: ch.gcompline.cleanse.1, performer: choir, repeat: 2}
+  - {id: cleanse_2, ref: ch.gcompline.cleanse.2, performer: choir, repeat: 2}
+  - {id: trisagion_1, include: trisagion_to_our_father}
+  - {id: troparia_1_rubric, rubric: compline_troparia, audience: kliros}
+  - {id: troparia_1, slot: troparia_1, performer: reader}
+  - {id: lhm_40_1, ref: common.lord_have_mercy, performer: reader, repeat: 40}
+  - {id: glory_now_5, ref: common.glory_now, performer: reader}
+  - {id: more_honorable_1, ref: common.more_honorable, performer: reader}
+  - {id: in_the_name_1, ref: common.in_the_name_of_the_lord_bless, performer: reader, when: priest}
+  - {id: holy_fathers_1, ref: common.prayers_of_holy_fathers, performer: priest, voice: aloud, when: priest}
+  - {id: holy_fathers_1_reader, ref: common.prayers_of_holy_fathers, performer: reader, when: "!priest"}
+  - {id: amen_1, ref: common.amen, performer: reader}
+  - {id: prayer_basil, ref: ch.gcompline.prayer.basil, performer: reader}
+
+  # --- Часть вторая ---
+  - {id: come_2, include: come_let_us_worship}
+  - {id: psalm_50, ref: ch.psalm.50, performer: reader}
+  - {id: psalm_101, ref: ch.compline.psalm.101, performer: reader}
+  - {id: manasseh, ref: ch.gcompline.manasseh, performer: reader}
+  - {id: trisagion_2, include: trisagion_to_our_father}
+  - {id: troparia_2, slot: troparia_2, performer: reader}
+  - {id: lhm_40_2, ref: common.lord_have_mercy, performer: reader, repeat: 40}
+  - {id: glory_now_6, ref: common.glory_now, performer: reader}
+  - {id: more_honorable_2, ref: common.more_honorable, performer: reader}
+  - {id: in_the_name_2, ref: common.in_the_name_of_the_lord_bless, performer: reader, when: priest}
+  - {id: holy_fathers_2, ref: common.prayers_of_holy_fathers, performer: priest, voice: aloud, when: priest}
+  - {id: holy_fathers_2_reader, ref: common.prayers_of_holy_fathers, performer: reader, when: "!priest"}
+  - {id: amen_2, ref: common.amen, performer: reader}
+  - {id: prayer_master, ref: ch.gcompline.prayer.master, performer: reader}
+
+  # --- Часть третья ---
+  - {id: come_3, include: come_let_us_worship}
+  - {id: psalm_69, ref: ch.compline.psalm.69, performer: reader}
+  - {id: psalm_142, ref: ch.gcompline.psalm.142, performer: reader}
+  - {id: doxology_1, ref: ch.compline.doxology.1, performer: reader}
+  - {id: doxology_2, ref: ch.compline.doxology.2, performer: reader}
+  - {id: doxology_3, ref: ch.compline.doxology.3, performer: reader}
+
+  # Праздник: лития в притворе, стиховна, «Ныне отпущаеши», тропарь
+  # праздника трижды, (благословение хлебов), «Буди имя Господне», псалом 33.
+  - id: festal_end
+    if_slot: litiya
+    children:
+      - {id: litiya_rubric, rubric: litiya, audience: laity}
+      - {id: litiya, slot: litiya, performer: choir}
+      - {id: aposticha, slot: aposticha, performer: choir}
+      - {id: nunc_dimittis, ref: ch.vespers.nunc_dimittis, performer: reader}
+      - {id: trisagion_f, include: trisagion_to_our_father}
+      - {id: troparion_f, slot: troparion, performer: choir}
+      - id: loaves
+        if_slot: loaves
+        children:
+          - {id: loaves_rubric, rubric: blessing_of_loaves, audience: laity}
+          - {id: loaves_pray, ref: lit.let_us_pray_to_the_lord, performer: litanist, voice: aloud}
+          - {id: loaves_r, ref: common.lord_have_mercy, performer: choir}
+          - {id: loaves_prayer, slot: loaves, performer: priest, voice: aloud}
+          - {id: loaves_amen, ref: common.amen, performer: choir}
+      - {id: blessed_be_the_name, ref: ch.typika.blessed_be_the_name, performer: choir, repeat: 3}
+      - {id: psalm_33, ref: ch.vigil.psalm_33, performer: choir}
+      - {id: matins_follows, rubric: matins_follows}
+
+  - id: ordinary_end
+    unless_slot: litiya
+    children:
+      - {id: vouchsafe, ref: ch.compline.vouchsafe, performer: reader}
+      - {id: doxology_5, ref: ch.compline.doxology.5, performer: reader}
+      - {id: doxology_6, ref: ch.compline.doxology.6, performer: reader}
+      - {id: canon_rubric, rubric: compline_canon, audience: kliros}
+      - {id: canon, slot: canon, performer: reader}
+      - {id: trisagion_3, include: trisagion_to_our_father}
+      - {id: lord_of_hosts, ref: ch.gcompline.lord_of_hosts, performer: choir}
+      - {id: lord_of_hosts_2, ref: ch.gcompline.lord_of_hosts, performer: choir}
+      - {id: praise_1, ref: ch.gcompline.praise.1, performer: choir}
+      - {id: praise_2, ref: ch.gcompline.praise.2, performer: choir}
+      - {id: praise_3, ref: ch.gcompline.praise.3, performer: choir}
+      - {id: praise_4, ref: ch.gcompline.praise.4, performer: choir}
+      - {id: praise_5, ref: ch.gcompline.praise.5, performer: choir}
+      - {id: praise_1_both, ref: ch.gcompline.praise.1, performer: choir}
+      - {id: if_we_had_glory, ref: common.glory, performer: choir}
+      - {id: if_we_had, ref: ch.gcompline.if_we_had, performer: choir}
+      - {id: many_now, ref: common.and_now, performer: choir}
+      - {id: many_multitudes, ref: ch.gcompline.many_multitudes, performer: choir}
+      - {id: all_holy, ref: ch.gcompline.all_holy, performer: choir}
+      - {id: all_my_hope, ref: ch.gcompline.all_my_hope, performer: choir}
+      - {id: lhm_40_3, ref: common.lord_have_mercy, performer: reader, repeat: 40}
+      - {id: prayer_of_hours, ref: common.prayer_of_the_hours, performer: reader}
+      - {id: lhm_3_3, ref: common.lord_have_mercy, performer: reader, repeat: 3}
+      - {id: glory_now_7, ref: common.glory_now, performer: reader}
+      - {id: more_honorable_3, ref: common.more_honorable, performer: reader}
+      - {id: in_the_name_3, ref: common.in_the_name_of_the_lord_bless, performer: reader, when: priest}
+      - {id: god_be_merciful, ref: sl.exclamation.god_be_merciful, performer: priest, voice: aloud, when: priest}
+      - {id: god_be_merciful_reader, ref: common.prayers_of_holy_fathers, performer: reader, when: "!priest"}
+      - {id: amen_3, ref: common.amen, performer: reader}
+      # В Великий пост — молитва св. Ефрема с поклонами.
+      - id: lent_ephrem
+        if_slot: lent
+        children:
+          - {id: ephrem_rubric, rubric: ephrem_prostrations, audience: kliros}
+          - {id: ephrem_1, ref: ch.gcompline.ephrem.1, performer: reader}
+          - {id: ephrem_2, ref: ch.gcompline.ephrem.2, performer: reader}
+          - {id: ephrem_3, ref: ch.gcompline.ephrem.3, performer: reader}
+          - {id: trisagion_4, include: trisagion_to_our_father}
+          - {id: lhm_12, ref: common.lord_have_mercy, performer: reader, repeat: 12}
+      - {id: prayer_undefiled, ref: ch.compline.prayer.undefiled, performer: reader}
+      - {id: prayer_grant_us, ref: ch.compline.prayer.grant_us, performer: reader}
+      - {id: prayer_most_glorious, ref: ch.compline.prayer.most_glorious, performer: reader}
+      - {id: prayer_my_hope, ref: ch.compline.prayer.my_hope, performer: reader}
+      - {id: end_glory_now, ref: common.glory_now, performer: reader}
+      - {id: end_lhm_3, ref: common.lord_have_mercy, performer: reader, repeat: 3}
+      - {id: end_bless, ref: common.bless, performer: reader}
+      - {id: merciful_master, ref: ch.gcompline.merciful_master, performer: priest, voice: aloud, when: priest}
+      - id: forgiveness
+        when: priest
+        children:
+          - {id: forgive_me, ref: ch.gcompline.forgive_me, performer: priest, voice: aloud}
+          - {id: god_forgive, ref: ch.gcompline.god_forgive, performer: choir}
+          - {id: litany, include: midnight_litany}
+      - {id: prayer_enemies, ref: ch.gcompline.prayer.enemies, performer: reader}

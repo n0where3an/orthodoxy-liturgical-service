@@ -219,3 +219,89 @@ func weekendVespersRubric(d *Doc, prefix string) []corpus.Unit {
 	}
 	return nil
 }
+
+// ImportFeastCompline parses the great compline of the Nativity and the
+// Theophany (the Menaion: «поется повечерие великое сице… по слава в вышних:
+// исходим в притвор»): gc.<feast>.litiya.<N>, .litiya.glory, .litiya.now
+// (or .litiya.glory_now), .aposticha.<N>, .aposticha.verse.<N> (before
+// sticheron N), .aposticha.glory, .aposticha.now (or .glory_now).
+func ImportFeastCompline(root string) ([]corpus.Unit, []string) {
+	var units []corpus.Unit
+	var warnings []string
+	for feast, file := range eveVespersFiles {
+		d, err := LoadDoc(filepath.Join(root, file))
+		if err != nil {
+			warnings = append(warnings, err.Error())
+			continue
+		}
+		us := parseFeastCompline(d, feast)
+		n := map[string]int{}
+		for _, u := range us {
+			if strings.Contains(u.ID, ".litiya.") {
+				n["litiya"]++
+			}
+			if strings.Contains(u.ID, ".aposticha.") && !strings.Contains(u.ID, ".verse.") {
+				n["aposticha"]++
+			}
+		}
+		if n["litiya"] < 4 || n["aposticha"] < 4 {
+			warnings = append(warnings, fmt.Sprintf("%s: great compline: %v", file, n))
+		}
+		units = append(units, us...)
+	}
+	return units, warnings
+}
+
+func parseFeastCompline(d *Doc, feast string) []corpus.Unit {
+	prefix := "gc." + feast + "."
+	var units []corpus.Unit
+	add := func(key, kind, body string) {
+		units = append(units, corpus.Unit{ID: prefix + key, Book: "menaion", Kind: kind, Lang: "cu", Body: CleanText(body),
+			SourceID: "orthlib.mineya"})
+	}
+	started := false
+	section, next := "", "" // litiya | aposticha; next: glory | now | glory_now
+	n, verse := 0, ""
+	for _, p := range d.Paras {
+		text := CleanText(pageRef.ReplaceAllString(p.Text(), ""))
+		plain := strings.TrimSpace(strings.ToLower(hip.PlainString(text)))
+		if !started {
+			started = strings.Contains(plain, "повечерие великое сице")
+			continue
+		}
+		words := len(strings.Fields(plain))
+		switch {
+		case strings.HasPrefix(plain, "таже: ныне отпущаеши") || strings.HasPrefix(plain, "таже, ныне отпущаеши"):
+			return units
+		case strings.Contains(plain, "на литии стихиры"):
+			section, n, next = "litiya", 0, ""
+		case strings.HasPrefix(plain, "на стиховне"):
+			section, n, next = "aposticha", 0, ""
+		case section == "":
+		case strings.Contains(plain, "стих:"):
+			verse = text[strings.Index(text, ":")+1:]
+			if i := strings.Index(strings.ToLower(hip.PlainString(verse)), "анатолиево"); i >= 0 {
+				verse = verse[:i]
+			}
+		case strings.HasPrefix(plain, "слава, и ныне") && words <= 8:
+			next = "glory_now"
+		case strings.HasPrefix(plain, "слава") && words <= 8:
+			next = "glory"
+		case strings.HasPrefix(plain, "и ныне") && words <= 8:
+			next = "now"
+		case words > 12:
+			if next != "" {
+				add(section+"."+next, "sticheron", text)
+				next = ""
+				continue
+			}
+			n++
+			if verse != "" && section == "aposticha" {
+				add(fmt.Sprintf("%s.verse.%d", section, n), "verse", strings.TrimSpace(verse))
+			}
+			verse = ""
+			add(fmt.Sprintf("%s.%d", section, n), "sticheron", text)
+		}
+	}
+	return units
+}

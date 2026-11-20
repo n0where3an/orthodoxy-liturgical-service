@@ -21,7 +21,7 @@ var/liturgy serve                                   # http://127.0.0.1:8080/?dat
 
 ## Services and options
 
-Services: `vespers`, `compline` (small compline), `midnight_office`, `matins` (joined to the
+Services: `vespers`, `compline` (small compline; great on its days), `midnight_office`, `matins` (joined to the
 first hour unless `-standalone`), `first_hour`, `third_hour`, `sixth_hour`,
 `ninth_hour`, `typika`, `liturgy` (St John Chrysostom; St Basil the Great on its days). Vespers and compline are dated
 by the day they belong to: they are served the evening before. What is covered is in [Coverage](#coverage) below.
@@ -110,7 +110,7 @@ evening before. Typika: the service in place of the liturgy on days without one
 | Sunday with its own readings (before/after the Exaltation, the Nativity — of the Fathers —, the Theophany) | ⚠️ not before the Exaltation (forefeast with the Renewal) | ✅ | ✅ Sunday | ⚠️ not before the Exaltation | ✅ ¹⁰ | ❌ | ⚠️ ¹¹ |
 | Feast of the Lord on Sunday (Exaltation, Meeting, Transfiguration) | ✅ vigil | — | — | ✅ festal | ✅ | ❌ | ✅ |
 | Feast of the Theotokos on Sunday | ✅ vigil | — | — | ✅ ³ | ⚠️ no resurrectional troparion | ❌ | ✅ |
-| Nativity of Christ, Theophany and their eves (Royal Hours) | ⚠️ the eve: on a weekday with the liturgy, on Saturday and Sunday apart ¹³ | ❌ great | — on the feast | ❌ | ✅ Royal ¹³ | ✅ after the Royal Hours ¹³ | ⚠️ the feast ¹², the eve ¹³ |
+| Nativity of Christ, Theophany and their eves (Royal Hours) | ⚠️ the eve: on a weekday with the liturgy, on Saturday and Sunday apart ¹³ | ✅ great, with the litiya ¹⁴ | — on the feast | ❌ | ✅ Royal ¹³ | ✅ after the Royal Hours ¹³ | ⚠️ the feast ¹², the eve ¹³ |
 | Saint with a sign whose readings the Menaion does not give (≈10 days) | ❌ | ✅ | ✅ | ❌ | ✅ | ❌ | ❌ |
 
 ¹ Readings missing in the Menaion are taken from the General Menaion by the
@@ -256,6 +256,23 @@ and the Theophany read their own Apostle and Gospel before the ordinary
 ones; on the weekdays and Saturdays of a forefeast the liturgy has the
 forefeast's troparion and the saint's, «Слава» the saint's kontakion, «И
 ныне» the forefeast's (ch. 52: «дне же не глаголется»).
+¹⁴ Great compline by the Horologion: Pss 4, 6, 12, 24, 30, 90, «С нами Бог»
+with its verses (Is 8–9), «День прешед», «Безплотное естество», the Creed,
+«Пресвятая Владычице» and the other supplications, the troparia; Pss 50,
+101, the prayer of Manasseh, the troparia «Помилуй нас, Господи»; Pss 69,
+142, «Слава в вышних Богу». On the Nativity and the Theophany (the Menaion):
+the beginning with the deacon, the feast's troparion instead of «Просвети
+очи моя», its kontakion instead of «Помилуй нас, Господи»; after «Слава в
+вышних» the litiya in the narthex, the stichera of the litiya and the
+aposticha, «Ныне отпущаеши», the feast's troparion thrice (on the Theophany
+the blessing of the loaves), «Буди имя Господне», Psalm 33 — and matins. In
+Great Lent, from the 2nd to the 6th week, Monday to Thursday evenings:
+«Сподоби, Господи», the canon to the Theotokos of the Octoechos, «Господи
+сил» with its verses, «Господи, аще не быхом», the prayers, St Ephrem's
+prayer with the prostrations, «Нескверная», «И даждь нам», the forgiveness,
+the litany «Помолимся о великом господине». Not yet: the first week (St
+Andrew's canon), Holy Week, the Annunciation in Lent, a Menaion canon at
+compline.
 ⁶ By the Horologion: Pss 50, 69 and 101 (so in the Moscow 1980 Horologion),
 «Слава в вышних», «Сподоби, Господи», the Creed, the Octoechos canon of
 supplication to the Theotokos (Typikon ch. 9) with «Пресвятая Богородице,
@@ -274,7 +291,7 @@ Sunday) is given by its first words only, as in the Horologion.
 | Period | Vespers | Compline | Midnight<br>Office | Matins | Hours | Typika | Liturgy |
 |---|---|---|---|---|---|---|---|
 | Preparatory weeks (Publican and Pharisee … Cheesefare) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| Great Lent, weekdays | ❌ | ❌ | ❌ | ❌ | ❌ Lenten hours | ❌ | — (Presanctified ❌ Wed, Fri) |
+| Great Lent, weekdays | ❌ | ⚠️ great ¹⁴ | ❌ | ❌ | ❌ Lenten hours | ❌ | — (Presanctified ❌ Wed, Fri) |
 | Great Lent, Saturdays and Sundays (St Basil's liturgy on Sundays) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Annunciation in Lent | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Palm Sunday, Holy Week | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |

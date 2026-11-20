@@ -1,6 +1,7 @@
 package orthlib
 
 import (
+	"fmt"
 	"path/filepath"
 	"strings"
 	"testing"
@@ -52,6 +53,33 @@ func TestEveVespersImport(t *testing.T) {
 			if wv["apostle"] != 207 || wv["gospel"] != 53 || wv["prok"] == nil {
 				t.Errorf("the vespers apart: %v", wv)
 			}
+		}
+	}
+}
+
+// The great compline of the feasts: the stichera at the litiya and the
+// aposticha with their verses.
+func TestFeastComplineImport(t *testing.T) {
+	root := extractedRoot(t)
+	for feast, want := range map[string][2]int{"nativity": {4, 3}, "theophany": {5, 3}} {
+		d, err := LoadDoc(filepath.Join(root, eveVespersFiles[feast]))
+		if err != nil {
+			t.Fatal(err)
+		}
+		got := map[string]bool{}
+		for _, u := range parseFeastCompline(d, feast) {
+			got[strings.TrimPrefix(u.ID, "gc."+feast+".")] = true
+			if testing.Verbose() {
+				t.Logf("%s %.50s", u.ID, u.Body)
+			}
+		}
+		for _, k := range []string{fmt.Sprintf("litiya.%d", want[0]), fmt.Sprintf("aposticha.%d", want[1]), "aposticha.verse.2"} {
+			if !got[k] {
+				t.Errorf("%s: no %s", feast, k)
+			}
+		}
+		if !(got["litiya.glory"] && got["litiya.now"]) && !got["litiya.glory_now"] {
+			t.Errorf("%s: no «Слава» at the litiya: %v", feast, got)
 		}
 	}
 }

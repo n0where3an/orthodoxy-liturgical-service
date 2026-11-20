@@ -213,6 +213,10 @@ units:
     book: chasoslov
     kind: title
     text: "Изобрази́тєльнаѧ"
+  - key: ch.gcompline.title
+    book: chasoslov
+    kind: title
+    text: "Повече́рїе вели́кое"
   - key: sl.kinonik.tue
     book: sluzhebnik
     kind: kinonik

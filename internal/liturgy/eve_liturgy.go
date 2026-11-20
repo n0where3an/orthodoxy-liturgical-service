@@ -182,6 +182,48 @@ func eveSlot(sel SlotSelector, f Facts) ([]SlotItem, error) {
 			k = "sl.kinonik.sun" // «Хвалите Господа с небес»
 		}
 		return []SlotItem{choir(k), choir("common.alleluia.thrice")}, nil
+	case "gc_litiya", "gc_aposticha":
+		// The great compline of the feast: the stichera at the litiya, at the
+		// aposticha with their verses; «Слава», «И ныне».
+		sec := strings.TrimPrefix(sel.Part, "gc_")
+		var items []SlotItem
+		for n := 1; ; n++ {
+			id := u(fmt.Sprintf("gc.%s.%d", sec, n))
+			if id == "" {
+				break
+			}
+			if v := u(fmt.Sprintf("gc.%s.verse.%d", sec, n)); v != "" {
+				items = append(items, reader(v))
+			}
+			items = append(items, choir(id))
+		}
+		if len(items) == 0 {
+			return nil, fmt.Errorf("great compline: no stichera at the %s", sec)
+		}
+		if g := u("gc." + sec + ".glory_now"); g != "" {
+			return append(items, choir("common.glory_now"), choir(g)), nil
+		}
+		if g := u("gc." + sec + ".glory"); g != "" {
+			items = append(items, choir("common.glory"), choir(g))
+		}
+		if n := u("gc." + sec + ".now"); n != "" {
+			items = append(items, choir("common.and_now"), choir(n))
+		}
+		return items, nil
+	case "gc_troparion", "gc_kontakion", "gc_troparion_thrice":
+		// «Вместо тропарей обычных, просвети очи мои: глаголем тропарь
+		// праздника: и вместо помилуй нас: кондак праздника»; after «Ныне
+		// отпущаеши» the troparion thrice.
+		if f.EveFeast == nil {
+			return nil, fmt.Errorf("great compline: no feast")
+		}
+		switch sel.Part {
+		case "gc_kontakion":
+			return []SlotItem{reader(f.EveFeast.Kontakion)}, nil
+		case "gc_troparion_thrice":
+			return []SlotItem{{Ref: f.EveFeast.Troparion, Repeat: 3, Performer: Choir}}, nil
+		}
+		return []SlotItem{reader(f.EveFeast.Troparion)}, nil
 	case "after":
 		if f.EveOf != "nativity" || f.EveFeast == nil {
 			return nil, nil

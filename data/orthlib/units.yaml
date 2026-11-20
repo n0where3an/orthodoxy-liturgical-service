@@ -4115,3 +4115,496 @@ units:
     file: sluzhebnik/sl/15prok_paskh.hip
     from: "помянух дела гдсня"
     to: "твоя."
+
+  # === Великое повечерие (Часослов) ===
+  - key: ch.gcompline.psalm.4
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "внегда призвати ми, услыша мя бг правды моея"
+    to: ""
+  - key: ch.gcompline.psalm.6
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "гдси, да не яростию твоею обличиши мене, ниже гневом твоим накажеши мене. помилуй"
+    to: ""
+  - key: ch.gcompline.psalm.12
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "доколе, гдси, забудеши мя до конца"
+    to: ""
+  - key: ch.gcompline.psalm.24
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "к тебе гдси, воздвигох душу мою"
+    to: ""
+  - key: ch.gcompline.psalm.30
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "на тя гдси уповах, да не постыжуся во век"
+    to: ""
+  - key: ch.gcompline.with_us_god
+    book: chasoslov
+    kind: hymn
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "с нами бг, разумейте языцы, и покаряйтеся: яко с нами бг."
+    to: "яко с нами бг."
+  - key: ch.gcompline.with_us_god.verse.1
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "услышите до последних земли"
+    to: ""
+  - key: ch.gcompline.with_us_god.verse.2
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "могущии покаряйтеся"
+    to: ""
+  - key: ch.gcompline.with_us_god.verse.3
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "аще бо паки возможете"
+    to: ""
+  - key: ch.gcompline.with_us_god.verse.4
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "и иже аще совет совещаваете"
+    to: ""
+  - key: ch.gcompline.with_us_god.verse.5
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "и слово, еже аще возглаголете"
+    to: ""
+  - key: ch.gcompline.with_us_god.verse.6
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "страха же вашего не убоимся"
+    to: ""
+  - key: ch.gcompline.with_us_god.verse.7
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "гдса же бга нашего того остим"
+    to: ""
+  - key: ch.gcompline.with_us_god.verse.8
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "и аще на него надеяся буду"
+    to: ""
+  - key: ch.gcompline.with_us_god.verse.9
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "и уповая буду на него"
+    to: ""
+  - key: ch.gcompline.with_us_god.verse.10
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "се аз и дети, яже ми даде бг"
+    to: ""
+  - key: ch.gcompline.with_us_god.verse.11
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "людие ходящии во тьме"
+    to: ""
+  - key: ch.gcompline.with_us_god.verse.12
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "живущии во стране и сени смертней"
+    to: ""
+  - key: ch.gcompline.with_us_god.verse.13
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "яко отроча родися нам, сн"
+    to: ""
+  - key: ch.gcompline.with_us_god.verse.14
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "егоже начальство бысть на раме его"
+    to: ""
+  - key: ch.gcompline.with_us_god.verse.15
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "и мира его несть предела"
+    to: ""
+  - key: ch.gcompline.with_us_god.verse.16
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "и нарицается имя его, велика совета"
+    to: ""
+  - key: ch.gcompline.with_us_god.verse.17
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "чуден советник: яко"
+    to: ""
+  - key: ch.gcompline.with_us_god.verse.18
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "бг крепок, властитель"
+    to: ""
+  - key: ch.gcompline.with_us_god.verse.19
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "оц будущаго века"
+    to: ""
+  - key: ch.gcompline.with_us_god.end
+    book: chasoslov
+    kind: hymn
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    after: "таже два лика вкупе:"
+    from: "яко с нами бг"
+    to: ""
+  - key: ch.gcompline.day_past.1
+    book: chasoslov
+    kind: hymn
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "день прешед, блгодарю тя гдси"
+    to: ""
+  - key: ch.gcompline.day_past.2
+    book: chasoslov
+    kind: hymn
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "день прешед, славословлю тя влдко"
+    to: ""
+  - key: ch.gcompline.day_past.3
+    book: chasoslov
+    kind: hymn
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "день прешед, песнословлю тя стый"
+    to: ""
+  - key: ch.gcompline.bodiless
+    book: chasoslov
+    kind: hymn
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "безплотное естество херувимское"
+    to: ""
+  - key: ch.gcompline.intercession.1
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "престая влдчце бцде, моли о нас грешных"
+    to: ""
+  - key: ch.gcompline.intercession.2
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "вся нбсныя силы стых аггл и архаггл"
+    to: ""
+  - key: ch.gcompline.intercession.3
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "стый иоанне пророче, и прдтече"
+    to: ""
+  - key: ch.gcompline.intercession.4
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "стии славнии апсли, пророцы и мчнцы"
+    to: ""
+  - key: ch.gcompline.intercession.5
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "прпдбнии и бгоноснии отцы наши"
+    to: ""
+  - key: ch.gcompline.intercession.6
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "непобедимая, и непостижимая, и бжественная сило"
+    to: ""
+  - key: ch.gcompline.cleanse.1
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "бже, очисти нас грешных."
+    to: "грешных."
+  - key: ch.gcompline.cleanse.2
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "бже, очисти нас грешных, и помилуй нас"
+    to: ""
+  - key: ch.gcompline.troparion.a.1
+    book: chasoslov
+    kind: troparion
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "просвети очи мои хрсте бже"
+    to: ""
+  - key: ch.gcompline.troparion.a.2
+    book: chasoslov
+    kind: troparion
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "заступник души моея буди бже"
+    to: ""
+  - key: ch.gcompline.troparion.a.theotokion
+    book: chasoslov
+    kind: theotokion
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "яко не имамы дерзновения за премногия грехи нашя"
+    to: ""
+  - key: ch.gcompline.troparion.b.1
+    book: chasoslov
+    kind: troparion
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "невидимых враг моих неусыпание"
+    to: ""
+  - key: ch.gcompline.troparion.b.verse
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "призри, и услыши мя, гдси бже мой"
+    to: ""
+  - key: ch.gcompline.troparion.b.2
+    book: chasoslov
+    kind: troparion
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "яко страшен суд твой гдси"
+    to: ""
+  - key: ch.gcompline.troparion.b.3
+    book: chasoslov
+    kind: troparion
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "слезы ми даждь бже"
+    to: ""
+  - key: ch.gcompline.troparion.b.theotokion
+    book: chasoslov
+    kind: theotokion
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "непостыдную, бцде, надежду твою"
+    to: ""
+  - key: ch.gcompline.prayer.basil
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "гдси гдси, избавлей нас от всякия стрелы"
+    to: ""
+  - key: ch.gcompline.manasseh
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "гдси вседержителю, бже отец наших, авраамов"
+    to: ""
+  - key: ch.gcompline.have_mercy.1
+    book: chasoslov
+    kind: troparion
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "помилуй нас гдси, помилуй нас: всякаго бо"
+    to: ""
+  - key: ch.gcompline.have_mercy.2
+    book: chasoslov
+    kind: troparion
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "гдси, помилуй нас: на тя бо уповахом"
+    to: ""
+  - key: ch.gcompline.have_mercy.3
+    book: chasoslov
+    kind: theotokion
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "милосердия двери отверзи нам"
+    to: ""
+  - key: ch.gcompline.prayer.master
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "влдко бже оче вседержителю, гдси, сне единородный"
+    to: ""
+  - key: ch.gcompline.psalm.142
+    book: chasoslov
+    kind: psalm
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "гдси, услыши млтву мою, внуши моление"
+    to: ""
+  - key: ch.gcompline.lord_of_hosts
+    book: chasoslov
+    kind: hymn
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "гдси сил с нами буди"
+    to: ""
+  - key: ch.gcompline.praise.1
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "хвалите бга во стых его, хвалите его во утвержении"
+    to: ""
+  - key: ch.gcompline.praise.2
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "хвалите его на силах его"
+    to: ""
+  - key: ch.gcompline.praise.3
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "хвалите его во гласе трубнем"
+    to: ""
+  - key: ch.gcompline.praise.4
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "хвалите его в тимпане"
+    to: ""
+  - key: ch.gcompline.praise.5
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "хвалите его в кимвалех"
+    to: ""
+  - key: ch.gcompline.if_we_had
+    book: chasoslov
+    kind: hymn
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "гдси, аще не быхом стыя твоя"
+    to: ""
+  - key: ch.gcompline.many_multitudes
+    book: chasoslov
+    kind: theotokion
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "многая множества моих бцде"
+    to: ""
+  - key: ch.gcompline.all_holy
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "всестая бцде, во время живота моего"
+    to: ""
+  - key: ch.gcompline.all_my_hope
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "все упование мое на тя возлагаю"
+    to: ""
+  - key: ch.gcompline.ephrem.1
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "гдси и влдко живота моего"
+    to: ""
+  - key: ch.gcompline.ephrem.2
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "дух же целомудрия"
+    to: ""
+  - key: ch.gcompline.ephrem.3
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "ей гдси црю, даруй ми"
+    to: ""
+  - key: ch.gcompline.merciful_master
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "влдко многомлстиве, гдси иисе хрсте"
+    to: ""
+  - key: ch.gcompline.forgive_me
+    book: chasoslov
+    kind: exclamation
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "блгословите отцы стии, простите ми грешному"
+    to: ""
+  - key: ch.gcompline.god_forgive
+    book: chasoslov
+    kind: exclamation
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "бг простит ти, отче стый"
+    to: ""
+  - key: ch.gcompline.prayer.enemies
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/11vpovech.hip
+    from: "ненавидящих и обидящих нас"
+    to: ""

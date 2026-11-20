@@ -118,7 +118,6 @@ func TestComplineNotServed(t *testing.T) {
 		rule string
 	}{
 		{calendar.MustJDate(2026, time.September, 8), "compline.vigil"}, // a twelve feast
-		{calendar.MustJDate(2026, time.December, 24), "compline.great"}, // the eve of the Nativity
 		{calendar.MustJDate(2027, time.March, 3), "compline.triodion"},  // Great Lent
 	} {
 		_, err := planCompline(t, complineCorpus(c.d), c.d, "")
@@ -152,6 +151,53 @@ func TestComplineRender(t *testing.T) {
 		"BODY ch.compline.troparion.fathers", "BODY common.prayer_of_the_hours", "BODY ch.compline.prayer.my_hope", "sl.dismissal.daily"} {
 		if !strings.Contains(out, b) {
 			t.Errorf("no %s", b)
+		}
+	}
+}
+
+// Great compline: on the Nativity and the Theophany with the litiya (by the
+// Menaion); in Great Lent from the second week, Monday to Thursday evenings.
+func TestGreatCompline(t *testing.T) {
+	plan := func(d calendar.JDate, c mapCorpus) (*Plan, error) {
+		return (&Planner{Rules: mustRules(t), Feasts: mustFeasts(t), Menaion: c}).Plan(context.Background(), d, "compline", Params{Priest: true})
+	}
+	gc := "gc.theophany."
+	c := mapCorpus{ids: []string{"me.01.06.troparion.3", "me.01.06.kontakion.1", gc + "litiya.1", gc + "litiya.glory", gc + "litiya.now",
+		gc + "aposticha.1", gc + "aposticha.verse.2", gc + "aposticha.2", gc + "aposticha.glory_now"}}
+	p, err := plan(calendar.MustJDate(2027, time.January, 6), c)
+	if err != nil {
+		t.Fatal(err)
+	}
+	check(t, p, map[string]string{
+		"troparia_1": "me.01.06.troparion.3",
+		"troparia_2": "me.01.06.kontakion.1",
+		"litiya":     gc + "litiya.1,common.glory," + gc + "litiya.glory,common.and_now," + gc + "litiya.now",
+		"aposticha":  gc + "aposticha.1," + gc + "aposticha.verse.2," + gc + "aposticha.2,common.glory_now," + gc + "aposticha.glory_now",
+		"troparion":  "me.01.06.troparion.3x3",
+		"loaves":     "sl.vespers.loaves_prayer",
+	})
+	pascha := calendar.Pascha(2027)
+	for _, c := range []struct {
+		offset int
+		rule   string
+	}{
+		{-40, "compline.great.lent.mon_wed"}, // Tuesday of the 2nd week (Monday evening)
+		{-39, "compline.great.lent.tue_thu"},
+		{-46, "compline.triodion"}, // the 1st week: St Andrew's canon
+		{-36, "compline.triodion"}, // Saturday
+	} {
+		d := pascha.AddDays(c.offset)
+		p, err := plan(d, complineCorpus(d))
+		var ue *UnsupportedError
+		switch {
+		case errors.As(err, &ue):
+			if ue.Rule != c.rule {
+				t.Errorf("%v: unsupported %s, want %s", d, ue.Rule, c.rule)
+			}
+		case err != nil:
+			t.Errorf("%v: %v", d, err)
+		case p.Rule != c.rule || len(p.Slots["lent"]) == 0:
+			t.Errorf("%v: rule %s, lent %v", d, p.Rule, p.Slots["lent"])
 		}
 	}
 }

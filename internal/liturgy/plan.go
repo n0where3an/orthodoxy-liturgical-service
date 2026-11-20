@@ -164,19 +164,27 @@ func (p *Planner) Plan(ctx context.Context, d calendar.JDate, service string, pa
 	eveFeastDay := day
 	if f.EveOf != "" {
 		eveFeastDay = calendar.NewDayContext(d.AddDays(1))
-	} else if service == "vespers" {
-		// The vespers of the feast itself, served on its eve.
+	} else if service == "vespers" || service == "compline" {
+		// The vespers and the great compline of the feast itself, served on
+		// its eve.
 		f.EveOf = eveOf(calendar.NewDayContext(d.AddDays(-1)))
 	}
 	if f.EveOf != "" {
-		prefix := "ev." + f.EveOf + "."
-		ids, err := p.Menaion.ListIDs(ctx, prefix)
-		if err != nil {
-			return nil, err
-		}
 		f.Eve = map[string]string{}
-		for _, id := range ids {
-			f.Eve[strings.TrimPrefix(id, prefix)] = id
+		var ids []string
+		for _, prefix := range []string{"ev." + f.EveOf + ".", "gc." + f.EveOf + "."} {
+			list, err := p.Menaion.ListIDs(ctx, prefix)
+			if err != nil {
+				return nil, err
+			}
+			for _, id := range list {
+				k := strings.TrimPrefix(id, prefix)
+				if strings.HasPrefix(prefix, "gc.") {
+					k = "gc." + k
+				}
+				f.Eve[k] = id
+			}
+			ids = append(ids, list...)
 		}
 		tones, err := p.Menaion.UnitTones(ctx, ids)
 		if err != nil {
