@@ -1,6 +1,8 @@
 package liturgy
 
 import (
+	"context"
+	"errors"
 	"fmt"
 	"strings"
 	"testing"
@@ -96,4 +98,220 @@ func TestGreatSaintLiturgy(t *testing.T) {
 	if got := refs(plan.Slots["truly_meet"]); got != "ch.lit.it_is_truly_meet" {
 		t.Errorf("a saint has no zadostoinik: %s", got)
 	}
+}
+
+// The Nativity and the Theophany: St John Chrysostom's liturgy on the feast
+// when the eve is a weekday; the feast's own troparion (the Theophany's is
+// the Menaion's third), the zadostoinik with its refrain; St Basil's
+// (TestBasilLiturgy) when the feast falls on Sunday or Monday; the eve.
+func TestNativityTheophanyLiturgy(t *testing.T) {
+	for _, c := range []struct {
+		date            calendar.JDate
+		rule, troparion string
+		unsupported     bool
+	}{
+		{calendar.MustJDate(2026, time.December, 25), "liturgy.nativity_theophany", "me.12.25.troparion.1", false}, // Thursday
+		{calendar.MustJDate(2027, time.January, 6), "liturgy.nativity_theophany", "me.01.06.troparion.3", false},   // Tuesday
+	} {
+		day := calendar.NewDayContext(c.date)
+		me := "me." + pad(int(day.Menaion.Month)) + "." + pad(day.Menaion.Day) + "."
+		corpus := feastCorpus(c.date, true)
+		corpus.ids = append(corpus.ids, me+"troparion.2", me+"troparion.3")
+		plan, err := planLiturgy(t, corpus, c.date)
+		if c.unsupported {
+			var ue *UnsupportedError
+			if !errors.As(err, &ue) || ue.Rule != c.rule {
+				t.Errorf("%v: want unsupported %s, got %v", c.date, c.rule, err)
+			}
+			continue
+		}
+		if err != nil {
+			t.Fatal(err)
+		}
+		feast := map[string]string{"me.12.25.": "nativity", "me.01.06.": "theophany"}[me]
+		check(t, plan, map[string]string{
+			"troparia":         c.troparion + ",common.glory_now," + me + "kontakion.1",
+			"truly_meet":       "ir.pripev." + feast + ".1.irmos,lit.zadostoinik." + feast,
+			"dismissal_prefix": "sl.dismissal.prefix." + feast,
+		})
+		if plan.Rule != c.rule {
+			t.Errorf("%v: rule %s", c.date, plan.Rule)
+		}
+	}
+}
+
+// The liturgy of St Basil the Great: the feast of the Nativity or the
+// Theophany on Sunday or Monday, 1 January — slot basil; «О Тебе радуется»
+// instead of «Достойно есть», a feast's zadostoinik kept.
+func TestBasilLiturgy(t *testing.T) {
+	for _, c := range []struct {
+		date  calendar.JDate
+		basil bool
+		truly string
+	}{
+		{calendar.MustJDate(2026, time.January, 6), true, "ir.pripev.theophany.1.irmos,lit.zadostoinik.theophany"},  // Monday
+		{calendar.MustJDate(2027, time.January, 6), false, "ir.pripev.theophany.1.irmos,lit.zadostoinik.theophany"}, // Tuesday
+		{calendar.MustJDate(2027, time.January, 1), true, "ch.lit.all_of_creation"},
+		{calendar.MustJDate(2026, time.November, 13), false, "ch.lit.it_is_truly_meet"},
+	} {
+		corpus := feastCorpus(c.date, c.date.Day() != 13)
+		day := calendar.NewDayContext(c.date)
+		me := "me." + pad(int(day.Menaion.Month)) + "." + pad(day.Menaion.Day) + "."
+		corpus.ids = append(corpus.ids, me+"troparion.3")
+		if c.date.Day() == 1 {
+			corpus.ids = removeID(corpus.ids, me+"lit.zadostoinik")
+		}
+		plan, err := planLiturgy(t, corpus, c.date)
+		if err != nil {
+			t.Fatalf("%v: %v", c.date, err)
+		}
+		if got := len(plan.Slots["basil"]) > 0; got != c.basil {
+			t.Errorf("%v: basil %v", c.date, got)
+		}
+		if got := refs(plan.Slots["truly_meet"]); got != c.truly {
+			t.Errorf("%v: truly_meet %s, want %s", c.date, got, c.truly)
+		}
+	}
+}
+
+func removeID(ids []string, id string) []string {
+	var out []string
+	for _, x := range ids {
+		if x != id {
+			out = append(out, x)
+		}
+	}
+	return out
+}
+
+// eveCorpus: the vespers of the eve with the liturgy (ev.<feast>.*).
+func eveCorpus(d calendar.JDate, feast string) mapCorpus {
+	c := feastCorpus(d, false)
+	var ids []string
+	for _, id := range c.ids { // the eve has no great vespers of its own
+		if !strings.Contains(id, "vespers.great") && !strings.Contains(id, "gvespers.paremia") {
+			ids = append(ids, id)
+		}
+	}
+	c.ids = ids
+	ev := "ev." + feast + "."
+	for n := 1; n <= 4; n++ {
+		c.ids = append(c.ids, fmt.Sprintf("%slic.%d", ev, n))
+	}
+	c.ids = append(c.ids, ev+"lic.glory_now", ev+"reading.1", ev+"title.1", ev+"troparion.2", ev+"verse.3", ev+"refrain.4",
+		ev+"mark.5", ev+"lit.prokeimenon", ev+"lit.prokeimenon.verse", ev+"lit.alleluia.verse.1", ev+"lit.apostle",
+		ev+"lit.gospel", ev+"lit.kinonik")
+	c.tones[ev+"lit.prokeimenon"], c.tones[ev+"lit.alleluia.verse.1"] = 1, 5
+	return c
+}
+
+// The eve of the Nativity or the Theophany on a weekday: vespers joined to
+// St Basil's liturgy; on Friday the Nativity's eve has the great prokeimenon.
+func TestEveLiturgy(t *testing.T) {
+	ev := "ev.nativity."
+	d := calendar.MustJDate(2026, time.December, 24) // Wednesday
+	plan, err := planLiturgy(t, eveCorpus(d, "nativity"), d)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if plan.Rule != "liturgy.nativity_theophany.eve" || len(plan.Slots["basil"]) == 0 {
+		t.Fatalf("rule %s, basil %v", plan.Rule, plan.Slots["basil"])
+	}
+	lic := refs(plan.Slots["eve_lord_i_call"])
+	if !strings.HasPrefix(lic, "ch.vespers.lic.verse.23,"+ev+"lic.1,ch.vespers.lic.verse.24,"+ev+"lic.1,ch.vespers.lic.verse.25,"+ev+"lic.2") ||
+		!strings.HasSuffix(lic, "common.glory_now,"+ev+"lic.glory_now") {
+		t.Errorf("Lord, I call: %s", lic)
+	}
+	check(t, plan, map[string]string{
+		"eve_prokeimenon": "ch.vespers.prokeimenon.thu,ch.vespers.prokeimenon.thu,ch.vespers.prokeimenon.thu.verse," +
+			"ch.vespers.prokeimenon.thu,ch.vespers.prokeimenon.thu,ch.vespers.prokeimenon.thu",
+		"eve_readings": "lit.wisdom," + ev + "title.1,lit.let_us_attend," + ev + "reading.1," + ev + "troparion.2," + ev + "verse.3," +
+			ev + "refrain.4," + ev + "mark.5",
+		"apostles":   "lit.wisdom," + ev + "lit.apostle.announce,lit.let_us_attend," + ev + "lit.apostle",
+		"truly_meet": "ch.lit.all_of_creation",
+		"kinonik":    ev + "lit.kinonik,common.alleluia.thrice",
+	})
+	// On Friday: «кто бог велий».
+	for y := 2020; y < 2040; y++ {
+		d := calendar.MustJDate(y, time.December, 24)
+		if calendar.NewDayContext(d).Weekday != time.Friday {
+			continue
+		}
+		plan, err := planLiturgy(t, eveCorpus(d, "nativity"), d)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if got := refs(plan.Slots["eve_prokeimenon"]); !strings.HasPrefix(got, "lit.prokeimenon.tone.7,ch.vespers.prokeimenon.great.who,") {
+			t.Errorf("%v: %s", d, got)
+		}
+		break
+	}
+	// On Sunday the eve's liturgy is St John Chrysostom's: the Sunday's
+	// (before the Theophany).
+	for y := 2020; y < 2040; y++ {
+		d := calendar.MustJDate(y, time.January, 5)
+		if calendar.NewDayContext(d).Weekday != time.Sunday {
+			continue
+		}
+		c := eveCorpus(d, "theophany")
+		c.ids = append(c.ids, sundayCorpus(d, nil).ids...)
+		c.ids = append(c.ids, "ms.before_theophany.lit.apostle", "ms.before_theophany.lit.gospel")
+		plan, err := planLiturgy(t, c, d)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if plan.Rule != "liturgy.sunday.special" || len(plan.Slots["basil"]) > 0 {
+			t.Errorf("%v: rule %s, basil %v", d, plan.Rule, plan.Slots["basil"])
+		}
+		break
+	}
+	// On Saturday: the day's, the readings of the Saturday before the feast
+	// first, the forefeast's hymns.
+	for y := 2020; y < 2040; y++ {
+		d := calendar.MustJDate(y, time.December, 24)
+		day := calendar.NewDayContext(d)
+		if day.Weekday != time.Saturday {
+			continue
+		}
+		c := eveCorpus(d, "nativity")
+		c.ids = append(c.ids, "ms.sat_before_nativity.lit.apostle", "ms.sat_before_nativity.lit.gospel")
+		plan, err := planLiturgy(t, c, d)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if a := refs(plan.Slots["apostles"]); !strings.HasPrefix(a, "lit.wisdom,ms.sat_before_nativity.lit.apostle.announce,") {
+			t.Errorf("%v: apostles %s", d, a)
+		}
+		if tr := refs(plan.Slots["troparia"]); strings.Contains(tr, "day.sat") {
+			t.Errorf("%v: the Saturday's hymns in the forefeast: %s", d, tr)
+		}
+		// The vespers apart, that evening.
+		v, err := (&Planner{Rules: mustRules(t), Feasts: mustFeasts(t), Menaion: c}).Plan(context.Background(), d.AddDays(1), "vespers", Params{Priest: true})
+		if err != nil {
+			t.Fatal(err)
+		}
+		if v.Rule != "vespers.nativity_theophany.weekend" || len(v.Slots["eve_gospel"]) == 0 || len(v.Slots["kathisma"]) != 3 ||
+			refs(v.Slots["eve_after"]) != "me.12.25.troparion.1,common.glory_now,me.12.25.kontakion.1" {
+			t.Errorf("%v vespers: %s %v", d, v.Rule, v.Slots["eve_after"])
+		}
+		break
+	}
+}
+
+func mustRules(t *testing.T) *Rules {
+	t.Helper()
+	r, err := LoadRules(dataDir())
+	if err != nil {
+		t.Fatal(err)
+	}
+	return r
+}
+
+func mustFeasts(t *testing.T) *Feasts {
+	t.Helper()
+	f, err := LoadFeasts(dataDir())
+	if err != nil {
+		t.Fatal(err)
+	}
+	return f
 }

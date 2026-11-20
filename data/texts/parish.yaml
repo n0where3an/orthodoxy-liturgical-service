@@ -203,6 +203,16 @@ units:
     book: sluzhebnik
     kind: exclamation
     text: "Воскресы́й и҆з̾ ме́ртвыхъ,"
+  # Отпуст литургии свт. Василия Великого: в Служебнике (orthlib) приведён
+  # только Златоустов; имя — по заглавию литургии (sl.litb.title).
+  - key: sl.dismissal.liturgy_basil
+    book: sluzhebnik
+    kind: exclamation
+    text: "Хрⷭ҇то́съ и҆́стинный бг҃ъ на́шъ, мл҃твами пречⷭ҇тыѧ своеѧ̀ мт҃ре, и҆́же во ст҃ы́хъ ѻ҆ц҃а̀ на́шегѡ васі́лїа вели́кагѡ, а҆рхїепⷭ҇кпа кесарі́и каппадокі́йскїѧ: и҆ ст҃а́гѡ, и҆́мⷬ҇къ, є҆гѡ́же є҆́сть де́нь, и҆ всѣ́хъ ст҃ы́хъ, поми́лꙋетъ и҆ спасе́тъ на́съ, ꙗ҆́кѡ бл҃гъ и҆ чл҃вѣколю́бецъ."
+  - key: ch.typika.title
+    book: chasoslov
+    kind: title
+    text: "Изобрази́тєльнаѧ"
   - key: sl.kinonik.tue
     book: sluzhebnik
     kind: kinonik

@@ -36,7 +36,16 @@
 #
 # Recognised but not yet implemented: the Meatfare and the Trinity parental
 # Saturdays (the Triodion), Saturday with «Аллилуиа» (ch. 13), the forefeast
-# days, the Triodion, the Nativity and the Theophany.
+# days, the Triodion, the eves of the Nativity and the Theophany, the
+# Saturdays after the Nativity and the Theophany.
+#
+# The eve on Saturday or Sunday: St John Chrysostom's liturgy at its time —
+# on Sunday the Sunday's (of the Fathers, before the Theophany:
+# liturgy.sunday.special), on Saturday the day's with the readings of the
+# Saturday before the feast first (litReadings) and the forefeast's hymns.
+#
+# The liturgy of St Basil the Great: the feasts of the Nativity and the
+# Theophany on Sunday and Monday, 1 January (slot basil below).
 
 - id: liturgy.annunciation_in_lent
   service: liturgy
@@ -50,16 +59,44 @@
   when: period == "lenten-triodion" && pascha_offset >= -48 && pascha_offset <= -3 && weekday >= 1 && weekday <= 5
   unsupported: "В будни Великого поста полная литургия не совершается (Литургия Преждеосвященных Даров — в среду и пяток)"
 
+- id: liturgy.nativity_theophany.eve
+  service: liturgy
+  priority: 352
+  # The eve on a weekday: vespers joined to the liturgy of St Basil the Great
+  # (internal/liturgy/eve_liturgy.go). The Great Blessing of Water after the
+  # Theophany's (the Menaion, 6 January) is not done yet.
+  when: eve != "" && weekday >= 1 && weekday <= 5
+  slots:
+    eve_vespers: {from: unit, refs: [sl.vespers.title]}
+    eve_lord_i_call: {from: eve, part: lord_i_call}
+    eve_prokeimenon: {from: eve, part: prokeimenon}
+    eve_readings: {from: eve, part: readings}
+    trisagion: {from: lit_trisagion}
+    prokeimena: {from: eve, part: lit_prokeimena}
+    apostles: {from: eve, part: lit_apostles}
+    alleluia: {from: eve, part: lit_alleluia}
+    gospels: {from: eve, part: lit_gospels}
+    truly_meet: {from: unit, refs: [ch.lit.all_of_creation]}
+    kinonik: {from: eve, part: kinonik}
+    eve_after: {from: eve, part: after}
+
+- id: liturgy.royal_hours_friday
+  service: liturgy
+  priority: 353
+  # The Royal Hours moved to Friday (the feast on Sunday or Monday): the
+  # typika end the hours, the liturgy is not served that day.
+  when: royal_hours != "" && eve == ""
+  unsupported: "В пятницу, когда на неё перенесены Царские часы, литургия не совершается: по 9-м часе изобразительны (-service typika)"
+
 - id: liturgy.nativity_theophany
   service: liturgy
   priority: 350
-  when: (month == 12 && (day == 24 || day == 25)) || (month == 1 && (day == 5 || day == 6))
-  unsupported: "Литургия Рождества Христова и Богоявления (с навечериями, литургия свт. Василия Великого) ещё не реализована"
-
-- id: liturgy.lord_feast_on_sunday
-  service: liturgy
-  priority: 320
-  when: weekday == 0 && feast_day && feast in ["exaltation", "meeting", "transfiguration"] && menaion_paremias
+  # The Nativity and the Theophany: the liturgy of St John Chrysostom (the
+  # eve is a weekday, St Basil's is served on it), the feast's antiphons,
+  # entrance verse, «Елицы во Христа» instead of the Trisagion, prokeimenon,
+  # readings, alleluia, the zadostoinik («Любити убо нам», «Недоумеет всяк
+  # язык» with their refrains), the communion verse.
+  when: (month == 12 && day == 25) || (month == 1 && day == 6)
   slots: &feast_slots
     antiphon_1: {from: lit_antiphon, section: "1", part: feast}
     antiphon_2: {from: lit_antiphon, section: "2", part: feast}
@@ -73,6 +110,12 @@
     gospels: {from: lit_gospels, part: feast}
     truly_meet: {from: lit_truly_meet, part: feast}
     kinonik: {from: lit_kinonik, part: feast}
+
+- id: liturgy.lord_feast_on_sunday
+  service: liturgy
+  priority: 320
+  when: weekday == 0 && feast_day && feast in ["exaltation", "meeting", "transfiguration"] && menaion_paremias
+  slots: *feast_slots
 
 - id: liturgy.sunday.theotokos_feast
   service: liturgy
@@ -172,13 +215,12 @@
 - id: liturgy.afterfeast.weekday
   service: liturgy
   priority: 201
-  # A weekday (Monday..Saturday) of the afterfeast, or the apodosis:
-  # internal/liturgy/afterfeast_liturgy.go. On Saturday the same («прокимен,
+  # A weekday (Monday..Saturday) of the afterfeast, or the apodosis (the
+  # Nativity's and the Theophany's too): internal/liturgy/afterfeast_liturgy.go. On Saturday the same («прокимен,
   # аллилуиа, и причастен праздника. апостол и еиглие прежде субботы…, таже
   # праздника»): not the Saturday's hymns, the Octoechos is not sung.
   when: >-
-    feast != "" && !feast_day && weekday >= 1 && weekday <= 6 && !lections_omitted &&
-    !(feast in ["nativity", "theophany"])
+    feast != "" && !feast_day && weekday >= 1 && weekday <= 6 && !lections_omitted
   slots:
     antiphon_1: {from: lit_antiphon, section: "1", part: afterfeast}
     antiphon_2: {from: lit_antiphon, section: "2", part: afterfeast}
@@ -196,10 +238,10 @@
 - id: liturgy.afterfeast.nativity_theophany
   service: liturgy
   priority: 200
-  # The liturgy of the Nativity and the Theophany themselves is not done yet
-  # (their prokeimena, alleluia, communion verses and zadostoinik).
+  # The Saturdays after the Nativity and the Theophany have readings of their
+  # own (the Menaion, 12.26, 01.07): not done yet.
   when: feast in ["nativity", "theophany"]
-  unsupported: "Литургия в попразднство Рождества Христова и Богоявления ещё не реализована (нет службы самого праздника)"
+  unsupported: "Суббота по Рождестве Христовом и по Богоявлении (свои чтения) ещё не реализована"
 
 - id: liturgy.afterfeast
   service: liturgy
@@ -235,7 +277,8 @@
 - id: liturgy.no_readings
   service: liturgy
   priority: 140
-  when: lections_omitted
+  # (A Saturday before the Nativity or the Theophany reads its own: litReadings.)
+  when: lections_omitted && special_sunday == ""
   unsupported: "В этот день рядовые чтения не положены (свои чтения дня) — ещё не реализовано"
 
 - id: liturgy.weekday
@@ -257,7 +300,20 @@
 
 # --- The beginning of the dismissal of the feasts of the Lord ---
 - {id: liturgy.dismissal_prefix.meeting, slot: dismissal_prefix, service: liturgy, priority: 50, when: feast == "meeting", fill: {from: unit, refs: [sl.dismissal.prefix.meeting]}}
+- {id: liturgy.dismissal_prefix.nativity, slot: dismissal_prefix, service: liturgy, priority: 50, when: feast == "nativity", fill: {from: unit, refs: [sl.dismissal.prefix.nativity]}}
+- {id: liturgy.dismissal_prefix.theophany, slot: dismissal_prefix, service: liturgy, priority: 50, when: feast == "theophany", fill: {from: unit, refs: [sl.dismissal.prefix.theophany]}}
 - {id: liturgy.dismissal_prefix.transfiguration, slot: dismissal_prefix, service: liturgy, priority: 50, when: feast == "transfiguration", fill: {from: unit, refs: [sl.dismissal.prefix.transfiguration]}}
 # On Sunday «Воскресый из мертвых» (with a feast of the Lord on Sunday only the feast's).
 - {id: liturgy.dismissal_prefix.sunday, slot: dismissal_prefix, service: liturgy, priority: 60, when: "weekday == 0 && !(feast_day && feast in ['exaltation', 'meeting', 'transfiguration'])", fill: {from: unit, refs: [sl.dismissal.prefix.sunday]}}
+# --- The liturgy of St Basil the Great (slot basil: the template's «basil»):
+# «аще навечерие… будет в субботу, и неделю… а на самый праздник литургиа
+# поется василиева непременно. такожде бывает и в праздник просвещения»
+# (Минея, 25 декабря); 1 января, в память свт. Василия; the eves on a
+# weekday (with vespers). Not yet: the Sundays of Great Lent, Great Thursday
+# and Saturday (the Triodion).
+- {id: liturgy.basil, slot: basil, service: liturgy, priority: 50, when: "(month == 1 && day == 1) || eve != '' && weekday >= 1 && weekday <= 5 || ((month == 12 && day == 25) || (month == 1 && day == 6)) && (weekday == 0 || weekday == 1)", fill: {from: unit, refs: [sl.litb.title]}}
+- {id: liturgy.eve_water, slot: eve_water, service: liturgy, priority: 50, when: "eve == 'theophany' && weekday >= 1 && weekday <= 5", fill: {from: unit, refs: [sl.vespers.title]}}
+- {id: liturgy.eve_water.none, slot: eve_water, service: liturgy, priority: 10, when: "true", fill: {from: none}}
+- {id: liturgy.basil.none, slot: basil, service: liturgy, priority: 10, when: "true", fill: {from: none}}
+
 - {id: liturgy.dismissal_prefix.none, slot: dismissal_prefix, service: liturgy, priority: 10, when: "true", fill: {from: none}}

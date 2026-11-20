@@ -1,0 +1,64 @@
+# Изобразительны — по Часослову. Пока только после Царских часов в
+# навечерие Рождества и Богоявления (по Минее): блаженны без тропарей,
+# кондак предпразднства; если в тот день литургия (вечерня с литургией),
+# Символ веры не читается, по «Всесвятая Троице» — «Достойно есть» и
+# отпуст; без литургии (часы, перенесённые на пятницу) — «Буди имя
+# Господне», псалом 33, «Достойно есть», отпуст.
+
+service: typika
+nodes:
+  - {id: title, ref: ch.typika.title, heading: true}
+
+  - {id: psalm_102, ref: ch.typika.psalm_102, performer: choir}
+  - {id: glory_1, ref: common.glory, performer: choir}
+  - {id: psalm_145, ref: ch.typika.psalm_145, performer: choir}
+  - {id: and_now_1, ref: common.and_now, performer: choir}
+  - {id: only_begotten, ref: ch.typika.only_begotten, performer: choir}
+
+  # Блаженны (без тропарей).
+  - {id: beatitudes_0, ref: ch.typika.beatitudes.0, performer: choir}
+  - {id: beatitudes_1, ref: ch.typika.beatitudes.1, performer: choir}
+  - {id: beatitudes_2, ref: ch.typika.beatitudes.2, performer: choir}
+  - {id: beatitudes_3, ref: ch.typika.beatitudes.3, performer: choir}
+  - {id: beatitudes_4, ref: ch.typika.beatitudes.4, performer: choir}
+  - {id: beatitudes_5, ref: ch.typika.beatitudes.5, performer: choir}
+  - {id: beatitudes_6, ref: ch.typika.beatitudes.6, performer: choir}
+  - {id: beatitudes_7, ref: ch.typika.beatitudes.7, performer: choir}
+  - {id: beatitudes_8, ref: ch.typika.beatitudes.8, performer: choir}
+  - {id: beatitudes_9, ref: ch.typika.beatitudes.9, performer: choir}
+  - {id: beatitudes_10, ref: ch.typika.beatitudes.10, performer: choir}
+  - {id: glory_now_2, ref: common.glory_now, performer: choir}
+  - {id: remember_us_1, ref: ch.typika.remember_us.1, performer: choir}
+  - {id: remember_us_2, ref: ch.typika.remember_us.2, performer: choir}
+  - {id: remember_us_3, ref: ch.typika.remember_us.3, performer: choir}
+
+  - {id: heavenly_choir, ref: ch.typika.heavenly_choir, performer: choir}
+  - {id: approach, ref: ch.typika.approach, performer: reader}
+  - {id: heavenly_choir_2, ref: ch.typika.heavenly_choir, performer: choir}
+  - {id: glory_3, ref: common.glory, performer: choir}
+  - {id: choir_of_angels, ref: ch.typika.choir_of_angels, performer: choir}
+  - {id: and_now_3, ref: common.and_now, performer: choir}
+  # «Аще есть литургиа, зде не глаголем (Символа веры)».
+  - id: creed_group
+    unless_slot: with_liturgy
+    children:
+      - {id: creed, ref: common.creed, performer: people}
+  - {id: absolve, ref: ch.typika.absolve, performer: reader}
+
+  - {id: our_father, ref: common.our_father, performer: reader}
+  - {id: exclamation, ref: sl.exclamation.for_thine_is_the_kingdom, performer: priest, voice: aloud, when: priest}
+  - {id: exclamation_reader, ref: common.prayers_of_holy_fathers, performer: reader, when: "!priest"}
+  - {id: amen, ref: common.amen, performer: reader}
+  - {id: kontakion_rubric, rubric: kontakion_of_day, audience: kliros}
+  - {id: kontakion, slot: kontakion, performer: reader}
+  - {id: lhm_40, ref: common.lord_have_mercy, performer: reader, repeat: 40}
+  - {id: all_holy_trinity, ref: ch.typika.all_holy_trinity, performer: reader}
+
+  - id: without_liturgy
+    unless_slot: with_liturgy
+    children:
+      - {id: blessed_be_the_name, ref: ch.typika.blessed_be_the_name, performer: choir, repeat: 3}
+      - {id: glory_now_4, ref: common.glory_now, performer: reader}
+      - {id: psalm_33, ref: ch.typika.psalm_33, performer: reader}
+  - {id: truly_meet, ref: ch.lit.it_is_truly_meet, performer: choir}
+  - {id: dismissal, include: dismissal}

@@ -23,13 +23,13 @@ var/liturgy serve                                   # http://127.0.0.1:8080/?dat
 
 Services: `vespers`, `compline` (small compline), `midnight_office`, `matins` (joined to the
 first hour unless `-standalone`), `first_hour`, `third_hour`, `sixth_hour`,
-`ninth_hour`, `liturgy` (St John Chrysostom). Vespers and compline are dated
+`ninth_hour`, `typika`, `liturgy` (St John Chrysostom; St Basil the Great on its days). Vespers and compline are dated
 by the day they belong to: they are served the evening before. What is covered is in [Coverage](#coverage) below.
 
 | Option | Meaning |
 |---|---|
 | `-date YYYY-MM-DD` | civil (Gregorian) date; `-julian` for old style |
-| `-service` | `vespers`, `compline`, `midnight_office`, `matins`, `first_hour` … `ninth_hour`, `liturgy` |
+| `-service` | `vespers`, `compline`, `midnight_office`, `matins`, `first_hour` … `ninth_hour`, `typika`, `liturgy` |
 | `-reader` | reader's order, without a priest |
 | `-deacon` | litanies by a deacon |
 | `-standalone` | the hour on its own (usual beginning, dismissal); by default hours are joined as in parish practice |
@@ -92,7 +92,8 @@ first); copies carry `copied_from` (and `rank_from_title` when guessed).
 ✅ supported · ⚠️ partly (see the note) · ❌ not yet (the service reports
 «ещё не реализовано») · — not served that day.
 Vespers and compline are listed under the day they belong to: they are served the
-evening before. Typika: the service in place of the liturgy on days without one.
+evening before. Typika: the service in place of the liturgy on days without one
+(so far after the Royal Hours only).
 
 ### Ordinary year (Menaion + Octoechos)
 
@@ -109,7 +110,7 @@ evening before. Typika: the service in place of the liturgy on days without one.
 | Sunday with its own readings (before/after the Exaltation, the Nativity — of the Fathers —, the Theophany) | ⚠️ not before the Exaltation (forefeast with the Renewal) | ✅ | ✅ Sunday | ⚠️ not before the Exaltation | ✅ ¹⁰ | ❌ | ⚠️ ¹¹ |
 | Feast of the Lord on Sunday (Exaltation, Meeting, Transfiguration) | ✅ vigil | — | — | ✅ festal | ✅ | ❌ | ✅ |
 | Feast of the Theotokos on Sunday | ✅ vigil | — | — | ✅ ³ | ⚠️ no resurrectional troparion | ❌ | ✅ |
-| Nativity of Christ, Theophany and their eves (Royal Hours) | ❌ | ❌ great | — on the feast | ❌ | ❌ | ❌ | ❌ |
+| Nativity of Christ, Theophany and their eves (Royal Hours) | ⚠️ the eve: on a weekday with the liturgy, on Saturday and Sunday apart ¹³ | ❌ great | — on the feast | ❌ | ✅ Royal ¹³ | ✅ after the Royal Hours ¹³ | ⚠️ the feast ¹², the eve ¹³ |
 | Saint with a sign whose readings the Menaion does not give (≈10 days) | ❌ | ✅ | ✅ | ❌ | ✅ | ❌ | ❌ |
 
 ¹ Readings missing in the Menaion are taken from the General Menaion by the
@@ -155,9 +156,10 @@ of the Lord in an afterfeast of the Lord, of the Theotokos in hers); the
 prokeimenon, alleluia and communion verse of the feast and of the saint, the
 day's and the saint's Apostle and Gospel (on Saturday too the day's first:
 «апостол и еиглие прежде субботы…, таже праздника»; no Saturday hymns — the
-Octoechos is not sung); the feast's zadostoinik. Not yet: the afterfeasts of
-the Nativity and the Theophany (their own services are not done), afterfeast
-days with their own readings (the Saturday after the Exaltation).
+Octoechos is not sung); the feast's zadostoinik (in the afterfeast of the Nativity and the Theophany
+«Любити убо нам», «Недоумеет всяк язык» with their refrains). Not yet:
+afterfeast days with their own readings (the Saturdays after the Exaltation,
+the Nativity, the Theophany).
 ⁹ Saturday with «Бог Господь» (Typikon ch. 12), a saint without a sign: the
 saint's troparion twice, «Слава, и ныне» the theotokion; kathismata 16 and 17,
 the small litany after each; after the 16th the Octoechos's martyrs' sessional
@@ -206,6 +208,54 @@ beatitudes from the canon of the Fathers and of the saints (the Octoechos's
 are sung with the canon of the saint of the day), the Sunday before the
 Theophany on the Circumcision (1 January: St Basil's liturgy) and on the
 eves, the Saturdays before and after these feasts.
+¹² By the Menaion (12.25, 01.06): the liturgy of St John Chrysostom on the
+feast itself when the eve is a weekday (St Basil's is served on the eve
+then); the festal antiphons (Pss 110, 111, 109 and 113, 114, 117) with their
+refrains and troparion, the entrance verse («Из чрева прежде денницы»,
+«Благословен грядый»), the feast's troparion and kontakion, «Елицы во Христа
+крестистеся» instead of the Trisagion, the prokeimenon, Apostle (Gal, зач.
+209; Tit, зач. 302), alleluia, Gospel (Mt, зач. 3; зач. 6), the zadostoinik
+«Величай, душе моя… Любити убо нам» / «…Недоумеет всяк язык», the communion
+verse, the dismissal «Иже в вертепе родивыйся» / «Иже во Иордане креститися
+изволивый». The feast on Sunday or Monday (the eve on Saturday or Sunday):
+St Basil's liturgy on the feast itself.
+¹³ The eve (the Menaion, 24 December, 5 January; 25 December, 6 January).
+The Royal Hours on the eve, or, the feast falling on Sunday or Monday, on the
+Friday before (no liturgy on that Friday): each hour's own psalms, «Слава»
+the forefeast's troparion, «И ныне» the hour's theotokion, the stichera
+(«Вифлееме, уготовися», «Днесь вод освящается естество») with the verses «Бог
+от юга приидет» / «Сего ради помянух Тя», the canonarch's sticheron at the
+9th hour, the prokeimenon, prophecy, Apostle, Gospel, the forefeast's
+kontakion. After the 9th hour the typika (`-service typika`): the beatitudes
+without troparia, the forefeast's kontakion; on the eve without the Creed,
+ending with «Достойно есть» and the dismissal (the liturgy follows), on the
+Friday with the Creed, «Буди имя Господне» and Psalm 33. The liturgy of a
+weekday eve is vespers joined to St Basil's liturgy: «Господи, воззвах» with
+four stichera twice on 8 and «Слава, и ныне», the entrance with the Gospel,
+«Свете тихий», the prokeimenon of the day (on the Nativity's eve on Friday
+the great «Кто Бог велий»), 8 / 13 readings, after the 3rd and the 6th the
+reader's troparion with its verses («Тайно родился еси в вертепе», «Явился
+еси в мире»), the choir singing its end; the small litany, the Trisagion,
+the eve's prokeimenon, Apostle, alleluia, Gospel (not the ordinary ones), «О
+Тебе радуется»; after the Nativity's liturgy its troparion and kontakion
+before the candle. Not yet: the Great Blessing of Water (the Theophany's
+eve: a note in its place), the polychronion at the 9th Royal Hour.
+The eve on Saturday or Sunday (the Royal Hours on Friday): St John
+Chrysostom's liturgy at its time — on Sunday the Sunday's of the Fathers or
+before the Theophany (note ¹¹), on Saturday the day's, with the Apostle and
+Gospel «прежде субботе пред Рождеством / Богоявлением, и потом ряд» and the
+forefeast's troparion and kontakion; in the evening great vespers apart
+(`-service vespers` with the date of the feast): «Блажен муж» (the whole
+kathisma on Saturday evening, the first antiphon on Sunday evening),
+«Господи, воззвах» on 8, the entrance, the prokeimenon of the day, the
+readings with the troparia; no Trisagion — after the small litany the
+prokeimenon, Apostle, alleluia, Gospel (the Nativity's: Gal, зач. 207, Mt,
+зач. 53), the augmented and evening litanies, no aposticha, the dismissal;
+then the feast's troparion and kontakion. The Saturdays before the Nativity
+and the Theophany read their own Apostle and Gospel before the ordinary
+ones; on the weekdays and Saturdays of a forefeast the liturgy has the
+forefeast's troparion and the saint's, «Слава» the saint's kontakion, «И
+ныне» the forefeast's (ch. 52: «дне же не глаголется»).
 ⁶ By the Horologion: Pss 50, 69 and 101 (so in the Moscow 1980 Horologion),
 «Слава в вышних», «Сподоби, Господи», the Creed, the Octoechos canon of
 supplication to the Theotokos (Typikon ch. 9) with «Пресвятая Богородице,
@@ -240,7 +290,8 @@ The Triodion is not imported yet; this is the largest remaining part.
 | A Menaion canon at compline (forefeasts, a saint's service moved to compline) | ❌ |
 | Irmologion: the irmoi by tone (to complete the irmoi cited by their first words); the 9th-ode refrains in the afterfeast and on the apodosis | ❌ |
 | Psalter in the Triodion: Meatfare and Cheesefare weeks, Great Lent, its 5th week, Holy Week («Устав о Псалтири») | ❌ |
-| Liturgy of St Basil, Presanctified Liturgy | ❌ |
+| Liturgy of St Basil | ⚠️ by the Hieratikon: its own secret prayers (of the catechumens, the faithful, the offertory, the anaphora, before the Lord's Prayer, of the bowing of heads, of thanksgiving, of the consumption), the words of institution «Даде святым Своим учеником…», the consecration «Хлеб убо сей…», «Чашу же сию…», «О Тебе радуется» (a feast's zadostoinik on the feast), St Basil's dismissal (typed in: the orthlib Hieratikon lacks it). Served on 1 January, on the Nativity and the Theophany on Sunday and Monday, and on their weekday eves (with vespers). Not yet: the Sundays of Great Lent, Great Thursday and Saturday (the Triodion) |
+| Presanctified Liturgy | ❌ |
 | Patronal feast (`temple_feast`): vigil «аще храм» | ❌ (the flag is available to the rules) |
 | Litiya with the temple's stichera at the Sunday vigil (`-typikon`) | ❌ |
 | Dismissal of an afterfeast of the Lord on Sunday («Воскресый из мертвых» + the feast's) | ⚠️ only «Воскресый из мертвых» |

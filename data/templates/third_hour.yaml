@@ -6,15 +6,32 @@
 service: third_hour
 nodes:
   - {id: title, ref: ch.terce.title, heading: true}
-  - {id: beginning, include: usual_beginning}
+  - {id: beginning, include: usual_beginning, when: "!royal"}
+  # Царские часы поются подряд: час начинается с «Приидите, поклонимся».
+  - {id: come_royal, include: come_let_us_worship, when: royal}
 
   - {id: psalms_rubric, rubric: psalms}
-  - {id: psalm_16, ref: ch.terce.psalm.16, performer: reader}
-  - {id: psalm_24, ref: ch.terce.psalm.24, performer: reader}
-  - {id: psalm_50, ref: ch.terce.psalm.50, performer: reader}
+  - id: daily_psalms
+    unless_slot: royal_psalms
+    children:
+      - {id: psalm_16, ref: ch.terce.psalm.16, performer: reader}
+      - {id: psalm_24, ref: ch.terce.psalm.24, performer: reader}
+      - {id: psalm_50, ref: ch.terce.psalm.50, performer: reader}
+  - id: royal_psalms_group
+    if_slot: royal_psalms
+    children:
+      - {id: royal_psalms, slot: royal_psalms, performer: reader}
 
   - {id: troparion, include: troparion_kontakion}
   - {id: theotokion, ref: ch.terce.theotokion, performer: reader}
+  # Царские часы (навечерие Рождества и Богоявления): стихиры со стихами,
+  # прокимен, паремия, Апостол, Евангелие.
+  - id: royal_part
+    if_slot: royal_hymns
+    children:
+      - {id: royal_hymns, slot: royal_hymns, performer: choir}
+      - {id: royal_prokeimenon, slot: royal_prokeimenon, performer: reader}
+      - {id: royal_readings, slot: royal_readings, performer: reader}
   - {id: blessed_is_the_lord, ref: ch.terce.verse.blessed_is_the_lord, performer: reader}
 
   - {id: trisagion, include: trisagion_to_our_father}

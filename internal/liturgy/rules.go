@@ -68,7 +68,9 @@ func dayEnv() (*cel.Env, error) {
 		cel.Variable("pascha_offset", cel.IntType),
 		cel.Variable("departed", cel.StringType),       // the parental Saturday: meatfare, trinity, demetrius; ""
 		cel.Variable("feast_period", cel.BoolType),     // in a forefeast, afterfeast or apodosis of a twelve feast
-		cel.Variable("special_sunday", cel.StringType), // a Sunday with readings of its own (specialSunday), ""
+		cel.Variable("special_sunday", cel.StringType), // a Sunday or Saturday with readings of its own (specialSunday, specialSaturday), ""
+		cel.Variable("royal_hours", cel.StringType),    // the Royal Hours of nativity / theophany are sung (royalHours), ""
+		cel.Variable("eve", cel.StringType),            // the eve of nativity / theophany (24 December, 5 January), ""
 		cel.Variable("bright_week", cel.BoolType),
 		cel.Variable("tone", cel.IntType),
 		cel.Variable("month", cel.IntType),
@@ -166,6 +168,15 @@ type Facts struct {
 	// units ms.<id>.<suffix> by suffix («troparion», «lit.apostle»).
 	Special      string
 	SpecialUnits map[string]string
+	// RoyalHours: the feast whose Royal Hours are sung on the day
+	// (royalHours); Royal: their units rh.<feast>.<suffix> by suffix.
+	RoyalHours string
+	Royal      map[string]string
+	// EveOf: the feast whose eve the day is (eveOf); Eve: its vespers with
+	// the liturgy, ev.<feast>.<suffix> by suffix; EveFeast: the feast.
+	EveOf    string
+	Eve      map[string]string
+	EveFeast *Feast
 	// Tones of Menaion troparia (for the dismissal theotokion).
 	Tones map[string]int
 	// Temple: the dedication of the church, nil when not given.
@@ -243,6 +254,8 @@ func (f Facts) vars() map[string]any {
 		"departed":               f.Day.Departed,
 		"feast_period":           f.inFeastPeriod(),
 		"special_sunday":         f.Special,
+		"royal_hours":            f.RoyalHours,
+		"eve":                    f.EveOf,
 		"bright_week":            f.Day.BrightWeek,
 		"tone":                   int64(f.Day.Tone),
 		"month":                  int64(f.Day.Menaion.Month),
@@ -437,6 +450,18 @@ func (sel SlotSelector) resolve(name string, f Facts, service string) ([]SlotIte
 				k = HourPosition(service)
 			}
 			items = append(items, SlotItem{Ref: avail[(k-1)%len(avail)], Repeat: sel.Repeat})
+		case "eve":
+			es, err := eveSlot(sel, f)
+			if err != nil {
+				return nil, fmt.Errorf("slot %s: %w", name, err)
+			}
+			items = append(items, es...)
+		case "royal":
+			rs, err := royalHoursSlot(sel, f, service)
+			if err != nil {
+				return nil, fmt.Errorf("slot %s: %w", name, err)
+			}
+			items = append(items, rs...)
 		case "sunday_hours":
 			hs, err := sundayHours(f, sel.Part, HourPosition(service))
 			if err != nil {

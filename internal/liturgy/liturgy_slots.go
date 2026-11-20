@@ -97,6 +97,11 @@ func liturgySlot(sel SlotSelector, f Facts) ([]SlotItem, error) {
 	case "lit_kinonik":
 		return litKinonik(f, feast)
 	case "lit_truly_meet":
+		if feast && f.Feast != nil {
+			if z, ok := nativityTheophanyZadostoinik[f.Feast.ID]; ok {
+				return []SlotItem{choir("ir.pripev." + f.Feast.ID + ".1.irmos"), choir(z)}, nil
+			}
+		}
 		z := firstMain(f, "lit.zadostoinik")
 		if z == "" && feast && f.Feast != nil && zadostoinikRefrain[f.Feast.ID] {
 			// Not named in the rubric: the irmos of the 9th ode of the first canon.
@@ -221,6 +226,11 @@ func litTroparia(f Facts, part string) ([]SlotItem, error) {
 	troparia, kontakia := mainMenaion(f, "troparion"), mainMenaion(f, "kontakion")
 	switch part {
 	case "feast":
+		if f.Feast != nil && f.Feast.Troparion != "" && f.Feast.Kontakion != "" {
+			// The feast's own (the Theophany's is not the Menaion's first:
+			// those of the Royal Hours come before it).
+			return []SlotItem{choir(f.Feast.Troparion), choir("common.glory_now"), choir(f.Feast.Kontakion)}, nil
+		}
 		if len(troparia) == 0 || len(kontakia) == 0 {
 			return nil, fmt.Errorf("no troparion or kontakion of the feast")
 		}
@@ -250,6 +260,27 @@ func litTroparia(f Facts, part string) ([]SlotItem, error) {
 			}
 		}
 		return append(items, choir("common.glory"), choir(kontakia[0]), choir("common.and_now"), choir(now)), nil
+	}
+	// A forefeast (Типикон, гл. 52): «тропарь и кондак предпразднства, и
+	// стаго рядоваго… дне же не глаголется, зане октоих не поется» — the
+	// forefeast's troparion and the saint's; «Слава» the saint's kontakion,
+	// «И ныне» the forefeast's.
+	if fT, fK := feastHymns(f); f.Feast == nil && fK != "" {
+		// On the eve the day's hymns are all the forefeast's.
+		if eveOf(f.Day) != "" && fT != "" {
+			return []SlotItem{choir(fT), choir("common.glory_now"), choir(fK)}, nil
+		}
+		var items []SlotItem
+		if fT != "" {
+			items = append(items, choir(fT))
+		}
+		if s := saintHymns(f, "troparion", fT); len(s) > 0 {
+			items = append(items, choir(s[0]))
+		}
+		if s := saintHymns(f, "kontakion", fK); len(s) > 0 {
+			return append(items, choir("common.glory"), choir(s[0]), choir("common.and_now"), choir(fK)), nil
+		}
+		return append(items, choir("common.glory_now"), choir(fK)), nil
 	}
 	if f.Day.Weekday == time.Saturday {
 		return saturdayTroparia(f, troparia, kontakia), nil
@@ -384,6 +415,12 @@ func litReadings(f Facts, feast bool, which string) ([]SlotItem, error) {
 	type reading struct{ text, announce string }
 	var list []reading
 	men := firstMain(f, "lit."+which)
+	// A Saturday before the Nativity or the Theophany: its own reading, then
+	// the ordinary one (when the lectionary appoints it), then the saint's.
+	if own := f.SpecialUnits["lit."+which]; own != "" && !feast && f.Day.Weekday == time.Saturday {
+		items, err := specialSundayReadings(f, which, false)
+		return items, err
+	}
 	if !feast {
 		l, err := lection(f, which)
 		if err != nil {

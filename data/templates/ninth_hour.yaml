@@ -7,17 +7,34 @@
 service: ninth_hour
 nodes:
   - {id: title, ref: ch.none.title, heading: true}
-  - {id: beginning, include: usual_beginning}
+  - {id: beginning, include: usual_beginning, when: "!royal"}
+  # Царские часы поются подряд: час начинается с «Приидите, поклонимся».
+  - {id: come_royal, include: come_let_us_worship, when: royal}
 
   - {id: psalms_rubric, rubric: psalms}
-  - {id: psalm_83, ref: ch.none.psalm.83, performer: reader}
-  - {id: psalm_84, ref: ch.none.psalm.84, performer: reader}
-  - {id: psalm_85, ref: ch.none.psalm.85, performer: reader}
-  - {id: and_again, rubric: and_again}
-  - {id: psalm_85_repeat, ref: ch.none.psalm.85.repeat, performer: reader}
+  - id: daily_psalms
+    unless_slot: royal_psalms
+    children:
+      - {id: psalm_83, ref: ch.none.psalm.83, performer: reader}
+      - {id: psalm_84, ref: ch.none.psalm.84, performer: reader}
+      - {id: psalm_85, ref: ch.none.psalm.85, performer: reader}
+      - {id: and_again, rubric: and_again}
+      - {id: psalm_85_repeat, ref: ch.none.psalm.85.repeat, performer: reader}
+  - id: royal_psalms_group
+    if_slot: royal_psalms
+    children:
+      - {id: royal_psalms, slot: royal_psalms, performer: reader}
 
   - {id: troparion, include: troparion_kontakion}
   - {id: theotokion, ref: ch.none.theotokion, performer: reader}
+  # Царские часы (навечерие Рождества и Богоявления): стихиры со стихами,
+  # прокимен, паремия, Апостол, Евангелие.
+  - id: royal_part
+    if_slot: royal_hymns
+    children:
+      - {id: royal_hymns, slot: royal_hymns, performer: choir}
+      - {id: royal_prokeimenon, slot: royal_prokeimenon, performer: reader}
+      - {id: royal_readings, slot: royal_readings, performer: reader}
   - {id: do_not_deliver, ref: ch.none.do_not_deliver_us, performer: reader}
 
   - {id: trisagion, include: trisagion_to_our_father}

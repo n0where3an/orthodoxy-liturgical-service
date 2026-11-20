@@ -12,6 +12,24 @@
   when: bright_week
   unsupported: "Светлая седмица: вместо часов — пасхальные часы (ещё не реализовано)"
 
+- id: hours.royal
+  services: [first_hour, third_hour, sixth_hour, ninth_hour]
+  priority: 310
+  # The Royal Hours of the Nativity and the Theophany (the Menaion, 24
+  # December, 5 January): on the eve, or on the Friday before when the feast
+  # falls on Sunday or Monday (internal/liturgy/royal_hours.go). The hour's
+  # own psalms, «Слава» the forefeast's troparion, «И ныне» the hour's
+  # theotokion; the stichera with their verses, the prokeimenon, the
+  # prophecy, the Apostle and the Gospel; the forefeast's kontakion.
+  when: royal_hours != ""
+  slots:
+    royal_psalms: {from: royal, part: psalms}
+    troparion: {from: royal, part: troparion}
+    royal_hymns: {from: royal, part: hymns}
+    royal_prokeimenon: {from: royal, part: prokeimenon}
+    royal_readings: {from: royal, part: readings}
+    kontakion: {from: royal, part: kontakion}
+
 - id: hours.lenten_weekday
   services: [first_hour, third_hour, sixth_hour, ninth_hour]
   priority: 200

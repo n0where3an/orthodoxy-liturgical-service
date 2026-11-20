@@ -3267,6 +3267,27 @@ units:
     file: sluzhebnik/sl/07otp_vladychn.hip
     from: "иже во обятиих првднаго симеона"
     to: "спасения,"
+  - key: sl.dismissal.prefix.nativity
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/07otp_vladychn.hip
+    from: "иже в вертепе родивыйся"
+    to: "спасения,"
+  - key: sl.dismissal.prefix.theophany
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/07otp_vladychn.hip
+    from: "иже во иордане креститися"
+    to: "спасения,"
+  - key: lit.trisagion.baptized
+    book: sluzhebnik
+    kind: hymn
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/15prok_paskh.hip
+    from: "елицы во хрста крстистеся"
+    to: "аллилуиа."
   - key: sl.dismissal.prefix.transfiguration
     book: sluzhebnik
     kind: exclamation
@@ -3822,3 +3843,275 @@ units:
     file: mineya/jan/jan/Январь/06.hip
     from: "недоумеет всяк язык блгохвалити"
     to: ""
+
+  # === Литургия свт. Василия Великого (Служебник): отличное от Златоустовой ===
+  - key: sl.litb.title
+    book: sluzhebnik
+    kind: title
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/09litur_vasiliy.hip
+    from: "бжественная служба иже во стых"
+    to: "каппадокийския."
+  - key: sl.litb.catechumens_prayer
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/09litur_vasiliy.hip
+    from: "гдси бже наш, иже на нбсех живый"
+    to: ""
+  - key: sl.litb.faithful_prayer.1
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/09litur_vasiliy.hip
+    from: "ты гдси показал еси нам великое"
+    to: ""
+  - key: sl.litb.faithful_prayer.2
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/09litur_vasiliy.hip
+    from: "бже посетивый в млсти и щедротах"
+    to: ""
+  - key: sl.litb.proskomide_prayer
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/09litur_vasiliy.hip
+    from: "гдси бже наш, создавый нас, и введый"
+    to: ""
+  - key: sl.litb.anaphora_prayer.1
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/09litur_vasiliy.hip
+    from: "сый влдко, гдси бже оче вседержителю"
+    to: ""
+  - key: sl.litb.anaphora_prayer.2
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/09litur_vasiliy.hip
+    from: "с сими блженными силами, влдко"
+    to: ""
+  - key: sl.litb.take_eat
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/09litur_vasiliy.hip
+    from: "даде стым своим учеником и апслом, рек: приимите"
+    to: ""
+  - key: sl.litb.anaphora_prayer.cup
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/09litur_vasiliy.hip
+    from: "подобне и чашу от плода лознаго"
+    to: ""
+  - key: sl.litb.drink_ye_all
+    book: sluzhebnik
+    kind: exclamation
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/09litur_vasiliy.hip
+    from: "даде стым своим учеником и апслом, рек: пийте"
+    to: ""
+  - key: sl.litb.anaphora_prayer.3
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/09litur_vasiliy.hip
+    from: "сие творите в мое воспоминание: елижды"
+    to: ""
+  - key: sl.litb.epiclesis
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/09litur_vasiliy.hip
+    from: "сего ради, влдко престый, и мы грешнии"
+    to: ""
+  - key: sl.litb.epiclesis.bread
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/09litur_vasiliy.hip
+    from: "хлеб убо сей, самое чстное тело"
+    to: ""
+  - key: sl.litb.epiclesis.cup
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/09litur_vasiliy.hip
+    from: "чашу же сию, самую чстную кровь"
+    to: ""
+  - key: sl.litb.epiclesis.cup.2
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/09litur_vasiliy.hip
+    from: "излиянную за мирский живот"
+    to: ""
+  - key: sl.litb.anaphora_prayer.4
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/09litur_vasiliy.hip
+    from: "нас же всех, от единаго хлеба и чаши"
+    to: ""
+  - key: ch.lit.all_of_creation
+    book: sluzhebnik
+    kind: hymn
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/09litur_vasiliy.hip
+    from: "о тебе радуется, блгодатная, всякая тварь"
+    to: ""
+  - key: sl.litb.anaphora_prayer.5
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/09litur_vasiliy.hip
+    from: "стаго иоанна пророка, предтечи и крстителя: стых"
+    to: ""
+  - key: sl.litb.anaphora_prayer.6
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/09litur_vasiliy.hip
+    from: "еще молим ти ся, помяни гдси стую твою соборную"
+    to: ""
+  - key: sl.litb.anaphora_prayer.7
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/09litur_vasiliy.hip
+    from: "помяни гдси, всяко епископство православных"
+    to: ""
+  - key: sl.litb.anaphora_prayer.8
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/09litur_vasiliy.hip
+    from: "помяни гдси, по множеству щедрот твоих, и мое"
+    to: ""
+  - key: sl.litb.anaphora_prayer.9
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/09litur_vasiliy.hip
+    from: "помяни гдси пресвитерство, еже во хрсте"
+    to: ""
+  - key: sl.litb.lords_prayer_prayer
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/09litur_vasiliy.hip
+    from: "бже наш, бже спасати, ты нас научи"
+    to: ""
+  - key: sl.litb.head_bowing_prayer
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/09litur_vasiliy.hip
+    from: "влдко гдси, оче щедрот, и бже всякаго утешения"
+    to: ""
+  - key: sl.litb.thanksgiving_prayer
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/09litur_vasiliy.hip
+    from: "блгодарим тя, гдси бже наш, о причащении"
+    to: ""
+  - key: sl.litb.consumption_prayer
+    book: sluzhebnik
+    kind: prayer
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/09litur_vasiliy.hip
+    from: "исполнися и совершися елико по нашей силе"
+    to: ""
+
+  # === Изобразительны (Часослов) ===
+  - key: ch.typika.remember_us.1
+    book: chasoslov
+    kind: hymn
+    source: orthlib.chasoslov
+    file: chasoslov/ch/06izobrazit.hip
+    from: "помяни нас гдси, егда приидеши"
+    to: ""
+  - key: ch.typika.remember_us.2
+    book: chasoslov
+    kind: hymn
+    source: orthlib.chasoslov
+    file: chasoslov/ch/06izobrazit.hip
+    from: "помяни нас влдко, егда приидеши"
+    to: ""
+  - key: ch.typika.remember_us.3
+    book: chasoslov
+    kind: hymn
+    source: orthlib.chasoslov
+    file: chasoslov/ch/06izobrazit.hip
+    from: "помяни нас стый, егда приидеши"
+    to: ""
+  - key: ch.typika.heavenly_choir
+    book: chasoslov
+    kind: hymn
+    source: orthlib.chasoslov
+    file: chasoslov/ch/06izobrazit.hip
+    from: "лик нбсный поет тя"
+    to: ""
+  - key: ch.typika.approach
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/06izobrazit.hip
+    from: "приступите к нему и просветитеся"
+    to: ""
+  - key: ch.typika.choir_of_angels
+    book: chasoslov
+    kind: hymn
+    source: orthlib.chasoslov
+    file: chasoslov/ch/06izobrazit.hip
+    from: "лик стых аггл и архаггл"
+    to: ""
+  - key: ch.typika.absolve
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/06izobrazit.hip
+    from: "ослаби, остави, прости бже прегрешения"
+    to: ""
+  - key: ch.typika.all_holy_trinity
+    book: chasoslov
+    kind: prayer
+    source: orthlib.chasoslov
+    file: chasoslov/ch/06izobrazit.hip
+    from: "всестая троце, единосущная державо"
+    to: ""
+  # Великий прокимен «Кто Бог велий» (в навечерие Рождества в пяток).
+  - key: ch.vespers.prokeimenon.great.who
+    book: sluzhebnik
+    kind: prokeimenon
+    tone: 7
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/15prok_paskh.hip
+    from: "кто бг велий, яко бг наш; ты еси"
+    to: "чудеса."
+  - key: ch.vespers.prokeimenon.great.who.verse.1
+    book: sluzhebnik
+    kind: verse
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/15prok_paskh.hip
+    from: "сказал еси в людех"
+    to: "твою."
+  - key: ch.vespers.prokeimenon.great.who.verse.2
+    book: sluzhebnik
+    kind: verse
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/15prok_paskh.hip
+    from: "рех: ныне начах"
+    to: "вышняго."
+  - key: ch.vespers.prokeimenon.great.who.verse.3
+    book: sluzhebnik
+    kind: verse
+    source: orthlib.sluzhebnik
+    file: sluzhebnik/sl/15prok_paskh.hip
+    from: "помянух дела гдсня"
+    to: "твоя."

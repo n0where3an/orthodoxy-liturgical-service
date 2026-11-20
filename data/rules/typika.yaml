@@ -1,0 +1,27 @@
+# Rules for the typika (изобразительны). Implemented: after the Royal Hours
+# of the Nativity and the Theophany (the Menaion). Recognised but not yet
+# implemented: the typika of the other days without a liturgy.
+
+- id: typika.royal.eve
+  service: typika
+  priority: 110
+  # On the eve itself the vespers with the liturgy follow («аще есть
+  # литургиа, зде не глаголем» the Creed; «достойно есть: и отпуст дне»).
+  when: royal_hours != "" && ((month == 12 && day == 24) || (month == 1 && day == 5))
+  slots:
+    kontakion: {from: royal, part: kontakion}
+    with_liturgy: {from: unit, refs: [ch.lit.it_is_truly_meet]}
+
+- id: typika.royal
+  service: typika
+  priority: 100
+  # The Royal Hours on the Friday before: no liturgy that day.
+  when: royal_hours != ""
+  slots:
+    kontakion: {from: royal, part: kontakion}
+
+- id: typika.unsupported
+  service: typika
+  priority: 10
+  when: "true"
+  unsupported: "Изобразительны ещё не реализованы (кроме навечерий Рождества и Богоявления)"

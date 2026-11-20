@@ -2,7 +2,7 @@
 //
 //	liturgy migrate
 //	liturgy import [-orthlib var/orthlib] [-ponomar $PONOMAR_DIR]
-//	liturgy plan   -date 2026-11-12 [-service liturgy|matins|vespers|compline|midnight_office|first_hour|third_hour|sixth_hour|ninth_hour] [-deacon] [-reader] [-standalone] [-typikon] [-temple nicholas]
+//	liturgy plan   -date 2026-11-12 [-service liturgy|matins|vespers|compline|midnight_office|first_hour|third_hour|sixth_hour|ninth_hour|typika] [-deacon] [-reader] [-standalone] [-typikon] [-temple nicholas]
 //	liturgy render -date 2026-11-12 [-mode laity|kliros] [-lang cu] [-o out.html]
 //	liturgy serve  [-addr 127.0.0.1:8080]
 //	liturgy temples                       # dedications for -temple

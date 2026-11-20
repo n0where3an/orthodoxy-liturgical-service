@@ -33,6 +33,24 @@ func specialSunday(day calendar.DayContext) string {
 	return ""
 }
 
+// specialSaturday: a Saturday with readings of its own before the Nativity
+// (12.18–24) and the Theophany (01.01–05): ms.sat_before_<feast>.* —
+// «апсл и еиглие прежде субботе пред…, и ряд под зачало, и потом стаго»
+// (the Menaion, 18 December; 5 January).
+func specialSaturday(day calendar.DayContext) string {
+	if day.Weekday != time.Saturday {
+		return ""
+	}
+	m, d := day.Menaion.Month, day.Menaion.Day
+	switch {
+	case m == time.December && d >= 18 && d <= 24:
+		return "sat_before_nativity"
+	case m == time.January && d <= 5:
+		return "sat_before_theophany"
+	}
+	return ""
+}
+
 // feastHymns: the troparion and kontakion of the feast whose afterfeast
 // (Feast) or forefeast (the Menaion's «предпразднства») the day is in.
 func feastHymns(f Facts) (troparion, kontakion string) {
@@ -44,6 +62,14 @@ func feastHymns(f Facts) (troparion, kontakion string) {
 			kontakion = id
 			break
 		}
+	}
+	// The eve (24 December, 5 January): the day's own hymns are the
+	// forefeast's.
+	if f.Feast == nil && eveOf(f.Day) != "" {
+		if kontakion == "" {
+			kontakion = firstMain(f, "kontakion")
+		}
+		return firstMain(f, "troparion"), kontakion
 	}
 	// The troparion of the forefeast, or the one «Слава, и ныне» (12.21);
 	// some days give none (09.07).

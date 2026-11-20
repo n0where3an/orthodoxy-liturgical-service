@@ -26,7 +26,7 @@ import (
 // cited by its first words, «Единородный Сыне», the feast's troparion).
 var (
 	reLitStart     = regexp.MustCompile(`на литургии`)
-	reLitAntiphons = regexp.MustCompile(`на литургии,? антифон`)
+	reLitAntiphons = regexp.MustCompile(`на литургии[,:]? антифон`)
 	reLitBeat      = regexp.MustCompile(`бла?женна[^.]*`)
 	reLitBeatOde   = regexp.MustCompile(`(?:(а|в|г)-го (?:канона )?)?песнь (\S+?)(?:-я|-ю)?[ ,.:]`)
 	reLitProk      = regexp.MustCompile(`прокимен,?\s*(?:песнь бцды,? |стаго,?\s*)?(?:глас (\S+?)[.:,]\s*|:\s*)(?:песнь бцды:\s*)?(.+?)\s*стих:\s*(.+?)\s*(?:всякое дыхание|апсл|апостол|еиглие|евангелие)`)
@@ -34,12 +34,13 @@ var (
 	// оцев: …», «прокимен гласа: и стых, глас д: …» (the tone's, then the
 	// saints'). Not for the days, whose rubrics only mention such a Sunday.
 	reSpecProk     = regexp.MustCompile(`прокимен,?\s*(?:гласа:?\s*и (?:стаго|стых),?\s*)?(?:песнь (?:бцды|оцев),? |стаго,?\s*)?(?:глас (\S+?)[.:,]\s*|:\s*)(?:песнь (?:бцды|оцев):\s*)?(.+?)\s*стих:\s*(.+?)\s*(?:всякое дыхание|апсл|апостол|еиглие|евангелие)`)
-	reLitApostle   = regexp.MustCompile(`(?:апсл|апостол)[^.]*?зачало (\S+?)(\s+от полу)?[.,:]`)
+	reLitApostle   = regexp.MustCompile(`(?:апсл|апостол|апстол)[^.]*?зачало (\S+?)(\s+от полу)?[.,:]`)
 	reLitAlleluia  = regexp.MustCompile(`аллилуиа,? глас (\S+?)[.:]\s*(.+?)\s*(?:стих:\s*(.+?)\s*)?(?:еиглие|евангелие)`)
 	reLitGospel    = regexp.MustCompile(`(?:еиглие|евангелие) (?:от )?(матфеа|марка|луки|иоанна)[^.]*?зачало (\S+?)(\s+от полу)?[.,:]`)
 	reLitZadost    = regexp.MustCompile(`(?:за достойно|вместо достойно)[^:]*?ирмос:\s*(.+?)[:.]`)
 	reLitKinonik   = regexp.MustCompile(`причастен:\s*(.+?)(?::|\.|$)`)
 	reLitAntiphonN = regexp.MustCompile(`антифон `)
+	reLitBaptized  = regexp.MustCompile(`^вместо (же )?тристаго,? (поем:? )?елицы во хрста`)
 )
 
 var gospelByName = map[string]string{"матфеа": "mt", "марка": "mk", "луки": "lk", "иоанна": "jn"}
@@ -88,6 +89,36 @@ func parseMenaionLiturgy(d *Doc, prefix, path, day string) []corpus.Unit {
 		k++
 		add(fmt.Sprintf("antiphon.%d.%d", antiphon, k), kind, body, meta)
 	}
+	// repeatOf adds a line that cites a text sung before by its first words
+	// («Ржство твое, хрсте бже наш.», «Во иордане крещающуся тебе, гдси:»).
+	repeatOf := func(text string) bool {
+		cue := hip.Fold(strings.TrimRight(strings.TrimSpace(hip.PlainString(text)), ":.,"))
+		if cue == "" {
+			return false
+		}
+		for i := len(sung) - 1; i >= 0; i-- {
+			full := hip.Fold(hip.PlainString(sung[i].Body))
+			if len(cue) < len(full) && strings.HasPrefix(full, cue) {
+				item(sung[i].Kind, sung[i].Body, map[string]any{"repeat_of": sung[i].ID})
+				return true
+			}
+		}
+		return false
+	}
+	// troparionLine: the troparion in an antiphon — given in full (sung
+	// after this), repeated by its first words, or the day's first troparion.
+	troparionLine := func(body string) {
+		if repeatOf(body) {
+			return
+		}
+		plain := strings.TrimSpace(hip.PlainString(body))
+		if strings.HasSuffix(plain, ":") || len(strings.Fields(plain)) <= 8 {
+			item("troparion", body, map[string]any{"copy": troparion})
+			return
+		}
+		item("troparion", body, nil)
+		sung = append(sung, units[len(units)-1])
+	}
 	// content adds a text line of an antiphon: in full, or cited by its
 	// first words (a refrain, the repeated verse, «Единородный Сыне»).
 	content := func(text string) {
@@ -96,21 +127,24 @@ func parseMenaionLiturgy(d *Doc, prefix, path, day string) []corpus.Unit {
 			item("hymn", text, map[string]any{"copy": "ch.typika.only_begotten"})
 			return
 		}
-		if strings.HasSuffix(strings.TrimSpace(plain), ":") || strings.HasSuffix(strings.TrimSpace(plain), ".") && len(strings.Fields(plain)) <= 4 {
-			cue := hip.Fold(strings.TrimRight(strings.TrimSpace(plain), ":."))
-			for i := len(sung) - 1; i >= 0; i-- {
-				if strings.HasPrefix(hip.Fold(hip.PlainString(sung[i].Body)), cue) {
-					item(sung[i].Kind, sung[i].Body, map[string]any{"repeat_of": sung[i].ID})
-					return
-				}
-			}
+		if repeatOf(text) {
+			return
 		}
 		item("verse", text, nil)
 		sung = append(sung, units[len(units)-1])
 	}
+	trisagionDone := false
 	for _, p := range d.Paras {
 		text := CleanText(pageRef.ReplaceAllString(p.Text(), ""))
 		plain := strings.ToLower(hip.PlainString(text))
+		// «Вместо тристаго, елицы во хрста крестистеся» (the Nativity, the
+		// Theophany): cited by its first words.
+		// Only where the paragraph is this instruction itself, not a rubric for
+		// another day («аще случится в лазареву субботу… вместо тристаго»).
+		if !trisagionDone && reLitBaptized.MatchString(plain) {
+			add("trisagion", "hymn", "", map[string]any{"copy": "lit.trisagion.baptized"})
+			trisagionDone = true
+		}
 		if !rubricDone && reLitAntiphons.MatchString(plain) {
 			section = "antiphons"
 		}
@@ -176,11 +210,11 @@ func parseMenaionLiturgy(d *Doc, prefix, path, day string) []corpus.Unit {
 					nextTroparion = true // «Тропарь, глас з:» — the text follows
 					continue
 				}
-				item("troparion", body, map[string]any{"copy": troparion})
+				troparionLine(body)
 				continue
 			}
 			if body != "" && nextTroparion {
-				item("troparion", body, map[string]any{"copy": troparion})
+				troparionLine(body)
 				nextTroparion = false
 				continue
 			}
@@ -193,7 +227,7 @@ func parseMenaionLiturgy(d *Doc, prefix, path, day string) []corpus.Unit {
 				section = "done-entrance"
 			}
 		case "trisagion":
-			if body != "" {
+			if body != "" && !trisagionDone {
 				add("trisagion", "hymn", body, nil)
 				section = "done"
 			}

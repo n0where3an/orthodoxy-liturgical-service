@@ -140,7 +140,10 @@ func (p *Planner) Plan(ctx context.Context, d calendar.JDate, service string, pa
 			f.Tones[id] = t
 		}
 	}
-	if f.Special = specialSunday(day); f.Special != "" {
+	if f.Special = specialSunday(day); f.Special == "" {
+		f.Special = specialSaturday(day)
+	}
+	if f.Special != "" {
 		ids, err := p.Menaion.ListIDs(ctx, "ms."+f.Special+".")
 		if err != nil {
 			return nil, err
@@ -148,6 +151,53 @@ func (p *Planner) Plan(ctx context.Context, d calendar.JDate, service string, pa
 		f.SpecialUnits = map[string]string{}
 		for _, id := range ids {
 			f.SpecialUnits[strings.TrimPrefix(id, "ms."+f.Special+".")] = id
+		}
+		tones, err := p.Menaion.UnitTones(ctx, ids)
+		if err != nil {
+			return nil, err
+		}
+		for id, t := range tones {
+			f.Tones[id] = t
+		}
+	}
+	f.EveOf = eveOf(day)
+	eveFeastDay := day
+	if f.EveOf != "" {
+		eveFeastDay = calendar.NewDayContext(d.AddDays(1))
+	} else if service == "vespers" {
+		// The vespers of the feast itself, served on its eve.
+		f.EveOf = eveOf(calendar.NewDayContext(d.AddDays(-1)))
+	}
+	if f.EveOf != "" {
+		prefix := "ev." + f.EveOf + "."
+		ids, err := p.Menaion.ListIDs(ctx, prefix)
+		if err != nil {
+			return nil, err
+		}
+		f.Eve = map[string]string{}
+		for _, id := range ids {
+			f.Eve[strings.TrimPrefix(id, prefix)] = id
+		}
+		tones, err := p.Menaion.UnitTones(ctx, ids)
+		if err != nil {
+			return nil, err
+		}
+		for id, t := range tones {
+			f.Tones[id] = t
+		}
+		if p.Feasts != nil {
+			f.EveFeast = p.Feasts.At(eveFeastDay)
+		}
+	}
+	if f.RoyalHours = royalHours(day); f.RoyalHours != "" {
+		prefix := "rh." + f.RoyalHours + "."
+		ids, err := p.Menaion.ListIDs(ctx, prefix)
+		if err != nil {
+			return nil, err
+		}
+		f.Royal = map[string]string{}
+		for _, id := range ids {
+			f.Royal[strings.TrimPrefix(id, prefix)] = id
 		}
 		tones, err := p.Menaion.UnitTones(ctx, ids)
 		if err != nil {
@@ -254,6 +304,15 @@ func (p *Planner) Plan(ctx context.Context, d calendar.JDate, service string, pa
 	}
 	if err := p.Rules.FillSlotRules(service, f, slots); err != nil {
 		return nil, err
+	}
+	// The liturgy of St Basil the Great: «О Тебе радуется» instead of
+	// «Достойно есть» (a feast's zadostoinik stays).
+	if len(slots["basil"]) > 0 {
+		for i, it := range slots["truly_meet"] {
+			if it.Ref == "ch.lit.it_is_truly_meet" {
+				slots["truly_meet"][i].Ref = "ch.lit.all_of_creation"
+			}
+		}
 	}
 	y, m, dd := d.Date()
 	return &Plan{

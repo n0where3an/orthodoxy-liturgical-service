@@ -116,6 +116,15 @@ nodes:
   - {id: prokeimenon_verse, slot: prokeimenon_verse, performer: reader}
   - {id: prokeimenon_again, slot: prokeimenon, performer: choir}
   - {id: paremias, slot: paremias, performer: reader}
+  # Навечерие Рождества и Богоявления в субботу или воскресенье: по
+  # паремиях малая ектения, прокимен, Апостол, аллилуиа, Евангелие.
+  - id: eve_gospel
+    if_slot: eve_gospel
+    children:
+      - {id: eve_small_litany, include: small_litany_open}
+      - {id: eve_exclamation, ref: sl.lit.trisagion_exclamation, performer: priest, voice: aloud}
+      - {id: eve_amen, ref: common.amen, performer: choir}
+      - {id: eve_gospel_readings, slot: eve_gospel, performer: reader}
 
   # --- Сугубая ектения, «Сподоби», просительная ---
   - {id: let_us_say, ref: lit.augmented.let_us_say, performer: litanist, voice: aloud}
@@ -154,12 +163,16 @@ nodes:
       - {id: li_prayer_amen, ref: common.amen, performer: choir}
 
   # --- Стиховна, «Ныне отпущаеши», тропари ---
-  - {id: aposticha_rubric, rubric: aposticha_great, audience: kliros, when: "!sunday"}
-  - {id: aposticha_rubric_sunday, rubric: aposticha_sunday, audience: kliros, when: sunday}
-  - {id: aposticha, slot: aposticha, performer: choir}
-  - {id: nunc_dimittis, ref: ch.vespers.nunc_dimittis, performer: reader}
-  - {id: trisagion, include: trisagion_to_our_father}
-  - {id: troparia, slot: troparia, performer: choir}
+  # (в навечерие, вечерня отдельно, — без стиховны).
+  - id: aposticha_part
+    unless_slot: eve_gospel
+    children:
+      - {id: aposticha_rubric, rubric: aposticha_great, audience: kliros, when: "!sunday"}
+      - {id: aposticha_rubric_sunday, rubric: aposticha_sunday, audience: kliros, when: sunday}
+      - {id: aposticha, slot: aposticha, performer: choir}
+      - {id: nunc_dimittis, ref: ch.vespers.nunc_dimittis, performer: reader}
+      - {id: trisagion, include: trisagion_to_our_father}
+      - {id: troparia, slot: troparia, performer: choir}
 
   # --- Благословение хлебов (на бдении) ---
   - id: loaves
@@ -195,3 +208,14 @@ nodes:
       - {id: theotokos_save_us, ref: sl.vespers.most_holy_theotokos_save_us, performer: priest, voice: aloud}
       - {id: more_honorable, ref: common.more_honorable, performer: choir}
       - {id: dismissal, include: dismissal}
+
+  # Навечерие Рождества: по отпусте у свечи тропарь и кондак праздника;
+  # навечерие Богоявления: великое освящение воды — ещё не включено.
+  - id: eve_water
+    if_slot: eve_water
+    children:
+      - {id: eve_water_rubric, rubric: great_blessing_of_water_pending}
+  - id: eve_after
+    if_slot: eve_after
+    children:
+      - {id: eve_after_hymns, slot: eve_after, performer: choir}
