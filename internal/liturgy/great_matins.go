@@ -185,6 +185,13 @@ func festalCanon(f Facts, section string, feast bool) ([]SlotItem, error) {
 	if !feast {
 		return matinsCanon(f, section)
 	}
+	return festalCanonKatavasia(f, section, nil)
+}
+
+// festalCanonKatavasia: the feast's canons; the katavasia after each ode
+// kat's when it gives one (the apodosis: by the season), else the irmos of
+// the last canon.
+func festalCanonKatavasia(f Facts, section string, kat func(ode int) string) ([]SlotItem, error) {
 	odes, err := parseOdes(section)
 	if err != nil {
 		return nil, err
@@ -228,6 +235,11 @@ func festalCanon(f Facts, section string, feast bool) ([]SlotItem, error) {
 		}
 		if last == "" {
 			return nil, fmt.Errorf("Menaion %02d.%02d: no canon at ode %d", int(f.Day.Menaion.Month), f.Day.Menaion.Day, o)
+		}
+		if kat != nil {
+			if k := kat(o); k != "" {
+				last = k
+			}
 		}
 		items = append(items, reader("ch.canon.katavasia"), SlotItem{Ref: last})
 	}

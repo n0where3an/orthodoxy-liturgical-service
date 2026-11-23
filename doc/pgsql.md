@@ -131,10 +131,7 @@ psql -h 127.0.0.1 -U liturgy -d liturgy
 Создание резервной копии базы проекта:
 
 ```bash
-podman exec postgres18 pg_dump \
-  -U liturgy \
-  -d liturgy \
-  -F c > liturgy.dump
+podman exec postgres18 pg_dump -U liturgy -d liturgy -F c > liturgy.dump
 ```
 
 Восстановление из резервной копии (с предварительным пересозданием базы;

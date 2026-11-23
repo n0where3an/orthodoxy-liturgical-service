@@ -171,3 +171,78 @@ func TestNativityTheophanyMatins(t *testing.T) {
 		}
 	}
 }
+
+func TestApodosisMatins(t *testing.T) {
+	// The apodosis of the Nativity, 2026-12-31 O.S. (Wednesday): «вся служба
+	// праздника» without the polyeleos and the Gospel.
+	d := calendar.MustJDate(2026, time.December, 31)
+	me := "me.12.25."
+	c := festalMatinsCorpus(calendar.MustJDate(2026, time.December, 25), true)
+	plan, err := planMatins(t, c, d)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if plan.Rule != "matins.apodosis.weekday" || plan.Template != "great_matins" {
+		t.Fatalf("rule %s, template %s", plan.Rule, plan.Template)
+	}
+	want := map[string]string{
+		"troparia":      me + "troparion.1x3",
+		"sedalny_1":     me + "matins.k_sedalen.1.1",
+		"ps50":          "ch.psalm.50",
+		"gospel":        "",
+		"prokeimenon":   "",
+		"magnification": "",
+		"sedalny_p":     "",
+		"magnificat":    "",
+		"kontakion":     me + "kontakion.1," + me + "matins.ikos.1",
+		"exapostilaria": me + "matins.exapostilarion.1,common.glory_now," + me + "matins.exapostilarion.1",
+		"end_troparia":  me + "troparion.1",
+	}
+	for slot, w := range want {
+		if got := refs(plan.Slots[slot]); got != w {
+			t.Errorf("%s:\n got %s\nwant %s", slot, got, w)
+		}
+	}
+	// The feast's two canons, no Octoechos; the katavasia the feast's first canon's irmos.
+	cn := refs(plan.Slots["canon_1_3"])
+	if strings.Contains(cn, "oc.") || !strings.Contains(cn, me+"matins.canon.2.ode.1.troparion.1") ||
+		!strings.Contains(cn, "ch.canon.katavasia,"+me+"matins.canon.1.ode.3.irmos") {
+		t.Errorf("canon: %s", cn)
+	}
+}
+
+func TestDoxologyAfterfeastMatins(t *testing.T) {
+	// The synaxis of the Forerunner, 2027-01-07 O.S. (Wednesday): the
+	// afterfeast with the great doxology — the Menaion's two kontakia in
+	// order, the praises, no aposticha.
+	d := calendar.MustJDate(2027, time.January, 7)
+	me := "me.01.07."
+	c := festalMatinsCorpus(d, false)
+	ids := c.ids[:0:0]
+	for _, id := range c.ids {
+		if !strings.Contains(id, "gvespers.paremia") { // no polyeleos
+			ids = append(ids, id)
+		}
+	}
+	day := calendar.NewDayContext(d)
+	oc := fmt.Sprintf("oc.%d.%s.matins.", day.Tone, WeekdayKey(day.Weekday))
+	ids = append(ids, oc+"sedalen.3.1", oc+"sedalen.3.theotokion")
+	c.ids = append(ids, me+"kontakion.2", me+"matins.ikos.2", "me.01.06.troparion.3", "me.01.06.kontakion.1",
+		"me.01.06.troparion.1")
+	plan, err := planMatins(t, c, d)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if plan.Rule != "matins.afterfeast.doxology" {
+		t.Fatalf("rule %s", plan.Rule)
+	}
+	if got := refs(plan.Slots["sedalen"]); !strings.HasPrefix(got, me+"kontakion.1,"+me+"matins.ikos.1,"+me+"matins.sedalen.1") {
+		t.Errorf("after the 3rd ode: %s", got)
+	}
+	if got := refs(plan.Slots["kontakion"]); got != me+"kontakion.2,"+me+"matins.ikos.2" {
+		t.Errorf("after the 6th ode: %s", got)
+	}
+	if len(plan.Slots["praises"]) == 0 || len(plan.Slots["gospel"]) != 0 || len(plan.Slots["aposticha"]) != 0 {
+		t.Errorf("praises %v, gospel %v, aposticha %v", plan.Slots["praises"], plan.Slots["gospel"], plan.Slots["aposticha"])
+	}
+}

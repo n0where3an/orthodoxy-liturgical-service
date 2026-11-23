@@ -101,7 +101,7 @@ evening before. Typika: the service in place of the liturgy on days without one
 |---|---|---|---|---|---|---|---|
 | Weekday (Mon–Fri), saint without a sign | ✅ daily | ✅ small | ✅ daily | ✅ daily | ✅ | ❌ | ✅ |
 | Weekday, saint with a sign (polyeleos, vigil) | ✅ great / vigil ¹ | ✅ / — before a vigil | ✅ / — before a vigil | ✅ festal ² | ✅ | ❌ | ✅ |
-| Weekday in an afterfeast or on the apodosis | ✅ daily | ✅ the feast's kontakion | ✅ daily | ⚠️ afterfeast ⁵; not the apodosis yet | ✅ | ❌ | ⚠️ ⁸ |
+| Weekday in an afterfeast or on the apodosis | ✅ daily | ✅ the feast's kontakion | ✅ daily | ✅ ⁵ | ✅ | ❌ | ⚠️ ⁸ |
 | Fixed twelve feast on a weekday | ✅ vigil | — | — | ✅ festal | ✅ | ❌ | ✅ |
 | Saturday (any) | ✅ daily or vigil (Friday evening) | ✅ (Friday evening) | ✅ Saturday | ⚠️ ⁹ | ✅ | ❌ | ⚠️ ⁴ |
 | Sunday, saint without a sign | ✅ vigil, without litiya | ✅ (where there is no vigil) | ✅ Sunday | ✅ ³ | ✅ ¹⁰ | ❌ | ✅ |
@@ -142,7 +142,28 @@ with its irmos on 8 and the saint's on 4, no Octoechos; the katavasia after
 every ode, by the season or the feast's irmoi; after the 3rd ode the saint's
 kontakion and sessional hymn, after the 6th the feast's kontakion and ikos;
 the exapostilarion, «Слава, и ныне» the feast's; the feast's aposticha;
-«Честнейшую» is sung (ch. 20). Not yet with a saint with a sign.
+«Честнейшую» is sung (ch. 20). Afterfeast days with the great doxology (the
+Synaxis of the Forerunner on 7 January etc.: the Menaion has its praises):
+no aposticha, the praises and the great doxology; the Menaion's kontakia in
+its order (after the 3rd ode the last but one with its ikos and the
+sessional hymn, after the 6th the last with its ikos); at the 9th ode the
+feast's refrains where the Menaion says «якоже на самый праздник» (26
+December, 7 January), else «Честнейшую». The Synaxis of the Theotokos (26
+December) by the Menaion: the Nativity's service (its canons on 12, the
+exapostilarion thrice), the day's sessional hymns and praises, after the
+3rd ode the feast's kontakion, ikos and ipakoi, after the 6th «Иже прежде
+денницы» (kontakion and ikos cut from the Menaion by the manifest). The
+apodosis on a weekday: «вся служба праздника» without the polyeleos and the
+Gospel — the feast's troparion thrice, its sessional hymns, Psalm 50 read,
+the feast's canons, the katavasia by the Menaion (the first canon's irmoi;
+on 12 September and 13 August «Крест начертав»), the sessional hymn (ipakoi)
+after the 3rd ode, the feast's kontakion and ikos after the 6th, the 9th ode
+with the feast's refrains, the exapostilarion twice, the feast's praises, the
+great doxology, the troparion; the saint of the day is not sung. The
+apodosis of the Entry (25 November), whose Menaion gives its own matins with
+the saints, as an afterfeast day with the doxology. Not yet: the apodosis on
+Saturday, afterfeast days with a polyeleos saint (9 September, 9 and 12
+January, 4 February — Russian saints added to the day's service).
 A few days still fail: 16 January (the source gives the service as one run
 of text), days whose Menaion canon lacks the troparia of an ode, and vigils
 without a matins Gospel (the corpus has no matins Gospels by rank).

@@ -96,6 +96,20 @@ func (f *Feast) IsApodosis(day calendar.DayContext) bool {
 	return f.Offset == nil && day.Menaion == f.to
 }
 
+// refrainsAfter: the day after the Nativity and the Theophany (the synaxes
+// of the Theotokos and of the Forerunner), when the Menaion has the 9th ode
+// sung with the feast's refrains («на ф-й песни честнейшую не поем, но поем
+// припевы, якоже на самый праздник», 12.26, 01.07).
+func (f *Feast) refrainsAfter(day calendar.DayContext) bool {
+	switch f.ID {
+	case "nativity":
+		return day.Menaion.Month == time.December && day.Menaion.Day == 26
+	case "theophany":
+		return day.Menaion.Month == time.January && day.Menaion.Day == 7
+	}
+	return false
+}
+
 // At returns the twelve feast whose period contains day, or nil.
 func (fs *Feasts) At(day calendar.DayContext) *Feast {
 	if fs == nil {

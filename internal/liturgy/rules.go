@@ -96,6 +96,8 @@ func dayEnv() (*cel.Env, error) {
 		// (polyeleos, vigil, feast) / a litiya (vigil).
 		cel.Variable("menaion_paremias", cel.BoolType),
 		cel.Variable("menaion_litiya", cel.BoolType),
+		cel.Variable("menaion_exapostilaria", cel.BoolType), // the day's Menaion has its own exapostilaria (its own matins)
+		cel.Variable("menaion_praises", cel.BoolType),       // the day's Menaion has stichera at the praises (the great doxology)
 	)
 }
 
@@ -248,6 +250,8 @@ func (f Facts) vars() map[string]any {
 		"lections_omitted":       f.Day.Lections.Omitted,
 		"menaion_paremias":       len(mainMenaion(f, "gvespers.paremia")) >= 3,
 		"menaion_litiya":         len(mainMenaion(f, "gvespers.litiya.sticheron")) > 0,
+		"menaion_exapostilaria":  len(mainMenaion(f, "matins.exapostilarion")) > 0,
+		"menaion_praises":        len(mainMenaion(f, "matins.praises.sticheron")) > 0,
 		"weekday":                int64(f.Day.Weekday),
 		"period":                 f.Day.Period.String(),
 		"pascha_offset":          int64(f.Day.PaschaOffset),
@@ -569,6 +573,12 @@ func (sel SlotSelector) resolve(name string, f Facts, service string) ([]SlotIte
 				return nil, fmt.Errorf("slot %s: %w", name, err)
 			}
 			items = append(items, gs...)
+		case "ap_troparia", "ap_sedalny", "ap_magnificat", "ap_ps50", "ap_kontakion", "ap_canon", "ap_sedalen", "ap_exapostilaria", "ap_praises", "ap_end_troparia":
+			as, err := apodosisMatinsSlot(sel, f)
+			if err != nil {
+				return nil, fmt.Errorf("slot %s: %w", name, err)
+			}
+			items = append(items, as...)
 		case "lection":
 			l, err := lection(f, sel.Part)
 			if err != nil {

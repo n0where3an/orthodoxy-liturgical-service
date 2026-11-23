@@ -4608,3 +4608,21 @@ units:
     file: chasoslov/ch/11vpovech.hip
     from: "ненавидящих и обидящих нас"
     to: ""
+
+  # --- Собор Пресвятой Богородицы (26 декабря): кондак и икос по 6-й песни
+  # (в Минее даны внутри устава утрени, без заголовков; служба праздника —
+  # Рождества Христова).
+  - key: me.12.26.kontakion.1
+    book: menaion
+    kind: kontakion
+    source: orthlib.mineya
+    file: mineya/dec/dec/Декабрь/26.hip
+    from: "иже прежде денницы от оца без мтре"
+    to: ""
+  - key: me.12.26.matins.ikos.1
+    book: menaion
+    kind: ikos
+    source: orthlib.mineya
+    file: mineya/dec/dec/Декабрь/26.hip
+    from: "невозделанный грозд возрастившая"
+    to: ""

@@ -268,7 +268,9 @@ func (p *Planner) Plan(ctx context.Context, d calendar.JDate, service string, pa
 				return nil, err
 			}
 		}
-		if f.Feast != nil && f.Feast.IsFeastDay(day) {
+		if f.Feast != nil && (f.Feast.IsFeastDay(day) || f.Feast.IsApodosis(day) || f.Feast.refrainsAfter(day)) {
+			// The apodosis too, and the synaxis after the Nativity and the
+			// Theophany: «поем припевы праздника, якоже и на самый праздник».
 			ids, err := p.Menaion.ListIDs(ctx, "ir.pripev."+f.Feast.ID+".")
 			if err != nil {
 				return nil, err
