@@ -109,8 +109,8 @@ evening before. Typika: the service in place of the liturgy on days without one
 | Sunday in an afterfeast or on the apodosis | ✅ vigil | ✅ the feast's kontakion | ✅ Sunday | ✅ ³ | ✅ ¹⁰ | ❌ | ✅ |
 | Sunday with its own readings (before/after the Exaltation, the Nativity — of the Fathers —, the Theophany) | ⚠️ not before the Exaltation (forefeast with the Renewal) | ✅ | ✅ Sunday | ⚠️ not before the Exaltation | ✅ ¹⁰ | ❌ | ⚠️ ¹¹ |
 | Feast of the Lord on Sunday (Exaltation, Meeting, Transfiguration) | ✅ vigil | — | — | ✅ festal | ✅ | ❌ | ✅ |
-| Feast of the Theotokos on Sunday | ✅ vigil | — | — | ✅ ³ | ⚠️ no resurrectional troparion | ❌ | ✅ |
-| Nativity of Christ, Theophany and their eves (Royal Hours) | ⚠️ the eve: on a weekday with the liturgy, on Saturday and Sunday apart ¹³ | ✅ great, with the litiya ¹⁴ | — on the feast | ✅ ¹⁵ | ✅ Royal ¹³ | ✅ after the Royal Hours ¹³ | ⚠️ the feast ¹², the eve ¹³ |
+| Feast of the Theotokos on Sunday | ✅ vigil | — | — | ✅ ³ | ✅ the resurrectional troparion, «Слава» the feast's; the resurrectional and the feast's kontakia alternately (the resurrectional at the 1st hour) | ❌ | ✅ |
+| Nativity of Christ, Theophany and their eves (Royal Hours) | ✅ the eve: on a weekday with the liturgy, on Saturday and Sunday apart ¹³ | ✅ great, with the litiya ¹⁴ | — on the feast | ✅ ¹⁵ | ✅ Royal ¹³ | ✅ after the Royal Hours ¹³ | ✅ the feast ¹², the eve ¹³ |
 | Saint with a sign whose readings the Menaion does not give (≈10 days) | ❌ | ✅ | ✅ | ❌ | ✅ | ❌ | ❌ |
 
 ¹ Readings missing in the Menaion are taken from the General Menaion by the
@@ -133,7 +133,7 @@ polyeleos or higher in the Typikon, great vespers in the Menaion), after the day
 prokeimenon «Души их», the Apostle (1 Thess, зач. 270), the Gospel (John,
 зач. 16), the alleluia verse and communion verse «Блажени, яже избрал». Not
 yet: the Octoechos troparia at the beatitudes (in the corpus for tones 2 and
-8 only), the Meatfare and Trinity parental Saturdays (the Triodion), Saturday
+8 only), the Trinity parental Saturday (the Triodion; the Meatfare one: note ¹⁶), Saturday
 in an afterfeast.
 ⁵ As the Menaion of the afterfeast day gives it: at «Бог Господь» the feast's
 troparion twice, «Слава» the saint's, «И ныне» the feast's (thrice the
@@ -259,8 +259,19 @@ reader's troparion with its verses («Тайно родился еси в вер
 еси в мире»), the choir singing its end; the small litany, the Trisagion,
 the eve's prokeimenon, Apostle, alleluia, Gospel (not the ordinary ones), «О
 Тебе радуется»; after the Nativity's liturgy its troparion and kontakion
-before the candle. Not yet: the Great Blessing of Water (the Theophany's
-eve: a note in its place), the polychronion at the 9th Royal Hour.
+before the candle. On the Theophany's eve, after the prayer behind the ambo,
+the Great Blessing of Water by the Menaion (6 January): the troparia «Глас
+Господень на водах», «Днесь вод освящается», «Яко человек», «Ко гласу
+вопиющаго»; three readings from Isaiah, the prokeimenon «Господь
+просвещение мое», the Apostle (1 Cor, зач. 143 from its middle), alleluia,
+the Gospel (Mk, зач. 2); the great litany with the petitions for the water
+(the priest secretly: «Господи Иисусе Христе, Единородный Сыне»); «Велий
+еси, Господи» thrice and the prayer of blessing, «Сам и ныне, Владыко»
+thrice; the prayer at the bowing of heads; the Cross plunged thrice with
+the troparion «Во Иордане», the sprinkling, «Слава, и ныне» «Воспоим,
+вернии»; then «Буди имя Господне». The texts are cut from the Menaion
+(wb.*). On the feast itself the Typikon has no blessing of water. Not yet:
+the polychronion at the 9th Royal Hour.
 The eve on Saturday or Sunday (the Royal Hours on Friday): St John
 Chrysostom's liturgy at its time — on Sunday the Sunday's of the Fathers or
 before the Theophany (note ¹¹), on Saturday the day's, with the Apostle and
@@ -271,8 +282,9 @@ kathisma on Saturday evening, the first antiphon on Sunday evening),
 «Господи, воззвах» on 8, the entrance, the prokeimenon of the day, the
 readings with the troparia; no Trisagion — after the small litany the
 prokeimenon, Apostle, alleluia, Gospel (the Nativity's: Gal, зач. 207, Mt,
-зач. 53), the augmented and evening litanies, no aposticha, the dismissal;
-then the feast's troparion and kontakion. The Saturdays before the Nativity
+зач. 53), the augmented and evening litanies, no aposticha; on the Theophany's eve,
+after the exclamation, the Great Blessing of Water (the same order); the
+dismissal; then the feast's troparion and kontakion. The Saturdays before the Nativity
 and the Theophany read their own Apostle and Gospel before the ordinary
 ones; on the weekdays and Saturdays of a forefeast the liturgy has the
 forefeast's troparion and the saint's, «Слава» the saint's kontakion, «И
@@ -325,6 +337,30 @@ no other rank, or a name not found: no magnification is supplied. The
 Menaion's own magnifications get the common psalm of the rank; those of the
 icons of the Theotokos, the selected psalm of her Nativity. Not yet: exact
 pairing of the 9th-ode refrains with the second canon's troparia.
+¹⁶ The liturgy of the preparatory weeks by the Lenten Triodion (orthlib,
+`tp.<day>.*`). The Sundays of the Publican, the Prodigal, meatfare,
+cheesefare: the typical antiphons, the beatitudes of the tone on 6 and the
+Triodion's 6th ode on 4 (with its «Слава» and theotokion); the
+resurrectional troparion and kontakion (and the temple's), «Слава» the
+Triodion's kontakion, «И ныне» «Предстательство»; the Menaion's saint is not
+sung on the Sundays of the Publican and the Prodigal («поем в пяток на
+повечерии»), on cheesefare Sunday he is; the prokeimenon and alleluia of the
+tone, on meatfare and cheesefare Sundays their own («Велий Господь наш»,
+«Помолитеся»); the Sunday's Apostle and Gospel (the lectionary's: the
+Triodion's); «Хвалите Господа». The meatfare Saturday of the departed: the
+beatitudes on 8 from the 3rd and 6th odes of the Triodion's canon; «Глубиною
+мудрости», «Слава» «Со святыми упокой», «И ныне» «Тебе и стену»; the
+prokeimenon «Души их во благих водворятся», the day's readings and the
+departed's (1 Thess, зач. 270; Jn, зач. 16), alleluia and communion verse
+«Блажени, яже избрал». The cheesefare Saturday of the venerable fathers: the
+beatitudes on 8 from the 3rd and 6th odes; «Боже отец наших», «Слава» their
+kontakion; «Восхвалятся преподобнии», the day's readings and the fathers'
+(Gal, зач. 213; Mt, зач. 43), alleluia «Насаждени в дому Господни»,
+communion verse «Радуйтеся, праведнии». The other weekdays: the ordinary
+liturgy of the Menaion and the Octoechos with the readings of weeks 34–36;
+no liturgy on Wednesday and Friday of cheesefare week (unless a feast). The
+Meeting in these weeks: the festal liturgy. Not yet: the Meeting's afterfeast
+in these weeks (shortened by the Typikon).
 ⁶ By the Horologion: Pss 50, 69 and 101 (so in the Moscow 1980 Horologion),
 «Слава в вышних», «Сподоби, Господи», the Creed, the Octoechos canon of
 supplication to the Theotokos (Typikon ch. 9) with «Пресвятая Богородице,
@@ -342,7 +378,7 @@ Sunday) is given by its first words only, as in the Horologion.
 
 | Period | Vespers | Compline | Midnight<br>Office | Matins | Hours | Typika | Liturgy |
 |---|---|---|---|---|---|---|---|
-| Preparatory weeks (Publican and Pharisee … Cheesefare) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| Preparatory weeks (Publican and Pharisee … Cheesefare) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ⚠️ ¹⁶ |
 | Great Lent, weekdays | ❌ | ⚠️ great ¹⁴ | ❌ | ❌ | ❌ Lenten hours | ❌ | — (Presanctified ❌ Wed, Fri) |
 | Great Lent, Saturdays and Sundays (St Basil's liturgy on Sundays) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Annunciation in Lent | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |

@@ -315,3 +315,47 @@ func mustFeasts(t *testing.T) *Feasts {
 	}
 	return f
 }
+
+// The Great Blessing of Water: on the Theophany's eve — after the prayer
+// behind the ambo of the weekday eve's liturgy, after the vespers apart on
+// Saturday and Sunday; not on the Nativity's eve nor on the feast.
+func TestGreatBlessingOfWater(t *testing.T) {
+	planner := func(c mapCorpus) *Planner {
+		return &Planner{Rules: mustRules(t), Feasts: mustFeasts(t), Menaion: c}
+	}
+	for y := 2020; y < 2040; y++ {
+		d := calendar.MustJDate(y, time.January, 5)
+		wd := calendar.NewDayContext(d).Weekday
+		switch {
+		case wd >= time.Monday && wd <= time.Friday:
+			p, err := planLiturgy(t, eveCorpus(d, "theophany"), d)
+			if err != nil {
+				t.Fatal(err)
+			}
+			if len(p.Slots["eve_water"]) == 0 {
+				t.Errorf("%v: no blessing of water at the eve's liturgy", d)
+			}
+			n, err := planLiturgy(t, eveCorpus(calendar.MustJDate(y, time.December, 24), "nativity"), calendar.MustJDate(y, time.December, 24))
+			if err == nil && len(n.Slots["eve_water"]) != 0 {
+				t.Errorf("%v: blessing of water on the Nativity's eve", d)
+			}
+		case wd == time.Saturday || wd == time.Sunday:
+			v, err := planner(eveCorpus(d, "theophany")).Plan(context.Background(), d.AddDays(1), "vespers", Params{Priest: true})
+			if err != nil {
+				t.Fatal(err)
+			}
+			if len(v.Slots["eve_water"]) == 0 {
+				t.Errorf("%v: no blessing of water after the vespers", d)
+			}
+		}
+	}
+	// The chin itself (the template include; without a deacon the priest says the litany).
+	got := expandUnits(t, "liturgy", "", map[string][]SlotItem{"eve_water": {{Ref: "sl.vespers.title"}}})
+	for id, who := range map[string]Performer{"wb.troparion.1": Choir, "wb.reading.3": Reader, "lect.zach.mk.2": Priest,
+		"wb.petition.14": Priest, "wb.great": Priest, "wb.sanctify": Priest, "wb.exclamation": Priest,
+		"me.01.06.troparion.3": Choir, "wb.sticheron": Choir} {
+		if got[id] != who {
+			t.Errorf("%s: performer %q, want %q", id, got[id], who)
+		}
+	}
+}

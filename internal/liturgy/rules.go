@@ -68,6 +68,7 @@ func dayEnv() (*cel.Env, error) {
 		cel.Variable("pascha_offset", cel.IntType),
 		cel.Variable("departed", cel.StringType),       // the parental Saturday: meatfare, trinity, demetrius; ""
 		cel.Variable("feast_period", cel.BoolType),     // in a forefeast, afterfeast or apodosis of a twelve feast
+		cel.Variable("triodion_day", cel.StringType),   // publican, prodigal, sat_meatfare, meatfare, sat_cheesefare, cheesefare; ""
 		cel.Variable("special_sunday", cel.StringType), // a Sunday or Saturday with readings of its own (specialSunday, specialSaturday), ""
 		cel.Variable("royal_hours", cel.StringType),    // the Royal Hours of nativity / theophany are sung (royalHours), ""
 		cel.Variable("eve", cel.StringType),            // the eve of nativity / theophany (24 December, 5 January), ""
@@ -170,6 +171,10 @@ type Facts struct {
 	// units ms.<id>.<suffix> by suffix («troparion», «lit.apostle»).
 	Special      string
 	SpecialUnits map[string]string
+	// TriodionDay: a Sunday or Saturday of the preparatory weeks
+	// (triodionDay); Triodion: its units tp.<id>.<suffix> by suffix.
+	TriodionDay string
+	Triodion    map[string]string
 	// RoyalHours: the feast whose Royal Hours are sung on the day
 	// (royalHours); Royal: their units rh.<feast>.<suffix> by suffix.
 	RoyalHours string
@@ -258,6 +263,7 @@ func (f Facts) vars() map[string]any {
 		"departed":               f.Day.Departed,
 		"feast_period":           f.inFeastPeriod(),
 		"special_sunday":         f.Special,
+		"triodion_day":           f.TriodionDay,
 		"royal_hours":            f.RoyalHours,
 		"eve":                    f.EveOf,
 		"bright_week":            f.Day.BrightWeek,

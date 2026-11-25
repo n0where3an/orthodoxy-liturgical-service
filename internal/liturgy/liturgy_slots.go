@@ -64,6 +64,9 @@ func liturgySlot(sel SlotSelector, f Facts) ([]SlotItem, error) {
 	if sel.Part == "afterfeast" {
 		return afterfeastLiturgySlot(sel, f)
 	}
+	if sel.Part == "triodion" {
+		return triodionLiturgySlot(sel, f)
+	}
 	if strings.HasPrefix(sel.Part, "sunday") {
 		if items, ok, err := sundayLiturgySlot(sel, f); ok || err != nil {
 			return items, err

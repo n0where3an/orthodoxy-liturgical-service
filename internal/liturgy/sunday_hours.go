@@ -117,6 +117,9 @@ func greatSaint(f Facts) bool {
 //   - a forefeast or afterfeast (гл. 52, the Menaion: «тропарь воскрсн:
 //     слава, праздника… кондак праздника, и воскрсн, пременяюще»), with a
 //     great saint «праздника же и стаго пременяюще»;
+//   - a feast of the Theotokos on Sunday (the Menaion, 11.21: «слава,
+//     тропарь праздника… кондак воскрсн. такожде и на всех часех кондаки
+//     пременяюще глаголем»);
 //   - the Sunday of the Fathers («слава, оцев… кондак оцев, и
 //     предпразднства, пременяюще»), after the Nativity («слава, праздника…
 //     стых же тропарь и праздника, пременяюще… кондак праздника, и стых»).
@@ -132,6 +135,10 @@ func sundayHours(f Facts, part string, pos int) ([]SlotItem, error) {
 	sT, sK := saintHymns(f, "troparion", fT), saintHymns(f, "kontakion", fK)
 	var troparia, kontakia []string
 	switch {
+	case f.Feast != nil && f.Feast.IsFeastDay(f.Day):
+		// A feast of the Theotokos on Sunday: «Слава» the feast's troparion;
+		// the resurrectional kontakion and the feast's, alternately.
+		troparia, kontakia = []string{f.Feast.Troparion}, []string{resK, f.Feast.Kontakion}
 	case f.Special == "fathers":
 		k := f.SpecialUnits["kontakion"]
 		if fK != "" {

@@ -371,7 +371,7 @@ nodes:
   - id: eve_water
     if_slot: eve_water
     children:
-      - {id: eve_water_rubric, rubric: great_blessing_of_water_pending}
+      - {id: eve_water_chin, include: great_blessing_of_water}
   - {id: blessed_be_the_name, ref: ch.typika.blessed_be_the_name, performer: choir, repeat: 3}
   - {id: consumption_prayer, ref: sl.lit.consumption_prayer, performer: priest, voice: secret, title: consumption_prayer, during: psalm_33, when: "!basil"}
   - {id: consumption_prayer_basil, ref: sl.litb.consumption_prayer, performer: priest, voice: secret, title: consumption_prayer, during: psalm_33, when: basil}
@@ -389,7 +389,7 @@ nodes:
 
   # Навечерие Рождества: по отпусте литургии свеча среди церкви, оба лика
   # поют тропарь и кондак праздника. Навечерие Богоявления: великое
-  # освящение воды (по заамвонной молитве) — ещё не включено.
+  # освящение воды — по заамвонной молитве (eve_water).
   - id: eve_after
     if_slot: eve_after
     children:

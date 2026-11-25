@@ -4626,3 +4626,280 @@ units:
     file: mineya/dec/dec/Декабрь/26.hip
     from: "невозделанный грозд возрастившая"
     to: ""
+
+  # --- Чин великого освящения воды (Минея, 6 января: «и по заамвонней
+  # молитве, абие исходим вси ко священней купели»; в навечерие в субботу и
+  # воскресенье — по вечерни). wb.*
+  - key: wb.troparion.1
+    book: menaion
+    kind: troparion
+    tone: 8
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    from: "глас гдсень на водах вопиет, глаголя"
+    to: ""
+  - key: wb.troparion.2
+    book: menaion
+    kind: troparion
+    tone: 8
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    from: "днесь вод освящается естество, и разделяется иордан"
+    to: ""
+  - key: wb.troparion.3
+    book: menaion
+    kind: troparion
+    tone: 8
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    from: "яко члвек на реку пришел еси, хрсте црю"
+    to: ""
+  - key: wb.glory_now
+    book: menaion
+    kind: sticheron
+    tone: 8
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    from: "ко гласу вопиющаго в пустыни, уготовайте путь"
+    to: ""
+  - key: wb.reading.title
+    book: menaion
+    kind: title
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    after: "вземляй мира грех."
+    from: "пророчества исаиина чтение"
+    to: ""
+  - key: wb.reading.1
+    book: menaion
+    kind: reading
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    from: "да возвеселится пустыня жаждущая"
+    to: ""
+  - key: wb.reading.2
+    book: menaion
+    kind: reading
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    from: "жаждущии на воду идите"
+    to: ""
+  - key: wb.reading.3
+    book: menaion
+    kind: reading
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    from: "почерпите воду с веселием от источник спасения"
+    to: ""
+  - key: wb.prokeimenon
+    book: menaion
+    kind: prokeimenon
+    tone: 3
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    after: "почерпите воду с веселием"
+    from: "гдсь просвещение мое, и спситель мой"
+    to: "кого убоюся;"
+  - key: wb.prokeimenon.verse
+    book: menaion
+    kind: verse
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    after: "почерпите воду с веселием"
+    from: "гдсь защититель живота моего"
+    to: ""
+  - key: wb.apostle
+    book: menaion
+    kind: reading
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    after: "апсл к коринфяном, зачало рмг."
+    from: "братие, не хощу вас не ведети, яко отцы наши вси под облаком"
+    to: ""
+  - key: wb.alleluia.verse
+    book: menaion
+    kind: verse
+    tone: 4
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    from: "глас гдсень на водах: бг славы возгреме"
+    to: ""
+  - key: wb.petition.1
+    book: menaion
+    kind: petition
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    from: "о еже освятитися водам сим силою"
+    to: ""
+  - key: wb.petition.2
+    book: menaion
+    kind: petition
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    from: "о еже снизходити на воды сия очистительному"
+    to: ""
+  - key: wb.petition.3
+    book: menaion
+    kind: petition
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    from: "о еже дароватися им блгодати избавления"
+    to: ""
+  - key: wb.petition.4
+    book: menaion
+    kind: petition
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    from: "о еже сокрушитися сатане под ногами нашими"
+    to: ""
+  - key: wb.petition.5
+    book: menaion
+    kind: petition
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    from: "яко да гдсь бг измет нас от всякаго навета"
+    to: ""
+  - key: wb.petition.6
+    book: menaion
+    kind: petition
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    from: "о еже просветитися нам просвещением разума"
+    to: ""
+  - key: wb.petition.7
+    book: menaion
+    kind: petition
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    from: "о еже низпослати гдсу бгу блгословение иорданово"
+    to: ""
+  - key: wb.petition.8
+    book: menaion
+    kind: petition
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    from: "о еже быти воде сей, освящения дару"
+    to: ""
+  - key: wb.petition.9
+    book: menaion
+    kind: petition
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    from: "о еже быти воде сей приводящей в жизнь вечную"
+    to: ""
+  - key: wb.petition.10
+    book: menaion
+    kind: petition
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    from: "о еже явитися сей отгнанию всякаго навета"
+    to: ""
+  - key: wb.petition.11
+    book: menaion
+    kind: petition
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    from: "о черплющих и емлющих во освящение домов"
+    to: ""
+  - key: wb.petition.12
+    book: menaion
+    kind: petition
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    from: "о еже быти сей во очищение душ и телес"
+    to: ""
+  - key: wb.petition.13
+    book: menaion
+    kind: petition
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    from: "о еже сподобитися нам исполнитися освящения"
+    to: ""
+  - key: wb.petition.14
+    book: menaion
+    kind: petition
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    from: "о еже услышати гдсу бгу глас моления нас грешных"
+    to: ""
+  - key: wb.secret_prayer
+    book: menaion
+    kind: prayer
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    from: "гдси иисе хрсте, единородный сне, сый в недре очи"
+    to: ""
+  - key: wb.great
+    book: menaion
+    kind: prayer
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    after: "начинает сщенник велегласно молитву сию:"
+    from: "велий еси, гдси, и чудна дела твоя, и ни едино же слово"
+    to: ""
+  - key: wb.prayer.1
+    book: menaion
+    kind: prayer
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    from: "ты бо хотением от не сущих во еже быти"
+    to: ""
+  - key: wb.sanctify
+    book: menaion
+    kind: prayer
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    from: "ты убо, члвеколюбче црю, прииди и ныне"
+    to: ""
+  - key: wb.prayer.2
+    book: menaion
+    kind: prayer
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    from: "и даждь ей блгодать избавления, блгословение иорданово"
+    to: ""
+  - key: wb.sanctify.2
+    book: menaion
+    kind: prayer
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    from: "сам и ныне, влдко, освяти воду сию"
+    to: ""
+  - key: wb.prayer.3
+    book: menaion
+    kind: prayer
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    from: "даждь же всем, прикасающымся ей"
+    to: ""
+  - key: wb.prayer.4
+    book: menaion
+    kind: prayer
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    after: "даждь же всем, прикасающымся ей"
+    from: "спаси, гдси, и помилуй великаго господина и отца нашего"
+    to: ""
+  - key: wb.bow_prayer
+    book: menaion
+    kind: prayer
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    from: "приклони, гдси, ухо твое, и услыши ны"
+    to: ""
+  - key: wb.exclamation
+    book: menaion
+    kind: exclamation
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    after: "приклони, гдси, ухо твое"
+    from: "ты бо еси освящение наше"
+    to: ""
+  - key: wb.sticheron
+    book: menaion
+    kind: sticheron
+    tone: 6
+    source: orthlib.mineya
+    file: mineya/jan/jan/Январь/06.hip
+    from: "воспоим, вернии, еже о нас бжия"
+    to: ""

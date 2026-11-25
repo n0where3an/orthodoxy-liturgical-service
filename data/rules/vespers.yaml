@@ -105,7 +105,8 @@
   # with the troparia; «тристое не поем, но бывает по паремиах ектениа малая,
   # и по возгласе прокимен», Apostle, alleluia, Gospel; the litanies, «Сподоби,
   # Господи», no aposticha; after the dismissal the feast's troparion and
-  # kontakion (the Theophany's: the Great Blessing of Water, not done yet).
+  # kontakion; the Theophany's: the Great Blessing of Water before the
+  # dismissal (eve_water).
   when: (month == 12 && day == 25) || (month == 1 && day == 6)
   template: great_vespers
   slots:
@@ -135,7 +136,7 @@
   when: "weekday == 1 && ((month == 12 && day == 25) || (month == 1 && day == 6))"
   fill: {from: unit, refs: [ps.kathisma.1.1]}
 
-- {id: vespers.eve_water, slot: eve_water, service: vespers, priority: 50, when: "month == 1 && day == 6", fill: {from: unit, refs: [sl.vespers.title]}}
+- {id: vespers.eve_water, slot: eve_water, service: vespers, priority: 50, when: "month == 1 && day == 6 && (weekday == 0 || weekday == 1)", fill: {from: unit, refs: [sl.vespers.title]}}
 - {id: vespers.eve_water.none, slot: eve_water, service: vespers, priority: 10, when: "true", fill: {from: none}}
 
 - id: vespers.vigil.lord_feast_on_sunday

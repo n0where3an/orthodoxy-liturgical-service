@@ -108,6 +108,9 @@ func cmdImport(ctx context.Context, args []string) error {
 	} else {
 		warnings = append(warnings, err.Error())
 	}
+	triodion, w := orthlib.ImportTriodionPrep(*root)
+	warnings = append(warnings, w...)
+	oct = append(oct, triodion...)
 	if mag, err := orthlib.ImportMagnifications(*root); err == nil {
 		oct = append(oct, mag...)
 	} else {

@@ -140,6 +140,23 @@ func (p *Planner) Plan(ctx context.Context, d calendar.JDate, service string, pa
 			f.Tones[id] = t
 		}
 	}
+	if f.TriodionDay = triodionDay(day); f.TriodionDay != "" {
+		ids, err := p.Menaion.ListIDs(ctx, "tp."+f.TriodionDay+".")
+		if err != nil {
+			return nil, err
+		}
+		f.Triodion = map[string]string{}
+		for _, id := range ids {
+			f.Triodion[strings.TrimPrefix(id, "tp."+f.TriodionDay+".")] = id
+		}
+		tones, err := p.Menaion.UnitTones(ctx, ids)
+		if err != nil {
+			return nil, err
+		}
+		for id, t := range tones {
+			f.Tones[id] = t
+		}
+	}
 	if f.Special = specialSunday(day); f.Special == "" {
 		f.Special = specialSaturday(day)
 	}

@@ -3,7 +3,8 @@
 # "lenten-triodion", "pentecostarion"), pascha_offset, bright_week, tone,
 # month, day, menaion_troparia, menaion_kontakia.
 #
-# Implemented so far: ordinary days (Menaion troparion and kontakion), Sundays.
+# Implemented so far: ordinary days (Menaion troparion and kontakion), Sundays,
+# a feast of the Theotokos on Sunday.
 # Recognised but not yet implemented cases are marked "unsupported".
 
 - id: hours.bright_week
@@ -44,12 +45,27 @@
   when: period != "ordinary"
   unsupported: "Тропари и кондаки Триоди ещё не импортированы"
 
+- id: hours.theotokos_feast_on_sunday
+  services: [first_hour, third_hour, sixth_hour, ninth_hour]
+  priority: 125
+  # A feast of the Theotokos on Sunday (the Menaion, 09.08, 11.21, 08.15:
+  # «на часех тропарь воскрсн: слава, тропарь праздника: и ныне,
+  # бгородичен часов. по оче наш: кондак воскрсн. такожде и на всех часех
+  # кондаки пременяюще глаголем»): the resurrectional kontakion at the 1st
+  # hour, the feast's at the 3rd, and so on (internal/liturgy/sunday_hours.go).
+  when: >-
+    weekday == 0 && feast_day && period == "ordinary" &&
+    feast in ["nativity_of_theotokos", "entry_of_theotokos", "annunciation", "dormition"]
+  slots:
+    troparion_first: {from: sunday_hours, part: troparion_first}
+    troparion: {from: sunday_hours, part: troparion}
+    kontakion: {from: sunday_hours, part: kontakion}
+
 - id: hours.feast_day
   services: [first_hour, third_hour, sixth_hour, ninth_hour]
   priority: 120
-  # A twelve feast: troparion and kontakion of the feast at every hour.
-  # (A feast of the Theotokos on a Sunday also takes the resurrection
-  # troparion — to be added with the Octoechos.)
+  # A twelve feast: troparion and kontakion of the feast at every hour (a
+  # feast of the Lord on Sunday too; of the Theotokos: above).
   when: feast_day
   slots:
     troparion: {from: feast, part: troparion}

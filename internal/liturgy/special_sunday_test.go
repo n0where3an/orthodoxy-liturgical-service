@@ -135,3 +135,23 @@ func TestSundayBeforeExaltation(t *testing.T) {
 		"apostles": "lit.wisdom," + ms + "lit.apostle.announce,lit.let_us_attend," + ms + "lit.apostle," + ord + "," + me + "lit.apostle",
 	})
 }
+
+// A feast of the Theotokos on Sunday (the Menaion, 11.21): the
+// resurrectional troparion, «Слава» the feast's, the kontakia alternating —
+// the resurrectional at the 1st hour, the feast's at the 3rd.
+func TestTheotokosFeastSundayHours(t *testing.T) {
+	d := calendar.MustJDate(2033, time.November, 21) // Sunday
+	day := calendar.NewDayContext(d)
+	oc, me := "oc."+itoa(day.Tone)+".sun.", "me.11.21."
+	c := sundayCorpus(d, nil, "kontakion.1")
+	want := []string{oc + "kontakion", me + "kontakion.1", oc + "kontakion", me + "kontakion.1"}
+	for i, s := range hourServices {
+		p := planHour(t, c, d, s)
+		if p.Rule != "hours.theotokos_feast_on_sunday" {
+			t.Fatalf("%s: rule %s", s, p.Rule)
+		}
+		if got := refs(p.Slots["troparion_first"]) + "|" + refs(p.Slots["troparion"]) + "|" + refs(p.Slots["kontakion"]); got != oc+"troparion|"+me+"troparion.1|"+want[i] {
+			t.Errorf("%s: %s", s, got)
+		}
+	}
+}

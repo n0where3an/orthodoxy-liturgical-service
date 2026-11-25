@@ -177,6 +177,13 @@ nodes:
     children:
       - {id: matins_follows_now, rubric: matins_follows}
 
+  # Навечерие Богоявления в субботу и воскресенье: по «Исполним вечернюю
+  # молитву» и возгласе — великое освящение воды, затем отпуст (Минея).
+  - id: eve_water
+    if_slot: eve_water
+    children:
+      - {id: eve_water_chin, include: great_blessing_of_water}
+
   # --- Окончание великой вечерни без бдения ---
   - id: ending
     if_slot: plain_beginning
@@ -190,12 +197,7 @@ nodes:
       - {id: more_honorable, ref: common.more_honorable, performer: choir}
       - {id: dismissal, include: dismissal}
 
-  # Навечерие Рождества: по отпусте у свечи тропарь и кондак праздника;
-  # навечерие Богоявления: великое освящение воды — ещё не включено.
-  - id: eve_water
-    if_slot: eve_water
-    children:
-      - {id: eve_water_rubric, rubric: great_blessing_of_water_pending}
+  # Навечерие Рождества: по отпусте у свечи тропарь и кондак праздника.
   - id: eve_after
     if_slot: eve_after
     children:

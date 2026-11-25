@@ -1,0 +1,129 @@
+# Чин великого освящения воды (Минея, 6 января): в навечерие Богоявления по
+# заамвонной молитве литургии свт. Василия Великого, в навечерие в субботу
+# и воскресенье — по вечерни («исходим ко крестильнице… и прочее бывает
+# возследование осщения воды неизменно»). Тексты — wb.* (data/orthlib/units.yaml).
+nodes:
+  - {id: wb_rubric, rubric: water_procession}
+  - {id: wb_trop_1, ref: wb.troparion.1, performer: choir, repeat: 3}
+  - {id: wb_trop_2, ref: wb.troparion.2, performer: choir, repeat: 2}
+  - {id: wb_trop_3, ref: wb.troparion.3, performer: choir, repeat: 2}
+  - {id: wb_glory_now, ref: common.glory_now, performer: choir}
+  - {id: wb_glory_now_st, ref: wb.glory_now, performer: choir}
+  # Три чтения Исаии
+  - {id: wb_r1_wisdom, ref: lit.wisdom, performer: litanist, voice: aloud}
+  - {id: wb_r1_title, ref: wb.reading.title, performer: reader}
+  - {id: wb_r1_attend, ref: lit.let_us_attend, performer: litanist, voice: aloud}
+  - {id: wb_r1, ref: wb.reading.1, performer: reader}
+  - {id: wb_r2_wisdom, ref: lit.wisdom, performer: litanist, voice: aloud}
+  - {id: wb_r2_title, ref: wb.reading.title, performer: reader}
+  - {id: wb_r2_attend, ref: lit.let_us_attend, performer: litanist, voice: aloud}
+  - {id: wb_r2, ref: wb.reading.2, performer: reader}
+  - {id: wb_r3_wisdom, ref: lit.wisdom, performer: litanist, voice: aloud}
+  - {id: wb_r3_title, ref: wb.reading.title, performer: reader}
+  - {id: wb_r3_attend, ref: lit.let_us_attend, performer: litanist, voice: aloud}
+  - {id: wb_r3, ref: wb.reading.3, performer: reader}
+  # Прокимен, Апостол, аллилуиа, Евангелие
+  - {id: wb_pk_attend, ref: lit.let_us_attend, performer: litanist, voice: aloud}
+  - {id: wb_pk_peace, ref: lit.peace_be_unto_all, performer: priest, voice: aloud}
+  - {id: wb_pk_spirit, ref: lit.response.and_with_thy_spirit, performer: reader}
+  - {id: wb_pk_wisdom, ref: lit.wisdom, performer: litanist, voice: aloud}
+  - {id: wb_pk_tone, ref: lit.prokeimenon.tone.3, performer: reader}
+  - {id: wb_pk_1, ref: wb.prokeimenon, performer: reader}
+  - {id: wb_pk_2, ref: wb.prokeimenon, performer: choir}
+  - {id: wb_pk_verse, ref: wb.prokeimenon.verse, performer: reader}
+  - {id: wb_pk_3, ref: wb.prokeimenon, performer: choir}
+  - {id: wb_pk_4, ref: wb.prokeimenon, performer: reader}
+  - {id: wb_pk_5, ref: wb.prokeimenon, performer: choir}
+  - {id: wb_ap_wisdom, ref: lit.wisdom, performer: litanist, voice: aloud}
+  - {id: wb_ap_announce, ref: lect.zach.ap.143.announce, performer: reader}
+  - {id: wb_ap_attend, ref: lit.let_us_attend, performer: litanist, voice: aloud}
+  - {id: wb_apostle, ref: wb.apostle, performer: reader}
+  - {id: wb_al_peace, ref: lit.peace_be_unto_all, performer: priest, voice: aloud}
+  - {id: wb_al_spirit, ref: lit.response.and_with_thy_spirit, performer: reader}
+  - {id: wb_al_tone, ref: lit.alleluia.tone.4, performer: reader}
+  - {id: wb_al_1, ref: common.alleluia.thrice, performer: choir}
+  - {id: wb_al_verse, ref: wb.alleluia.verse, performer: reader}
+  - {id: wb_al_2, ref: common.alleluia.thrice, performer: choir}
+  - {id: wb_gos_wisdom, ref: sl.lit.wisdom_aright_gospel, performer: litanist, voice: aloud}
+  - {id: wb_gos_peace, ref: lit.peace_be_unto_all, performer: priest, voice: aloud}
+  - {id: wb_gos_spirit, ref: lit.response.and_with_thy_spirit, performer: choir}
+  - {id: wb_gos_announce, ref: lect.zach.mk.2.announce, performer: priest, voice: aloud}
+  - {id: wb_gos_glory, ref: sl.lit.glory_to_thee_o_lord, performer: choir}
+  - {id: wb_gos_attend, ref: lit.let_us_attend, performer: litanist, voice: aloud}
+  - {id: wb_gospel, ref: lect.zach.mk.2, performer: priest, voice: aloud}
+  - {id: wb_gos_glory_2, ref: sl.lit.glory_to_thee_o_lord, performer: choir}
+  # Великая ектения с прошениями о водах; священник тайно молится
+  - {id: wb_peace, ref: lit.peace, performer: litanist, voice: aloud, title: water_litany}
+  - {id: wb_l1, ref: common.lord_have_mercy, performer: choir}
+  - {id: wb_above, ref: lit.great.peace_from_above, performer: litanist, voice: aloud}
+  - {id: wb_l2, ref: common.lord_have_mercy, performer: choir}
+  - {id: wb_world, ref: lit.great.whole_world, performer: litanist, voice: aloud}
+  - {id: wb_l3, ref: common.lord_have_mercy, performer: choir}
+  - {id: wb_temple, ref: lit.great.temple, performer: litanist, voice: aloud}
+  - {id: wb_l4, ref: common.lord_have_mercy, performer: choir}
+  - {id: wb_hierarchy, ref: lit.great.hierarchy, performer: litanist, voice: aloud}
+  - {id: wb_l5, ref: common.lord_have_mercy, performer: choir}
+  - {id: wb_country, ref: lit.great.country, performer: litanist, voice: aloud}
+  - {id: wb_l6, ref: common.lord_have_mercy, performer: choir}
+  - {id: wb_city, ref: lit.great.city, performer: litanist, voice: aloud}
+  - {id: wb_l7, ref: common.lord_have_mercy, performer: choir}
+  - {id: wb_seasons, ref: lit.great.seasons, performer: litanist, voice: aloud}
+  - {id: wb_l8, ref: common.lord_have_mercy, performer: choir}
+  - {id: wb_travellers, ref: lit.great.travellers, performer: litanist, voice: aloud}
+  - {id: wb_l9, ref: common.lord_have_mercy, performer: choir}
+  - {id: wb_p1, ref: wb.petition.1, performer: litanist, voice: aloud}
+  - {id: wb_pr1, ref: common.lord_have_mercy, performer: choir}
+  - {id: wb_p2, ref: wb.petition.2, performer: litanist, voice: aloud}
+  - {id: wb_pr2, ref: common.lord_have_mercy, performer: choir}
+  - {id: wb_p3, ref: wb.petition.3, performer: litanist, voice: aloud}
+  - {id: wb_pr3, ref: common.lord_have_mercy, performer: choir}
+  - {id: wb_p4, ref: wb.petition.4, performer: litanist, voice: aloud}
+  - {id: wb_pr4, ref: common.lord_have_mercy, performer: choir}
+  - {id: wb_p5, ref: wb.petition.5, performer: litanist, voice: aloud}
+  - {id: wb_pr5, ref: common.lord_have_mercy, performer: choir}
+  - {id: wb_p6, ref: wb.petition.6, performer: litanist, voice: aloud}
+  - {id: wb_pr6, ref: common.lord_have_mercy, performer: choir}
+  - {id: wb_p7, ref: wb.petition.7, performer: litanist, voice: aloud}
+  - {id: wb_pr7, ref: common.lord_have_mercy, performer: choir}
+  - {id: wb_p8, ref: wb.petition.8, performer: litanist, voice: aloud}
+  - {id: wb_pr8, ref: common.lord_have_mercy, performer: choir}
+  - {id: wb_p9, ref: wb.petition.9, performer: litanist, voice: aloud}
+  - {id: wb_pr9, ref: common.lord_have_mercy, performer: choir}
+  - {id: wb_p10, ref: wb.petition.10, performer: litanist, voice: aloud}
+  - {id: wb_pr10, ref: common.lord_have_mercy, performer: choir}
+  - {id: wb_p11, ref: wb.petition.11, performer: litanist, voice: aloud}
+  - {id: wb_pr11, ref: common.lord_have_mercy, performer: choir}
+  - {id: wb_p12, ref: wb.petition.12, performer: litanist, voice: aloud}
+  - {id: wb_pr12, ref: common.lord_have_mercy, performer: choir}
+  - {id: wb_p13, ref: wb.petition.13, performer: litanist, voice: aloud}
+  - {id: wb_pr13, ref: common.lord_have_mercy, performer: choir}
+  - {id: wb_p14, ref: wb.petition.14, performer: litanist, voice: aloud}
+  - {id: wb_pr14, ref: common.lord_have_mercy, performer: choir}
+  - {id: wb_deliverance, ref: lit.great.deliverance, performer: litanist, voice: aloud}
+  - {id: wb_l10, ref: common.lord_have_mercy, performer: choir}
+  - {id: wb_help, ref: lit.help_us, performer: litanist, voice: aloud}
+  - {id: wb_l11, ref: common.lord_have_mercy, performer: choir}
+  - {id: wb_commemorating, ref: lit.commemorating, performer: litanist, voice: aloud}
+  - {id: wb_l12, ref: lit.response.to_thee_o_lord, performer: choir}
+  - {id: wb_secret_prayer, ref: wb.secret_prayer, performer: priest, voice: secret, title: water_secret_prayer, during: wb_peace}
+  # «Велий еси, Господи» — молитва освящения
+  - {id: wb_great, ref: wb.great, performer: priest, voice: aloud, repeat: 3}
+  - {id: wb_prayer_1, ref: wb.prayer.1, performer: priest, voice: aloud}
+  - {id: wb_sanctify, ref: wb.sanctify, performer: priest, voice: aloud, repeat: 3}
+  - {id: wb_prayer_2, ref: wb.prayer.2, performer: priest, voice: aloud}
+  - {id: wb_sanctify_2, ref: wb.sanctify.2, performer: priest, voice: aloud, repeat: 3}
+  - {id: wb_prayer_3, ref: wb.prayer.3, performer: priest, voice: aloud}
+  - {id: wb_prayer_4, ref: wb.prayer.4, performer: priest, voice: aloud}
+  - {id: wb_peace_2, ref: lit.peace_be_unto_all, performer: priest, voice: aloud}
+  - {id: wb_spirit_2, ref: lit.response.and_with_thy_spirit, performer: choir}
+  - {id: wb_bow, ref: lit.bow_your_heads, performer: litanist, voice: aloud}
+  - {id: wb_bow_r, ref: lit.response.to_thee_o_lord, performer: choir}
+  - {id: wb_bow_prayer, ref: wb.bow_prayer, performer: priest, voice: secret, title: head_bowing_prayer}
+  - {id: wb_exclamation, ref: wb.exclamation, performer: priest, voice: aloud}
+  # Погружение Креста, кропление
+  - {id: wb_immersion, rubric: water_immersion}
+  - {id: wb_trop_clergy, ref: me.01.06.troparion.3, performer: clergy, repeat: 3}
+  - {id: wb_trop_choir, ref: me.01.06.troparion.3, performer: choir}
+  - {id: wb_sprinkling, rubric: water_sprinkling}
+  - {id: wb_end_glory_now, ref: common.glory_now, performer: choir}
+  - {id: wb_sticheron, ref: wb.sticheron, performer: choir}
