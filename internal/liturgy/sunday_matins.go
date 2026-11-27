@@ -39,6 +39,9 @@ var eothinonGospels = [12]struct {
 	{"jn", 66}, {"jn", 67}}
 
 func sundayMatinsSlot(sel SlotSelector, f Facts) ([]SlotItem, error) {
+	if sel.Part == "triodion" { // the Sundays of Great Lent (triodion_matins.go)
+		return triodionMatinsSlot(sel, f)
+	}
 	part := sel.Part
 	if part == "" {
 		part = "sunday"
@@ -253,6 +256,9 @@ func smCanon(f Facts, section, part string) ([]SlotItem, error) {
 	case "saint":
 		parts = append(parts, canonPart{prefix: "matins.canon.3", on: 2, oct: true})
 		split(8)
+	case "lent1": // «канон воскрсн, со ирмосом на д, и крстовоскрсн на два, и бцды на два, и триоди на з»
+		parts = append(parts, canonPart{prefix: "matins.canon.2", on: 2, oct: true}, canonPart{prefix: "matins.canon.3", on: 2, oct: true})
+		split(6)
 	case "feast", "afterfeast":
 		split(10)
 	default:

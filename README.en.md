@@ -361,6 +361,57 @@ liturgy of the Menaion and the Octoechos with the readings of weeks 34–36;
 no liturgy on Wednesday and Friday of cheesefare week (unless a feast). The
 Meeting in these weeks: the festal liturgy. Not yet: the Meeting's afterfeast
 in these weeks (shortened by the Typikon).
+¹⁷ The Saturdays and Sundays of Great Lent by the Lenten Triodion
+(`tp.<day>.*`) and the Typikon (ch. 49): the 1st Saturday (St Theodore the
+Recruit), the 2nd–4th (parental), the 5th (the Akathist), Sundays 1–5. The
+liturgy: on Sundays St Basil's; the beatitudes of the tone and, where the
+Triodion says so, an ode of the day's canon (Sunday 1: the 6th, the Cross:
+the Cross's 3rd), on Saturdays the 3rd and 6th odes of the saint's canon (St
+Theodore's, the Akathist's); the resurrectional troparion, the temple's and
+the day's («Пречистому образу», St Gregory Palamas, «Спаси, Господи», St John
+of the Ladder, St Mary of Egypt), the resurrectional kontakion, «Слава» the
+Triodion's, «И ныне» «Предстательство»; on the Sunday of the Cross «Кресту
+Твоему» instead of the Trisagion and «Знаменася»; prokeimena, alleluia and
+communion verses by the Triodion (Sunday 1 «Благословен еси, Господи Боже
+отец наших», 3 «Спаси, Господи, люди Твоя», 4 the tone's and «Восхвалятся
+преподобнии»; Sunday 2 «вся служба стительская»: the hierarch's prokeimenon,
+readings, alleluia, communion verse from the General Menaion); the day's
+readings from the lectionary and the second ones — the saint's, the
+departed's, the Theotokos's (by the rubrics' pericopes). Parental Saturdays:
+«Апостоли, мученицы», «Помяни, Господи», «Слава» «Со святыми упокой», «И
+ныне» «Тебе и стену»; the day's prokeimenon, alleluia, communion verse and
+the departed's. The hours (also on the Sundays and Saturdays of the
+preparatory weeks): the resurrectional troparion, «Слава» the day's, the
+Triodion's kontakion; on Saturdays the day's troparion and kontakion, on
+parental ones the departed's. The Sundays' vespers (Saturday evening, the
+vigil): «Господи, воззвах» on 10 — the Octoechos's (resurrectional, of
+Anatolius) and the Triodion's (4; the 2nd Sunday the hierarch's on 4, the
+4th and 5th the saints' on 3), «Слава» the Triodion's, «И ныне» the
+dogmatikon of the tone; «Господь воцарися»; the Octoechos's aposticha,
+«Слава» the Triodion's, «И ныне» a theotokion in its tone (the Cross:
+«Слава, и ныне» the Triodion's); «Богородице Дево» twice and the day's
+troparion (the 2nd Sunday: thrice); the Menaion's saint at compline. St John
+of the Ladder's troparion by the Triodion: «Пустынный житель». The Sundays'
+matins: the Sunday order of the Octoechos with the Triodion for the
+Menaion — the day's troparion at «Слава» of «Бог Господь»; «Непорочны»
+instead of the polyeleos; after Psalm 50 «Покаяния отверзи ми двери», «На
+спасения стези», «Помилуй мя, Боже», «Множества содеянных»; the canon:
+resurrectional 4, the Theotokos's 2, the Triodion's 8 (Sunday 1:
+resurrectional 4, Cross-and-Resurrection 2, Theotokos 2, Triodion 6); the
+Triodion's katavasia on Sundays 1 and 3, else «Отверзу уста моя»; the
+Triodion's sessional hymn after the 3rd ode (Sunday 2 with «Ныне время
+делательное», 4 and 5 with the saint's kontakion and ikos), after the 6th
+the Triodion's kontakion and ikos (1, 3), St Gregory's (2) or the Sunday's;
+the eothinon exapostilarion, «Слава» the Triodion's, «И ныне» its
+theotokion; the praises: the Octoechos 4 and the Triodion 4, «Слава» the
+Triodion's idiomelon («паки тойже», 1 and 3) or the Gospel sticheron. Not
+yet: the Saturdays' matins (St Theodore's, the Akathist's, the parental with
+«Аллилуиа»), St Gregory's stichera at the praises (the Octoechos's are sung),
+the
+Saturdays' vespers (Friday evening: Lenten, with Friday's paremias, usually
+with the Presanctified liturgy), the Octoechos troparia at the
+beatitudes of the parental Saturdays (the verses alone), the Annunciation,
+Lazarus Saturday, Palm Sunday.
 ⁶ By the Horologion: Pss 50, 69 and 101 (so in the Moscow 1980 Horologion),
 «Слава в вышних», «Сподоби, Господи», the Creed, the Octoechos canon of
 supplication to the Theotokos (Typikon ch. 9) with «Пресвятая Богородице,
@@ -378,9 +429,9 @@ Sunday) is given by its first words only, as in the Horologion.
 
 | Period | Vespers | Compline | Midnight<br>Office | Matins | Hours | Typika | Liturgy |
 |---|---|---|---|---|---|---|---|
-| Preparatory weeks (Publican and Pharisee … Cheesefare) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ⚠️ ¹⁶ |
+| Preparatory weeks (Publican and Pharisee … Cheesefare) | ❌ | ❌ | ❌ | ❌ | ⚠️ Sundays and Saturdays ¹⁷ | ❌ | ⚠️ ¹⁶ |
 | Great Lent, weekdays | ❌ | ⚠️ great ¹⁴ | ❌ | ❌ | ❌ Lenten hours | ❌ | — (Presanctified ❌ Wed, Fri) |
-| Great Lent, Saturdays and Sundays (St Basil's liturgy on Sundays) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| Great Lent, Saturdays and Sundays (St Basil's liturgy on Sundays) | ⚠️ Sundays ¹⁷ | ❌ | ❌ | ⚠️ Sundays ¹⁷ | ✅ ¹⁷ | ❌ | ✅ ¹⁷ |
 | Annunciation in Lent | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Palm Sunday, Holy Week | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Pascha and Bright Week (Paschal hours) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |

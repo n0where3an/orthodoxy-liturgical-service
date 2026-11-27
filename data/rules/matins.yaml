@@ -138,6 +138,40 @@
     end_troparia: {from: sm_end_troparion}
     plain_beginning: {from: none}
 
+- id: matins.triodion.lent_sunday
+  service: matins
+  priority: 321
+  # The Sundays of Great Lent, 1st to 5th: the Sunday order with the Triodion
+  # (internal/liturgy/triodion_matins.go); «Непорочны» instead of the polyeleos.
+  when: triodion_day in ["lent1", "lent2", "lent3", "lent4", "lent5"] && !feast_day
+  template: great_matins
+  slots:
+    troparia: {from: sm_troparia, part: triodion}
+    sedalny_1: {from: sm_sedalny, section: "1"}
+    sedalny_2: {from: sm_sedalny, section: "2"}
+    sedalny_3: {from: none}
+    kathisma_17: {from: unit, refs: [ps.kathisma.17.1, ps.kathisma.17.2, ps.kathisma.17.3]}
+    magnification: {from: none}
+    evlogitaria: {from: sm_evlogitaria}
+    hypakoe: {from: sm_hypakoe}
+    sedalny_p: {from: none}
+    stepenna: {from: sm_stepenna}
+    prokeimenon: {from: sm_prokeimenon}
+    gospel: {from: sm_gospel}
+    after_gospel: {from: sm_after_gospel}
+    ps50: {from: sm_ps50, part: triodion}
+    canon_1_3: {from: sm_canon, section: "1-3", part: triodion}
+    sedalen: {from: sm_sedalen, part: triodion}
+    canon_4_6: {from: sm_canon, section: "4-6", part: triodion}
+    kontakion: {from: sm_kontakion, part: triodion}
+    canon_7_8: {from: sm_canon, section: "7-8", part: triodion}
+    magnificat: {from: unit, refs: [ch.matins.magnificat.1]}
+    canon_9: {from: sm_canon, section: "9", part: triodion}
+    exapostilaria: {from: sm_exapostilaria, part: triodion}
+    praises: {from: sm_praises, part: triodion}
+    end_troparia: {from: sm_end_troparion}
+    plain_beginning: {from: none}
+
 - id: matins.sunday
   service: matins
   priority: 300

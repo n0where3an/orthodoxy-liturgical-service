@@ -227,7 +227,7 @@
     antiphon_3: {from: lit_antiphon, section: "3", part: triodion}
     entrance: {from: lit_entrance, part: triodion}
     troparia: {from: lit_troparia, part: triodion}
-    trisagion: {from: lit_trisagion}
+    trisagion: {from: lit_trisagion, part: triodion}
     prokeimena: {from: lit_prokeimena, part: triodion}
     apostles: {from: lit_apostles, part: triodion}
     alleluia: {from: lit_alleluia, part: triodion}
@@ -235,12 +235,23 @@
     truly_meet: {from: lit_truly_meet}
     kinonik: {from: lit_kinonik, part: triodion}
 
+- id: liturgy.triodion.lent_sunday
+  service: liturgy
+  priority: 309
+  # The Sundays of Great Lent, 1st to 5th: the liturgy of St Basil the Great
+  # (slot basil), the Triodion's hymns and readings.
+  when: triodion_day in ["lent1", "lent2", "lent3", "lent4", "lent5"] && !feast_day
+  slots: *triodion_slots
+
 - id: liturgy.triodion.saturday
   service: liturgy
   priority: 262
   # The meatfare Saturday of the departed, the cheesefare Saturday of the
-  # venerable fathers (the Triodion).
-  when: triodion_day in ["sat_meatfare", "sat_cheesefare"] && !feast_day
+  # venerable fathers; the Saturdays of Great Lent: St Theodore, the three
+  # parental ones, the Akathist (the Triodion).
+  when: >-
+    triodion_day in ["sat_meatfare", "sat_cheesefare", "sat_lent1", "sat_lent2", "sat_lent3", "sat_lent4", "sat_akathist"] &&
+    !feast_day
   slots: *triodion_slots
 
 - id: liturgy.triodion.cheesefare_no_liturgy
@@ -366,7 +377,7 @@
 # (Минея, 25 декабря); 1 января, в память свт. Василия; the eves on a
 # weekday (with vespers). Not yet: the Sundays of Great Lent, Great Thursday
 # and Saturday (the Triodion).
-- {id: liturgy.basil, slot: basil, service: liturgy, priority: 50, when: "(month == 1 && day == 1) || eve != '' && weekday >= 1 && weekday <= 5 || ((month == 12 && day == 25) || (month == 1 && day == 6)) && (weekday == 0 || weekday == 1)", fill: {from: unit, refs: [sl.litb.title]}}
+- {id: liturgy.basil, slot: basil, service: liturgy, priority: 50, when: "(month == 1 && day == 1) || eve != '' && weekday >= 1 && weekday <= 5 || ((month == 12 && day == 25) || (month == 1 && day == 6)) && (weekday == 0 || weekday == 1) || triodion_day in ['lent1', 'lent2', 'lent3', 'lent4', 'lent5'] && !feast_day", fill: {from: unit, refs: [sl.litb.title]}}
 - {id: liturgy.eve_water, slot: eve_water, service: liturgy, priority: 50, when: "eve == 'theophany' && weekday >= 1 && weekday <= 5", fill: {from: unit, refs: [sl.vespers.title]}}
 - {id: liturgy.eve_water.none, slot: eve_water, service: liturgy, priority: 10, when: "true", fill: {from: none}}
 - {id: liturgy.basil.none, slot: basil, service: liturgy, priority: 10, when: "true", fill: {from: none}}

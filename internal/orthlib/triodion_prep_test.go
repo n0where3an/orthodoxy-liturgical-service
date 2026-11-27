@@ -15,11 +15,35 @@ func TestTriodionPrep(t *testing.T) {
 	for _, u := range units {
 		got[u.ID] = u
 	}
+	// What the liturgy takes from each day (triodionProfiles in package liturgy).
+	need := map[string][]string{
+		"publican": {"kontakion", "canon.ode.6.troparion.1"}, "prodigal": {"kontakion", "canon.ode.6.troparion.1"},
+		"sat_meatfare":   {"kontakion", "canon.ode.3.troparion.1", "canon.ode.6.troparion.1"},
+		"meatfare":       {"kontakion", "canon.ode.6.troparion.1", "lit.rubric"},
+		"sat_cheesefare": {"kontakion", "canon.ode.3.troparion.1", "canon.ode.6.troparion.1"},
+		"cheesefare":     {"kontakion", "canon.ode.6.troparion.1", "lit.rubric"},
+		"sat_lent1":      {"kontakion", "canon.ode.3.troparion.1", "canon.ode.6.troparion.1", "lit.gospel.2"},
+		"lent1":          {"kontakion", "canon.ode.6.troparion.1", "lit.rubric"},
+		"sat_lent2":      {"lit.apostle.2", "lit.gospel.2"},
+		"lent2":          {"kontakion"},
+		"lent3":          {"troparion", "kontakion", "canon.ode.3.troparion.1"},
+		"sat_lent4":      {"lit.apostle.2", "lit.gospel.2"},
+		"lent4":          {"kontakion", "lit.apostle.2", "lit.gospel.2"},
+		"sat_akathist":   {"canon.ode.3.troparion.1", "canon.ode.6.troparion.1", "lit.apostle.2", "lit.gospel.2"},
+		"lent5":          {"kontakion", "lit.apostle.2", "lit.gospel.2"},
+	}
 	for _, day := range triodionPrepDays {
-		for _, k := range []string{"kontakion", "lit.rubric", "canon.ode.3.troparion.1", "canon.ode.6.troparion.1", "canon.ode.6.theotokion"} {
+		for _, k := range need[day.id] {
 			if _, ok := got["tp."+day.id+"."+k]; !ok {
 				t.Errorf("tp.%s.%s missing", day.id, k)
 			}
+		}
+	}
+	// The second readings: copies of the lectionary's by the rubric's pericope.
+	for id, src := range map[string]string{"tp.sat_cheesefare.lit.gospel.2": "lect.zach.mt.43", "tp.sat_lent4.lit.apostle.2": "lect.zach.ap.163",
+		"tp.lent5.lit.gospel.2": "lect.zach.lk.33", "tp.sat_akathist.lit.apostle.2": "lect.zach.ap.320"} {
+		if got[id].Meta["copy"] != src {
+			t.Errorf("%s: copy %v, want %s", id, got[id].Meta["copy"], src)
 		}
 	}
 	for _, id := range []string{"tp.sat_meatfare.troparion", "tp.sat_meatfare.theotokion", "tp.sat_cheesefare.troparion"} {

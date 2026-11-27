@@ -57,6 +57,9 @@ func reader(ref string) SlotItem { return SlotItem{Ref: ref, Performer: Reader} 
 // mainMenaion returns the ids of kind from the day's main Menaion service
 // (not the additional ones, "04p").
 func mainMenaion(f Facts, kind string) []string {
+	if f.MainPrefix != "" { // a view of another book as the day's (triodionView)
+		return f.Menaion[kind]
+	}
 	prefix := fmt.Sprintf("me.%02d.%02d.", int(f.Day.Menaion.Month), f.Day.Menaion.Day)
 	var out []string
 	for _, id := range f.Menaion[kind] {

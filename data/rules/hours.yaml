@@ -38,12 +38,23 @@
   when: period == "lenten-triodion" && pascha_offset >= -48 && pascha_offset <= -3 && weekday >= 1 && weekday <= 5
   unsupported: "Великопостные часы (кафизма, поклоны, молитва Ефрема Сирина) ещё не реализованы"
 
+- id: hours.triodion
+  services: [first_hour, third_hour, sixth_hour, ninth_hour]
+  priority: 160
+  # The Sundays and Saturdays of the Triodion with a service of their own
+  # (the preparatory weeks, Great Lent): internal/liturgy/triodion_liturgy.go.
+  when: triodion_day != "" && !feast_day
+  slots:
+    troparion_first: {from: triodion_hours, part: troparion_first}
+    troparion: {from: triodion_hours, part: troparion}
+    kontakion: {from: triodion_hours, part: kontakion}
+
 - id: hours.triodion_day
   services: [first_hour, third_hour, sixth_hour, ninth_hour]
   priority: 150
   # Other days of the Triodion periods use Triodion troparia/kontakia.
   when: period != "ordinary"
-  unsupported: "Тропари и кондаки Триоди ещё не импортированы"
+  unsupported: "Часы в дни Триоди (будни поста, Лазарева суббота, Вход Господень, Цветная Триодь, праздник в Триодь) ещё не реализованы"
 
 - id: hours.theotokos_feast_on_sunday
   services: [first_hour, third_hour, sixth_hour, ninth_hour]

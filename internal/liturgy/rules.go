@@ -175,6 +175,9 @@ type Facts struct {
 	// (triodionDay); Triodion: its units tp.<id>.<suffix> by suffix.
 	TriodionDay string
 	Triodion    map[string]string
+	// MainPrefix: set in a view whose Menaion map is another book's units
+	// (triodionView): mainMenaion takes them as they are.
+	MainPrefix string
 	// RoyalHours: the feast whose Royal Hours are sung on the day
 	// (royalHours); Royal: their units rh.<feast>.<suffix> by suffix.
 	RoyalHours string
@@ -472,6 +475,18 @@ func (sel SlotSelector) resolve(name string, f Facts, service string) ([]SlotIte
 				return nil, fmt.Errorf("slot %s: %w", name, err)
 			}
 			items = append(items, rs...)
+		case "tv_lic", "tv_glory_now", "tv_aposticha", "tv_troparia":
+			vs, err := triodionVespersSlot(sel, f)
+			if err != nil {
+				return nil, fmt.Errorf("slot %s: %w", name, err)
+			}
+			items = append(items, vs...)
+		case "triodion_hours":
+			hs, err := triodionHours(f, sel.Part)
+			if err != nil {
+				return nil, fmt.Errorf("slot %s: %w", name, err)
+			}
+			items = append(items, hs...)
 		case "sunday_hours":
 			hs, err := sundayHours(f, sel.Part, HourPosition(service))
 			if err != nil {

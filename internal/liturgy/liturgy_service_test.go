@@ -102,8 +102,8 @@ func TestLiturgyUnsupported(t *testing.T) {
 		d    calendar.JDate
 		rule string
 	}{
-		{calendar.MustJDate(2027, time.March, 8), "liturgy.sunday.unsupported"}, // a Sunday of Great Lent
-		{calendar.MustJDate(2027, time.March, 7), "liturgy.triodion"},
+		{calendar.Pascha(2027).AddDays(-7), "liturgy.sunday.unsupported"},   // Palm Sunday
+		{calendar.Pascha(2027).AddDays(-8), "liturgy.triodion"},             // Lazarus Saturday
 		{calendar.Pascha(2027).AddDays(48), "liturgy.departed_triodion"},    // the Trinity Saturday           // a Saturday of Great Lent
 		{calendar.MustJDate(2027, time.March, 3), "liturgy.lenten_weekday"}, // Wednesday of Great Lent
 	} {

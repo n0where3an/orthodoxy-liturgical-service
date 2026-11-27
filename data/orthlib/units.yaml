@@ -4903,3 +4903,258 @@ units:
     file: mineya/jan/jan/Январь/06.hip
     from: "воспоим, вернии, еже о нас бжия"
     to: ""
+
+  # --- Триодь постная: тропари недели Православия и субботы Акафиста
+  # (тропарь недели дан полностью в последовании вечерни; tp.<день>.*).
+  - key: tp.lent1.troparion
+    book: triodion
+    kind: troparion
+    tone: 2
+    source: orthlib.triodion_postnaya
+    file: triodion/pt/ned_1sedm.hip
+    from: "пречстому образу твоему покланяемся блгий"
+    to: ""
+  - key: tp.sat_akathist.troparion
+    book: triodion
+    kind: troparion
+    tone: 8
+    source: orthlib.triodion_postnaya
+    file: triodion/pt/sub_akaf.hip
+    from: "повеленное тайно прием в разуме"
+    to: ""
+
+  # --- Триодь постная: великая вечерня недель поста (в субботу вечера):
+  # стихиры Триоди на «Господи, воззвах», их «Слава», «Слава» стиховны.
+  - key: tp.lent1.gvespers.lic.sticheron.1
+    book: triodion
+    kind: sticheron
+    source: orthlib.triodion_postnaya
+    file: triodion/pt/ned_1sedm.hip
+    after: "на велицей вечерни"
+    from: "тя непостижимаго, прежде денницы"
+    to: ""
+  - key: tp.lent1.gvespers.lic.sticheron.2
+    book: triodion
+    kind: sticheron
+    source: orthlib.triodion_postnaya
+    file: triodion/pt/ned_1sedm.hip
+    after: "на велицей вечерни"
+    from: "словом тя проповедавшии"
+    to: ""
+  - key: tp.lent1.gvespers.lic.sticheron.3
+    book: triodion
+    kind: sticheron
+    source: orthlib.triodion_postnaya
+    file: triodion/pt/ned_1sedm.hip
+    after: "на велицей вечерни"
+    from: "естеством неописанный бжественным"
+    to: ""
+  - key: tp.lent1.gvespers.lic.sticheron.4
+    book: triodion
+    kind: sticheron
+    source: orthlib.triodion_postnaya
+    file: triodion/pt/ned_1sedm.hip
+    after: "на велицей вечерни"
+    from: "пречестное украшение хрстова црковь"
+    to: ""
+  - key: tp.lent1.gvespers.lic.glory
+    book: triodion
+    kind: sticheron
+    source: orthlib.triodion_postnaya
+    file: triodion/pt/ned_1sedm.hip
+    after: "на велицей вечерни"
+    from: "блгодать возсия истины, прообразуемая"
+    to: ""
+  - key: tp.lent1.gvespers.aposticha.glory
+    book: triodion
+    kind: sticheron
+    tone: 2
+    source: orthlib.triodion_postnaya
+    file: triodion/pt/ned_1sedm.hip
+    after: "на велицей вечерни"
+    from: "из нечестия во блгочестие прешедше"
+    to: ""
+  - key: tp.lent2.gvespers.lic.sticheron.1
+    book: triodion
+    kind: sticheron
+    source: orthlib.triodion_postnaya
+    file: triodion/pt/ned_2sedm.hip
+    from: "киими блгопохвалений песньми"
+    to: ""
+  - key: tp.lent2.gvespers.lic.sticheron.2
+    book: triodion
+    kind: sticheron
+    source: orthlib.triodion_postnaya
+    file: triodion/pt/ned_2sedm.hip
+    from: "киими песнопений цветами"
+    to: ""
+  - key: tp.lent2.gvespers.lic.sticheron.3
+    book: triodion
+    kind: sticheron
+    source: orthlib.triodion_postnaya
+    file: triodion/pt/ned_2sedm.hip
+    from: "киими земнороднии устнами"
+    to: ""
+  - key: tp.lent2.gvespers.lic.glory
+    book: triodion
+    kind: sticheron
+    source: orthlib.triodion_postnaya
+    file: triodion/pt/ned_2sedm.hip
+    from: "прпдбне, треблженне, стейший отче"
+    to: ""
+  - key: tp.lent2.gvespers.aposticha.glory
+    book: triodion
+    kind: sticheron
+    tone: 8
+    source: orthlib.triodion_postnaya
+    file: triodion/pt/ned_2sedm.hip
+    from: "бодрый язык твой ко учительству"
+    to: ""
+  - key: tp.lent3.gvespers.lic.sticheron.1
+    book: triodion
+    kind: sticheron
+    source: orthlib.triodion_postnaya
+    file: triodion/pt/ned_krest.hip
+    after: "на велицей вечерни"
+    from: "возсияй гдснь крсте, светолучныя"
+    to: ""
+  - key: tp.lent3.gvespers.lic.sticheron.2
+    book: triodion
+    kind: sticheron
+    source: orthlib.triodion_postnaya
+    file: triodion/pt/ned_krest.hip
+    after: "на велицей вечерни"
+    from: "радуйся живоносный крсте, цркве красный раю"
+    to: ""
+  - key: tp.lent3.gvespers.lic.sticheron.3
+    book: triodion
+    kind: sticheron
+    source: orthlib.triodion_postnaya
+    file: triodion/pt/ned_krest.hip
+    after: "на велицей вечерни"
+    from: "радуйся живоносный крсте, блгочестия непобедимая"
+    to: ""
+  - key: tp.lent3.gvespers.lic.sticheron.4
+    book: triodion
+    kind: sticheron
+    source: orthlib.triodion_postnaya
+    file: triodion/pt/ned_krest.hip
+    after: "на велицей вечерни"
+    from: "гряди первозданная двоице"
+    to: ""
+  - key: tp.lent3.gvespers.lic.glory
+    book: triodion
+    kind: sticheron
+    source: orthlib.triodion_postnaya
+    file: triodion/pt/ned_krest.hip
+    after: "на велицей вечерни"
+    from: "хрсте бже наш, вольное распятие"
+    to: ""
+  - key: tp.lent3.gvespers.aposticha.glory_now
+    book: triodion
+    kind: sticheron
+    tone: 4
+    source: orthlib.triodion_postnaya
+    file: triodion/pt/ned_krest.hip
+    after: "на велицей вечерни"
+    from: "пособивый гдси кроткому двду"
+    to: ""
+  - key: tp.lent4.gvespers.lic.sticheron.1
+    book: triodion
+    kind: sticheron
+    source: orthlib.triodion_postnaya
+    file: triodion/pt/ned_4sedm.hip
+    from: "отче иоанне прпдбне, выну"
+    to: ""
+  - key: tp.lent4.gvespers.lic.sticheron.2
+    book: triodion
+    kind: sticheron
+    source: orthlib.triodion_postnaya
+    file: triodion/pt/ned_4sedm.hip
+    from: "отче иоанне преславне, слез"
+    to: ""
+  - key: tp.lent4.gvespers.lic.sticheron.3
+    book: triodion
+    kind: sticheron
+    source: orthlib.triodion_postnaya
+    file: triodion/pt/ned_4sedm.hip
+    from: "отче иоанне прпдбне, восперив"
+    to: ""
+  - key: tp.lent4.gvespers.lic.glory
+    book: triodion
+    kind: sticheron
+    source: orthlib.triodion_postnaya
+    file: triodion/pt/ned_4sedm.hip
+    from: "прпдбне отче, гласа еиглиа гдсня"
+    to: ""
+  - key: tp.lent4.gvespers.aposticha.glory
+    book: triodion
+    kind: sticheron
+    tone: 2
+    source: orthlib.triodion_postnaya
+    file: triodion/pt/ned_4sedm.hip
+    from: "на земли аггла, и на нбсех человека"
+    to: ""
+  - key: tp.lent5.gvespers.lic.sticheron.1
+    book: triodion
+    kind: sticheron
+    source: orthlib.triodion_postnaya
+    file: triodion/pt/ned_5sedm.hip
+    from: "тебе убо возбраняше честных"
+    to: ""
+  - key: tp.lent5.gvespers.lic.sticheron.2
+    book: triodion
+    kind: sticheron
+    source: orthlib.triodion_postnaya
+    file: triodion/pt/ned_5sedm.hip
+    from: "местом поклонившися радостно"
+    to: ""
+  - key: tp.lent5.gvespers.lic.sticheron.3
+    book: triodion
+    kind: sticheron
+    source: orthlib.triodion_postnaya
+    file: triodion/pt/ned_5sedm.hip
+    from: "в пустыню вселившися твоих страстей"
+    to: ""
+  - key: tp.lent5.gvespers.lic.glory
+    book: triodion
+    kind: sticheron
+    source: orthlib.triodion_postnaya
+    file: triodion/pt/ned_5sedm.hip
+    from: "очудотвори хрсте крста твоего сила"
+    to: ""
+  - key: tp.lent5.gvespers.aposticha.glory
+    book: triodion
+    kind: sticheron
+    tone: 2
+    source: orthlib.triodion_postnaya
+    file: triodion/pt/ned_5sedm.hip
+    from: "душевная ловления, и страсти"
+    to: ""
+
+  # --- Триодь постная: по 50-м псалме в недели от мытаря до 5-й недели поста
+  # (неделя мытаря и фарисея: «покаяния отверзи ми двери…»).
+  - key: tp.ps50.glory
+    book: triodion
+    kind: sticheron
+    tone: 8
+    source: orthlib.triodion_postnaya
+    file: triodion/pt/ned_mytar.hip
+    from: "покаяния отверзи ми двери жизнодавче"
+    to: ""
+  - key: tp.ps50.now
+    book: triodion
+    kind: theotokion
+    tone: 8
+    source: orthlib.triodion_postnaya
+    file: triodion/pt/ned_mytar.hip
+    from: "на спсения стези настави мя бцде"
+    to: ""
+  - key: tp.ps50.sticheron
+    book: triodion
+    kind: sticheron
+    tone: 6
+    source: orthlib.triodion_postnaya
+    file: triodion/pt/ned_mytar.hip
+    from: "множества содеянных мною лютых"
+    to: ""

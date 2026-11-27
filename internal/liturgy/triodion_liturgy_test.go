@@ -1,7 +1,9 @@
 package liturgy
 
 import (
+	"context"
 	"errors"
+	"fmt"
 	"strings"
 	"testing"
 
@@ -102,4 +104,114 @@ func TestTriodionLiturgy(t *testing.T) {
 			}
 		}
 	})
+}
+
+func TestLentWeekends(t *testing.T) {
+	pascha := calendar.Pascha(2027)
+	t.Run("the Sunday of the Cross: St Basil's liturgy", func(t *testing.T) {
+		d := pascha.AddDays(-28)
+		c := triodionCorpus(d, "lent3", true)
+		p, err := planLiturgy(t, c, d)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if p.Rule != "liturgy.triodion.lent_sunday" || len(p.Slots["basil"]) == 0 {
+			t.Fatalf("rule %s, basil %v", p.Rule, p.Slots["basil"])
+		}
+		o, tp := "oc."+itoa(calendar.NewDayContext(d).Tone)+".sun.", "tp.lent3."
+		check(t, p, map[string]string{
+			"troparia":  o + "troparion," + tp + "troparion," + o + "kontakion,common.glory," + tp + "kontakion,common.and_now,ch.kontakion.protection",
+			"trisagion": "me.09.14.lit.trisagionx3,common.glory_now,me.09.14.lit.trisagion",
+			"kinonik":   "me.09.14.lit.kinonik,common.alleluia.thrice",
+		})
+	})
+	t.Run("a parental Saturday", func(t *testing.T) {
+		d := pascha.AddDays(-36)
+		p, err := planLiturgy(t, triodionCorpus(d, "sat_lent2", false), d)
+		if err != nil {
+			t.Fatal(err)
+		}
+		check(t, p, map[string]string{
+			"troparia": "ch.troparion.day.sat,ch.troparion.day.sat.2,common.glory,ch.kontakion.with_the_saints,common.and_now,tp.sat_meatfare.theotokion",
+			"apostles": "lit.wisdom,lect.ap.38.6.announce,lit.let_us_attend,lect.ap.38.6,lect.zach.ap.270",
+			"gospels":  "lect.gos.38.6.announce,sl.lit.glory_to_thee_o_lord,lit.let_us_attend,lect.gos.38.6,lect.zach.jn.16",
+			"kinonik":  "sl.kinonik.sat,sl.kinonik.sat.dead,common.alleluia.thrice",
+		})
+		if pk := refs(p.Slots["prokeimena"]); !strings.HasSuffix(pk, "lit.prokeimenon.tone.6,sl.prokeimenon.sat.dead,sl.prokeimenon.sat.dead") {
+			t.Errorf("prokeimena: %s", pk)
+		}
+	})
+	t.Run("the hours", func(t *testing.T) {
+		d := pascha.AddDays(-42)
+		o := "oc." + itoa(calendar.NewDayContext(d).Tone) + ".sun."
+		p := planHour(t, triodionCorpus(d, "lent1", false), d, "third_hour")
+		if got := refs(p.Slots["troparion_first"]) + "|" + refs(p.Slots["troparion"]) + "|" + refs(p.Slots["kontakion"]); got != o+"troparion|tp.lent1.troparion|tp.lent1.kontakion" {
+			t.Errorf("Sunday: %s", got)
+		}
+		d = pascha.AddDays(-29)
+		p = planHour(t, triodionCorpus(d, "sat_lent3", false), d, "sixth_hour")
+		if got := refs(p.Slots["troparion_first"]) + "|" + refs(p.Slots["troparion"]) + "|" + refs(p.Slots["kontakion"]); got != "ch.troparion.day.sat|ch.troparion.day.sat.2|ch.kontakion.with_the_saints" {
+			t.Errorf("parental Saturday: %s", got)
+		}
+	})
+}
+
+func TestLentSundayVespers(t *testing.T) {
+	d := calendar.Pascha(2027).AddDays(-28) // the Sunday of the Cross
+	c := triodionCorpus(d, "lent3", false)
+	tp := "tp.lent3."
+	for n := 1; n <= 4; n++ {
+		c.ids = append(c.ids, tp+"gvespers.lic.sticheron."+itoa(n))
+	}
+	c.ids = append(c.ids, tp+"gvespers.lic.glory", tp+"gvespers.aposticha.glory_now")
+	p, err := (&Planner{Rules: mustRules(t), Feasts: mustFeasts(t), Menaion: c}).Plan(context.Background(), d, "vespers", Params{Priest: true})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if p.Rule != "vespers.triodion.lent_sunday" {
+		t.Fatalf("rule %s", p.Rule)
+	}
+	lic := refs(p.Slots["lord_i_call"])
+	if strings.Count(lic, tp+"gvespers.lic.sticheron.") != 4 || strings.Count(lic, "gvespers.lic.sticheron.") != 10 {
+		t.Errorf("«Господи, воззвах» on 10, the Triodion's on 4: %s", lic)
+	}
+	check(t, p, map[string]string{
+		"troparia": "ch.theotokos_rejoicex2," + tp + "troparion",
+	})
+	if a := refs(p.Slots["aposticha"]); !strings.HasSuffix(a, "common.glory_now,"+tp+"gvespers.aposticha.glory_now") {
+		t.Errorf("aposticha: %s", a)
+	}
+}
+
+func TestLentSundayMatins(t *testing.T) {
+	d := calendar.Pascha(2027).AddDays(-42) // the Sunday of Orthodoxy
+	c := sundayMatinsCorpus(d, nil, nil)
+	tp := "tp.lent1."
+	for _, o := range []int{1, 3, 4, 5, 6, 7, 8, 9} {
+		b := fmt.Sprintf("%scanon.ode.%d.", tp, o)
+		c.ids = append(c.ids, b+"troparion.1", b+"troparion.2", b+"theotokion", b+"katavasia")
+	}
+	c.ids = append(c.ids, tp+"troparion", tp+"kontakion", tp+"ikos", tp+"matins.sedalen.1", tp+"matins.sedalen.theotokion",
+		tp+"matins.exapostilarion.1", tp+"matins.exapostilarion.theotokion", tp+"matins.praises.sticheron.1",
+		tp+"matins.praises.sticheron.2", tp+"matins.praises.sticheron.3", tp+"matins.praises.sticheron.4", tp+"matins.praises.glory")
+	c.tones[tp+"troparion"] = 2
+	p := planSundayMatins(t, c, d)
+	if p.Rule != "matins.triodion.lent_sunday" {
+		t.Fatalf("rule %s", p.Rule)
+	}
+	check(t, p, map[string]string{
+		"ps50":      "ch.psalm.50,common.glory,tp.ps50.glory,common.and_now,tp.ps50.now,ch.matins.ps50.verse,tp.ps50.sticheron",
+		"kontakion": tp + "kontakion," + tp + "ikos",
+		"sedalen":   tp + "matins.sedalen.1,common.glory_now," + tp + "matins.sedalen.theotokion",
+	})
+	if k := refs(p.Slots["kathisma_17"]); !strings.HasPrefix(k, "ps.kathisma.17.1") {
+		t.Errorf("«Непорочны»: %s", k)
+	}
+	c13 := refs(p.Slots["canon_1_3"])
+	if !strings.Contains(c13, "ch.canon.katavasia,"+tp+"canon.ode.1.katavasia") || !strings.Contains(c13, tp+"canon.ode.1.troparion.1") {
+		t.Errorf("canon: %s", c13)
+	}
+	if pr := refs(p.Slots["praises"]); !strings.Contains(pr, "common.glory,"+tp+"matins.praises.glory,") || strings.Contains(pr, tp+"matins.praises.sticheron.4") {
+		t.Errorf("praises: %s", pr)
+	}
 }

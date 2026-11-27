@@ -26,6 +26,25 @@
     aposticha: {from: sv_aposticha}
     troparia: {from: gv_troparia, part: theotokos}
 
+# Saturday evening of a Sunday of Great Lent, 1st to 5th: the vigil with the
+# Triodion (internal/liturgy/triodion_liturgy.go: tv_*).
+- id: vespers.triodion.lent_sunday
+  service: vespers
+  priority: 310
+  when: triodion_day in ["lent1", "lent2", "lent3", "lent4", "lent5"] && !feast_day
+  template: great_vespers
+  slots:
+    title: {from: unit, refs: [ch.vigil.title]}
+    vigil: {from: unit, refs: [lit.vigil.arise]}
+    kathisma: {from: unit, refs: [ps.kathisma.1.1]}
+    lord_i_call: {from: tv_lic}
+    lord_i_call_glory_now: {from: tv_glory_now}
+    prokeimenon: {from: unit, refs: [ch.vespers.prokeimenon.sun]}
+    prokeimenon_verse: {from: sv_prokeimenon_verses}
+    paremias: {from: none}
+    aposticha: {from: tv_aposticha}
+    troparia: {from: tv_troparia}
+
 # Saturday evening with a feast of the Theotokos, a saint with a sign, or in
 # an afterfeast: the Octoechos and the Menaion together (sv_combined_*).
 - id: vespers.sunday.theotokos_feast

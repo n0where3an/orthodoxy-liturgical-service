@@ -149,6 +149,14 @@ func (p *Planner) Plan(ctx context.Context, d calendar.JDate, service string, pa
 		for _, id := range ids {
 			f.Triodion[strings.TrimPrefix(id, "tp."+f.TriodionDay+".")] = id
 		}
+		// The hymns the day takes from the Menaion (St Gregory's, St Mary's…): their tones.
+		if pr, ok := triodionProfiles[f.TriodionDay]; ok {
+			for _, k := range []string{pr.troparion, pr.kontakion, pr.saintKontakion} {
+				if isUnitID(k) {
+					ids = append(ids, k)
+				}
+			}
+		}
 		tones, err := p.Menaion.UnitTones(ctx, ids)
 		if err != nil {
 			return nil, err
