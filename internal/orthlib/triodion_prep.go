@@ -48,6 +48,12 @@ var triodionPrepDays = []struct{ id, file string }{
 	{"lent5", "ned_5sedm"},
 }
 
+// triodionCues: hymns the Triodion cites by their first words, with the
+// units that give them in full (data/orthlib/units.yaml).
+var triodionCues = map[string]string{
+	"влдчце, приими млтвы": "tp.theotokion.vladychitse",
+}
+
 var (
 	reTPOde        = regexp.MustCompile(`^(?:глас \S+ )?песнь ([а-ѳ])(?:[.:]|$)`)
 	reTPProk       = regexp.MustCompile(strings.Replace(reSpecProk.String(), `прокимен,?\s*`, `прокимен,?\s*(?:апсла,?\s*)?`, 1))
@@ -55,6 +61,7 @@ var (
 	reTPTroparion  = regexp.MustCompile(`^(?:и по тристом глаголем )?тропарь,\s*глас [^:]*:\s*(.*)$`)
 	reTPStop       = regexp.MustCompile(`^(песнь|кондак|вторый кондак|икос|седален|катаваси|светилен|канон|ин канон|таже|по |на |слава, и ныне|тристую|в настоящий|синаксар|стих|предисловие)`)
 	reTPGlory      = regexp.MustCompile(`^слава(?:,\s*тр\S*чен)?:\s*(.+)$`)
+	reTPRubricHead = regexp.MustCompile(`^(подобен|бгородичен|глас|самогласен|мчнчен|мертвен|трочен)`)
 	reTPRubricPara = regexp.MustCompile(`^(и повторя|и начинают|таже|кланяющымся|глас \S+[.:]|аще )`)
 	reTPSedalen    = regexp.MustCompile(`^(?:и )?седален`)
 	reTPSecHead    = regexp.MustCompile(`^(?:и )?(?:седален|светилен|самогласен)`)
@@ -122,9 +129,10 @@ func parseTriodionPrep(d *Doc, prefix, path string) []corpus.Unit {
 	odesDone := map[int]bool{}
 	expect := "" // the next paragraph's text: kontakion | troparion | ikos | a matins key
 	expectTone := 0
-	lastOde := 0  // the last ode of the Triodion's canon finished
-	section := "" // matins: sedalen (after the 3rd ode) | exapostilarion | praises
-	nSec := 0     // hymns in the section
+	lastOde := 0   // the last ode of the Triodion's canon finished
+	canonTone := 0 // the tone of the canon («канон… глас д»)
+	section := ""  // matins: sedalen (after the 3rd ode) | exapostilarion | praises
+	nSec := 0      // hymns in the section
 	kindOf := func(key string) string {
 		switch {
 		case strings.HasSuffix(key, "theotokion"):
@@ -133,7 +141,7 @@ func parseTriodionPrep(d *Doc, prefix, path string) []corpus.Unit {
 			return "sedalen"
 		case strings.HasPrefix(key, "matins.exapostilarion"):
 			return "exapostilarion"
-		case strings.HasPrefix(key, "matins.praises"):
+		case strings.HasPrefix(key, "matins.praises"), strings.HasPrefix(key, "matins.aposticha"):
 			return "sticheron"
 		}
 		return key
@@ -197,25 +205,50 @@ func parseTriodionPrep(d *Doc, prefix, path string) []corpus.Unit {
 		// The matins hymns of the Triodion outside the canon's odes.
 		if section != "" {
 			done := false
-			inline := func() string { // the text after the heading's colon, if any
-				if i := strings.Index(plain, ":"); i > 0 && len(strings.Fields(plain[i+1:])) > 4 && !strings.HasPrefix(strings.TrimSpace(plain[i+1:]), "подобен") {
-					return after(text, plain, len(plain)-i-1)
+			inline := func() string { // the text after the heading's colons («и ныне: бгородичен, глас тойже: …»)
+				for i := strings.Index(plain, ":"); i > 0; {
+					rest := strings.TrimSpace(plain[i+1:])
+					if len(strings.Fields(rest)) <= 4 {
+						return ""
+					}
+					if !reTPRubricHead.MatchString(rest) {
+						return after(text, plain, len(plain)-i-1)
+					}
+					j := strings.Index(plain[i+1:], ":")
+					if j < 0 {
+						return ""
+					}
+					i += 1 + j
 				}
 				return ""
 			}
 			put := func(key string) {
 				if t := inline(); t != "" {
 					add(key, kindOf(key), t, toneOf(text), nil)
-				} else {
+				} else if i := strings.Index(plain, ":"); i < 0 || len(strings.Fields(plain[i+1:])) == 0 {
 					expect, expectTone = key, toneOf(text)
+				} else {
+					// A cue («Владычице, приими молитвы:»): the text given elsewhere.
+					for cue, src := range triodionCues {
+						if strings.Contains(plain[i+1:], cue) {
+							add(key, kindOf(key), "-", 0, map[string]any{"copy": src})
+						}
+					}
 				}
 			}
 			switch {
+			case section == "aposticha" && strings.HasPrefix(plain, "стих"):
+				// «стих: Праведник яко финикс процветет:» — before the next sticheron.
+				if i := strings.Index(plain, ":"); i > 0 && nSec > 0 {
+					add(fmt.Sprintf("matins.aposticha.verse.%d", nSec+1), "verse", after(text, plain, len(plain)-i-1), 0, nil)
+				}
+				done = true
 			case strings.HasPrefix(plain, "подобен"), strings.HasPrefix(plain, "стих"):
 				done = true
 			case reTPOde.MatchString(plain), strings.HasPrefix(plain, "катаваси"), strings.HasPrefix(plain, "кондак"),
 				strings.HasPrefix(plain, "икос"), strings.HasPrefix(plain, "славословие"), strings.HasPrefix(plain, "на стиховне"),
-				strings.HasPrefix(plain, "на хвалитех"), strings.Contains(plain, "на литургии"), strings.HasPrefix(plain, "в неделю"):
+				strings.HasPrefix(plain, "на хвалитех"), strings.Contains(plain, "на литургии"), strings.HasPrefix(plain, "в неделю"),
+				strings.HasPrefix(plain, "и прочее"):
 				section = ""
 			case strings.HasPrefix(plain, "слава, и ныне") || strings.HasPrefix(plain, "и ныне") || reTPNow.MatchString(plain):
 				put("matins." + section + ".theotokion")
@@ -241,7 +274,7 @@ func parseTriodionPrep(d *Doc, prefix, path string) []corpus.Unit {
 			case len(strings.Fields(plain)) >= 8 || inline() != "":
 				nSec++
 				key := map[string]string{"sedalen": "matins.sedalen", "exapostilarion": "matins.exapostilarion",
-					"praises": "matins.praises.sticheron"}[section]
+					"praises": "matins.praises.sticheron", "aposticha": "matins.aposticha.sticheron"}[section]
 				if t := inline(); t != "" && len(strings.Fields(plain)) < 40 && reTPSecHead.MatchString(plain) {
 					add(fmt.Sprintf("%s.%d", key, nSec), kindOf(key), t, toneOf(text), nil)
 				} else if reTPSecHead.MatchString(plain) {
@@ -255,7 +288,7 @@ func parseTriodionPrep(d *Doc, prefix, path string) []corpus.Unit {
 			case reTPSecHead.MatchString(plain): // «седален, глас а.», «светилен.»
 				nSec++
 				key := map[string]string{"sedalen": "matins.sedalen", "exapostilarion": "matins.exapostilarion",
-					"praises": "matins.praises.sticheron"}[section]
+					"praises": "matins.praises.sticheron", "aposticha": "matins.aposticha.sticheron"}[section]
 				expect, expectTone = fmt.Sprintf("%s.%d", key, nSec), toneOf(text)
 				done = true
 			}
@@ -282,8 +315,16 @@ func parseTriodionPrep(d *Doc, prefix, path string) []corpus.Unit {
 			}
 			continue
 		}
-		if strings.HasPrefix(plain, "на хвалитех") && (strings.Contains(plain, "триоди") || strings.Contains(plain, "трипеснц")) && !seen["matins.praises.sticheron.1"] {
+		if strings.HasPrefix(plain, "на хвалитех") && (strings.Contains(plain, "триоди") || strings.Contains(plain, "трипеснц") ||
+			strings.Contains(plain, "поставим стихи")) && !seen["matins.praises.sticheron.1"] {
 			section, nSec = "praises", 0
+			continue
+		}
+		// «на стиховне стихиры стаго, глас д. самогласны:» — the matins
+		// aposticha of a Saturday (after the canon).
+		if lastOde == 9 && strings.HasPrefix(plain, "на стиховне") && strings.Contains(plain, "стихиры") &&
+			!strings.Contains(plain, "осмогласника") && !seen["matins.aposticha.sticheron.1"] {
+			section, nSec = "aposticha", 0
 			continue
 		}
 		if lastOde > 0 && ode == 0 && strings.HasPrefix(plain, "катаваси") {
@@ -291,6 +332,9 @@ func parseTriodionPrep(d *Doc, prefix, path string) []corpus.Unit {
 				add(fmt.Sprintf("canon.ode.%d.katavasia", lastOde), "irmos", after(text, plain, len(rest)), 0, nil)
 			}
 			continue
+		}
+		if strings.Contains(plain, "канон") && toneOf(text) > 0 && ode == 0 {
+			canonTone = toneOf(text)
 		}
 		switch {
 		case reTPOde.MatchString(plain):
@@ -303,6 +347,10 @@ func parseTriodionPrep(d *Doc, prefix, path string) []corpus.Unit {
 			}
 			continue
 		case strings.HasPrefix(plain, "ирмос"):
+			// «ирмос: житейское море:» — by its first words (SupplementIrmoi).
+			if i := strings.Index(plain, ":"); ode > 0 && i > 0 && len(strings.Fields(plain[i+1:])) > 0 {
+				add(fmt.Sprintf("canon.ode.%d.irmos", ode), "irmos", after(text, plain, len(plain)-i-1), canonTone, nil)
+			}
 			continue
 		case strings.HasPrefix(plain, "вторый кондак"):
 			ode = 0

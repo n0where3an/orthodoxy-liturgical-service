@@ -45,6 +45,10 @@ var triodionMatins = map[string]struct {
 	"lent5": {canon: "saint", after3: "saint", after6: "sunday"},
 }
 
+// triodionSaturdayMatins: the Saturdays of Great Lent whose matins is the
+// Saturday order with the day's service of the Triodion (St Theodore).
+var triodionSaturdayMatins = map[string]bool{"sat_lent1": true}
+
 // triodionView: the facts with the day's Triodion units as its Menaion
 // (mainMenaion reads them under their kinds: matins.canon.1.ode.N.troparion,
 // matins.sedalen, kontakion…), and the Triodion's katavasia.

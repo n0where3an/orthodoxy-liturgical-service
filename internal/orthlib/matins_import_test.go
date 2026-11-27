@@ -105,3 +105,27 @@ func TestMenaionMatins(t *testing.T) {
 		t.Error("11.04: no canon of the Theotokos")
 	}
 }
+
+// «Ирмос: Воду прошед…»: the irmos in the heading's paragraph (its first
+// letter red with the heading); «ин канон… Ирмос: …» opens the next canon.
+func TestMenaionInlineIrmos(t *testing.T) {
+	keys := func(file string) map[string]string {
+		d, err := LoadDoc(filepath.Join(extractedRoot(t), "mineya", file))
+		if err != nil {
+			t.Fatal(err)
+		}
+		out := map[string]string{}
+		for _, u := range parseMenaionMatins(d, "me.x", file) {
+			out[strings.TrimPrefix(u.ID, "me.x.matins.")] = u.Body
+		}
+		return out
+	}
+	k := keys(filepath.Join("feb", "feb", "Февраль", "20p.hip"))
+	if !strings.HasPrefix(k["canon.1.ode.1.irmos"], "Во́дꙋ проше́дъ") || !strings.HasPrefix(k["canon.1.ode.3.irmos"], "Нбⷭ҇нагѡ кр") {
+		t.Errorf("02.20p: %q, %q", k["canon.1.ode.1.irmos"], k["canon.1.ode.3.irmos"])
+	}
+	k = keys(filepath.Join("jan", "jan", "Январь", "02p.hip"))
+	if k["canon.1.ode.1.irmos"] == "" || k["canon.2.ode.1.irmos"] == "" || k["canon.2.ode.1.troparion.1"] == "" {
+		t.Errorf("01.02p: the second canon's 1st ode: %v", k["canon.2.ode.1.irmos"])
+	}
+}

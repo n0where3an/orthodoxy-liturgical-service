@@ -123,7 +123,8 @@ func TestMatinsUnsupported(t *testing.T) {
 	}{
 		{calendar.Pascha(2027).AddDays(-7), "matins.sunday.unsupported"},            // Palm Sunday
 		{calendar.MustJDate(2026, time.October, 25), "matins.saturday.unsupported"}, // Dimitrievskaya
-		{calendar.MustJDate(2027, time.March, 3), "matins.triodion"},
+		{calendar.Pascha(2027).AddDays(-25), "matins.triodion"},                     // Wednesday of the Cross: its own canon
+		{calendar.Pascha(2027).AddDays(-17), "matins.triodion"},                     // Thursday of the Great Canon
 	} {
 		_, err := planMatins(t, matinsCorpus(c.d, 1), c.d)
 		var ue *UnsupportedError

@@ -246,3 +246,30 @@ func TestDoxologyAfterfeastMatins(t *testing.T) {
 		t.Errorf("praises %v, gospel %v, aposticha %v", plan.Slots["praises"], plan.Slots["gospel"], plan.Slots["aposticha"])
 	}
 }
+
+func TestDayRefrains(t *testing.T) {
+	// The Circumcision (01.01): «на ф-й песни честнейшую не поем, но поем
+	// припевы» — the Irmologion's refrains «обрезанию Христа».
+	d := calendar.MustJDate(2027, time.January, 1)
+	c := festalMatinsCorpus(d, true)
+	c.ids = append(c.ids, "ir.pripev.circumcision.1.irmos", "ir.pripev.circumcision.1.1", "ir.pripev.circumcision.2.irmos")
+	plan, err := planMatins(t, c, d)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got := refs(plan.Slots["canon_9"]); !strings.Contains(got, "ir.pripev.circumcision.1.irmos,me.01.01.matins.canon.1.ode.9.irmos") ||
+		!strings.Contains(got, "ir.pripev.circumcision.2.irmos,me.01.01.matins.canon.2.ode.9.irmos") {
+		t.Errorf("9th ode: %s", got)
+	}
+	if len(plan.Slots["magnificat"]) != 0 {
+		t.Errorf("«Честнейшую» sung: %v", plan.Slots["magnificat"])
+	}
+	// An ordinary vigil keeps «Честнейшую».
+	d = calendar.MustJDate(2026, time.November, 13) // Friday, St John Chrysostom
+	if plan, err = planMatins(t, festalMatinsCorpus(d, true), d); err != nil {
+		t.Fatal(err)
+	}
+	if refs(plan.Slots["magnificat"]) != "ch.matins.magnificat.1" {
+		t.Errorf("11.13: magnificat %v", plan.Slots["magnificat"])
+	}
+}

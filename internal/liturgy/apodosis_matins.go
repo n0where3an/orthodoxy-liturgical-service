@@ -34,6 +34,13 @@ import (
 // (matins.apodosis.menaion, ap_canon with part menaion).
 
 func apodosisMatinsSlot(sel SlotSelector, f Facts) ([]SlotItem, error) {
+	if sel.From == "ap_magnificat" {
+		// «Честнейшую» — not where the 9th ode is sung with the refrains.
+		if len(f.Refrains) > 0 {
+			return nil, nil
+		}
+		return []SlotItem{choir("ch.matins.magnificat.1")}, nil
+	}
 	if f.Feast == nil || f.FeastMenaion == nil {
 		return nil, fmt.Errorf("no feast service for the apodosis on %v", f.Day.Date)
 	}
@@ -47,12 +54,6 @@ func apodosisMatinsSlot(sel SlotSelector, f Facts) ([]SlotItem, error) {
 			return gmSedalny(fv, "p")
 		}
 		return items, err
-	case "ap_magnificat":
-		// «Честнейшую» — not where the 9th ode is sung with the refrains.
-		if len(f.Refrains) > 0 {
-			return nil, nil
-		}
-		return []SlotItem{choir("ch.matins.magnificat.1")}, nil
 	case "ap_ps50":
 		return []SlotItem{reader("ch.psalm.50")}, nil
 	case "ap_canon":

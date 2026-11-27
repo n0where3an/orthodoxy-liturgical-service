@@ -16,8 +16,14 @@ var triodionDays = map[int]string{
 	-22: "sat_lent4", -21: "lent4", -15: "sat_akathist", -14: "lent5",
 }
 
-// triodionDay: the day's id in triodionDays, "" otherwise.
-func triodionDay(day calendar.DayContext) string { return triodionDays[day.PaschaOffset] }
+// triodionDay: the day's id in triodionDays, or a weekday of Great Lent
+// (lentWeekday: w<week>_<day>, orthlib.ImportTriodionLent), "" otherwise.
+func triodionDay(day calendar.DayContext) string {
+	if d := triodionDays[day.PaschaOffset]; d != "" {
+		return d
+	}
+	return lentWeekday(day.PaschaOffset)
+}
 
 // triodionProfile: what a day's liturgy takes from where (the Triodion's
 // rubrics «на литургии…» and the Typikon, гл. 49).

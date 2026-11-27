@@ -9,8 +9,10 @@
 #
 # Also: a weekday apodosis (matins.apodosis.weekday).
 #
-# Recognised but not yet implemented: the apodosis on Saturday, the Triodion
-# periods (Lenten matins with «Аллилуиа», Paschal matins).
+# Also: the weekdays of Great Lent, with «Аллилуиа» (matins.triodion.lenten_weekday).
+#
+# Recognised but not yet implemented: the apodosis on Saturday, the other
+# Triodion days (parental Saturdays, the Akathist, Holy Week), Paschal matins.
 
 - id: matins.lord_feast_on_sunday
   service: matins
@@ -248,17 +250,73 @@
     aposticha: {from: sat_aposticha}
     end_troparia: {from: vespers_troparia}
 
+- id: matins.triodion.saturday
+  service: matins
+  priority: 295
+  # The 1st Saturday of Great Lent, St Theodore the Recruit (Типикон, гл. 49):
+  # «Бог Господь», «Велия веры» twice, «Вся паче смысла»; kathismata 16 and
+  # 17 — after the 16th the martyrs' sessional hymn of the Octoechos, after
+  # the 17th St Theodore's; the canon of the temple (the Theotokos's) on 6 and
+  # St Theodore's on 8, the katavasia «Отверзу уста моя»; after the 3rd ode
+  # his sessional hymn, after the 6th his kontakion and ikos; his
+  # exapostilarion; the praises on 4 with «Слава» and «И ныне»; his aposticha
+  # with «Праведник яко финикс», «Насаждени в дому Господни». The Triodion is
+  # read as the day's Menaion (plan.go, triodionView).
+  when: triodion_day == "sat_lent1" && !feast_day
+  slots:
+    troparia: {from: matins_troparia}
+    sedalny_1: {from: sat_sedalny}
+    sedalny_2: {from: gm_sedalny, section: "2"}
+    canon_1_3: {from: matins_canon, section: "1-3"}
+    sedalen: {from: matins_sedalen}
+    canon_4_6: {from: matins_canon, section: "4-6"}
+    kontakion: {from: matins_kontakion}
+    canon_7_8: {from: matins_canon, section: "7-8"}
+    canon_9: {from: matins_canon, section: "9"}
+    exapostilaria: {from: ts_exapostilaria}
+    praises: {from: gm_praises}
+    aposticha: {from: matins_aposticha}
+    end_troparia: {from: vespers_troparia}
+
 - id: matins.saturday.unsupported
   service: matins
   priority: 290
   when: weekday == 6
   unsupported: "Субботняя утреня с «Аллилуиа», родительская, в предпразднство и попразднство, со святым со знаком без паремий в Минее ещё не реализована"
 
+- id: matins.triodion.lenten_weekday
+  service: matins
+  priority: 260
+  # A weekday of Great Lent (Monday..Friday of the six weeks) with a saint of
+  # the Menaion without a sign: the matins with «Аллилуиа» (Типикон, гл. 49;
+  # internal/liturgy/lenten_matins.go). Not the 4th week's Wednesday and
+  # Friday (the Cross's canon), the 5th week's Thursday (the Great Canon).
+  template: lenten_matins
+  when: >-
+    triodion_day.matches("^w[1-6]_") && !(triodion_day in ["w4_wed", "w4_fri", "w5_thu"]) &&
+    feast == "" && !feast_day && !menaion_great_vespers && !menaion_paremias &&
+    !(typikon_sign in ["doxology", "polyeleos", "saint_vigil", "vigil"])
+  slots:
+    alleluia: {from: lm_alleluia}
+    troparia: {from: lm_troparia}
+    sedalny_1: {from: lm_sedalny, section: "1"}
+    sedalny_2: {from: lm_sedalny, section: "2"}
+    sedalny_3: {from: lm_sedalny, section: "3"}
+    canon_1_3: {from: lm_canon, section: "1-3"}
+    sedalen: {from: matins_sedalen}
+    canon_4_6: {from: lm_canon, section: "4-6"}
+    kontakion: {from: lm_kontakion}
+    canon_7_8: {from: lm_canon, section: "7-8"}
+    canon_9: {from: lm_canon, section: "9"}
+    exapostilaria: {from: lm_exapostilaria}
+    aposticha: {from: lm_aposticha}
+    end_troparia: {from: lm_end_troparia}
+
 - id: matins.triodion
   service: matins
   priority: 250
   when: period != "ordinary"
-  unsupported: "Утреня в дни Триоди (в Великий пост — «Аллилуиа», трипеснцы) ещё не реализована"
+  unsupported: "Утреня в дни Триоди ещё не реализована: в Великий пост — со святым со знаком (полиелей, славословие), в среду и пяток Крестопоклонной седмицы, стояние Марии Египетской, Лазарева суббота, Страстная седмица, Цветная Триодь"
 
 - id: matins.apodosis.weekday
   service: matins
@@ -449,7 +507,7 @@
     canon_4_6: {from: gm_canon, section: "4-6"}
     kontakion: {from: matins_kontakion}
     canon_7_8: {from: gm_canon, section: "7-8"}
-    magnificat: {from: unit, refs: [ch.matins.magnificat.1]}
+    magnificat: {from: ap_magnificat}
     canon_9: {from: gm_canon, section: "9"}
     exapostilaria: {from: gm_exapostilaria}
     praises: {from: gm_praises}
@@ -593,6 +651,31 @@
 - {id: matins.sedalny_3.winter.afterfeast, slot: sedalny_3, service: matins, priority: 65, when: "feast != \"\" && !feast_day && weekday >= 1 && weekday <= 4 && ((month == 9 && day >= 22) || month == 10 || month == 11 || (month == 12 && day <= 19) || (month == 1 && day >= 15) || month == 2)", fill: {from: af_sedalny, section: "3"}}
 - {id: matins.sedalny_3.winter, slot: sedalny_3, service: matins, priority: 60, when: "weekday >= 1 && weekday <= 4 && ((month == 9 && day >= 22) || month == 10 || month == 11 || (month == 12 && day <= 19) || (month == 1 && day >= 15) || month == 2)", fill: {from: matins_sedalny, section: "3"}}
 - {id: matins.sedalny_3.none, slot: sedalny_3, service: matins, priority: 10, when: "true", fill: {from: none}}
+# Great Lent (Типикон, гл. 17, «Устав о псалтири… во святый великий пост»):
+# the 1st–4th and 6th weeks — Mon 4, 5, 6; Tue 10, 11, 12; Wed 19, 20, 1;
+# Thu 6, 7, 8; Fri 13, 14, 15. The 5th week — Tue 11, 12, 13; Wed 20, 1, 2
+# (Thursday: the 8th, with the Great Canon).
+- {id: matins.kathisma_1.lent.w16.mon, slot: kathisma_1, service: matins, priority: 80, when: "triodion_day.matches('^w[1-6]_mon$')", fill: {from: unit, refs: [ps.kathisma.4.1, ps.kathisma.4.2, ps.kathisma.4.3]}}
+- {id: matins.kathisma_2.lent.w16.mon, slot: kathisma_2, service: matins, priority: 80, when: "triodion_day.matches('^w[1-6]_mon$')", fill: {from: unit, refs: [ps.kathisma.5.1, ps.kathisma.5.2, ps.kathisma.5.3]}}
+- {id: matins.kathisma_3.lent.w16.mon, slot: kathisma_3, service: matins, priority: 80, when: "triodion_day.matches('^w[1-6]_mon$')", fill: {from: unit, refs: [ps.kathisma.6.1, ps.kathisma.6.2, ps.kathisma.6.3]}}
+- {id: matins.kathisma_1.lent.w146.tue, slot: kathisma_1, service: matins, priority: 80, when: "triodion_day.matches('^w[1-46]_tue$')", fill: {from: unit, refs: [ps.kathisma.10.1, ps.kathisma.10.2, ps.kathisma.10.3]}}
+- {id: matins.kathisma_2.lent.w146.tue, slot: kathisma_2, service: matins, priority: 80, when: "triodion_day.matches('^w[1-46]_tue$')", fill: {from: unit, refs: [ps.kathisma.11.1, ps.kathisma.11.2, ps.kathisma.11.3]}}
+- {id: matins.kathisma_3.lent.w146.tue, slot: kathisma_3, service: matins, priority: 80, when: "triodion_day.matches('^w[1-46]_tue$')", fill: {from: unit, refs: [ps.kathisma.12.1, ps.kathisma.12.2, ps.kathisma.12.3]}}
+- {id: matins.kathisma_1.lent.w5.tue, slot: kathisma_1, service: matins, priority: 80, when: "triodion_day.matches('^w5_tue$')", fill: {from: unit, refs: [ps.kathisma.11.1, ps.kathisma.11.2, ps.kathisma.11.3]}}
+- {id: matins.kathisma_2.lent.w5.tue, slot: kathisma_2, service: matins, priority: 80, when: "triodion_day.matches('^w5_tue$')", fill: {from: unit, refs: [ps.kathisma.12.1, ps.kathisma.12.2, ps.kathisma.12.3]}}
+- {id: matins.kathisma_3.lent.w5.tue, slot: kathisma_3, service: matins, priority: 80, when: "triodion_day.matches('^w5_tue$')", fill: {from: unit, refs: [ps.kathisma.13.1, ps.kathisma.13.2, ps.kathisma.13.3]}}
+- {id: matins.kathisma_1.lent.w146.wed, slot: kathisma_1, service: matins, priority: 80, when: "triodion_day.matches('^w[1-46]_wed$')", fill: {from: unit, refs: [ps.kathisma.19.1, ps.kathisma.19.2, ps.kathisma.19.3]}}
+- {id: matins.kathisma_2.lent.w146.wed, slot: kathisma_2, service: matins, priority: 80, when: "triodion_day.matches('^w[1-46]_wed$')", fill: {from: unit, refs: [ps.kathisma.20.1, ps.kathisma.20.2, ps.kathisma.20.3]}}
+- {id: matins.kathisma_3.lent.w146.wed, slot: kathisma_3, service: matins, priority: 80, when: "triodion_day.matches('^w[1-46]_wed$')", fill: {from: unit, refs: [ps.kathisma.1.1, ps.kathisma.1.2, ps.kathisma.1.3]}}
+- {id: matins.kathisma_1.lent.w5.wed, slot: kathisma_1, service: matins, priority: 80, when: "triodion_day.matches('^w5_wed$')", fill: {from: unit, refs: [ps.kathisma.20.1, ps.kathisma.20.2, ps.kathisma.20.3]}}
+- {id: matins.kathisma_2.lent.w5.wed, slot: kathisma_2, service: matins, priority: 80, when: "triodion_day.matches('^w5_wed$')", fill: {from: unit, refs: [ps.kathisma.1.1, ps.kathisma.1.2, ps.kathisma.1.3]}}
+- {id: matins.kathisma_3.lent.w5.wed, slot: kathisma_3, service: matins, priority: 80, when: "triodion_day.matches('^w5_wed$')", fill: {from: unit, refs: [ps.kathisma.2.1, ps.kathisma.2.2, ps.kathisma.2.3]}}
+- {id: matins.kathisma_1.lent.w16.thu, slot: kathisma_1, service: matins, priority: 80, when: "triodion_day.matches('^w[1-6]_thu$')", fill: {from: unit, refs: [ps.kathisma.6.1, ps.kathisma.6.2, ps.kathisma.6.3]}}
+- {id: matins.kathisma_2.lent.w16.thu, slot: kathisma_2, service: matins, priority: 80, when: "triodion_day.matches('^w[1-6]_thu$')", fill: {from: unit, refs: [ps.kathisma.7.1, ps.kathisma.7.2, ps.kathisma.7.3]}}
+- {id: matins.kathisma_3.lent.w16.thu, slot: kathisma_3, service: matins, priority: 80, when: "triodion_day.matches('^w[1-6]_thu$')", fill: {from: unit, refs: [ps.kathisma.8.1, ps.kathisma.8.2, ps.kathisma.8.3]}}
+- {id: matins.kathisma_1.lent.w16.fri, slot: kathisma_1, service: matins, priority: 80, when: "triodion_day.matches('^w[1-6]_fri$')", fill: {from: unit, refs: [ps.kathisma.13.1, ps.kathisma.13.2, ps.kathisma.13.3]}}
+- {id: matins.kathisma_2.lent.w16.fri, slot: kathisma_2, service: matins, priority: 80, when: "triodion_day.matches('^w[1-6]_fri$')", fill: {from: unit, refs: [ps.kathisma.14.1, ps.kathisma.14.2, ps.kathisma.14.3]}}
+- {id: matins.kathisma_3.lent.w16.fri, slot: kathisma_3, service: matins, priority: 80, when: "triodion_day.matches('^w[1-6]_fri$')", fill: {from: unit, refs: [ps.kathisma.15.1, ps.kathisma.15.2, ps.kathisma.15.3]}}
 # Saturday: kathismata 16 and 17 all the year (Устав о Псалтири).
 - {id: matins.kathisma_1.sat, slot: kathisma_1, service: matins, priority: 50, when: "weekday == 6", fill: {from: unit, refs: [ps.kathisma.16.1, ps.kathisma.16.2, ps.kathisma.16.3]}}
 - {id: matins.kathisma_2.sat, slot: kathisma_2, service: matins, priority: 50, when: "weekday == 6", fill: {from: unit, refs: [ps.kathisma.17.1, ps.kathisma.17.2, ps.kathisma.17.3]}}

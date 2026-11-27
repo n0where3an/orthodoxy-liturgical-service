@@ -55,6 +55,16 @@ narrow screen it stands above the text.
 
 ## Sources and rules
 
+The Irmologion's irmoi by tone (`ir.irmos.<tone>.<ode>.<n>`, 01glas–08glas)
+complete the irmoi the Octoechos, the Menaion and the Triodion cite by their
+first words («ирмос: Яко по суху:»): the same ode's irmos beginning so, of
+the unit's tone first; abbreviations and variants («прпдбным» /
+«преподобным») by the first words when they pick one irmos
+(`Meta.completed_from`). About 200 are completed; ambiguous cues stay with a
+warning. The 9th-ode refrains (`ir.pripev.*`) replace «Честнейшую» on the
+feast, its apodosis, the synaxes after the Nativity and the Theophany («якоже
+на самый праздник»; the Forerunner's canon with his own), and on the
+Circumcision (01.01) and the Three Hierarchs (01.30) with their own.
 The Irmologion (`orthlib.irmologion`) gives the biblical odes in three sets —
 weekdays, Sundays and feasts, Great Lent — as `ir.ode.<ode>.<set>.<n>` with
 the places «на 14 / 8 / 6 / 4» marked, and the refrains of the 9th ode at the
@@ -404,14 +414,51 @@ Triodion's sessional hymn after the 3rd ode (Sunday 2 with «Ныне время
 the Triodion's kontakion and ikos (1, 3), St Gregory's (2) or the Sunday's;
 the eothinon exapostilarion, «Слава» the Triodion's, «И ныне» its
 theotokion; the praises: the Octoechos 4 and the Triodion 4, «Слава» the
-Triodion's idiomelon («паки тойже», 1 and 3) or the Gospel sticheron. Not
-yet: the Saturdays' matins (St Theodore's, the Akathist's, the parental with
-«Аллилуиа»), St Gregory's stichera at the praises (the Octoechos's are sung),
+Triodion's idiomelon («паки тойже», 1 and 3) or the Gospel sticheron. The
+1st Saturday's matins (St Theodore the Recruit): the Saturday order with
+«Бог Господь», the Triodion for the Menaion — «Велия веры» twice, «Вся паче
+смысла»; kathismata 16 and 17, after the 16th the Octoechos's martyrs'
+sessional hymn, after the 17th the saint's; the temple's canon (the
+Theotokos's) on 6 and the saint's on 8, the katavasia «Отверзу уста моя»;
+after the 3rd ode his sessional hymn, after the 6th his kontakion and ikos;
+his exapostilarion and its theotokion; his praises on 4 with «Слава» and «И
+ныне»; his aposticha with «Праведник яко финикс», «Насаждени в дому
+Господни», «И ныне» «Владычице, приими молитвы» (cited by its first words in
+the Triodion, given in full by the General Menaion). Not yet: the matins of
+the Akathist Saturday (the Akathist in its stations) and of the parental
+Saturdays (matins with «Аллилуиа»), St Theodore's second canon, St Gregory's stichera at the praises (the Octoechos's are sung),
 the
 Saturdays' vespers (Friday evening: Lenten, with Friday's paremias, usually
 with the Presanctified liturgy), the Octoechos troparia at the
 beatitudes of the parental Saturdays (the verses alone), the Annunciation,
 Lazarus Saturday, Palm Sunday.
+¹⁸ The matins of the weekdays of Great Lent (Monday to Friday of the six
+weeks) — with «Alleluia», by the Typikon (ch. 49, «thus let matins be … all
+the holy Forty Days») and the Horologion: instead of «God is the Lord»,
+Alleluia in the tone of the week with the verses «My soul waketh early unto
+Thee» and the Trinity hymns of the tone (the first with the day's ending:
+«at the intercessions of Thy bodiless powers», «of Thy Forerunner», «by the
+power of Thy Cross», «of Thine apostles and St Nicholas»); three kathismata
+by the Lenten rule of the Psalter (ch. 17; the 5th week its own); after the
+1st the Octoechos's sessional hymns, after the 2nd and 3rd the Triodion's
+(Joseph's and Theodore's), «Glory: the same»; the canon of the Menaion with
+the triodes of the Triodion (`tp.w<week>_<day>.*`, no Octoechos), with
+-typikon the Lenten biblical odes on 14; after the 3rd ode the saint's
+sessional hymn, after the 6th his kontakion and ikos; the katavasia — the
+irmos of the last triode, in the 3rd and 6th odes without a triode the
+Menaion's irmos after the ode only; «Glory to Thee, our God, glory to Thee»
+and «Let us bless the Father» as in the Triodion; after the 9th «It is truly
+meet», the Trinity photagogikon of the tone thrice with the day's ending;
+the praises and the doxology read; the aposticha: the Triodion's idiomelon
+twice, the martyricon, the theotokion (on the 6th Friday «Glory» the
+idiomelon «Having completed the soul-profiting», «Both now» the same);
+«It is good», «Standing in the temple of Thy glory», «Lord, have mercy» 40,
+«Christ our God, the Existing One», «O Heavenly King», the prayer of St
+Ephrem — and the first hour. Not yet: the days of saints with a sign
+(doxology, polyeleos) in Lent, the Wednesday and Friday of the Cross (the
+Cross's canon), the 5th Thursday (the Great Canon), the Annunciation and its
+afterfeast; the martyrs' sessional hymn after the 6th ode where the saint has
+no kontakion; the readings at the kathismata; the prostrations.
 ⁶ By the Horologion: Pss 50, 69 and 101 (so in the Moscow 1980 Horologion),
 «Слава в вышних», «Сподоби, Господи», the Creed, the Octoechos canon of
 supplication to the Theotokos (Typikon ch. 9) with «Пресвятая Богородице,
@@ -430,8 +477,8 @@ Sunday) is given by its first words only, as in the Horologion.
 | Period | Vespers | Compline | Midnight<br>Office | Matins | Hours | Typika | Liturgy |
 |---|---|---|---|---|---|---|---|
 | Preparatory weeks (Publican and Pharisee … Cheesefare) | ❌ | ❌ | ❌ | ❌ | ⚠️ Sundays and Saturdays ¹⁷ | ❌ | ⚠️ ¹⁶ |
-| Great Lent, weekdays | ❌ | ⚠️ great ¹⁴ | ❌ | ❌ | ❌ Lenten hours | ❌ | — (Presanctified ❌ Wed, Fri) |
-| Great Lent, Saturdays and Sundays (St Basil's liturgy on Sundays) | ⚠️ Sundays ¹⁷ | ❌ | ❌ | ⚠️ Sundays ¹⁷ | ✅ ¹⁷ | ❌ | ✅ ¹⁷ |
+| Great Lent, weekdays | ❌ | ⚠️ great ¹⁴ | ❌ | ⚠️ ¹⁸ | ❌ Lenten hours | ❌ | — (Presanctified ❌ Wed, Fri) |
+| Great Lent, Saturdays and Sundays (St Basil's liturgy on Sundays) | ⚠️ Sundays ¹⁷ | ❌ | ❌ | ⚠️ Sundays, the 1st Saturday ¹⁷ | ✅ ¹⁷ | ❌ | ✅ ¹⁷ |
 | Annunciation in Lent | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Palm Sunday, Holy Week | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | Pascha and Bright Week (Paschal hours) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
@@ -444,8 +491,8 @@ The Triodion is not imported yet; this is the largest remaining part.
 | Item | Status |
 |---|---|
 | A Menaion canon at compline (forefeasts, a saint's service moved to compline) | ❌ |
-| Irmologion: the irmoi by tone (to complete the irmoi cited by their first words); the 9th-ode refrains in the afterfeast and on the apodosis | ❌ |
-| Psalter in the Triodion: Meatfare and Cheesefare weeks, Great Lent, its 5th week, Holy Week («Устав о Псалтири») | ❌ |
+| Irmologion: the irmoi by tone (to complete the irmoi cited by their first words); the 9th-ode refrains in the afterfeast and on the apodosis | ✅ |
+| Psalter in the Triodion: Meatfare and Cheesefare weeks, Great Lent, its 5th week, Holy Week («Устав о Псалтири») | ⚠️ the kathismata of matins on the weekdays of Great Lent (the 5th week too) ¹⁸; not at the hours and vespers |
 | Liturgy of St Basil | ⚠️ by the Hieratikon: its own secret prayers (of the catechumens, the faithful, the offertory, the anaphora, before the Lord's Prayer, of the bowing of heads, of thanksgiving, of the consumption), the words of institution «Даде святым Своим учеником…», the consecration «Хлеб убо сей…», «Чашу же сию…», «О Тебе радуется» (a feast's zadostoinik on the feast), St Basil's dismissal (typed in: the orthlib Hieratikon lacks it). Served on 1 January, on the Nativity and the Theophany on Sunday and Monday, and on their weekday eves (with vespers). Not yet: the Sundays of Great Lent, Great Thursday and Saturday (the Triodion) |
 | Presanctified Liturgy | ❌ |
 | Patronal feast (`temple_feast`): vigil «аще храм» | ❌ (the flag is available to the rules) |

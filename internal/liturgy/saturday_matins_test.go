@@ -1,6 +1,7 @@
 package liturgy
 
 import (
+	"context"
 	"fmt"
 	"strings"
 	"testing"
@@ -140,5 +141,49 @@ func TestSaturdayDoxologyMatinsPlan(t *testing.T) {
 	}
 	if !strings.Contains(c13, "ch.canon.katavasia,"+me+"matins.canon.2.ode.1.irmos,ch.canon.ode.3") {
 		t.Errorf("katavasia: the last canon's irmos: %s", c13)
+	}
+}
+
+// The 1st Saturday of Great Lent (St Theodore): the Saturday order with the
+// Triodion for the Menaion — the canon of the Theotokos and the saint's, the
+// katavasia «Отверзу уста моя», his exapostilarion with its theotokion only,
+// his aposticha.
+func TestLentSaturdayMatins(t *testing.T) {
+	d := calendar.Pascha(2027).AddDays(-43)
+	day := calendar.NewDayContext(d)
+	sun := fmt.Sprintf("oc.%d.sun.matins.", day.Tone)
+	tp := "tp.sat_lent1."
+	c := matinsCorpus(d, 0)
+	for _, o := range odeOrder {
+		b := fmt.Sprintf("%scanon.3.ode.%d.", sun, o)
+		c.ids = append(c.ids, b+"troparion.1", b+"irmos", fmt.Sprintf("%scanon.1.ode.%d.irmos", sun, o),
+			fmt.Sprintf("%scanon.ode.%d.troparion.1", tp, o), fmt.Sprintf("me.03.26.matins.canon.2.ode.%d.irmos", o))
+	}
+	c.ids = append(c.ids, "me.02.17.troparion.1", tp+"kontakion", tp+"ikos", tp+"matins.sedalen.1", tp+"matins.k_sedalen.2.1",
+		tp+"matins.exapostilarion.1", tp+"matins.exapostilarion.theotokion", tp+"matins.praises.sticheron.1",
+		tp+"matins.aposticha.sticheron.1", tp+"matins.aposticha.sticheron.2", tp+"matins.aposticha.verse.2",
+		tp+"matins.aposticha.glory", tp+"matins.aposticha.theotokion")
+	c.tones["me.02.17.troparion.1"] = 2
+	kat, err := LoadKatavasia(dataDir())
+	if err != nil {
+		t.Fatal(err)
+	}
+	plan, err := (&Planner{Rules: mustRules(t), Feasts: mustFeasts(t), Katavasia: kat, Menaion: c}).Plan(context.Background(), d, "matins", Params{Priest: true})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if plan.Rule != "matins.triodion.saturday" {
+		t.Fatalf("rule %s", plan.Rule)
+	}
+	check(t, plan, map[string]string{
+		"exapostilaria": tp + "matins.exapostilarion.1,common.glory_now," + tp + "matins.exapostilarion.theotokion",
+		"aposticha": tp + "matins.aposticha.sticheron.1," + tp + "matins.aposticha.verse.2," + tp + "matins.aposticha.sticheron.2,common.glory," +
+			tp + "matins.aposticha.glory,common.and_now," + tp + "matins.aposticha.theotokion",
+		"kontakion": tp + "kontakion," + tp + "ikos",
+	})
+	c13 := refs(plan.Slots["canon_1_3"])
+	if !strings.Contains(c13, sun+"canon.3.ode.1.troparion.1,"+tp+"canon.ode.1.troparion.1") ||
+		!strings.Contains(c13, "ch.canon.katavasia,me.03.26.matins.canon.2.ode.1.irmos") {
+		t.Errorf("canon: %s", c13)
 	}
 }

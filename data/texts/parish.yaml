@@ -235,6 +235,10 @@ units:
     book: chasoslov
     kind: rubric
     hip: "Пjь'снь а~."
+  - key: ch.canon.ode.2
+    book: chasoslov
+    kind: rubric
+    hip: "Пjь'снь в~."
   - key: ch.canon.ode.3
     book: chasoslov
     kind: rubric

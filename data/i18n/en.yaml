@@ -72,6 +72,11 @@ rubrics:
   stepenna: "The Hymns of Ascent: the first antiphon of Tone 4."
   stepenna_sunday: "The Hymns of Ascent (antiphons) of the tone."
   matins_canon_festal: "The canon of the Menaion; katavasia."
+  lenten_alleluia: "Instead of “God is the Lord”: Alleluia in the tone of the week, thrice after each of the four verses; then the Trinity hymns of the tone."
+  matins_kathismata_lent: "The kathismata of the Lenten Psalter. After the first: the sessional hymns of the Octoechos; after the second and third: those of the Triodion."
+  matins_canon_lent: "Psalm 50. The canon of the Menaion with the triodes of the Triodion; the biblical odes are read. Katavasia — the irmos of the last triode."
+  photagogikon: "The Trinity photagogikon of the tone, thrice."
+  matins_aposticha_lent: "Aposticha: the idiomelon of the day twice, the martyricon, the theotokion."
 titles:
   lamp_prayers: "the prayers of the lamp-lighting"
   psalm_103: "the reading of the Introductory Psalm"

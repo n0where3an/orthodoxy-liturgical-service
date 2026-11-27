@@ -283,6 +283,8 @@ func (p *Planner) Plan(ctx context.Context, d calendar.JDate, service string, pa
 			f.OdeSet = "sunday"
 		case f.festalOdes():
 			f.OdeSet = "feast"
+		case reLentWeekday.MatchString(f.TriodionDay):
+			f.OdeSet = "lent" // «Во стую и великую четыредесятницу стихословятся песни сице»
 		}
 		if params.Typikon {
 			set := f.OdeSet
@@ -293,18 +295,29 @@ func (p *Planner) Plan(ctx context.Context, d calendar.JDate, service string, pa
 				return nil, err
 			}
 		}
-		if f.Feast != nil && (f.Feast.IsFeastDay(day) || f.Feast.IsApodosis(day) || f.Feast.refrainsAfter(day)) {
-			// The apodosis too, and the synaxis after the Nativity and the
-			// Theophany: «поем припевы праздника, якоже и на самый праздник».
-			ids, err := p.Menaion.ListIDs(ctx, "ir.pripev."+f.Feast.ID+".")
+		// The 9th ode's refrains (ir.pripev.<set>.*): the feast's on the feast,
+		// its apodosis, the synaxis after the Nativity and the Theophany («поем
+		// припевы праздника, якоже и на самый праздник»); a day's own set.
+		f.RefrainSet, f.RefrainThird = dayRefrains(day)
+		var sets []string
+		if f.RefrainSet != "" {
+			sets = append(sets, f.RefrainSet)
+		} else if f.Feast != nil && (f.Feast.IsFeastDay(day) || f.Feast.IsApodosis(day) || f.Feast.refrainsAfter(day)) {
+			sets = append(sets, f.Feast.ID)
+		}
+		if f.RefrainThird != "" {
+			sets = append(sets, f.RefrainThird)
+		}
+		for _, set := range sets {
+			ids, err := p.Menaion.ListIDs(ctx, "ir.pripev."+set+".")
 			if err != nil {
 				return nil, err
 			}
-			if len(ids) > 0 {
-				f.Refrains = map[string]bool{}
-				for _, id := range ids {
-					f.Refrains[id] = true
+			for _, id := range ids {
+				if f.Refrains == nil {
+					f.Refrains = map[string]bool{}
 				}
+				f.Refrains[id] = true
 			}
 		}
 	}
@@ -324,6 +337,15 @@ func (p *Planner) Plan(ctx context.Context, d calendar.JDate, service string, pa
 					f.Tones[id] = t
 				}
 			}
+		}
+	}
+	// The Saturdays of Great Lent with «Бог Господь» (St Theodore): the
+	// Saturday order with the Triodion for the Menaion (triodionView).
+	if service == "matins" && triodionSaturdayMatins[f.TriodionDay] {
+		f = triodionView(f)
+		f.ForceTheotokosCanon = true
+		if p.Katavasia != nil { // «катавасиа: отверзу уста моя»
+			f.Katavasia, f.KatavasiaFixed = p.Katavasia.Default, true
 		}
 	}
 	r, err := p.Rules.Match(service, f)

@@ -75,6 +75,11 @@ func greatMatinsSlot(sel SlotSelector, f Facts) ([]SlotItem, error) {
 		}
 		return items, nil
 	case "gm_canon":
+		if sel.Section == "9" && !feast && len(f.Refrains) > 0 {
+			// A day with refrains of its own (dayRefrains): the Menaion's canons
+			// with them, «Честнейшую» not sung (ap_magnificat).
+			return festalCanonKatavasia(f, "9", nil)
+		}
 		return festalCanon(f, sel.Section, feast)
 	case "gm_exapostilaria":
 		return gmExapostilaria(f, feast)
@@ -325,7 +330,7 @@ func festalOdeCanons(f Facts, o int, cross bool) []odeCanon {
 		if len(trop) == 0 {
 			continue
 		}
-		cn := odeCanon{irmos: firstMain(f, b+".irmos"), troparia: append([]string(nil), trop...)}
+		cn := odeCanon{irmos: firstMain(f, b+".irmos"), troparia: append([]string(nil), trop...), n: c}
 		th := firstMain(f, b+".theotokion")
 		if cross {
 			if x := firstMain(f, b+".cross_theotokion"); x != "" {

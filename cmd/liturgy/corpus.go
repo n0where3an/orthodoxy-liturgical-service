@@ -108,9 +108,20 @@ func cmdImport(ctx context.Context, args []string) error {
 	} else {
 		warnings = append(warnings, err.Error())
 	}
+	irmoi, w := orthlib.ImportIrmoi(*root)
+	warnings = append(warnings, w...)
+	oct = append(oct, irmoi...)
 	triodion, w := orthlib.ImportTriodionPrep(*root)
 	warnings = append(warnings, w...)
 	oct = append(oct, triodion...)
+	lent, w := orthlib.ImportTriodionLent(*root)
+	warnings = append(warnings, w...)
+	oct = append(oct, lent...)
+	if ol, err := orthlib.ImportOctoechosLent(*root); err == nil {
+		oct = append(oct, ol...)
+	} else {
+		warnings = append(warnings, err.Error())
+	}
 	if mag, err := orthlib.ImportMagnifications(*root); err == nil {
 		oct = append(oct, mag...)
 	} else {
@@ -177,6 +188,9 @@ func cmdImport(ctx context.Context, args []string) error {
 	warnings = append(warnings, w...)
 	// The magnifications and selected psalms of the Irmologion.
 	all = orthlib.SupplementMagnifications(all)
+	// The irmoi given by their first words: the Irmologion's.
+	all, w = orthlib.SupplementIrmoi(all)
+	warnings = append(warnings, w...)
 	if dup := duplicateIDs(all); len(dup) > 0 {
 		return fmt.Errorf("duplicate unit keys: %v", dup)
 	}

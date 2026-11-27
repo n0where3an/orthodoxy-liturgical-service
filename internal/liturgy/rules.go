@@ -171,13 +171,18 @@ type Facts struct {
 	// units ms.<id>.<suffix> by suffix («troparion», «lit.apostle»).
 	Special      string
 	SpecialUnits map[string]string
-	// TriodionDay: a Sunday or Saturday of the preparatory weeks
-	// (triodionDay); Triodion: its units tp.<id>.<suffix> by suffix.
+	// TriodionDay: a Sunday or Saturday of the Lenten Triodion with a service
+	// of its own, or a weekday of Great Lent, w<week>_<day> (triodionDay);
+	// Triodion: its units tp.<id>.<suffix> by suffix.
 	TriodionDay string
 	Triodion    map[string]string
 	// MainPrefix: set in a view whose Menaion map is another book's units
 	// (triodionView): mainMenaion takes them as they are.
 	MainPrefix string
+	// ForceTheotokosCanon: the canon of the Theotokos on 6 and the day's on 8
+	// (a Saturday of Great Lent: «канон храма… на з, и стаго… на и»);
+	// KatavasiaFixed: the katavasia is Katavasia's, not the last irmos.
+	ForceTheotokosCanon, KatavasiaFixed bool
 	// RoyalHours: the feast whose Royal Hours are sung on the day
 	// (royalHours); Royal: their units rh.<feast>.<suffix> by suffix.
 	RoyalHours string
@@ -214,6 +219,9 @@ type Facts struct {
 	// Refrains: the refrains of the 9th ode of the day's feast
 	// (ir.pripev.<feast>.*), when it has them.
 	Refrains map[string]bool
+	// RefrainSet: the day's own refrains instead of its feast's (dayRefrains);
+	// RefrainThird: those of its third canon.
+	RefrainSet, RefrainThird string
 	// Katavasia: the irmos sung as katavasia after each ode (Sunday matins).
 	Katavasia map[int]string
 	// KatavasiaSeasonal: Katavasia is of a season (data/calendar/katavasia.yaml periods).
@@ -481,6 +489,23 @@ func (sel SlotSelector) resolve(name string, f Facts, service string) ([]SlotIte
 				return nil, fmt.Errorf("slot %s: %w", name, err)
 			}
 			items = append(items, vs...)
+		case "ts_exapostilaria":
+			// A Saturday of Lent: «ексапостиларий стаго: и бгородичен».
+			ex := mainMenaion(f, "matins.exapostilarion")
+			if len(ex) == 0 {
+				return nil, fmt.Errorf("slot %s: no exapostilarion of the day", name)
+			}
+			items = append(items, SlotItem{Ref: ex[0], Performer: Choir})
+			if th := firstMain(f, "matins.exapostilarion.theotokion"); th != "" {
+				items = append(items, reader("common.glory_now"), SlotItem{Ref: th, Performer: Choir})
+			}
+		case "lm_alleluia", "lm_troparia", "lm_sedalny", "lm_canon", "lm_kontakion", "lm_exapostilaria",
+			"lm_aposticha", "lm_end_troparia":
+			ls, err := lentenMatinsSlot(sel, f)
+			if err != nil {
+				return nil, fmt.Errorf("slot %s: %w", name, err)
+			}
+			items = append(items, ls...)
 		case "triodion_hours":
 			hs, err := triodionHours(f, sel.Part)
 			if err != nil {

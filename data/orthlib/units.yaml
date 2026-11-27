@@ -3165,6 +3165,47 @@ units:
     file: chasoslov/ch/02utren.hip
     from: "блго есть исповедатися гдсеви, и пети"
     to: "на всяку нощь."
+  # «Аллилуиа» instead of «Бог Господь» (the Lenten weekdays): its four
+  # verses (Ис 26:9, 10, 11, 15); «В храме стояще» after the aposticha.
+  - key: ch.matins.alleluia.verse.1
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    after: "стихи же глаголются сия"
+    from: "от нощи утренюет дух мой"
+    to: ""
+  - key: ch.matins.alleluia.verse.2
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    after: "стихи же глаголются сия"
+    from: "правде научитеся живущии на земли"
+    to: ""
+  - key: ch.matins.alleluia.verse.3
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    after: "стихи же глаголются сия"
+    from: "зависть приимет люди ненаказанныя"
+    to: ""
+  - key: ch.matins.alleluia.verse.4
+    book: chasoslov
+    kind: verse
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    after: "стихи же глаголются сия"
+    from: "приложи им зла гдси, приложи зла"
+    to: ""
+  - key: ch.matins.in_the_temple
+    book: chasoslov
+    kind: troparion
+    source: orthlib.chasoslov
+    file: chasoslov/ch/02utren.hip
+    from: "в храме стояще славы твоея"
+    to: ""
   - key: sl.matins.he_who_is
     book: sluzhebnik
     kind: exclamation
@@ -5157,4 +5198,41 @@ units:
     source: orthlib.triodion_postnaya
     file: triodion/pt/ned_mytar.hip
     from: "множества содеянных мною лютых"
+    to: ""
+
+  # --- Триодь постная: суббота 1-я (вмч. Феодора Тирона), седальны по 2-й
+  # кафисме (даны в начале последования утрени, без заголовка).
+  - key: tp.sat_lent1.matins.k_sedalen.2.1
+    book: triodion
+    kind: sedalen
+    tone: 3
+    source: orthlib.triodion_postnaya
+    file: triodion/pt/sub_1sedm.hip
+    from: "кипя веры православием, прелесть угасил еси"
+    to: ""
+  - key: tp.sat_lent1.matins.k_sedalen.2.2
+    book: triodion
+    kind: sedalen
+    tone: 3
+    source: orthlib.triodion_postnaya
+    file: triodion/pt/sub_1sedm.hip
+    from: "бжественный дар, тя ко спсению всей даде"
+    to: ""
+  - key: tp.sat_lent1.matins.k_sedalen.2.theotokion
+    book: triodion
+    kind: theotokion
+    tone: 3
+    source: orthlib.triodion_postnaya
+    file: triodion/pt/sub_1sedm.hip
+    from: "невместимаго бга, во утробе твоей дво пречстая"
+    to: ""
+
+  # --- Богородичен «Владычице, приими молитвы» (Общая Минея; в Триоди дан
+  # начальными словами: стиховна субботы 1-й поста).
+  - key: tp.theotokion.vladychitse
+    book: triodion
+    kind: theotokion
+    source: orthlib.mineya
+    file: obschminea/om/05.hip
+    from: "влдчце, приими млтвы раб твоих"
     to: ""

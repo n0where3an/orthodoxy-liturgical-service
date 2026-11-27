@@ -27,31 +27,32 @@ import (
 //
 // The kontakia are imported with the troparia (me.….kontakion.N).
 var (
-	reMCanon      = regexp.MustCompile(`^(иный |ин |другий )?канон`)
-	reMTheotCanon = regexp.MustCompile(`^канон (бцды|бгородицы|престей бцде|пресвятей бгородице)([,.:]|$| кир| глас| егоже)`)
-	reMOde        = regexp.MustCompile(`песнь\s`)
-	reMOther      = regexp.MustCompile(`^(ин|иный)\.?\s*ирмос`)
-	reMTheot      = regexp.MustCompile(`^(слава,?\s*)?(и ныне,?\s*)?(крсто?)?бгородичен`)
-	reMCross      = regexp.MustCompile(`крстобгородичен`)
-	reMTrinity    = regexp.MustCompile(`^(слава,?\s*)?тр(о|ои)?и?чен`)
-	reMSedalen    = regexp.MustCompile(`^(слава,? и ныне,? |таже,? |ин )?(седален|ипакои)`)
-	reMKontakion  = regexp.MustCompile(`^(таже,? |ин )?кондак`)
-	reMIkos       = regexp.MustCompile(`^икос`)
-	reMSvetilen   = regexp.MustCompile(`^(таже,? |ин )?(светилен|ексапостиларий)`)
-	reMAposticha  = regexp.MustCompile(`^на стиховне`)
-	reMGlory      = regexp.MustCompile(`^слава`)
-	reMAndNow     = regexp.MustCompile(`^и ныне`)
-	reMHeadText   = regexp.MustCompile(`^(глас \S+ )?песнь \S+ ирмос:?$|^(ин\.? )?ирмос( тойже)?[.:]?$|^глас \S+ ирмос:?$`)
-	reMSame       = regexp.MustCompile(`ирмос тойже`)
-	reMIrmosOnly  = regexp.MustCompile(`^(глас \S+ )?ирмос:?$`)
-	reMCompline   = regexp.MustCompile(`^на повечерии|поется на повечерии`) // «…поется на повечерии»: the canon of compline
-	reMMatinsNote = regexp.MustCompile(`^на утрени`)
-	reM9Refrains  = regexp.MustCompile(`^на ф-?й песни`)
-	reM9Refrain   = regexp.MustCompile(`^(величай, душе моя|днесь влдка)`)
-	reM9Rubric    = regexp.MustCompile(`^(таже|посем|вместо|и поклон|и вторый|и прочии|прочии)`)
-	reMOtherSaint = regexp.MustCompile(`^\S+( \S+)?:$`)
-	reMPraises    = regexp.MustCompile(`^на хвалитех`)
-	reMStop       = regexp.MustCompile(`^(на литургии|на велицем славословии|на 1-м часе|конец|на утрени|на вечерни|на малей вечерни|на велицей вечерни|месяца|в тойже день)`)
+	reMCanon       = regexp.MustCompile(`^(иный |ин |другий )?канон`)
+	reMTheotCanon  = regexp.MustCompile(`^канон (бцды|бгородицы|престей бцде|пресвятей бгородице)([,.:]|$| кир| глас| егоже)`)
+	reMOde         = regexp.MustCompile(`песнь\s`)
+	reMOther       = regexp.MustCompile(`^(ин|иный)\.?\s*ирмос`)
+	reMTheot       = regexp.MustCompile(`^(слава,?\s*)?(и ныне,?\s*)?(крсто?)?бгородичен`)
+	reMCross       = regexp.MustCompile(`крстобгородичен`)
+	reMTrinity     = regexp.MustCompile(`^(слава,?\s*)?тр(о|ои)?и?чен`)
+	reMSedalen     = regexp.MustCompile(`^(слава,? и ныне,? |таже,? |ин )?(седален|ипакои)`)
+	reMKontakion   = regexp.MustCompile(`^(таже,? |ин )?кондак`)
+	reMIkos        = regexp.MustCompile(`^икос`)
+	reMSvetilen    = regexp.MustCompile(`^(таже,? |ин )?(светилен|ексапостиларий)`)
+	reMAposticha   = regexp.MustCompile(`^на стиховне`)
+	reMGlory       = regexp.MustCompile(`^слава`)
+	reMAndNow      = regexp.MustCompile(`^и ныне`)
+	reMHeadText    = regexp.MustCompile(`^(глас \S+ )?песнь \S+ ирмос:?$|^(ин\.? )?ирмос( тойже)?[.:]?$|^глас \S+ ирмос:?$`)
+	reMSame        = regexp.MustCompile(`ирмос тойже`)
+	reMIrmosInline = regexp.MustCompile(`^(?:(?:ин|иный)\.?\s*)?ирмос\s*:`)
+	reMIrmosOnly   = regexp.MustCompile(`^(глас \S+ )?ирмос:?$`)
+	reMCompline    = regexp.MustCompile(`^на повечерии|поется на повечерии`) // «…поется на повечерии»: the canon of compline
+	reMMatinsNote  = regexp.MustCompile(`^на утрени`)
+	reM9Refrains   = regexp.MustCompile(`^на ф-?й песни`)
+	reM9Refrain    = regexp.MustCompile(`^(величай, душе моя|днесь влдка)`)
+	reM9Rubric     = regexp.MustCompile(`^(таже|посем|вместо|и поклон|и вторый|и прочии|прочии)`)
+	reMOtherSaint  = regexp.MustCompile(`^\S+( \S+)?:$`)
+	reMPraises     = regexp.MustCompile(`^на хвалитех`)
+	reMStop        = regexp.MustCompile(`^(на литургии|на велицем славословии|на 1-м часе|конец|на утрени|на вечерни|на малей вечерни|на велицей вечерни|месяца|в тойже день)`)
 )
 
 func parseMenaionMatins(d *Doc, prefix, path string) []corpus.Unit {
@@ -117,6 +118,21 @@ func parseMenaionMatins(d *Doc, prefix, path string) []corpus.Unit {
 			case odes9 && ode == 9 && strings.Contains(lp, "припев") && words <= 5:
 				continue // «другий припев:» — not another canon
 			case odes9 && ode == 9 && !head && expect != "irmos" && (words <= 15 || reM9Rubric.MatchString(lp) || reM9Refrain.MatchString(lp)):
+				continue
+			}
+		}
+		// «Ирмос: Воду прошед…» — the irmos in the heading's paragraph (its
+		// first letter in red with the heading: the paragraph reads as one).
+		if lp := strings.ToLower(plain); started && section == "canon" && ode > 0 && reMIrmosInline.MatchString(lp) && !reMSame.MatchString(lp) {
+			if k := strings.Index(text, ":"); k > 0 && len(strings.Fields(text[k+1:])) >= 6 {
+				if reMOther.MatchString(lp) {
+					canon++ // «Ин ирмос: …» — the next canon
+				}
+				if canon == 1 {
+					irmos[ode] = strings.TrimSpace(text[k+1:])
+				}
+				add(fmt.Sprintf("canon.%d.ode.%d.irmos", canon, ode), "irmos", text[:k+1], strings.TrimSpace(text[k+1:]), nil)
+				expect = ""
 				continue
 			}
 		}

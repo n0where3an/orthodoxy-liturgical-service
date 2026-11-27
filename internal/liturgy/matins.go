@@ -390,6 +390,8 @@ func matinsAposticha(f Facts) ([]SlotItem, error) {
 // утренний»). On a weekday of the great doxology the Octoechos stays.
 func (f Facts) withTheotokosCanon() bool {
 	switch {
+	case f.ForceTheotokosCanon:
+		return true
 	case f.Day.Weekday == time.Sunday:
 		return false
 	case f.Day.Weekday == time.Saturday && f.redSign():
@@ -467,6 +469,9 @@ func theotokosCanon(f Facts, odes []int) ([]SlotItem, error) {
 		}
 		if len(f.OdeVerses) > 0 { // -typikon: the verses of the biblical ode
 			items = append(items[:start], withOdeVerses(f, f.OdeSet, o, append([]SlotItem(nil), items[start:]...))...)
+		}
+		if k := f.Katavasia[o]; f.KatavasiaFixed && k != "" {
+			lastIrmos = k
 		}
 		if lastIrmos != "" {
 			items = append(items, reader("ch.canon.katavasia"), SlotItem{Ref: lastIrmos})
